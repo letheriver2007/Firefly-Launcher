@@ -6,6 +6,6 @@
         "Grasscutter": "cd ./server/Grasscutter/ && start java.exe -jar grasscutter.jar",
         "NahidaImpact": "start ./server/NahidaImpact/NahidaImpact.Proxy/bin/Release/net8.0/NahidaImpact.Proxy.exe && start ./server/NahidaImpact/NahidaImpact.SDK/bin/Release/net8.0/NahidaImpact.SDK.exe && cd ./server/NahidaImpact/NahidaImpact.GameServer/bin/Release/net8.0/ && start NahidaImpact.GameServer.exe",
         "LunarCore": "cd ./server/LunarCore/ && start java.exe -jar LunarCore.jar",
-        "Hutao-GS": "cd ./server/HuTao-GS-dev-435/ && start START-DEV.bat"
+        "Hutao-GS": "cd ./server/HuTao-GS/ && start START-DEV.bat"
     }
 }

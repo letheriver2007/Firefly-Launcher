@@ -1,11 +1,12 @@
 import os
 import random
+import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QHBoxLayout, QButtonGroup, QPushButton
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QIcon, QFont, QColor, QPen, QFontMetrics
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import TogglePushButton, PrimaryPushButton, setCustomStyleSheet
-from app.src.common.config import cfg
+from qfluentwidgets import TogglePushButton, PrimaryPushButton, setCustomStyleSheet, InfoBar, InfoBarPosition
+from src.common.config import cfg
 
 
 class RoundedImageWithText(QWidget):
@@ -36,7 +37,7 @@ class Home(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
 
-        image_widget = RoundedImageWithText("./app/src/image/bg_home_" + str(random.randint(1, 3)) + ".png")
+        image_widget = RoundedImageWithText("./src/image/bg_home_" + str(random.randint(1, 3)) + ".png")
         image_widget.setFixedSize(1160, 350)
         image_layout = QVBoxLayout()
         image_layout.addWidget(image_widget)
@@ -47,12 +48,13 @@ class Home(QWidget):
         row, col = 0, 0
         for name in cfg.SERVER_NAMES:
             name_addspace = '   '+ name
-            button = TogglePushButton(FIF.TAG, name_addspace, self)
-            button.setObjectName(name)
-            button.setFixedSize(270, 70)
-            button.setIconSize(QSize(18, 18))
-            button.setFont(QFont(f'{cfg.APP_FONT}', 12))
-            button_layout.addWidget(button, row, col)
+            button_server = TogglePushButton(FIF.TAG, name_addspace, self)
+            button_server.setObjectName(name)
+            button_server.setFixedSize(270, 70)
+            button_server.setIconSize(QSize(18, 18))
+            button_server.setFont(QFont(f'{cfg.APP_FONT}', 12))
+            setCustomStyleSheet(button_server, 'PushButton{border-radius: 12px}', 'PushButton{border-radius: 12px}')
+            button_layout.addWidget(button_server, row, col)
             button_layout.setHorizontalSpacing(20)    # 水平间距
             col += 1
             if col == 3:
@@ -82,10 +84,31 @@ class Home(QWidget):
             obj_name = button
             button = self.findChild(TogglePushButton, obj_name)
             self.button_group.addButton(button)
-        self.button_group.buttonClicked.connect(self.handle_button_clicked)
+        self.button_group.buttonClicked.connect(self.button_clicked)
 
-    def handle_button_clicked(self, button):
-        self.clicked_button_num = button.objectName()
+    def button_clicked(self, button):
+        self.clicked_button = button.objectName()
 
     def launch_exe(self):
-            os.system(cfg.SERVER_COMMANDS.get(self.clicked_button_num, ''))
+        if os.path.exists(f'./server/{self.clicked_button}'):
+            command = cfg.SERVER_COMMANDS.get(self.clicked_button, '')
+            subprocess.run(command, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+            InfoBar.success(
+                title='服务端启动成功！',
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
+        else:
+            InfoBar.error(
+                title=f'找不到服务端{self.clicked_button}，请重新下载',
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )

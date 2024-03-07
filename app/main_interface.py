@@ -1,13 +1,16 @@
-import time
+import hashlib
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QFrame
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt, QProcess, QSize
 from qfluentwidgets import MSFluentWindow, SubtitleLabel, setFont, NavigationItemPosition, setTheme, Theme, InfoBar, InfoBarPosition, SplashScreen
 from qfluentwidgets import FluentIcon as FIF
 from app.home_interface import Home
+from app.download_interface import Download
+from app.toolkit_interface import Toolkit
 from app.setting_interface import Setting
-from app.src.common.config import cfg
-from app.src.common.check_update import checkUpdate
+from src.common.config import cfg
+from src.common.check_update import checkUpdate
+from src.common.custom_message import MessageLogin
 
 
 class TempPage(QFrame):
@@ -28,8 +31,9 @@ class MainApp(MSFluentWindow):
         self.initMainWindow()
 
         self.homeInterface = Home('Home Interface', self)
+        self.downloadInterface = Download('Download Interface', self)
+        self.toolkitInterface = Toolkit('Toolkit Interface', self)
         self.commandInterface = TempPage('Command Interface', self)
-        self.downloadInterface = TempPage('Download Interface', self)
         self.settingInterface = Setting('Setting Interface', self)
 
         self.initNavigation()
@@ -38,6 +42,34 @@ class MainApp(MSFluentWindow):
         self.splashScreen.finish()
         
         checkUpdate(self)
+        self.w = MessageLogin(self)
+        self.w.show()
+        self.w.passwordEntered.connect(self.checkLogin)
+
+    def checkLogin(self, password):
+        md5_hash = hashlib.md5(password.encode()).hexdigest()[8:24].upper()
+        if md5_hash == 'EE1FC4FB7AD2BE1C':
+        #if password == '':
+            InfoBar.success(
+                title='登录成功',
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
+            self.w.close()
+        else:
+            InfoBar.error(
+                title='登录失败',
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
 
     def changeTheme(self):
         if cfg.themeMode.value == Theme.DARK:
@@ -51,8 +83,9 @@ class MainApp(MSFluentWindow):
 
     def initNavigation(self):
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页', FIF.HOME_FILL)
-        self.addSubInterface(self.commandInterface, FIF.COMMAND_PROMPT, '命令', FIF.COMMAND_PROMPT)
         self.addSubInterface(self.downloadInterface, FIF.DOWNLOAD, '下载', FIF.DOWNLOAD)
+        self.addSubInterface(self.toolkitInterface, FIF.APPLICATION, '工具', FIF.APPLICATION)
+        self.addSubInterface(self.commandInterface, FIF.COMMAND_PROMPT, '命令', FIF.COMMAND_PROMPT)
         self.navigationInterface.addItem(
             routeKey='theme',
             icon=FIF.CONSTRACT,
@@ -67,7 +100,7 @@ class MainApp(MSFluentWindow):
         self.setResizeEnabled(False)
         self.setWindowTitle(cfg.APP_NAME)
         self.setFixedSize(1280, 768)
-        self.setWindowIcon(QIcon('./app/src/image/icon.ico'))
+        self.setWindowIcon(QIcon('./src/image/icon.ico'))
 
         # 启用加载界面(1)
         self.splashScreen = SplashScreen(self.windowIcon(), self)
@@ -82,7 +115,6 @@ class MainApp(MSFluentWindow):
         # 显示加载界面(2)
         self.show()
         QApplication.processEvents()
-        time.sleep(1)   #别问 , 问就是没充VIP
 
     def handleUpdate(self, status, info):
         if status == 2:

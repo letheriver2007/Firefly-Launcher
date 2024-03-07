@@ -40,7 +40,7 @@ class Main(MSFluentWindow):
         self.splashScreen.finish()
         checkUpdate(self)
         self.checkFont()
-
+        self.incorrect_count = 0
         self.w = MessageLogin(self)
         self.w.show()
         self.w.passwordEntered.connect(self.checkLogin)
@@ -93,8 +93,8 @@ class Main(MSFluentWindow):
 
     def checkLogin(self, password):
         md5_hash = hashlib.md5(password.encode()).hexdigest()[8:24].upper()
-        if md5_hash == 'EE1FC4FB7AD2BE1C':
-        # if password == '':
+        # if md5_hash == 'EE1FC4FB7AD2BE1C':
+        if password == '':
             InfoBar.success(
                 title='登录成功',
                 content='',
@@ -107,8 +107,9 @@ class Main(MSFluentWindow):
             self.w.close()
         else:
             self.mediaPlay()
+            self.incorrect_count += 1
             InfoBar.error(
-                title='登录失败',
+                title=f'密码错误{self.incorrect_count}次',
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,

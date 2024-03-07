@@ -65,7 +65,7 @@ class Config(ScrollArea):
         self.LunarCoreInterface.addSettingCard(self.bannersConfigCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.LauncherInterface, 'LauncherInterface','启动器', icon=FIF.PLAY)
+        self.addSubInterface(self.LauncherInterface, 'LauncherInterface','启动器', icon=FIF.TAG)
         self.addSubInterface(self.LunarCoreInterface, 'LunarCoreInterface','LunarCore', icon=FIF.TAG)
 
         # 初始化配置界面

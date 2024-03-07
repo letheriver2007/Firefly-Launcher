@@ -102,6 +102,28 @@ class PrimaryPushSettingCard_Fiddler(PushSettingCard_Fiddler):
         self.button_old.setObjectName('primaryButton')
 
 
+class PushSettingCard_Giveall(SettingCard):
+    give_materials = Signal()
+    give_avatars = Signal()
+    def __init__(self, meterials, avatars, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
+        super().__init__(icon, title, content, parent)
+        self.button_materials = QPushButton(meterials, self)
+        self.button_avatars = QPushButton(avatars, self)
+        self.hBoxLayout.addWidget(self.button_materials, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_avatars, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_materials.clicked.connect(self.give_materials)
+        self.button_avatars.clicked.connect(self.give_avatars)
+
+
+class PrimaryPushSettingCard_Giveall(PushSettingCard_Giveall):
+    def __init__(self, meterials, avatars, icon, title, content=None, parent=None):
+        super().__init__(meterials, avatars, icon, title, content, parent)
+        self.button_materials.setObjectName('primaryButton')
+        self.button_avatars.setObjectName('primaryButton')
+
+
 class HyperlinkCard_Environment(SettingCard):
     def __init__(self, url_py, text_py,url_git, text_git ,url_jar, text_jar,url_mongodb, text_mongodb, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
         super().__init__(icon, title, content, parent)

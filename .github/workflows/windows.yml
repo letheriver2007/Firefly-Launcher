@@ -45,8 +45,11 @@ jobs:
           msvcArch: ${{ matrix.msvc_arch }}          
         shell: pwsh
         run: |
-          pyinstaller -w -i ./src/image/icon.ico ./main_page.py -n Firefly-Launcher
-          xcopy /s /e /y src\ dist\Firefly-Launcher\src\
+          pyinstaller -w -i ./app/src/image/icon.ico ./main.py -n Firefly-Launcher
+          xcopy /s /e /y app\src\common\qss\ dist\Firefly-Launcher\app\src\common\qss\
+          xcopy /s /e /y app\src\image\ dist\Firefly-Launcher\app\src\image\
+          xcopy /s /e /y app\src\script\ dist\Firefly-Launcher\app\src\script\
+          xcopy /s /e /y config\ dist\Firefly-Launcher\config\
       
       - uses: actions/upload-artifact@v4.3.1
         with:

@@ -1,12 +1,8 @@
-# coding: utf-8
 from enum import Enum
-
-from qfluentwidgets import StyleSheetBase, Theme, isDarkTheme, qconfig
+from qfluentwidgets import StyleSheetBase, Theme, qconfig
 
 
 class StyleSheet(StyleSheetBase, Enum):
-    """ Style sheet  """
-
     LINK_CARD = "link_card"
     SAMPLE_CARD = "sample_card"
     HOME_INTERFACE = "home_interface"
@@ -18,4 +14,4 @@ class StyleSheet(StyleSheetBase, Enum):
 
     def path(self, theme=Theme.AUTO):
         theme = qconfig.theme if theme == Theme.AUTO else theme
-        return f"./src/common/qss/{theme.value.lower()}/{self.value}.qss"
+        return f"./app/src/common/qss/{theme.value.lower()}/{self.value}.qss"

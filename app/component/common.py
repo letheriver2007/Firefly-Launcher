@@ -5,8 +5,9 @@ from PySide6.QtGui import QIcon, QPainter, QColor
 from PySide6.QtCore import QThread, Signal, QSize, Qt
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QPushButton, QLabel
 from qfluentwidgets import (MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel, PlainTextEdit, PasswordLineEdit,
-                            FluentIconBase, HyperlinkButton, IconWidget, FluentStyleSheet, isDarkTheme, drawIcon)
-from src.module.config import cfg
+                            FluentIconBase, HyperlinkButton, IconWidget, FluentStyleSheet, isDarkTheme, drawIcon,
+                            IndeterminateProgressBar)
+from app.module.config import cfg
 
 
 class SettingCard(QFrame):
@@ -293,14 +294,18 @@ class MessageDownload(MessageBoxBase):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.titleLabel = TitleLabel('下载进程：')
+        self.yesButton.setHidden(True)
+        self.cancelButton.setHidden(True)
+        self.progressBar = IndeterminateProgressBar(self)
+        self.progressBar.setFixedHeight(6)
         self.commandOutput = PlainTextEdit()
         self.commandOutput.setReadOnly(True)
         self.commandOutput.setFixedSize(QSize(600, 450))
         self.viewLayout.addWidget(self.titleLabel)
         self.viewLayout.addWidget(self.commandOutput)
+        self.buttonLayout.addWidget(self.progressBar)
 
     def start_download(self, types, command, file_path, build_jar):
-        self.yesButton.setHidden(True)
         self.runner = CommandRunner(types, command, file_path, build_jar)
         self.runner.output_updated.connect(self.update_output)
         self.runner.download_finished.connect(self.download_finished)
@@ -310,16 +315,18 @@ class MessageDownload(MessageBoxBase):
         self.commandOutput.appendPlainText(output)
 
     def download_finished(self, success, file_path):
+        self.progressBar.setHidden(True)
         if success:
-            self.yesButton.setText('完成')
-            self.cancelButton.setHidden(True)
             self.yesButton.setHidden(False)
+            self.yesButton.setText('完成')
             self.yesButton.clicked.connect(lambda: subprocess.Popen('start ' + file_path, shell=True))
-        self.clean_task()
-        
+        else:
+            self.cancelButton.setHidden(False)
+            self.cancelButton.setText('退出')
 
     def clean_task(self):
-        self.runner.terminate()
+        if self.runner.isRunning():
+            self.runner.terminate()
         output = subprocess.check_output('tasklist', shell=True)
         if 'curl.exe' in str(output):
             subprocess.run('taskkill /f /im curl.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -328,11 +335,9 @@ class MessageDownload(MessageBoxBase):
         elif 'git.exe' in str(output):
             subprocess.run('taskkill /f /im git.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-
 class CommandRunner(QThread):
     output_updated = Signal(str)
     download_finished = Signal(bool, str)
-
     def __init__(self, types, command, check, build_jar):
         super().__init__()
         self.types = types
@@ -349,6 +354,9 @@ class CommandRunner(QThread):
         process.communicate()
         if self.build_jar == 'lunarcore':
             self.output_updated.emit('正在编译LunarCore...')
+            if cfg.chinaStatus:
+                subprocess.run('copy /y "src\\patch\\gradle\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
+                'copy /y "src\\patch\\gradle\\build.gradle" "server\\LunarCore\\build.gradle"', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             subprocess.run('cd server/LunarCore && gradlew jar', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             if process.returncode == 0:
                 self.output_updated.emit('LunarCore编译完成！')

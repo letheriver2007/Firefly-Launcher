@@ -2,7 +2,7 @@ import json
 import winreg
 import urllib.request
 from PySide6.QtCore import QThread, Signal
-from src.module.config import cfg
+from app.module.config import cfg
 
 def get_latest_version():
     if cfg.chinaStatus.value:

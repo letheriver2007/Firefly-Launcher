@@ -3,14 +3,18 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+*.spec
 __pycache__/
 dist/
 build/
 Firefly-Launcher/
+
 .idea/
 .vs/
+
 server/
 tool/
 temp/
-*.spec
+src/audio/
+
 auto.json

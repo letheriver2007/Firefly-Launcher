@@ -4,12 +4,13 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStacke
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QDesktopServices, QFont
 from PySide6.QtCore import Qt, QUrl, QSize, QProcess
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup, CustomColorSettingCard, PushButton,
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton,
                             setThemeColor, PrimaryPushSettingCard, TitleLabel, SubtitleLabel, setCustomStyleSheet,
                             SwitchSettingCard, InfoBar, InfoBarPosition)
-from src.module.config import cfg
-from src.component.style_sheet import StyleSheet
-from src.module.check_update import checkUpdate
+from app.module.config import cfg
+from app.component.style_sheet import StyleSheet
+from app.component.setting_group import SettingCardGroup
+from app.module.check_update import checkUpdate
 
 
 class Setting(ScrollArea):
@@ -102,11 +103,6 @@ class Setting(ScrollArea):
         self.ProxyInterface.addSettingCard(self.chinaCard)
         self.ProxyInterface.addSettingCard(self.noproxyCard)
 
-        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题
-        self.QuickInterface.titleLabel.setHidden(True)
-        self.PersonalInterface.titleLabel.setHidden(True)
-        self.ProxyInterface.titleLabel.setHidden(True)
-
         # 栏绑定界面
         self.addSubInterface(self.PersonalInterface,'PersonalInterface','程序', icon=FIF.SETTING)
         self.addSubInterface(self.ProxyInterface, 'ProxyInterface','代理', icon=FIF.CERTIFICATE)
@@ -116,7 +112,7 @@ class Setting(ScrollArea):
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
-        self.vBoxLayout.setSpacing(28)
+        self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
         self.stackedWidget.setCurrentWidget(self.PersonalInterface)

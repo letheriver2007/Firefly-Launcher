@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QFont
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import TogglePushButton, PrimaryPushButton, setCustomStyleSheet, InfoBar, InfoBarPosition
-from src.module.config import cfg
+from app.module.config import cfg
 
 
 class RoundedImageWithText(QWidget):

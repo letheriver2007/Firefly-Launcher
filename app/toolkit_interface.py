@@ -3,10 +3,10 @@ import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup,
-                            PrimaryPushSettingCard, InfoBar, InfoBarPosition)
-from src.component.style_sheet import StyleSheet
-from src.component.common import MessageFiddler, PrimaryPushSettingCard_Fiddler
+from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
+from app.component.style_sheet import StyleSheet
+from app.component.setting_group import SettingCardGroup
+from app.component.common import MessageFiddler, PrimaryPushSettingCard_Fiddler
 
 
 class Toolkit(ScrollArea):
@@ -58,16 +58,13 @@ class Toolkit(ScrollArea):
         self.ProxyToolInterface.addSettingCard(self.FiddlerCard)
         self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
 
-        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题
-        self.ProxyToolInterface.titleLabel.setHidden(True)
-
         # 栏绑定界面
         self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface','代理', icon=FIF.CERTIFICATE)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
-        self.vBoxLayout.setSpacing(28)
+        self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
         self.stackedWidget.setCurrentWidget(self.ProxyToolInterface)

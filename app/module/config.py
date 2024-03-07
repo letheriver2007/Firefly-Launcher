@@ -25,9 +25,7 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_GIT = ('https://github.com/git-for-windows/git/releases/download/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA = ('https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.msi')
     DOWNLOAD_COMMANDS_MONGODB = ('https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi')
-    DOWNLOAD_COMMANDS_LUNARCORE = ('https://github.com/Melledy/LunarCore.git server/LunarCore && '
-    'copy /y "src\\patch\\gradle\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
-    'copy /y "src\\patch\\gradle\\build.gradle" "server\\LunarCore\\build.gradle"')
+    DOWNLOAD_COMMANDS_LUNARCORE = ('https://github.com/Melledy/LunarCore.git server/LunarCore')
     DOWNLOAD_COMMANDS_LUNARCORE_RES_1 = ('https://github.com/Dimbreath/StarRailData.git server/LunarCore/resources')
     DOWNLOAD_COMMANDS_LUNARCORE_RES_2 = ('https://gitlab.com/Melledy/LunarCore-Configs.git server/LunarCore/resources/Config/Config && '
     'move "server/LunarCore/resources/Config/Config/Config/ConfigSummonUnit" "server/LunarCore/resources/Config/ConfigSummonUnit" && '
@@ -41,9 +39,7 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_GIT_MIRROR = ('https://cdn.npmmirror.com/binaries/git-for-windows/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA_MIRROR = ('https://d6.injdk.cn/oraclejdk/17/jdk-17_windows-x64_bin.msi')
     DOWNLOAD_COMMANDS_MONGODB_MIRROR = ('https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi')
-    DOWNLOAD_COMMANDS_LUNARCORE_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git server/LunarCore && '
-    'copy /y "src\\patch\\gradle\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
-    'copy /y "src\\patch\\gradle\\build.gradle" "server\\LunarCore\\build.gradle"')
+    DOWNLOAD_COMMANDS_LUNARCORE_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git server/LunarCore')
     DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git server/LunarCore/resources')
     DOWNLOAD_COMMANDS_FIDDLER_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler')
     DOWNLOAD_COMMANDS_MITMDUMP_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump')

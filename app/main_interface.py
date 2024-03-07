@@ -1,16 +1,21 @@
+import os
+import sys
 import hashlib
+import subprocess
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QFrame
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import Qt, QProcess, QSize
-from qfluentwidgets import MSFluentWindow, SubtitleLabel, setFont, NavigationItemPosition, setTheme, Theme, InfoBar, InfoBarPosition, SplashScreen
+from PySide6.QtCore import Qt, QSize
+from qfluentwidgets import (MSFluentWindow, SubtitleLabel, setFont, NavigationItemPosition,
+                            setTheme, Theme, InfoBar, InfoBarPosition, SplashScreen)
 from qfluentwidgets import FluentIcon as FIF
 from app.home_interface import Home
 from app.download_interface import Download
+from app.config_interface import Config
 from app.toolkit_interface import Toolkit
 from app.setting_interface import Setting
-from src.common.config import cfg
-from src.common.check_update import checkUpdate
-from src.common.custom_message import MessageLogin
+from src.module.config import cfg
+from src.module.check_update import checkUpdate
+from src.component.login import MessageLogin
 
 
 class TempPage(QFrame):
@@ -24,7 +29,8 @@ class TempPage(QFrame):
         self.hBoxLayout.addWidget(self.label, 1, Qt.AlignCenter)
         self.setObjectName(text.replace(' ', '-'))
 
-class MainApp(MSFluentWindow):
+
+class Main(MSFluentWindow):
     def __init__(self):
         super().__init__()
         setTheme(cfg.themeMode.value)
@@ -32,24 +38,31 @@ class MainApp(MSFluentWindow):
 
         self.homeInterface = Home('Home Interface', self)
         self.downloadInterface = Download('Download Interface', self)
+        self.configInterface = Config('Config Interface', self)
         self.toolkitInterface = Toolkit('Toolkit Interface', self)
         self.commandInterface = TempPage('Command Interface', self)
         self.settingInterface = Setting('Setting Interface', self)
 
         self.initNavigation()
-
-        # 加载界面结束(3)
+        # 加载界面结束
         self.splashScreen.finish()
-        
         checkUpdate(self)
+        self.checkFont()
+
         self.w = MessageLogin(self)
         self.w.show()
         self.w.passwordEntered.connect(self.checkLogin)
+    
+    def checkFont(self):
+        font_path = os.path.expandvars('%UserProfile%\AppData\Local\Microsoft\Windows\Fonts\zh-cn.ttf')
+        if not os.path.exists(font_path):
+            subprocess.run('cd src/patch/font && start zh-cn.ttf', shell=True)
+            sys.exit()
 
     def checkLogin(self, password):
         md5_hash = hashlib.md5(password.encode()).hexdigest()[8:24].upper()
         if md5_hash == 'EE1FC4FB7AD2BE1C':
-        #if password == '':
+        # if password == '':
             InfoBar.success(
                 title='登录成功',
                 content='',
@@ -84,6 +97,7 @@ class MainApp(MSFluentWindow):
     def initNavigation(self):
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页', FIF.HOME_FILL)
         self.addSubInterface(self.downloadInterface, FIF.DOWNLOAD, '下载', FIF.DOWNLOAD)
+        self.addSubInterface(self.configInterface, FIF.SEARCH_MIRROR, '配置', FIF.SEARCH_MIRROR)
         self.addSubInterface(self.toolkitInterface, FIF.APPLICATION, '工具', FIF.APPLICATION)
         self.addSubInterface(self.commandInterface, FIF.COMMAND_PROMPT, '命令', FIF.COMMAND_PROMPT)
         self.navigationInterface.addItem(
@@ -102,7 +116,7 @@ class MainApp(MSFluentWindow):
         self.setFixedSize(1280, 768)
         self.setWindowIcon(QIcon('./src/image/icon.ico'))
 
-        # 启用加载界面(1)
+        # 启用加载界面
         self.splashScreen = SplashScreen(self.windowIcon(), self)
         self.splashScreen.setIconSize(QSize(128, 128))
         self.splashScreen.raise_()
@@ -112,7 +126,7 @@ class MainApp(MSFluentWindow):
         w, h = desktop.width(), desktop.height()
         self.move(w//2 - self.width()//2, h//2 - self.height()//2)
 
-        # 显示加载界面(2)
+        # 显示加载界面
         self.show()
         QApplication.processEvents()
 

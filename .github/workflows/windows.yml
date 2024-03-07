@@ -46,11 +46,12 @@ jobs:
         shell: pwsh
         run: |
           pyinstaller -w -i ./src/image/icon.ico ./main.py -n Firefly-Launcher
-          xcopy /s /e /y src\common\qss\ dist\Firefly-Launcher\src\common\qss\
-          xcopy /s /e /y src\download\ dist\Firefly-Launcher\src\download\
+          xcopy /s /e /y src\qss\ dist\Firefly-Launcher\src\qss\
           xcopy /s /e /y src\image\ dist\Firefly-Launcher\src\image\
-          xcopy /s /e /y src\script\starrail\ dist\Firefly-Launcher\src\script\starrail\
-          xcopy /s /e /y src\script\yuanshen\  dist\Firefly-Launcher\src\script\yuanshen\
+          xcopy /s /e /y src\patch\starrail\ dist\Firefly-Launcher\src\patch\starrail\
+          xcopy /s /e /y src\patch\yuanshen\  dist\Firefly-Launcher\src\patch\yuanshen\
+          xcopy /s /e /y src\patch\gradle\ dist\Firefly-Launcher\src\patch\gradle\
+          xcopy /s /e /y src\patch\font\ dist\Firefly-Launcher\src\patch\font\
           xcopy /s /e /y config\ dist\Firefly-Launcher\config\
       
       - uses: actions/upload-artifact@v4.3.1

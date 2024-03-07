@@ -1,6 +1,9 @@
 {
+    "China": {
+        "ChinaStatus": false
+    },
     "Proxy": {
-        "ProxyStatus": false
+        "ProxyStatus": true
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff009faa",

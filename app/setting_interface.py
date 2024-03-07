@@ -1,17 +1,16 @@
-import os
 import sys
-import shutil
+import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStackedWidget
 from PySide6.QtGui import QPixmap, Qt, QPainter, QPainterPath, QDesktopServices, QFont
 from PySide6.QtCore import Qt, QUrl, QSize, QProcess
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup,
                             CustomColorSettingCard, PushButton, setThemeColor, PrimaryPushSettingCard,
-                            Theme, setTheme, TitleLabel, SubtitleLabel, BodyLabel,
+                            Theme, setTheme, TitleLabel, SubtitleLabel, BodyLabel,setCustomStyleSheet,
                             SwitchSettingCard, InfoBar, InfoBarPosition, MessageBoxBase)
-from app.src.common.config import cfg
-from app.src.common.style_sheet import StyleSheet
-from app.src.common.check_update import checkUpdate
+from src.common.config import cfg
+from src.common.style_sheet import StyleSheet
+from src.common.check_update import checkUpdate
 
 
 class Setting(ScrollArea):
@@ -63,27 +62,21 @@ class Setting(ScrollArea):
         self.ProxyInterface = SettingCardGroup('代理', self.scrollWidget)
         self.proxyCard = SwitchSettingCard(
             FIF.CERTIFICATE,
-            '代理设置',
+            '使用代理端口',
             '启用代理，在配置文件里更改地址',
             configItem=cfg.proxyStatus
+        )
+        self.chinaCard = SwitchSettingCard(
+            FIF.CALORIES,
+            '使用国内镜像',
+            '为Github下载启用国内镜像站链接',
+            configItem=cfg.chinaStatus
         )
         self.noproxyCard = PrimaryPushSettingCard(
             '重置',
             FIF.POWER_BUTTON,
             '重置代理',
             '重置部分服务端未关闭的代理'
-        )
-        self.FiddlerCard = PrimaryPushSettingCard(
-            '打开',
-            FIF.VPN,
-            'Fiddler',
-            '为Hutao-GS使用Fiddler Scripts代理网络'
-        )
-        self.mitmdumpCard = PrimaryPushSettingCard( 
-            '打开',
-            FIF.VPN,
-            'Mitmdump',
-            '为Grasscutter使用Mitmdump代理网络'
         )
 
         self.__initWidget()
@@ -109,9 +102,8 @@ class Setting(ScrollArea):
         self.QuickInterface.addSettingCard(self.settingConfigCard)
         self.QuickInterface.addSettingCard(self.personalConfigCard)
         self.ProxyInterface.addSettingCard(self.proxyCard)
+        self.ProxyInterface.addSettingCard(self.chinaCard)
         self.ProxyInterface.addSettingCard(self.noproxyCard)
-        self.ProxyInterface.addSettingCard(self.FiddlerCard)
-        self.ProxyInterface.addSettingCard(self.mitmdumpCard)
 
         # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题(3)
         self.QuickInterface.titleLabel.setHidden(True)
@@ -142,9 +134,8 @@ class Setting(ScrollArea):
         self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
         self.personalConfigCard.clicked.connect(lambda: self.open_file('config/auto.json'))
         self.proxyCard.checkedChanged.connect(self.proxy_changed)
+        self.chinaCard.checkedChanged.connect(self.china_changed)
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
-        self.FiddlerCard.clicked.connect(self.proxy_fiddler)
-        self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -162,8 +153,18 @@ class Setting(ScrollArea):
         qrouter.push(self.stackedWidget, widget.objectName())
 
     def open_file(self, file_path):
-        os.system('start /b ' + file_path)
-
+        if os.path.exists(file_path):
+            subprocess.run(['start', file_path], shell=True)
+        else:
+            InfoBar.error(
+                title="找不到文件，请重新下载！",
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
     def restart_application(self):
         current_process = QProcess()
         current_process.startDetached(sys.executable, sys.argv)
@@ -180,13 +181,44 @@ class Setting(ScrollArea):
                 duration=1000,
                 parent=self
             )
+        self.china_proxy_check()
+
+    def china_changed(self):
+        if cfg.chinaStatus.value == True:
+            InfoBar.success(
+                title='国内镜像已开启！',
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
+        self.china_proxy_check()
+                
+    def china_proxy_check(self):
+        if cfg.chinaStatus.value == True and cfg.proxyStatus.value == True:
+            InfoBar.warning(
+                    title="您已同时启用代理端口和国内镜像,将默认使用国内镜像！",
+                    content="",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                )
 
     def disable_global_proxy(self):
         try:
-            os.system('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f ')
-            os.system('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f ')
+            if cfg.proxyStatus.value:
+                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                subprocess.run(f'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "127.0.0.1:{cfg.PROXY_PORT}" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+            else:
+                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+            
             InfoBar.success(
-                title=f'全局代理设置已关闭！',
+                title=f'全局代理设置已更改！',
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -205,18 +237,6 @@ class Setting(ScrollArea):
                 parent=self
             )
 
-    def proxy_fiddler(self):
-        w = MessageFiddler(self)
-        if w.exec():
-            self.open_file('app/src/script/yuanshen/update.exe')
-            self.open_file('tool/Fiddler/Fiddler.exe')
-        else:
-            self.open_file('app/src/script/starrail/update.exe')
-            self.open_file('tool/Fiddler/Fiddler.exe')
-    
-    def proxy_mitmdump(self):
-        os.system('cd ./tool/Mitmdump && start /b Proxy.exe')
-
 
 class About(QWidget):
     def __init__(self, text: str, parent=None):
@@ -226,7 +246,7 @@ class About(QWidget):
         self.setObjectName(text.replace(' ', '-'))
         
         image_layout = QVBoxLayout()
-        image_widget = RoundedImageWidget("./app/src/image/bg_about.png")
+        image_widget = RoundedImageWidget("./src/image/bg_about.png")
         image_layout.addWidget(image_widget)
         image_widget.setFixedSize(1080, 540)
         image_layout.setAlignment(Qt.AlignHCenter)
@@ -253,6 +273,7 @@ class About(QWidget):
             eval(link_button_name).setFixedSize(270, 70)
             eval(link_button_name).setIconSize(QSize(18, 18))
             eval(link_button_name).setFont(QFont(f'{cfg.APP_FONT}', 12))
+            setCustomStyleSheet(eval(link_button_name), 'PushButton{border-radius: 12px}', 'PushButton{border-radius: 12px}')
             info_button_layout.addWidget(eval(link_button_name))
             eval(link_button_name).clicked.connect(eval('self.' + link_button_name))
 
@@ -268,23 +289,6 @@ class About(QWidget):
         QDesktopServices.openUrl(QUrl(cfg.URL_RELEASES))
     def link_issues(self):
         QDesktopServices.openUrl(QUrl(cfg.URL_ISSUES))
-
-
-class MessageFiddler(MessageBoxBase):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.titleLabel = TitleLabel('  选择需要使用Fiddler Scripts的服务端  ')
-        self.label1 = SubtitleLabel('   目前支持的服务端列表:')
-        self.label2 = BodyLabel('   Yuanshen: Hutao-GS')
-        self.label3 = BodyLabel('   StarRail: LunarCore')
-
-        self.viewLayout.addWidget(self.titleLabel)
-        self.viewLayout.addWidget(self.label1)
-        self.viewLayout.addWidget(self.label2)
-        self.viewLayout.addWidget(self.label3)
-
-        self.yesButton.setText('Yuanshen')
-        self.cancelButton.setText('StarRail')
 
 
 class RoundedImageWidget(QWidget):

@@ -14,4 +14,4 @@ class StyleSheet(StyleSheetBase, Enum):
 
     def path(self, theme=Theme.AUTO):
         theme = qconfig.theme if theme == Theme.AUTO else theme
-        return f"./app/src/common/qss/{theme.value.lower()}/{self.value}.qss"
+        return f"./src/common/qss/{theme.value.lower()}/{self.value}.qss"

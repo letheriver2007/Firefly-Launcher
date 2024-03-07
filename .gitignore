@@ -6,9 +6,9 @@
 __pycache__/
 dist/
 build/
+Firefly-Launcher/
 .idea/
 .vs/
 server/
-
-*.pyc
+tool/
 *.spec

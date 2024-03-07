@@ -1,0 +1,54 @@
+name: Windows
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+      
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        include:
+          - qt_ver: 6.5.3        
+            qt_arch: win64_msvc2019_64
+            msvc_arch: x64
+            qt_arch_install: msvc2019_64  
+    env:
+      targetName: Firefly-Launcher.exe
+      fileName: Firefly-Launcher
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4.1.1
+        with:
+          submodules: recursive
+             
+      - name: install env   
+        env:
+          archiveName: ${{ env.fileName }}-${{ matrix.qt_arch }}-${{ matrix.qt_ver }}
+          msvcArch: ${{ matrix.msvc_arch }}
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip install "PySide6-Fluent-Widgets" -i https://pypi.org/simple/
+          pip install PySide6==6.4.2
+          pip install PySideSix-Frameless-Window>=0.3.1
+          pip install pyinstaller
+
+      - name: package  
+        env:
+          archiveName: ${{ env.fileName }}-${{ matrix.qt_arch }}-${{ matrix.qt_ver }}
+          msvcArch: ${{ matrix.msvc_arch }}          
+        shell: pwsh
+        run: |
+          pyinstaller -w -i ./src/image/icon.ico ./main_page.py -n Firefly-Launcher
+          xcopy /s /e /y src\ dist\Firefly-Launcher\src\
+      
+      - uses: actions/upload-artifact@v4.3.1
+        with:
+          name: ${{ env.fileName }}
+          path: dist

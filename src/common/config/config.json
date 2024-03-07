@@ -1,0 +1,9 @@
+{
+    "Update": {
+        "CheckUpdateAtStartUp": true
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ffffc0cc",
+        "ThemeMode": "Light"
+    }
+}

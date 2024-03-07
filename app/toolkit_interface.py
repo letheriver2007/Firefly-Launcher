@@ -1,18 +1,12 @@
 import os
-import sys
-import shutil
 import subprocess
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStackedWidget, QTextEdit, QMainWindow, QPlainTextEdit
-from PySide6.QtGui import QPixmap, Qt, QPainter, QPainterPath, QDesktopServices, QFont
-from PySide6.QtCore import Qt, QUrl, QSize, QProcess, QThread, Signal
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
+from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup,
-                            CustomColorSettingCard, PushButton, setThemeColor, PrimaryPushSettingCard,
-                            Theme, setTheme, TitleLabel, SubtitleLabel, BodyLabel,IndeterminateProgressBar,
-                            SwitchSettingCard, InfoBar, InfoBarPosition, MessageBoxBase, PlainTextEdit)
-from src.common.config import cfg
-from src.common.style_sheet import StyleSheet
-from src.common.custom_message import MessageFiddler
+                            PrimaryPushSettingCard, InfoBar, InfoBarPosition)
+from src.component.style_sheet import StyleSheet
+from src.component.common import MessageFiddler, PrimaryPushSettingCard_Fiddler
 
 
 class Toolkit(ScrollArea):
@@ -28,19 +22,20 @@ class Toolkit(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏(1)
+        # 添加项 , 名字会隐藏
         self.ProxyToolInterface = SettingCardGroup('代理', self.scrollWidget)
-        self.FiddlerCard = PrimaryPushSettingCard(
-            '打开',
+        self.FiddlerCard = PrimaryPushSettingCard_Fiddler(
+            '脚本打开',
+            '原版打开',
             FIF.VPN,
             'Fiddler',
-            '为Hutao-GS使用Fiddler Scripts代理网络'
+            '使用Fiddler Scripts代理'
         )
         self.mitmdumpCard = PrimaryPushSettingCard( 
             '打开',
             FIF.VPN,
             'Mitmdump',
-            '为Grasscutter使用Mitmdump代理网络'
+            '使用Mitmdump代理'
         )
 
         self.__initWidget()
@@ -59,14 +54,14 @@ class Toolkit(ScrollArea):
         self.__connectSignalToSlot()
 
     def __initLayout(self):
-        # 项绑定到栏目(2)
+        # 项绑定到栏目
         self.ProxyToolInterface.addSettingCard(self.FiddlerCard)
         self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
 
-        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题(3)
+        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题
         self.ProxyToolInterface.titleLabel.setHidden(True)
 
-        # 栏绑定界面(4)
+        # 栏绑定界面
         self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface','代理', icon=FIF.CERTIFICATE)
 
         # 初始化配置界面
@@ -80,7 +75,8 @@ class Toolkit(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.ProxyToolInterface.objectName())
         
     def __connectSignalToSlot(self):
-        self.FiddlerCard.clicked.connect(self.proxy_fiddler)
+        self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
+        self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
         self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -112,13 +108,16 @@ class Toolkit(ScrollArea):
                 parent=self
             )
     
-    def proxy_fiddler(self):
-        w = MessageFiddler(self)
-        if w.exec():
-            self.open_file('src/script/yuanshen/update.exe')
-            self.open_file('tool/Fiddler/Fiddler.exe')
-        else:
-            self.open_file('src/script/starrail/update.exe')
+    def proxy_fiddler(self, mode):
+        if mode =='script':
+            w = MessageFiddler(self)
+            if w.exec():
+                self.open_file('src/patch/yuanshen/update.exe')
+                self.open_file('tool/Fiddler/Fiddler.exe')
+            else:
+                self.open_file('src/patch/starrail/update.exe')
+                self.open_file('tool/Fiddler/Fiddler.exe')
+        elif mode == 'old':
             self.open_file('tool/Fiddler/Fiddler.exe')
     
     def proxy_mitmdump(self):

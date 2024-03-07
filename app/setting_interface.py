@@ -1,16 +1,15 @@
 import sys
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStackedWidget
-from PySide6.QtGui import QPixmap, Qt, QPainter, QPainterPath, QDesktopServices, QFont
+from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QDesktopServices, QFont
 from PySide6.QtCore import Qt, QUrl, QSize, QProcess
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup,
-                            CustomColorSettingCard, PushButton, setThemeColor, PrimaryPushSettingCard,
-                            Theme, setTheme, TitleLabel, SubtitleLabel, BodyLabel,setCustomStyleSheet,
-                            SwitchSettingCard, InfoBar, InfoBarPosition, MessageBoxBase)
-from src.common.config import cfg
-from src.common.style_sheet import StyleSheet
-from src.common.check_update import checkUpdate
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup, CustomColorSettingCard, PushButton,
+                            setThemeColor, PrimaryPushSettingCard, TitleLabel, SubtitleLabel, setCustomStyleSheet,
+                            SwitchSettingCard, InfoBar, InfoBarPosition)
+from src.module.config import cfg
+from src.component.style_sheet import StyleSheet
+from src.module.check_update import checkUpdate
 
 
 class Setting(ScrollArea):
@@ -95,24 +94,21 @@ class Setting(ScrollArea):
         self.__connectSignalToSlot()
 
     def __initLayout(self):
-        # 项绑定到栏目(2)
+        # 项绑定到栏目
         self.PersonalInterface.addSettingCard(self.themeColorCard)
         self.PersonalInterface.addSettingCard(self.updateOnStartUpCard)
         self.PersonalInterface.addSettingCard(self.restartCard)
-        self.QuickInterface.addSettingCard(self.settingConfigCard)
-        self.QuickInterface.addSettingCard(self.personalConfigCard)
         self.ProxyInterface.addSettingCard(self.proxyCard)
         self.ProxyInterface.addSettingCard(self.chinaCard)
         self.ProxyInterface.addSettingCard(self.noproxyCard)
 
-        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题(3)
+        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题
         self.QuickInterface.titleLabel.setHidden(True)
         self.PersonalInterface.titleLabel.setHidden(True)
         self.ProxyInterface.titleLabel.setHidden(True)
 
-        # 栏绑定界面(4)
+        # 栏绑定界面
         self.addSubInterface(self.PersonalInterface,'PersonalInterface','程序', icon=FIF.SETTING)
-        self.addSubInterface(self.QuickInterface, 'QuickInterface','配置', icon=FIF.SEARCH)
         self.addSubInterface(self.ProxyInterface, 'ProxyInterface','代理', icon=FIF.CERTIFICATE)
         self.AboutInterface = About('About Interface', self)
         self.addSubInterface(self.AboutInterface, 'AboutInterface','关于', icon=FIF.INFO)
@@ -131,8 +127,6 @@ class Setting(ScrollArea):
         self.themeColorCard.colorChanged.connect(lambda c: setThemeColor(c, lazy=True))
         self.updateOnStartUpCard.clicked.connect(lambda: checkUpdate(self.parent))
         self.restartCard.clicked.connect(self.restart_application)
-        self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
-        self.personalConfigCard.clicked.connect(lambda: self.open_file('config/auto.json'))
         self.proxyCard.checkedChanged.connect(self.proxy_changed)
         self.chinaCard.checkedChanged.connect(self.china_changed)
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
@@ -152,19 +146,6 @@ class Setting(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
-    def open_file(self, file_path):
-        if os.path.exists(file_path):
-            subprocess.run(['start', file_path], shell=True)
-        else:
-            InfoBar.error(
-                title="找不到文件，请重新下载！",
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
     def restart_application(self):
         current_process = QProcess()
         current_process.startDetached(sys.executable, sys.argv)
@@ -172,8 +153,8 @@ class Setting(ScrollArea):
 
     def proxy_changed(self):
         if cfg.proxyStatus.value == True:
-            InfoBar.warning(
-                title=f'软件代理端口:{cfg.PROXY_PORT},可在设置配置更改',
+            InfoBar.success(
+                title=f'已使用代理端口{cfg.PROXY_PORT},可在配置更改',
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -199,7 +180,7 @@ class Setting(ScrollArea):
     def china_proxy_check(self):
         if cfg.chinaStatus.value == True and cfg.proxyStatus.value == True:
             InfoBar.warning(
-                    title="您已同时启用代理端口和国内镜像,将默认使用国内镜像！",
+                    title="已同时启用代理端口和国内镜像,默认使用国内镜像！",
                     content="",
                     orient=Qt.Horizontal,
                     isClosable=True,
@@ -218,7 +199,7 @@ class Setting(ScrollArea):
                 subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
             
             InfoBar.success(
-                title=f'全局代理设置已更改！',
+                title=f'全局代理已更改！',
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -226,9 +207,9 @@ class Setting(ScrollArea):
                 duration=1000,
                 parent=self
             )
-        except Exception as e:
+        except:
             InfoBar.error(
-                title=f'关闭失败: {e}',
+                title=f'全局代理关闭失败！',
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,

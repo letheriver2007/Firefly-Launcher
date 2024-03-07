@@ -11,4 +11,6 @@ Firefly-Launcher/
 .vs/
 server/
 tool/
+temp/
 *.spec
+auto.json

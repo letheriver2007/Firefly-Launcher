@@ -1,12 +1,12 @@
 import os
 import random
 import subprocess
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QHBoxLayout, QButtonGroup, QPushButton
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QHBoxLayout, QButtonGroup
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QIcon, QFont, QColor, QPen, QFontMetrics
+from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QFont
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import TogglePushButton, PrimaryPushButton, setCustomStyleSheet, InfoBar, InfoBarPosition
-from src.common.config import cfg
+from src.module.config import cfg
 
 
 class RoundedImageWithText(QWidget):
@@ -94,7 +94,7 @@ class Home(QWidget):
             command = cfg.SERVER_COMMANDS.get(self.clicked_button, '')
             subprocess.run(command, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
             InfoBar.success(
-                title='服务端启动成功！',
+                title='服务端已启动！',
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -104,7 +104,7 @@ class Home(QWidget):
             )
         else:
             InfoBar.error(
-                title=f'找不到服务端{self.clicked_button}，请重新下载',
+                title=f'找不到服务端{self.clicked_button}，请重新下载！',
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,

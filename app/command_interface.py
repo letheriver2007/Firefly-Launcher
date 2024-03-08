@@ -1,13 +1,11 @@
-import os
-import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QApplication
 from PySide6.QtCore import Qt, Signal
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, LineEdit, PrimaryPushButton,
-                            PrimaryPushSettingCard, InfoBar, InfoBarPosition)
+from qfluentwidgets import Pivot, qrouter, ScrollArea, LineEdit, PrimaryPushButton, InfoBar, InfoBarPosition, PrimaryPushSettingCard
 from app.component.style_sheet import StyleSheet
-from app.component.common import PrimaryPushSettingCard_Giveall
+from app.component.message_command import PrimaryPushSettingCard_Giveall, PrimaryPushSettingCard_Clear
 from app.component.setting_group import SettingCardGroup
+from app.module.config import cfg
 
 
 class Command(ScrollArea):
@@ -70,7 +68,7 @@ class Command(ScrollArea):
         self.vBoxLayout.addWidget(self.updateContainer)
 
     def __connectSignalToSlot(self):
-        self.LunarCoreInterface.giveallClicked.connect(self.handleGiveallClick)
+        self.LunarCoreInterface.buttonClicked.connect(self.handlebuttonClicked)
         self.clearButton.clicked.connect(lambda: self.updateText.clear())
         self.copyButton.clicked.connect(self.copyToClipboard)
 
@@ -89,9 +87,11 @@ class Command(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
     
-    def handleGiveallClick(self, text):
+    def handlebuttonClicked(self, text):
         self.updateText.clear()
         self.updateText.setText(text)
+        if cfg.autoCopy.value:
+            self.copyToClipboard()
     
     def copyToClipboard(self):
         text = self.updateText.text()
@@ -133,7 +133,7 @@ class Command(ScrollArea):
 
 class LunarCore(ScrollArea):
     Nav = Pivot
-    giveallClicked = Signal(str)
+    buttonClicked = Signal(str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
@@ -145,15 +145,43 @@ class LunarCore(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏
-        self.CustomInterface = SettingCardGroup('代理', self.scrollWidget)
+        # 添加项
+        self.CustomInterface = SettingCardGroup(self.scrollWidget)
         self.giveallCard = PrimaryPushSettingCard_Giveall(
             '物品',
             '角色',
             FIF.TAG,
             '给予全部',
-            '/giveall {materials | avatars}'
+            '/giveall {items | avatars}'
         )
+        self.clearCard = PrimaryPushSettingCard_Clear(
+            '遗器',
+            '光锥',
+            '材料',
+            '物品',
+            FIF.TAG,
+            '清空物品',
+            '/clear {relics | lightcones | materials | items}'
+        )
+        self.refillCard = PrimaryPushSettingCard(
+            '使用',
+            FIF.TAG,
+            '秘技点补充',
+            '/refill'
+        )
+        self.healCard = PrimaryPushSettingCard(
+            '使用',
+            FIF.TAG,
+            '治疗全部队伍角色',
+            '/heal'
+        )
+        self.ServerInterface = SettingCardGroup(self.scrollWidget)
+        self.PersonalInterface = SettingCardGroup(self.scrollWidget)
+        self.SceneInterface = SettingCardGroup(self.scrollWidget)
+        self.AvatarInterface = SettingCardGroup(self.scrollWidget)
+        self.GiveInterface = SettingCardGroup(self.scrollWidget)
+        self.SpawnInterface = SettingCardGroup(self.scrollWidget)
+        self.MailInterface = SettingCardGroup(self.scrollWidget)
 
         self.__initWidget()
 
@@ -172,9 +200,19 @@ class LunarCore(ScrollArea):
     def __initLayout(self):
         # 项绑定到栏目
         self.CustomInterface.addSettingCard(self.giveallCard)
+        self.CustomInterface.addSettingCard(self.clearCard)
+        self.CustomInterface.addSettingCard(self.refillCard)
+        self.CustomInterface.addSettingCard(self.healCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.CustomInterface, 'CustomInterface','自定义', icon=FIF.TAG)
+        self.addSubInterface(self.CustomInterface, 'CustomInterface','快捷功能', icon=FIF.TAG)
+        self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.TAG)
+        self.addSubInterface(self.PersonalInterface, 'PersonalInterface','个人信息', icon=FIF.TAG)
+        self.addSubInterface(self.SceneInterface, 'SceneInterface','场景', icon=FIF.TAG)
+        self.addSubInterface(self.AvatarInterface, 'AvatarInterface','角色', icon=FIF.TAG)
+        self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.TAG)
+        self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.TAG)
+        self.addSubInterface(self.MailInterface, 'MailInterface','邮件', icon=FIF.TAG)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -187,8 +225,14 @@ class LunarCore(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.CustomInterface.objectName())
         
     def __connectSignalToSlot(self):
-        self.giveallCard.give_materials.connect(lambda: self.giveallClicked.emit('/giveall materials'))
-        self.giveallCard.give_avatars.connect(lambda: self.giveallClicked.emit('/giveall avatars'))
+        self.giveallCard.give_materials.connect(lambda: self.buttonClicked.emit('/giveall materials'))
+        self.giveallCard.give_avatars.connect(lambda: self.buttonClicked.emit('/giveall avatars'))
+        self.clearCard.clear_relics.connect(lambda: self.buttonClicked.emit('/clear relics'))
+        self.clearCard.clear_lightcones.connect(lambda: self.buttonClicked.emit('/clear lightcones'))
+        self.clearCard.clear_materials.connect(lambda: self.buttonClicked.emit('/clear materials'))
+        self.clearCard.clear_items.connect(lambda: self.buttonClicked.emit('/clear items'))
+        self.refillCard.clicked.connect(lambda: self.buttonClicked.emit('/refill'))
+        self.healCard.clicked.connect(lambda: self.buttonClicked.emit('/heal'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)

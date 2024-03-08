@@ -4,12 +4,11 @@ import glob
 import random
 import hashlib
 import subprocess
-from PySide6.QtWidgets import QApplication, QHBoxLayout, QFrame
+from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt, QSize, QUrl
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
-from qfluentwidgets import (MSFluentWindow, SubtitleLabel, setFont, NavigationItemPosition,
-                            setTheme, Theme, InfoBar, InfoBarPosition, SplashScreen)
+from qfluentwidgets import MSFluentWindow, NavigationItemPosition, setTheme, Theme, InfoBar, InfoBarPosition, SplashScreen
 from qfluentwidgets import FluentIcon as FIF
 from app.home_interface import Home
 from app.download_interface import Download
@@ -19,7 +18,7 @@ from app.command_interface import Command
 from app.setting_interface import Setting
 from app.module.config import cfg
 from app.module.check_update import checkUpdate
-from app.component.login import MessageLogin
+from app.component.message_login import MessageLogin
 
 
 class Main(MSFluentWindow):
@@ -36,14 +35,15 @@ class Main(MSFluentWindow):
         self.settingInterface = Setting('Setting Interface', self)
 
         self.initNavigation()
+        self.checkFont()
         # 加载界面结束
         self.splashScreen.finish()
         checkUpdate(self)
-        self.checkFont()
-        self.incorrect_count = 0
-        self.w = MessageLogin(self)
-        self.w.show()
-        self.w.passwordEntered.connect(self.checkLogin)
+        if cfg.useLogin.value:
+            self.incorrect_count = 1
+            self.w = MessageLogin(self)
+            self.w.show()
+            self.w.passwordEntered.connect(self.checkLogin)
     
     def initNavigation(self):
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页', FIF.HOME_FILL)
@@ -106,8 +106,6 @@ class Main(MSFluentWindow):
             )
             self.w.close()
         else:
-            self.mediaPlay()
-            self.incorrect_count += 1
             InfoBar.error(
                 title=f'密码错误{self.incorrect_count}次',
                 content='',
@@ -117,6 +115,9 @@ class Main(MSFluentWindow):
                 duration=3000,
                 parent=self
             )
+            self.incorrect_count += 1
+            if cfg.useAudio.value:
+                self.mediaPlay()
 
     def changeTheme(self):
         if cfg.themeMode.value == Theme.DARK:

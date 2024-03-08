@@ -8,8 +8,12 @@ def get_json(file_path, key):
 
 
 class Config(QConfig):
+    autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
+    useLogin = ConfigItem("Function", "UseLogin", True, BoolValidator())
+    useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())
+    randomHomeBg = ConfigItem("Function", "RandomHomeBg", True, BoolValidator())
     proxyStatus = ConfigItem("Proxy", "ProxyStatus", False, BoolValidator())
-    chinaStatus = ConfigItem("China", "ChinaStatus", True, BoolValidator())
+    chinaStatus = ConfigItem("Proxy", "ChinaStatus", True, BoolValidator())
 
     APP_NAME = "Firefly Launcher"
     APP_VERSION = get_json('./config/version.json', 'version')

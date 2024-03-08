@@ -7,9 +7,9 @@ from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, H
 from app.module.config import cfg
 from app.component.style_sheet import StyleSheet
 from app.component.setting_group import SettingCardGroup
-from app.component.common import (MessageDownload, MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, HyperlinkCard_Tool,
+from app.component.message_download import (MessageDownload, MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, HyperlinkCard_Tool,
                                        HyperlinkCard_Environment, MessageLauncher, MessagePython, MessageGit, MessageJava, MessageMongoDB,
-                                       MessageFiddler, MessageMitmdump, CommandRunner)
+                                       MessageFiddler, MessageMitmdump)
 
 
 class Download(ScrollArea):
@@ -25,8 +25,8 @@ class Download(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏
-        self.LauncherInterface = SettingCardGroup('启动器', self.scrollWidget)
+        # 添加项
+        self.LauncherInterface = SettingCardGroup(self.scrollWidget)
         self.LauncherRepoCard = HyperlinkCard(
             'https://github.com/letheriver2007/Firefly-Launcher',
             'Firefly-Launcher',
@@ -40,7 +40,7 @@ class Download(ScrollArea):
             '项目下载',
             '下载Firefly-Launcher启动器'
         )
-        self.EnvironmentInterface = SettingCardGroup('环境', self.scrollWidget)
+        self.EnvironmentInterface = SettingCardGroup(self.scrollWidget)
         self.EnvironmentRepoCard = HyperlinkCard_Environment(
             'https://www.python.org/',
             'Python',
@@ -78,7 +78,7 @@ class Download(ScrollArea):
             '项目下载',
             '下载MongoDB安装包'
         )
-        self.LunarCoreInterface = SettingCardGroup('LunarCore', self.scrollWidget)
+        self.LunarCoreInterface = SettingCardGroup(self.scrollWidget)
         self.LunarCoreRepoCard = HyperlinkCard_LunarCore(
             'https://github.com/Melledy/LunarCore',
             'LunarCore',
@@ -102,7 +102,7 @@ class Download(ScrollArea):
             '资源下载',
             '下载LunarCore资源文件'
         )
-        self.ToolInterface = SettingCardGroup('工具', self.scrollWidget)
+        self.ToolInterface = SettingCardGroup(self.scrollWidget)
         self.ToolRepoCard = HyperlinkCard_Tool(
             'https://www.telerik.com/fiddler#fiddler-classic',
             'Fiddler',
@@ -290,6 +290,8 @@ class Download(ScrollArea):
                         parent=self
                         )
                 else:
+                    # x.runner.terminate()
+                    # self.clean_task()
                     InfoBar.error(
                         title='下载失败！',
                         content="",
@@ -310,3 +312,12 @@ class Download(ScrollArea):
                 parent=self
                 )
                 subprocess.Popen('start ' + file_path, shell=True)
+    
+    def clean_task(self):
+        output = subprocess.check_output('tasklist', shell=True)
+        if 'curl.exe' in str(output):
+            subprocess.run('taskkill /f /im curl.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        elif 'java.exe' in str(output):
+            subprocess.run('taskkill /f /im java.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        elif 'git.exe' in str(output):
+            subprocess.run('taskkill /f /im git.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

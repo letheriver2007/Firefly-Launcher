@@ -37,7 +37,10 @@ class Home(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
 
-        image_widget = RoundedImageWithText("./src/image/bg_home_" + str(random.randint(1, 3)) + ".png")
+        if cfg.randomHomeBg.value:
+            image_widget = RoundedImageWithText("./src/image/bg_home_" + str(random.randint(1, 3)) + ".png")
+        else:
+            image_widget = RoundedImageWithText("./src/image/bg_home_1.png")
         image_widget.setFixedSize(1160, 350)
         image_layout = QVBoxLayout()
         image_layout.addWidget(image_widget)

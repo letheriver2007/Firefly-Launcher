@@ -1,11 +1,11 @@
 from typing import List
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout
-from qfluentwidgets import FluentStyleSheet, setFont, ExpandLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout
+from qfluentwidgets import FluentStyleSheet, ExpandLayout
 
 
 class SettingCardGroup(QWidget):
-    def __init__(self, title: str, parent=None):
+    def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.vBoxLayout = QVBoxLayout(self)
         self.cardLayout = ExpandLayout()

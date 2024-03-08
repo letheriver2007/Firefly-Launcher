@@ -1,129 +1,14 @@
 import os
 import subprocess
 from typing import Union
-from PySide6.QtGui import QIcon, QPainter, QColor
+from PySide6.QtGui import QIcon
 from PySide6.QtCore import QThread, Signal, QSize, Qt
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QPushButton, QLabel
-from qfluentwidgets import (MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel, PlainTextEdit, PasswordLineEdit,
-                            FluentIconBase, HyperlinkButton, IconWidget, FluentStyleSheet, isDarkTheme, drawIcon,
-                            IndeterminateProgressBar)
+from qfluentwidgets import (MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel,
+                            PlainTextEdit, FluentIconBase, HyperlinkButton, IndeterminateProgressBar)
 from app.module.config import cfg
+from app.component.setting_card import SettingCard
 
-
-class SettingCard(QFrame):
-    def __init__(self, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(parent=parent)
-        self.iconLabel = SettingIconWidget(icon, self)
-        self.titleLabel = QLabel(title, self)
-        self.contentLabel = QLabel(content or '', self)
-        self.hBoxLayout = QHBoxLayout(self)
-        self.vBoxLayout = QVBoxLayout()
-
-        if not content:
-            self.contentLabel.hide()
-
-        self.setFixedHeight(70 if content else 50)
-        self.iconLabel.setFixedSize(16, 16)
-
-        self.hBoxLayout.setSpacing(0)
-        self.hBoxLayout.setContentsMargins(16, 0, 0, 0)
-        self.hBoxLayout.setAlignment(Qt.AlignVCenter)
-        self.vBoxLayout.setSpacing(0)
-        self.vBoxLayout.setContentsMargins(0, 0, 0, 0)
-        self.vBoxLayout.setAlignment(Qt.AlignVCenter)
-
-        self.hBoxLayout.addWidget(self.iconLabel, 0, Qt.AlignLeft)
-        self.hBoxLayout.addSpacing(16)
-
-        self.hBoxLayout.addLayout(self.vBoxLayout)
-        self.vBoxLayout.addWidget(self.titleLabel, 0, Qt.AlignLeft)
-        self.vBoxLayout.addWidget(self.contentLabel, 0, Qt.AlignLeft)
-
-        self.hBoxLayout.addSpacing(16)
-        self.hBoxLayout.addStretch(1)
-
-        self.contentLabel.setObjectName('contentLabel')
-        FluentStyleSheet.SETTING_CARD.apply(self)
-
-    def setTitle(self, title: str):
-        self.titleLabel.setText(title)
-
-    def setContent(self, content: str):
-        self.contentLabel.setText(content)
-        self.contentLabel.setVisible(bool(content))
-
-    def setValue(self, value):
-        pass
-
-    def paintEvent(self, e):
-        painter = QPainter(self)
-        painter.setRenderHints(QPainter.Antialiasing)
-
-        if isDarkTheme():
-            painter.setBrush(QColor(255, 255, 255, 13))
-            painter.setPen(QColor(0, 0, 0, 50))
-        else:
-            painter.setBrush(QColor(255, 255, 255, 170))
-            painter.setPen(QColor(0, 0, 0, 19))
-
-        painter.drawRoundedRect(self.rect().adjusted(1, 1, -1, -1), 6, 6)
-
-
-class SettingIconWidget(IconWidget):
-    def paintEvent(self, e):
-        painter = QPainter(self)
-
-        if not self.isEnabled():
-            painter.setOpacity(0.36)
-
-        painter.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
-        drawIcon(self._icon, painter, self.rect())
-
-
-class PushSettingCard_Fiddler(SettingCard):
-    clicked_script = Signal()
-    clicked_old = Signal()
-    def __init__(self, text_script, text_old, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
-        self.button_script = QPushButton(text_script, self)
-        self.button_old = QPushButton(text_old, self)
-        self.hBoxLayout.addWidget(self.button_script, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_old, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(16)
-        self.button_script.clicked.connect(self.clicked_script)
-        self.button_old.clicked.connect(self.clicked_old)
-
-
-class PrimaryPushSettingCard_Fiddler(PushSettingCard_Fiddler):
-    def __init__(self, text_script, text_old, icon, title, content=None, parent=None):
-        super().__init__(text_script, text_old, icon, title, content, parent)
-        self.button_script.setObjectName('primaryButton')
-        self.button_old.setObjectName('primaryButton')
-
-
-class PushSettingCard_Giveall(SettingCard):
-    give_materials = Signal()
-    give_avatars = Signal()
-    def __init__(self, meterials, avatars, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
-        self.button_materials = QPushButton(meterials, self)
-        self.button_avatars = QPushButton(avatars, self)
-        self.hBoxLayout.addWidget(self.button_materials, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_avatars, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(16)
-        self.button_materials.clicked.connect(self.give_materials)
-        self.button_avatars.clicked.connect(self.give_avatars)
-
-
-class PrimaryPushSettingCard_Giveall(PushSettingCard_Giveall):
-    def __init__(self, meterials, avatars, icon, title, content=None, parent=None):
-        super().__init__(meterials, avatars, icon, title, content, parent)
-        self.button_materials.setObjectName('primaryButton')
-        self.button_avatars.setObjectName('primaryButton')
-
-
+        
 class HyperlinkCard_Environment(SettingCard):
     def __init__(self, url_py, text_py,url_git, text_git ,url_jar, text_jar,url_mongodb, text_mongodb, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
         super().__init__(icon, title, content, parent)
@@ -158,23 +43,6 @@ class HyperlinkCard_Tool(SettingCard):
         self.hBoxLayout.addWidget(self.linkButton_fiddler, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.linkButton_mitmdump, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-
-
-class MessageFiddler(MessageBoxBase):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.titleLabel = TitleLabel('选择需要使用Fiddler Scripts的服务端:    ')
-        self.label1 = SubtitleLabel('    目前支持的服务端列表:')
-        self.label2 = BodyLabel('        Yuanshen: Hutao-GS')
-        self.label3 = BodyLabel('        StarRail: LunarCore')
-
-        self.viewLayout.addWidget(self.titleLabel)
-        self.viewLayout.addWidget(self.label1)
-        self.viewLayout.addWidget(self.label2)
-        self.viewLayout.addWidget(self.label3)
-
-        self.yesButton.setText('Yuanshen')
-        self.cancelButton.setText('StarRail')
 
 
 class MessageLauncher(MessageBoxBase):
@@ -346,16 +214,6 @@ class MessageDownload(MessageBoxBase):
             self.cancelButton.setHidden(False)
             self.cancelButton.setText('退出')
 
-    def clean_task(self):
-        if self.runner.isRunning():
-            self.runner.terminate()
-        output = subprocess.check_output('tasklist', shell=True)
-        if 'curl.exe' in str(output):
-            subprocess.run('taskkill /f /im curl.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        elif 'java.exe' in str(output):
-            subprocess.run('taskkill /f /im java.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        elif 'git.exe' in str(output):
-            subprocess.run('taskkill /f /im git.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 class CommandRunner(QThread):
     output_updated = Signal(str)

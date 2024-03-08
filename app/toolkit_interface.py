@@ -6,7 +6,7 @@ from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
 from app.component.style_sheet import StyleSheet
 from app.component.setting_group import SettingCardGroup
-from app.component.common import MessageFiddler, PrimaryPushSettingCard_Fiddler
+from app.component.message_common import MessageFiddler, PrimaryPushSettingCard_Fiddler
 
 
 class Toolkit(ScrollArea):
@@ -22,8 +22,8 @@ class Toolkit(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏
-        self.ProxyToolInterface = SettingCardGroup('代理', self.scrollWidget)
+        # 添加项
+        self.ProxyToolInterface = SettingCardGroup(self.scrollWidget)
         self.FiddlerCard = PrimaryPushSettingCard_Fiddler(
             '脚本打开',
             '原版打开',
@@ -91,6 +91,18 @@ class Toolkit(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
+    def proxy_fiddler(self, mode):
+        if mode =='script':
+            w = MessageFiddler(self)
+            if w.exec():
+                self.open_file('src/patch/yuanshen/update.exe')
+                self.open_file('tool/Fiddler/Fiddler.exe')
+            else:
+                self.open_file('src/patch/starrail/update.exe')
+                self.open_file('tool/Fiddler/Fiddler.exe')
+        elif mode == 'old':
+            self.open_file('tool/Fiddler/Fiddler.exe')
+
     def open_file(self, file_path):
         if os.path.exists(file_path):
             subprocess.run(['start', file_path], shell=True)
@@ -104,18 +116,17 @@ class Toolkit(ScrollArea):
                 duration=3000,
                 parent=self
             )
-    
-    def proxy_fiddler(self, mode):
-        if mode =='script':
-            w = MessageFiddler(self)
-            if w.exec():
-                self.open_file('src/patch/yuanshen/update.exe')
-                self.open_file('tool/Fiddler/Fiddler.exe')
-            else:
-                self.open_file('src/patch/starrail/update.exe')
-                self.open_file('tool/Fiddler/Fiddler.exe')
-        elif mode == 'old':
-            self.open_file('tool/Fiddler/Fiddler.exe')
-    
+
     def proxy_mitmdump(self):
-        subprocess.run('cd ./tool/Mitmdump && start /b Proxy.exe', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+        if os.path.exists('tool/Mitmdump'):
+            subprocess.run('cd ./tool/Mitmdump && start /b Proxy.exe', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+        else:
+            InfoBar.error(
+                title="找不到文件，请重新下载！",
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )

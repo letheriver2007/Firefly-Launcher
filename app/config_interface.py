@@ -21,8 +21,8 @@ class Config(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏
-        self.LauncherInterface = SettingCardGroup('配置', self.scrollWidget)
+        # 添加项
+        self.LauncherInterface = SettingCardGroup(self.scrollWidget)
         self.settingConfigCard = PrimaryPushSettingCard(
             '打开文件',
             FIF.LABEL,
@@ -35,7 +35,7 @@ class Config(ScrollArea):
             '个性化',
             '自定义个性化配置'
         )
-        self.LunarCoreInterface = SettingCardGroup('LunarCore', self.scrollWidget)
+        self.LunarCoreInterface = SettingCardGroup(self.scrollWidget)
         self.bannersConfigCard = PrimaryPushSettingCard(
             '打开文件',
             FIF.LABEL,

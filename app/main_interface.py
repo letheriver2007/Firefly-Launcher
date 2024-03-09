@@ -104,6 +104,8 @@ class Main(MSFluentWindow):
                 duration=1000,
                 parent=self
             )
+            if cfg.useAudio.value:
+                self.mediaPlay('success')
             self.w.close()
         else:
             InfoBar.error(
@@ -117,7 +119,7 @@ class Main(MSFluentWindow):
             )
             self.incorrect_count += 1
             if cfg.useAudio.value:
-                self.mediaPlay()
+                self.mediaPlay('error')
 
     def changeTheme(self):
         if cfg.themeMode.value == Theme.DARK:
@@ -161,13 +163,12 @@ class Main(MSFluentWindow):
                 parent=self
             )
     
-    def mediaPlay(self):
+    def mediaPlay(self, status):
         self.player = QMediaPlayer()
         self.audioOutput = QAudioOutput()
         self.player.setAudioOutput(self.audioOutput)
         self.audioOutput.setVolume(1)
-
-        audio_list = glob.glob('src\\audio\\*.wav')
+        audio_list = glob.glob(f'src\\audio\\{status}\\*.wav')
         audio_play = QUrl.fromLocalFile(random.choice(audio_list))
         self.player.setSource(audio_play)
         self.player.play()

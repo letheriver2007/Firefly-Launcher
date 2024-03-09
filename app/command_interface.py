@@ -229,8 +229,7 @@ class LunarCore(ScrollArea):
             '设置当前角色属性',
             '/avatar [lv(level)] [r(eidolon)] [s(skill level)]'
         )
-        self.SpawnInterface = SettingCardGroup(self.scrollWidget)
-        self.GiveInterface = SettingCardGroup(self.scrollWidget)
+        self.RelicInterface = SettingCardGroup(self.scrollWidget)
         self.MailInterface = SettingCardGroup(self.scrollWidget)
 
         self.__initWidget()
@@ -271,8 +270,8 @@ class LunarCore(ScrollArea):
         self.SpawnInterface = Spawn('Spawn Interface', self)
         self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.TAG)
         self.GiveInterface = Give('Give Interface', self)
-        self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.TAG)
         self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.TAG)
+        self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.TAG)
         self.addSubInterface(self.MailInterface, 'MailInterface','邮件', icon=FIF.TAG)
 
         # 初始化配置界面
@@ -305,6 +304,7 @@ class LunarCore(ScrollArea):
         self.worldLevelCard.set_level.connect(self.handleWorldLevelClicked)
         self.avatarCard.avatar_set.connect(self.handleAvatarClicked)
         self.SceneInterface.emit_scene_id.connect(lambda id: self.buttonClicked.emit('/scene '+ id))
+        self.SpawnInterface.emit_monster_id.connect(lambda id: self.handleSpawnClicked(id))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -396,4 +396,13 @@ class LunarCore(ScrollArea):
                 duration=3000,
                 parent=self.parent
             )
-            
+
+    def handleSpawnClicked(self, id):
+        command = f'/spawn {id}'
+        if self.SpawnInterface.monster_num.text() != '':
+            command += ' x' + self.SpawnInterface.monster_num.text()
+        if self.SpawnInterface.monster_level.text() != '':
+            command += ' lv' + self.SpawnInterface.monster_level.text()
+        if self.SpawnInterface.monster_round.text() != '':
+            command += ' r' + self.SpawnInterface.monster_round.text()
+        self.buttonClicked.emit(command)

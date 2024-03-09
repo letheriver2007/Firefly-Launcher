@@ -52,6 +52,7 @@ jobs:
           xcopy /s /e /y src\patch\yuanshen\  dist\Firefly-Launcher\src\patch\yuanshen\
           xcopy /s /e /y src\patch\gradle\ dist\Firefly-Launcher\src\patch\gradle\
           xcopy /s /e /y src\patch\font\ dist\Firefly-Launcher\src\patch\font\
+          xcopy /s /e /y src\data\ dist\Firefly-Launcher\src\data\
           xcopy /s /e /y config\ dist\Firefly-Launcher\config\
       
       - uses: actions/upload-artifact@v4.3.1

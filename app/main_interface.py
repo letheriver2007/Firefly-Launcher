@@ -44,6 +44,9 @@ class Main(MSFluentWindow):
             self.w = MessageLogin(self)
             self.w.show()
             self.w.passwordEntered.connect(self.checkLogin)
+        else:
+            if cfg.useAudio.value:
+                self.mediaPlay('success')
     
     def initNavigation(self):
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页', FIF.HOME_FILL)

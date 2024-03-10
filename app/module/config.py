@@ -24,8 +24,8 @@ class Config(QConfig):
     URL_RELEASES = "https://github.com/letheriver2007/Firefly-Launcher/releases"
     URL_ISSUES = "https://github.com/letheriver2007/Firefly-Launcher/issues"
 
-    DOWNLOAD_COMMANDS_LAUNCHER = ('https://github.com/letheriver2007/Firefly-Launcher/releases/download/v1.2.0/Firefly-Launcher.zip')
-    DOWNLOAD_COMMANDS_PYTHON = ('https://www.python.org/ftp/python/3.11.8/python-3.11.8-amd64.exe')
+    DOWNLOAD_COMMANDS_LAUNCHER = ('https://github.com/letheriver2007/Firefly-Launcher/releases/download/v1.3.0/Firefly-Launcher.zip')
+    DOWNLOAD_COMMANDS_AUDIO = ('https://github.com/letheriver2007/Firefly-Launcher-Res.git src/audio')
     DOWNLOAD_COMMANDS_GIT = ('https://github.com/git-for-windows/git/releases/download/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA = ('https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.msi')
     DOWNLOAD_COMMANDS_MONGODB = ('https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi')
@@ -38,8 +38,8 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_FIDDLER = ('https://github.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler')
     DOWNLOAD_COMMANDS_MITMDUMP = ('https://github.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump')
 
-    DOWNLOAD_COMMANDS_LAUNCHER_MIRROR = ('https://hub.gitmirror.com/https://github.com/letheriver2007/Firefly-Launcher/releases/download/v1.2.0/Firefly-Launcher.zip')
-    DOWNLOAD_COMMANDS_PYTHON_MIRROR = ('https://cdn.npmmirror.com/binaries/python/3.11.8/python-3.11.8-amd64.exe')
+    DOWNLOAD_COMMANDS_LAUNCHER_MIRROR = ('https://hub.gitmirror.com/https://github.com/letheriver2007/Firefly-Launcher/releases/download/v1.3.0/Firefly-Launcher.zip')
+    DOWNLOAD_COMMANDS_AUDIO_MIRROR = ('https://gitee.com/letheriver2007/Firefly-Launcher-Res.git src/audio')
     DOWNLOAD_COMMANDS_GIT_MIRROR = ('https://cdn.npmmirror.com/binaries/git-for-windows/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA_MIRROR = ('https://d6.injdk.cn/oraclejdk/17/jdk-17_windows-x64_bin.msi')
     DOWNLOAD_COMMANDS_MONGODB_MIRROR = ('https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi')

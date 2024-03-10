@@ -39,7 +39,7 @@ class Config(ScrollArea):
         self.bannersConfigCard = PrimaryPushSettingCard(
             '打开文件',
             FIF.LABEL,
-            'Banners',
+            'Banners(外部)',
             'LunarCore的跃迁配置'
         )
 

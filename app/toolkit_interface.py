@@ -28,13 +28,13 @@ class Toolkit(ScrollArea):
             '脚本打开',
             '原版打开',
             FIF.VPN,
-            'Fiddler',
+            'Fiddler(外部)',
             '使用Fiddler Scripts代理'
         )
         self.mitmdumpCard = PrimaryPushSettingCard( 
             '打开',
             FIF.VPN,
-            'Mitmdump',
+            'Mitmdump(外部)',
             '使用Mitmdump代理'
         )
 

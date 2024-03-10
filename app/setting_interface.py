@@ -61,7 +61,7 @@ class Setting(ScrollArea):
         )
         self.useAudioCard = SwitchSettingCard(
             FIF.MUSIC,
-            '启用流萤语音',
+            '启用流萤语音(外部)',
             '使用随机流萤语音彩蛋',
             configItem=cfg.useAudio
         )

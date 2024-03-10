@@ -8,15 +8,23 @@ from qfluentwidgets import (MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel
 from app.module.config import cfg
 from app.component.setting_card import SettingCard
 
-        
-class HyperlinkCard_Environment(SettingCard):
-    def __init__(self, url_py, text_py,url_git, text_git ,url_jar, text_jar,url_mongodb, text_mongodb, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
+
+class HyperlinkCard_Launcher(SettingCard):
+    def __init__(self, url_launcher, text_launcher, url_audio, text_audio, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
         super().__init__(icon, title, content, parent)
-        self.linkButton_py = HyperlinkButton(url_py, text_py, self)
+        self.linkButton_launcher = HyperlinkButton(url_launcher, text_launcher, self)
+        self.linkButton_audio = HyperlinkButton(url_audio, text_audio, self)
+        self.hBoxLayout.addWidget(self.linkButton_launcher, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.linkButton_audio, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+
+
+class HyperlinkCard_Environment(SettingCard):
+    def __init__(self, url_git, text_git ,url_jar, text_jar,url_mongodb, text_mongodb, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
+        super().__init__(icon, title, content, parent)
         self.linkButton_git = HyperlinkButton(url_git, text_git, self)
         self.linkButton_jar = HyperlinkButton(url_jar, text_jar, self)
         self.linkButton_mongodb = HyperlinkButton(url_mongodb, text_mongodb, self)
-        self.hBoxLayout.addWidget(self.linkButton_py, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.linkButton_git, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.linkButton_jar, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.linkButton_mongodb, 0, Qt.AlignRight)
@@ -60,12 +68,12 @@ class MessageLauncher(MessageBoxBase):
         self.cancelButton.setText('取消')
 
 
-class MessagePython(MessageBoxBase):
+class MessageAudio(MessageBoxBase):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.titleLabel = TitleLabel('确认当前下载项目:                ')
+        self.titleLabel = TitleLabel('选择音频版本:                ')
         self.label1 = SubtitleLabel('    当前内容包含以下项目:')
-        self.label2 = BodyLabel('        Python: Python环境')
+        self.label2 = BodyLabel('        Firefly-Launcher-Audio: 流萤语音')
 
         self.viewLayout.addWidget(self.titleLabel)
         self.viewLayout.addWidget(self.label1)

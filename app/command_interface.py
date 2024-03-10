@@ -230,7 +230,6 @@ class LunarCore(ScrollArea):
             '/avatar [lv(level)] [r(eidolon)] [s(skill level)]'
         )
         self.RelicInterface = SettingCardGroup(self.scrollWidget)
-        self.MailInterface = SettingCardGroup(self.scrollWidget)
 
         self.__initWidget()
 
@@ -272,7 +271,6 @@ class LunarCore(ScrollArea):
         self.GiveInterface = Give('Give Interface', self)
         self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.TAG)
         self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.TAG)
-        self.addSubInterface(self.MailInterface, 'MailInterface','邮件', icon=FIF.TAG)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -293,8 +291,8 @@ class LunarCore(ScrollArea):
         self.accountCard.delete_account.connect(lambda: self.handleAccountClicked('delete'))
         self.kickCard.kick_player.connect(self.handleKickClicked)
         self.unstuckCard.unstuck_player.connect(self.handleUnstuckClicked)
-        self.giveallCard.give_materials.connect(lambda: self.buttonClicked.emit('/giveall materials'))
-        self.giveallCard.give_avatars.connect(lambda: self.buttonClicked.emit('/giveall avatars'))
+        self.giveallCard.give_materials.connect(lambda: self.handleGiveallClicked('materials'))
+        self.giveallCard.give_avatars.connect(lambda: self.handleGiveallClicked('avatars'))
         self.clearCard.clear_relics.connect(lambda: self.buttonClicked.emit('/clear relics'))
         self.clearCard.clear_lightcones.connect(lambda: self.buttonClicked.emit('/clear lightcones'))
         self.clearCard.clear_materials.connect(lambda: self.buttonClicked.emit('/clear materials'))
@@ -303,8 +301,9 @@ class LunarCore(ScrollArea):
         self.genderCard.gender_female.connect(lambda: self.buttonClicked.emit('/gender female'))
         self.worldLevelCard.set_level.connect(self.handleWorldLevelClicked)
         self.avatarCard.avatar_set.connect(self.handleAvatarClicked)
-        self.SceneInterface.emit_scene_id.connect(lambda id: self.buttonClicked.emit('/scene '+ id))
-        self.SpawnInterface.emit_monster_id.connect(lambda id: self.handleSpawnClicked(id))
+        self.SceneInterface.emit_scene_id.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
+        self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
+        self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -320,13 +319,34 @@ class LunarCore(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
-    
+
+    def handleGiveallClicked(self, types):
+        line_level = self.GiveInterface.line_level.Text()
+        line_eidolon = self.GiveInterface.line_eidolon.Text()
+        line_skill = self.GiveInterface.line_skill.Text()
+        command = '/giveall '+ types
+        if types == 'materials':
+            if line_level != '':
+                command += ' lv' + line_level
+            if line_eidolon != '':
+                command += ' r' + line_eidolon
+        elif types == 'avatars':
+            if line_level != '':
+                command += ' lv' + line_level
+            if line_eidolon != '':
+                command += ' r' + line_eidolon
+            if line_skill != '':
+                command +='s' + line_skill
+        self.buttonClicked.emit(command)
+
     def handleAccountClicked(self, types):
-        if self.accountCard.account_name.text() != '':
-            if types == 'create' and self.accountCard.account_uid.text() != '' and int(self.accountCard.account_uid.text())>0:
-                self.buttonClicked.emit(f'/account {types} ' + self.accountCard.account_name.text() + ' ' + self.accountCard.account_uid.text())
-            else:
-                self.buttonClicked.emit(f'/account {types} ' + self.accountCard.account_name.text())
+        account_name = self.accountCard.account_name.text()
+        account_uid = self.accountCard.account_uid.text()
+        if account_name != '':
+            account = f'/account {types} {account_name}'
+            if types == 'create' and account_uid != '':
+                account += ' ' + account_uid
+            self.buttonClicked.emit(account)
         else:
             InfoBar.error(
                 title='请输入正确的用户名！',
@@ -339,8 +359,9 @@ class LunarCore(ScrollArea):
             )
     
     def handleKickClicked(self):
-        if self.kickCard.account_uid.text() != '' and int(self.kickCard.account_uid.text())>0:
-            self.buttonClicked.emit('/kick @' + self.kickCard.account_uid.text())
+        account_uid = self.kickCard.account_uid.text()
+        if account_uid != '':
+            self.buttonClicked.emit('/kick @' + account_uid)
         else:
             InfoBar.error(
                 title='请输入正确的UID！',
@@ -353,8 +374,9 @@ class LunarCore(ScrollArea):
             )
 
     def handleUnstuckClicked(self):
-        if self.unstuckCard.stucked_uid.text() != '' and int(self.unstuckCard.stucked_uid.text())>0:
-            self.buttonClicked.emit('/unstuck @' + self.unstuckCard.stucked_uid.text())
+        stucked_uid = self.unstuckCard.stucked_uid.text()
+        if stucked_uid != '' :
+            self.buttonClicked.emit('/unstuck @' + stucked_uid)
         else:
             InfoBar.error(
                 title='请输入正确的UID！',
@@ -367,8 +389,9 @@ class LunarCore(ScrollArea):
             )
     
     def handleWorldLevelClicked(self):
-        if self.worldLevelCard.world_level.text() != '' and int(self.worldLevelCard.world_level.text())>0 and int(self.worldLevelCard.world_level.text())<=70:
-            self.buttonClicked.emit('/worldlevel ' + self.worldLevelCard.world_level.text())
+        world_level = self.worldLevelCard.world_level.text()
+        if world_level != '':
+            self.buttonClicked.emit('/worldlevel ' + world_level)
         else:
             InfoBar.error(
                 title='请输入正确的开拓等级！',
@@ -381,14 +404,21 @@ class LunarCore(ScrollArea):
             )
     
     def handleAvatarClicked(self):
-        if (self.avatarCard.avatar_level.text() != '' and self.avatarCard.avatar_eidolon.text() != '' and self.avatarCard.avatar_skill.text() != '' and
-            int(self.avatarCard.avatar_level.text())>0 and int(self.avatarCard.avatar_level.text())<=80 and
-            int(self.avatarCard.avatar_eidolon.text())>0 and int(self.avatarCard.avatar_eidolon.text())<=6 and
-            int(self.avatarCard.avatar_skill.text())>0 and int(self.avatarCard.avatar_skill.text())<=12):
-            self.buttonClicked.emit('/avatar lv' + self.avatarCard.avatar_level.text() + ' r' + self.avatarCard.avatar_eidolon.text() + ' s' + self.avatarCard.avatar_skill.text())
+        avatar_level = self.avatarCard.avatar_level.text()
+        avatar_eidolon = self.avatarCard.avatar_eidolon.text()
+        avatar_skill = self.avatarCard.avatar_skill.text()
+        command = '/avatar'
+        if avatar_level != '':
+            command += ' lv' + avatar_level
+        if avatar_eidolon != '':
+            command += ' r' + avatar_eidolon
+        if avatar_skill != '':
+            command +=' s' + avatar_skill
+        if command != '/avatar':
+            self.buttonClicked.emit(command)
         else:
             InfoBar.error(
-                title='请输入正确的等级！',
+                title='请输入正确的角色信息！',
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -397,12 +427,37 @@ class LunarCore(ScrollArea):
                 parent=self.parent
             )
 
-    def handleSpawnClicked(self, id):
-        command = f'/spawn {id}'
-        if self.SpawnInterface.monster_num.text() != '':
-            command += ' x' + self.SpawnInterface.monster_num.text()
-        if self.SpawnInterface.monster_level.text() != '':
-            command += ' lv' + self.SpawnInterface.monster_level.text()
-        if self.SpawnInterface.monster_round.text() != '':
-            command += ' r' + self.SpawnInterface.monster_round.text()
+    def handleSpawnClicked(self, monster_id):
+        monster_num = self.SpawnInterface.monster_num.text()
+        monster_level = self.SpawnInterface.monster_level.text()
+        monster_round = self.SpawnInterface.monster_round.text()
+        command = '/spawn ' + monster_id
+        if monster_num != '':
+            command += ' x' + monster_num
+        if monster_level != '':
+            command += ' lv' + monster_level
+        if monster_round != '':
+            command += ' r' + monster_round
+        self.buttonClicked.emit(command)
+    
+    def handleGiveClicked(self, item_id, types):
+        search_level = self.GiveInterface.search_level.text()
+        search_eidolon = self.GiveInterface.search_eidolon.text()
+        search_num = self.GiveInterface.search_num.text()
+        command = '/give ' + item_id
+        if types == 'avatar':
+            if search_level != '':
+                command += ' lv' + search_level
+            if search_eidolon != '':
+                command += ' r' + search_eidolon
+        elif types == 'lightcone':
+            if search_num != '':
+                command += ' x' + search_num
+            if search_level != '':
+                command += ' lv' + search_level
+            if search_eidolon != '':
+                command += ' r' + search_eidolon
+        elif types == 'item' or types == 'food':
+            if search_num != '':
+                command += ' x' + search_num
         self.buttonClicked.emit(command)

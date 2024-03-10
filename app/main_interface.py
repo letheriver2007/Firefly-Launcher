@@ -167,11 +167,22 @@ class Main(MSFluentWindow):
             )
     
     def mediaPlay(self, status):
-        self.player = QMediaPlayer()
-        self.audioOutput = QAudioOutput()
-        self.player.setAudioOutput(self.audioOutput)
-        self.audioOutput.setVolume(1)
-        audio_list = glob.glob(f'src\\audio\\{status}\\*.wav')
-        audio_play = QUrl.fromLocalFile(random.choice(audio_list))
-        self.player.setSource(audio_play)
-        self.player.play()
+        try:
+            self.player = QMediaPlayer()
+            self.audioOutput = QAudioOutput()
+            self.player.setAudioOutput(self.audioOutput)
+            self.audioOutput.setVolume(1)
+            audio_list = glob.glob(f'src\\audio\\{status}\\*.wav')
+            audio_play = QUrl.fromLocalFile(random.choice(audio_list))
+            self.player.setSource(audio_play)
+            self.player.play()
+        except:
+            InfoBar.error(
+                title='未找到语音，请重新下载！',
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )

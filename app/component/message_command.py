@@ -1,8 +1,8 @@
 from typing import Union
-from PySide6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView, QVBoxLayout, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView, QVBoxLayout, QHBoxLayout, QButtonGroup
 from PySide6.QtGui import QIcon, QIntValidator
 from PySide6.QtCore import Signal, Qt
-from qfluentwidgets import FluentIconBase, LineEdit, PrimaryPushButton, TableWidget, SearchLineEdit, SettingCardGroup
+from qfluentwidgets import FluentIconBase, LineEdit, TogglePushButton, PrimaryPushButton, TableWidget, SearchLineEdit, SettingCardGroup, SubtitleLabel
 from app.component.setting_card import SettingCard
 
 
@@ -189,6 +189,9 @@ class Scene(QWidget):
         super().__init__(parent=parent)
         self.setObjectName(text.replace(' ', '-'))
 
+        self.__initWidget()
+
+    def __initWidget(self):
         self.search_line = SearchLineEdit(self)
         self.search_line.setPlaceholderText("搜索场景")
         self.search_line.setFixedHeight(35)
@@ -204,6 +207,10 @@ class Scene(QWidget):
         self.scene_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.scene_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
+        self.__initLayout()
+        self.__connectSignalToSlot()
+
+    def __initLayout(self):
         self.scene_layout = QVBoxLayout()
         self.scene_layout.addSpacing(20)
         self.scene_layout.addWidget(self.search_line)
@@ -211,6 +218,13 @@ class Scene(QWidget):
         self.scene_layout.addWidget(self.scene_table)
         self.setLayout(self.scene_layout)
 
+        self.load_scene()
+
+    def __connectSignalToSlot(self):
+        self.search_line.textChanged.connect(self.search_scene)
+        self.scene_table.cellClicked.connect(self.scene_clicked)
+    
+    def load_scene(self):
         with open('src/data/scene.txt', 'r', encoding='utf-8') as file:
             scene = file.readlines()
         self.scene_table.setRowCount(len(scene))
@@ -219,9 +233,6 @@ class Scene(QWidget):
             for j, part in enumerate(parts):
                 self.scene_table.setItem(i, j, QTableWidgetItem(part))
         self.scene_table.setHorizontalHeaderLabels(['场景描述', '场景ID'])
-
-        self.search_line.textChanged.connect(self.search_scene)
-        self.scene_table.cellClicked.connect(self.scene_clicked)
     
     def scene_clicked(self, row, column):
         item = self.scene_table.item(row, 1)
@@ -244,26 +255,29 @@ class Spawn(QWidget):
         super().__init__(parent=parent)
         self.setObjectName(text.replace(' ', '-'))
 
-        self.line_container = QWidget(self)
+        self.__initWidget()
+
+    def __initWidget(self):
         validator = QIntValidator(1, 99, self)
-        self.search_line = SearchLineEdit(self)
-        self.search_line.setPlaceholderText("搜索怪物")
         self.monster_num = LineEdit(self)
         self.monster_level = LineEdit(self)
         self.monster_round = LineEdit(self)
-        self.monster_num.setPlaceholderText("数量")
-        self.monster_level.setPlaceholderText("等级")
-        self.monster_round.setPlaceholderText("半径")
-        self.search_line.setFixedHeight(35)
-        self.monster_num.setFixedSize(60, 35)
-        self.monster_level.setFixedSize(60, 35)
-        self.monster_round.setFixedSize(60, 35)
+        self.monster_num.setPlaceholderText("请输入怪物数量")
+        self.monster_level.setPlaceholderText("请输入怪物等级")
+        self.monster_round.setPlaceholderText("请输入仇恨半径")
         self.monster_num.setValidator(validator)
         self.monster_level.setValidator(validator)
         self.monster_round.setValidator(validator)
 
+        self.monster_num_label = SubtitleLabel("数量：", self)
+        self.monster_level_label = SubtitleLabel("等级：", self)
+        self.monster_round_label = SubtitleLabel("半径：", self)
+
+        self.search_line = SearchLineEdit(self)
+        self.search_line.setPlaceholderText("搜索怪物")
+        self.search_line.setFixedSize(925, 35)
         self.spawn_table = TableWidget(self)
-        self.spawn_table.setFixedSize(1140, 420)
+        self.spawn_table.setFixedSize(925, 420)
         self.spawn_table.setBorderVisible(True)
         self.spawn_table.setBorderRadius(8)
         self.spawn_table.setWordWrap(False)
@@ -274,20 +288,41 @@ class Spawn(QWidget):
         self.spawn_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.spawn_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-        self.line_layout = QHBoxLayout()
-        self.line_layout.addWidget(self.search_line)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.monster_num)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.monster_level)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.monster_round)
-        self.line_container.setLayout(self.line_layout)
-        self.spawn_layout = QVBoxLayout()
-        self.spawn_layout.addWidget(self.line_container)
-        self.spawn_layout.addWidget(self.spawn_table)
-        self.setLayout(self.spawn_layout)
+        self.__initLayout()
+        self.__connectSignalToSlot()
 
+    def __initLayout(self):
+        self.set_layout = QVBoxLayout()
+        self.set_layout.addSpacing(70)
+        self.set_layout.addWidget(self.monster_num_label)
+        self.set_layout.addSpacing(5)
+        self.set_layout.addWidget(self.monster_num)
+        self.set_layout.addSpacing(20)
+        self.set_layout.addWidget(self.monster_level_label)
+        self.set_layout.addSpacing(5)
+        self.set_layout.addWidget(self.monster_level)
+        self.set_layout.addSpacing(20)
+        self.set_layout.addWidget(self.monster_round_label)
+        self.set_layout.addSpacing(5)
+        self.set_layout.addWidget(self.monster_round)
+        self.set_layout.addStretch(1)
+
+        self.spawn_layout = QVBoxLayout()
+        self.spawn_layout.addWidget(self.search_line)
+        self.spawn_layout.addWidget(self.spawn_table)
+        self.main_layout = QHBoxLayout()
+        self.main_layout.addLayout(self.spawn_layout)
+        self.main_layout.addSpacing(20)
+        self.main_layout.addLayout(self.set_layout)
+        self.setLayout(self.main_layout)
+
+        self.load_monster()
+
+    def __connectSignalToSlot(self):
+        self.search_line.textChanged.connect(self.search_monster)
+        self.spawn_table.cellClicked.connect(self.spawn_clicked)
+    
+    def load_monster(self):
         with open('src/data/monster.txt', 'r', encoding='utf-8') as file:
             monster = file.readlines()
         self.spawn_table.setRowCount(len(monster))
@@ -297,9 +332,6 @@ class Spawn(QWidget):
                 self.spawn_table.setItem(i, j, QTableWidgetItem(part))
         self.spawn_table.setHorizontalHeaderLabels(['怪物名称', '怪物ID'])
 
-        self.search_line.textChanged.connect(self.search_monster)
-        self.spawn_table.cellClicked.connect(self.spawn_clicked)
-    
     def spawn_clicked(self, row, column):
         item = self.spawn_table.item(row, 1)
         monster_id = item.text()
@@ -321,40 +353,14 @@ class Give(QWidget):
         super().__init__(parent=parent)
         self.setObjectName(text.replace(' ', '-'))
 
-        self.line_container = QWidget(self)
+        self.__initWidget()
+
+    def __initWidget(self):
         self.search_line = SearchLineEdit(self)
         self.search_line.setPlaceholderText("搜索物品")
-        self.search_line.setFixedHeight(35)
-        self.search_num = LineEdit(self)
-        self.search_level = LineEdit(self)
-        self.search_eidolon = LineEdit(self)
-        self.search_num.setPlaceholderText("数量")
-        self.search_level.setPlaceholderText("等级")
-        self.search_eidolon.setPlaceholderText("叠/魂")
-        self.search_num.setFixedSize(60, 35)
-        self.search_level.setFixedSize(60, 35)
-        self.search_eidolon.setFixedSize(60, 35)
-        validator_num = QIntValidator(self)
-        self.search_num.setValidator(validator_num)
-        validator_level = QIntValidator(1, 99, self)
-        self.search_level.setValidator(validator_level)
-        validator_eidolon = QIntValidator(1, 9, self)
-        self.search_eidolon.setValidator(validator_eidolon)
-        self.search_avatar = PrimaryPushButton("角色", self)
-        self.search_lightcone = PrimaryPushButton("光锥", self)
-        self.search_item = PrimaryPushButton("物品", self)
-        self.search_food = PrimaryPushButton("食物", self)
-        self.search_head = PrimaryPushButton("头像", self)
-        self.search_clear = PrimaryPushButton("清选", self)
-        self.search_avatar.setFixedSize(60, 35)
-        self.search_lightcone.setFixedSize(60, 35)
-        self.search_item.setFixedSize(60, 35)
-        self.search_food.setFixedSize(60, 35)
-        self.search_head.setFixedSize(60, 35)
-        self.search_clear.setFixedSize(60, 35)
-
+        self.search_line.setFixedSize(925, 35)
         self.give_table = TableWidget(self)
-        self.give_table.setFixedSize(1140, 420)
+        self.give_table.setFixedSize(925, 420)
         self.give_table.setBorderVisible(True)
         self.give_table.setBorderRadius(8)
         self.give_table.setWordWrap(False)
@@ -365,32 +371,97 @@ class Give(QWidget):
         self.give_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.give_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-        self.line_layout = QHBoxLayout()
-        self.line_layout.addWidget(self.search_line)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_num)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_level)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_eidolon)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_avatar)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_lightcone)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_item)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_food)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_head)
-        self.line_layout.addSpacing(2)
-        self.line_layout.addWidget(self.search_clear)
-        self.line_container.setLayout(self.line_layout)
-        self.give_layout = QVBoxLayout()
-        self.give_layout.addWidget(self.line_container)
-        self.give_layout.addWidget(self.give_table)
-        self.setLayout(self.give_layout)
+        self.button_group = QButtonGroup(self)
+        self.button_all = TogglePushButton("全部", self)
+        self.button_avatar = TogglePushButton("角色", self)
+        self.button_lightcone = TogglePushButton("光锥", self)
+        self.button_item = TogglePushButton("物品", self)
+        self.button_food = TogglePushButton("食物", self)
+        self.button_head = TogglePushButton("头像", self)
+        self.button_all.setFixedSize(60, 35)
+        self.button_avatar.setFixedSize(60, 35)
+        self.button_lightcone.setFixedSize(60, 35)
+        self.button_item.setFixedSize(60, 35)
+        self.button_food.setFixedSize(60, 35)
+        self.button_head.setFixedSize(60, 35)
+        self.button_group.addButton(self.button_all)
+        self.button_group.addButton(self.button_avatar)
+        self.button_group.addButton(self.button_lightcone)
+        self.button_group.addButton(self.button_item)
+        self.button_group.addButton(self.button_food)
+        self.button_group.addButton(self.button_head)
+        
+        self.search_num = LineEdit(self)
+        self.search_level = LineEdit(self)
+        self.search_eidolon = LineEdit(self)
+        self.search_num.setPlaceholderText("请输入物品数量")
+        self.search_level.setPlaceholderText("请输入角色/光锥等级")
+        self.search_eidolon.setPlaceholderText("请输入角色星魂/光锥叠影")
+        self.search_num.setValidator(QIntValidator(self))
+        self.search_level.setValidator(QIntValidator(1, 99, self))
+        self.search_eidolon.setValidator(QIntValidator(1, 9, self))
 
+        self.item_num_label = SubtitleLabel("数量：", self)
+        self.item_level_label = SubtitleLabel("等级：", self)
+        self.item_eidolon_label = SubtitleLabel("星魂/叠影：", self)
+
+        self.__initLayout()
+        self.__connectSignalToSlot()
+    
+    def __initLayout(self):
+        self.give_layout = QVBoxLayout()
+        self.give_layout.addWidget(self.search_line)
+        self.give_layout.addWidget(self.give_table)
+
+        horizontal_layout1 = QHBoxLayout()
+        horizontal_layout1.addWidget(self.button_all)
+        horizontal_layout1.addWidget(self.button_avatar)
+        horizontal_layout1.addWidget(self.button_lightcone)
+        horizontal_layout2 = QHBoxLayout()
+        horizontal_layout2.addWidget(self.button_item)
+        horizontal_layout2.addWidget(self.button_food)
+        horizontal_layout2.addWidget(self.button_head)
+        vertical_layout = QVBoxLayout()
+        vertical_layout.addSpacing(65)
+        vertical_layout.addLayout(horizontal_layout1)
+        vertical_layout.addSpacing(5)
+        vertical_layout.addLayout(horizontal_layout2)
+
+        self.set_layout = QVBoxLayout()
+        self.set_layout.addLayout(vertical_layout)
+        self.set_layout.addSpacing(20)
+        self.set_layout.addWidget(self.item_num_label)
+        self.set_layout.addSpacing(5)
+        self.set_layout.addWidget(self.search_num)
+        self.set_layout.addSpacing(20)
+        self.set_layout.addWidget(self.item_level_label)
+        self.set_layout.addSpacing(5)
+        self.set_layout.addWidget(self.search_level)
+        self.set_layout.addSpacing(20)
+        self.set_layout.addWidget(self.item_eidolon_label)
+        self.set_layout.addSpacing(5)
+        self.set_layout.addWidget(self.search_eidolon)
+        self.set_layout.addStretch(1)
+
+        self.main_layout = QHBoxLayout()
+        self.main_layout.addLayout(self.give_layout)
+        self.main_layout.addSpacing(20)
+        self.main_layout.addLayout(self.set_layout)
+        self.setLayout(self.main_layout)
+
+        self.load_item()
+
+    def __connectSignalToSlot(self):
+        self.button_all.clicked.connect(lambda: self.search_give("all"))
+        self.search_line.textChanged.connect(lambda: self.search_give("text"))
+        self.button_avatar.clicked.connect(lambda: self.search_give("avatar"))
+        self.button_lightcone.clicked.connect(lambda: self.search_give("lightcone"))
+        self.button_item.clicked.connect(lambda: self.search_give("item"))
+        self.button_food.clicked.connect(lambda: self.search_give("food"))
+        self.button_head.clicked.connect(lambda: self.search_give("head"))
+        self.give_table.cellClicked.connect(self.give_clicked)
+
+    def load_item(self):
         with open('src/data/item.txt', 'r', encoding='utf-8') as file:
             item = file.readlines()
         self.give_table.setRowCount(len(item))
@@ -400,15 +471,6 @@ class Give(QWidget):
                 self.give_table.setItem(i, j, QTableWidgetItem(part))
         self.give_table.setHorizontalHeaderLabels(['物品名称', '物品ID', '物品类型'])
         self.types_dict = {'avatar': '角色', 'lightcone': '光锥', 'item': '物品', 'food': '食物', 'head': '头像'}
-
-        self.search_line.textChanged.connect(lambda: self.search_give("text"))
-        self.search_avatar.clicked.connect(lambda: self.search_give("avatar"))
-        self.search_lightcone.clicked.connect(lambda: self.search_give("lightcone"))
-        self.search_item.clicked.connect(lambda: self.search_give("item"))
-        self.search_food.clicked.connect(lambda: self.search_give("food"))
-        self.search_head.clicked.connect(lambda: self.search_give("head"))
-        self.search_clear.clicked.connect(lambda: self.search_give("clear"))
-        self.give_table.cellClicked.connect(self.give_clicked)
     
     def give_clicked(self, row, column):
         item_id = self.give_table.item(row, 1).text()
@@ -417,7 +479,10 @@ class Give(QWidget):
         self.emit_item_id.emit(item_id, keys[0])
     
     def search_give(self, types):
-        if types == 'text':
+        if types == 'all':
+            for row in range(self.give_table.rowCount()):
+                self.give_table.setRowHidden(row, False)
+        elif types == 'text':
             keyword = self.search_line.text()
             for row in range(self.give_table.rowCount()):
                 item = self.give_table.item(row, 0)
@@ -425,9 +490,6 @@ class Give(QWidget):
                     self.give_table.setRowHidden(row, False)
                 else:
                     self.give_table.setRowHidden(row, True)
-        elif types == 'clear':
-            for row in range(self.give_table.rowCount()):
-                self.give_table.setRowHidden(row, False)
         elif types in self.types_dict:
             for row in range(self.give_table.rowCount()):
                 item = self.give_table.item(row, 2)

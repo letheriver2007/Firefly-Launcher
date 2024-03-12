@@ -321,6 +321,9 @@ class Spawn(QWidget):
     def __connectSignalToSlot(self):
         self.search_line.textChanged.connect(self.search_monster)
         self.spawn_table.cellClicked.connect(self.spawn_clicked)
+        self.monster_num.textChanged.connect(self.spawn_clicked)
+        self.monster_level.textChanged.connect(self.spawn_clicked)
+        self.monster_round.textChanged.connect(self.spawn_clicked)
     
     def load_monster(self):
         with open('src/data/monster.txt', 'r', encoding='utf-8') as file:
@@ -332,10 +335,11 @@ class Spawn(QWidget):
                 self.spawn_table.setItem(i, j, QTableWidgetItem(part))
         self.spawn_table.setHorizontalHeaderLabels(['怪物名称', '怪物ID'])
 
-    def spawn_clicked(self, row, column):
-        item = self.spawn_table.item(row, 1)
-        monster_id = item.text()
-        self.emit_monster_id.emit(monster_id)
+    def spawn_clicked(self):
+        selected_items = self.spawn_table.selectedItems()
+        if selected_items:
+            monster_id = selected_items[1].text()
+            self.emit_monster_id.emit(monster_id)
     
     def search_monster(self):
         keyword = self.search_line.text()
@@ -460,6 +464,9 @@ class Give(QWidget):
         self.button_food.clicked.connect(lambda: self.search_give("food"))
         self.button_head.clicked.connect(lambda: self.search_give("head"))
         self.give_table.cellClicked.connect(self.give_clicked)
+        self.search_num.textChanged.connect(self.give_clicked)
+        self.search_level.textChanged.connect(self.give_clicked)
+        self.search_eidolon.textChanged.connect(self.give_clicked)
 
     def load_item(self):
         with open('src/data/item.txt', 'r', encoding='utf-8') as file:
@@ -472,12 +479,14 @@ class Give(QWidget):
         self.give_table.setHorizontalHeaderLabels(['物品名称', '物品ID', '物品类型'])
         self.types_dict = {'avatar': '角色', 'lightcone': '光锥', 'item': '物品', 'food': '食物', 'head': '头像'}
     
-    def give_clicked(self, row, column):
-        item_id = self.give_table.item(row, 1).text()
-        value = self.give_table.item(row, 2).text()
-        keys = [key for key, val in self.types_dict.items() if val == value]
-        self.emit_item_id.emit(item_id, keys[0])
-    
+    def give_clicked(self):
+        selected_items = self.give_table.selectedItems()
+        if selected_items:
+            item_id = selected_items[1].text()
+            value = selected_items[2].text()
+            keys = [key for key, val in self.types_dict.items() if val == value]
+            self.emit_item_id.emit(item_id, keys[0])
+
     def search_give(self, types):
         if types == 'all':
             for row in range(self.give_table.rowCount()):

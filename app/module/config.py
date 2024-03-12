@@ -7,9 +7,9 @@ def get_json(file_path, key):
         json_data = json.load(file)
         return json_data[f"{key}"]
 
-def get_dev(version):
+def get_version_type(version):
     if not os.path.exists('main.py'):
-        return version
+        return f'{version} Rel'
     else:
         return f'{version} Dev'
 
@@ -22,7 +22,7 @@ class Config(QConfig):
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", True, BoolValidator())
 
     APP_NAME = "Firefly Launcher"
-    APP_VERSION = get_dev("v1.3.0")
+    APP_VERSION = get_version_type("v1.3.0")
     APP_FONT = "SDK_SC_Web"
 
     URL_WRITER = "https://github.com/letheriver2007"

@@ -5,7 +5,7 @@ from qfluentwidgets import Pivot, qrouter, ScrollArea, LineEdit, PrimaryPushButt
 from app.component.style_sheet import StyleSheet
 from app.component.message_command import (PrimaryPushSettingCard_Giveall, PrimaryPushSettingCard_Clear, PrimaryPushSettingCard_Account,
                                            PrimaryPushSettingCard_Kick, PrimaryPushSettingCard_Unstuck, PrimaryPushSettingCard_Gender,
-                                           PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, Scene, Spawn, Give)
+                                           PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, Scene, Spawn, Give, Relic)
 from app.component.setting_group import SettingCardGroup
 from app.module.config import cfg
 
@@ -270,6 +270,7 @@ class LunarCore(ScrollArea):
         self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.TAG)
         self.GiveInterface = Give('Give Interface', self)
         self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.TAG)
+        self.RelicInterface = Relic('Relic Interface', self)
         self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.TAG)
 
         # 初始化配置界面
@@ -304,6 +305,7 @@ class LunarCore(ScrollArea):
         self.SceneInterface.emit_scene_id.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
         self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
         self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
+        self.RelicInterface.emit_relic_id.connect(lambda relic_id: self.handleRelicClicked(relic_id))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -460,4 +462,35 @@ class LunarCore(ScrollArea):
         elif types == 'item' or types == 'food':
             if search_num != '':
                 command += ' x' + search_num
+        self.buttonClicked.emit(command)
+    
+    def handleRelicClicked(self, relic_id):
+        relic_level = self.RelicInterface.level_edit.text()
+        main_entry_name = self.RelicInterface.now_entry_label.text()
+        side_entry_name = self.RelicInterface.now_entry_list
+        entry_table = self.RelicInterface.entry_table
+        command = '/give ' + relic_id
+
+        if relic_level != '':
+            command += ' lv' + relic_level
+
+        if main_entry_name != '':
+            entry_index = 0
+            for i in range(entry_table.rowCount()):
+                if entry_table.item(i, 0).text() == main_entry_name and entry_table.item(i, 3).text() == 'main':
+                    entry_index = i
+                    break
+            main_entry = entry_table.item(entry_index, 2).text()
+            command += ' s' + main_entry
+        
+        for entry_name, entry_num in side_entry_name.items():
+            if entry_name != '':
+                entry_index = 0
+                for i in range(entry_table.rowCount()):
+                    if entry_table.item(i, 0).text() == entry_name and entry_table.item(i, 3).text() =='side':
+                        entry_index = i
+                        break
+                side_entry = entry_table.item(entry_index, 2).text()
+                command += ' ' + side_entry + ':' + str(entry_num)
+
         self.buttonClicked.emit(command)

@@ -3,9 +3,9 @@ import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup,
-                            PrimaryPushSettingCard, InfoBar, InfoBarPosition)
-from src.component.style_sheet import StyleSheet
+from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
+from app.component.style_sheet import StyleSheet
+from app.component.setting_group import SettingCardGroup
 
 
 class Config(ScrollArea):
@@ -21,8 +21,8 @@ class Config(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏
-        self.LauncherInterface = SettingCardGroup('配置', self.scrollWidget)
+        # 添加项
+        self.LauncherInterface = SettingCardGroup(self.scrollWidget)
         self.settingConfigCard = PrimaryPushSettingCard(
             '打开文件',
             FIF.LABEL,
@@ -35,11 +35,11 @@ class Config(ScrollArea):
             '个性化',
             '自定义个性化配置'
         )
-        self.LunarCoreInterface = SettingCardGroup('LunarCore', self.scrollWidget)
+        self.LunarCoreInterface = SettingCardGroup(self.scrollWidget)
         self.bannersConfigCard = PrimaryPushSettingCard(
             '打开文件',
             FIF.LABEL,
-            'Banners',
+            'Banners(外部)',
             'LunarCore的跃迁配置'
         )
 
@@ -64,18 +64,14 @@ class Config(ScrollArea):
         self.LauncherInterface.addSettingCard(self.personalConfigCard)
         self.LunarCoreInterface.addSettingCard(self.bannersConfigCard)
 
-        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题
-        self.LauncherInterface.titleLabel.setHidden(True)
-        self.LunarCoreInterface.titleLabel.setHidden(True)
-
         # 栏绑定界面
-        self.addSubInterface(self.LauncherInterface, 'LauncherInterface','启动器', icon=FIF.PLAY)
+        self.addSubInterface(self.LauncherInterface, 'LauncherInterface','启动器', icon=FIF.TAG)
         self.addSubInterface(self.LunarCoreInterface, 'LunarCoreInterface','LunarCore', icon=FIF.TAG)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
-        self.vBoxLayout.setSpacing(28)
+        self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
         self.stackedWidget.setCurrentWidget(self.LauncherInterface)

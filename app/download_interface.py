@@ -3,13 +3,13 @@ import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup,
-                            PrimaryPushSettingCard, HyperlinkCard, InfoBar, InfoBarPosition)
-from src.module.config import cfg
-from src.component.style_sheet import StyleSheet
-from src.component.common import (MessageDownload, MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, HyperlinkCard_Tool,
-                                       HyperlinkCard_Environment, MessageLauncher, MessagePython, MessageGit, MessageJava, MessageMongoDB,
-                                       MessageFiddler, MessageMitmdump)
+from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, HyperlinkCard, InfoBar, InfoBarPosition
+from app.module.config import cfg
+from app.component.style_sheet import StyleSheet
+from app.component.setting_group import SettingCardGroup
+from app.component.message_download import (MessageDownload, MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, HyperlinkCard_Tool,
+                                       HyperlinkCard_Environment, MessageLauncher, MessageGit, MessageJava, MessageMongoDB, MessageFiddler,
+                                       MessageMitmdump, HyperlinkCard_Launcher, MessageAudio)
 
 
 class Download(ScrollArea):
@@ -25,25 +25,25 @@ class Download(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏
-        self.LauncherInterface = SettingCardGroup('启动器', self.scrollWidget)
-        self.LauncherRepoCard = HyperlinkCard(
+        # 添加项
+        self.LauncherInterface = SettingCardGroup(self.scrollWidget)
+        self.LauncherRepoCard = HyperlinkCard_Launcher(
             'https://github.com/letheriver2007/Firefly-Launcher',
             'Firefly-Launcher',
+            'https://github.com/letheriver2007/Firefly-Launcher-Res',
+            'Firefly-Launcher-Res',
             FIF.LINK,
             '项目仓库',
-            '打开Firefly-Launcher项目仓库'
+            '打开Firefly-Launcher相关项目仓库'
         )
-        self.LauncherDownloadCard = PrimaryPushSettingCard(
+        self.AudioDownloadCard = PrimaryPushSettingCard(
             '详细信息',
             FIF.DOWNLOAD,
-            '项目下载',
-            '下载Firefly-Launcher启动器'
+            'Firefly-Launcher-Audio',
+            '下载流萤音频文件'
         )
-        self.EnvironmentInterface = SettingCardGroup('环境', self.scrollWidget)
+        self.EnvironmentInterface = SettingCardGroup(self.scrollWidget)
         self.EnvironmentRepoCard = HyperlinkCard_Environment(
-            'https://www.python.org/',
-            'Python',
             'https://git-scm.com/download/win',
             'Git',
             'https://www.oracle.com/java/technologies/javase-downloads.html',
@@ -54,31 +54,25 @@ class Download(ScrollArea):
             '项目仓库',
             '打开各环境仓库'
         )
-        self.PythonDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
-            FIF.DOWNLOAD,
-            '项目下载',
-            '下载Python安装包'
-        )
         self.GitDownloadCard = PrimaryPushSettingCard(
             '详细信息',
             FIF.DOWNLOAD,
-            '项目下载',
+            'Git',
             '下载Git安装包'
         )
         self.JavaDownloadCard = PrimaryPushSettingCard(
             '详细信息',
             FIF.DOWNLOAD,
-            '项目下载',
+            'Java',
             '下载Java安装包'
         )
         self.MongoDBDownloadCard = PrimaryPushSettingCard(
             '详细信息',
             FIF.DOWNLOAD,
-            '项目下载',
+            'MongoDB',
             '下载MongoDB安装包'
         )
-        self.LunarCoreInterface = SettingCardGroup('LunarCore', self.scrollWidget)
+        self.LunarCoreInterface = SettingCardGroup(self.scrollWidget)
         self.LunarCoreRepoCard = HyperlinkCard_LunarCore(
             'https://github.com/Melledy/LunarCore',
             'LunarCore',
@@ -93,16 +87,16 @@ class Download(ScrollArea):
         self.LunarCoreDownloadCard = PrimaryPushSettingCard(
             '详细信息',
             FIF.DOWNLOAD,
-            '项目下载',
-            '下载LunarCore本体并编译'
+            'LunarCore',
+            '下载LunarCore并编译'
         )
         self.LunarCoreResDownloadCard = PrimaryPushSettingCard(
             '详细信息',
             FIF.DOWNLOAD,
-            '资源下载',
+            'LunarCore-Res',
             '下载LunarCore资源文件'
         )
-        self.ToolInterface = SettingCardGroup('工具', self.scrollWidget)
+        self.ToolInterface = SettingCardGroup(self.scrollWidget)
         self.ToolRepoCard = HyperlinkCard_Tool(
             'https://www.telerik.com/fiddler#fiddler-classic',
             'Fiddler',
@@ -143,9 +137,8 @@ class Download(ScrollArea):
     def __initLayout(self):
         # 项绑定到栏目
         self.LauncherInterface.addSettingCard(self.LauncherRepoCard)
-        self.LauncherInterface.addSettingCard(self.LauncherDownloadCard)
+        self.LauncherInterface.addSettingCard(self.AudioDownloadCard)
         self.EnvironmentInterface.addSettingCard(self.EnvironmentRepoCard)
-        self.EnvironmentInterface.addSettingCard(self.PythonDownloadCard)
         self.EnvironmentInterface.addSettingCard(self.GitDownloadCard)
         self.EnvironmentInterface.addSettingCard(self.JavaDownloadCard)
         self.EnvironmentInterface.addSettingCard(self.MongoDBDownloadCard)
@@ -156,12 +149,6 @@ class Download(ScrollArea):
         self.ToolInterface.addSettingCard(self.DownloadFiddlerCard)
         self.ToolInterface.addSettingCard(self.DownloadMitmdumpCard)
 
-        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题
-        self.LauncherInterface.titleLabel.setHidden(True)
-        self.EnvironmentInterface.titleLabel.setHidden(True)
-        self.LunarCoreInterface.titleLabel.setHidden(True)
-        self.ToolInterface.titleLabel.setHidden(True)
-
         # 栏绑定界面
         self.addSubInterface(self.LauncherInterface, 'LauncherInterface','启动器', icon=FIF.TAG)
         self.addSubInterface(self.EnvironmentInterface, 'EnvironmentInterface','环境', icon=FIF.TAG)
@@ -171,7 +158,7 @@ class Download(ScrollArea):
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
-        self.vBoxLayout.setSpacing(28)
+        self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
         self.stackedWidget.setCurrentWidget(self.LauncherInterface)
@@ -179,8 +166,7 @@ class Download(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.LauncherInterface.objectName())
         
     def __connectSignalToSlot(self):
-        self.LauncherDownloadCard.clicked.connect(lambda: self.download_check('launcher'))
-        self.PythonDownloadCard.clicked.connect(lambda: self.download_check('python'))
+        self.AudioDownloadCard.clicked.connect(lambda: self.download_check('audio'))
         self.GitDownloadCard.clicked.connect(lambda: self.download_check('git'))
         self.JavaDownloadCard.clicked.connect(lambda: self.download_check('java'))
         self.MongoDBDownloadCard.clicked.connect(lambda: self.download_check('mongodb'))
@@ -204,7 +190,7 @@ class Download(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
     
-    def generate_download_url(self, types, repo_url, mirror_url, mirror_branch=None, is_add=False):
+    def generate_download_url(self, types, repo_url, mirror_url, repo_branch=None, mirror_branch=None, is_add=False):
         if types == 'url':
             file = os.path.join("temp", repo_url.split('/')[-1])
             url_cfg = f'curl -o {file} -L '
@@ -220,26 +206,21 @@ class Download(ScrollArea):
                     return git_cfg + mirror_branch + mirror_url
                 elif cfg.proxyStatus.value:
                     git_cfg = 'git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
-                return git_cfg + repo_url
+                return git_cfg + repo_branch + repo_url
             else:
                 if cfg.chinaStatus.value:
                     return ''
                 elif cfg.proxyStatus.value:
                     git_cfg = 'git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
-                return ' && ' + git_cfg + repo_url
+                return ' && ' + git_cfg + repo_branch + repo_url
 
     def download_check(self, name):
         build_jar = ''
-        if name == 'launcher':
-            w = MessageLauncher(self)
-            types = 'url'
-            file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_LAUNCHER.split('/')[-1])
-            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LAUNCHER, cfg.DOWNLOAD_COMMANDS_LAUNCHER_MIRROR)
-        elif name == 'python':
-            w = MessagePython(self)
-            types = 'url'
-            file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_PYTHON.split('/')[-1])
-            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_PYTHON, cfg.DOWNLOAD_COMMANDS_PYTHON_MIRROR)
+        if name == 'audio':
+            w = MessageAudio(self)
+            types = 'git'
+            file_path = 'src\\audio'
+            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_AUDIO, cfg.DOWNLOAD_COMMANDS_AUDIO_MIRROR, '--branch audio ', '--branch audio ')
         elif name == 'git':
             w = MessageGit(self)
             types = 'url'
@@ -259,25 +240,25 @@ class Download(ScrollArea):
             w = MessageLunarCore(self)
             types = 'git'
             file_path = 'server\\LunarCore'
-            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE, cfg.DOWNLOAD_COMMANDS_LUNARCORE_MIRROR, '--branch lunarcore ')
+            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE, cfg.DOWNLOAD_COMMANDS_LUNARCORE_MIRROR, '', '--branch lunarcore ')
             build_jar = 'lunarcore'
         elif name == 'lunarcoreres':
             w = MessageLunarCoreRes(self)
             types = 'git'
             file_path = 'server\\LunarCore\\resources'
-            command_1 = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_1, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR, '--branch lunarcoreres ')
-            command_2 = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_2, '', '', True)
+            command_1 = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_1, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR, '', '--branch lunarcoreres ')
+            command_2 = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_2, '', '', '', True)
             command = command_1 + command_2
         elif name == 'fiddler':
             w = MessageFiddler(self)
             types = 'git'
             file_path = 'tool\\Fiddler'
-            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_FIDDLER, cfg.DOWNLOAD_COMMANDS_FIDDLER_MIRROR, '--branch fiddler ')
+            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_FIDDLER, cfg.DOWNLOAD_COMMANDS_FIDDLER_MIRROR, '--branch fiddler ', '--branch fiddler ')
         elif name == 'mitmdump':
             w = MessageMitmdump(self)
             types = 'git'
             file_path = 'tool\\Mitmdump'
-            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_MITMDUMP, cfg.DOWNLOAD_COMMANDS_MITMDUMP_MIRROR, '--branch mitmdump ')
+            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_MITMDUMP, cfg.DOWNLOAD_COMMANDS_MITMDUMP_MIRROR, '--branch mitmdump ', '--branch mitmdump ')
         print(command)
 
         if w.exec():
@@ -296,6 +277,8 @@ class Download(ScrollArea):
                         parent=self
                         )
                 else:
+                    # x.runner.terminate()
+                    # self.clean_task()
                     InfoBar.error(
                         title='下载失败！',
                         content="",
@@ -316,3 +299,12 @@ class Download(ScrollArea):
                 parent=self
                 )
                 subprocess.Popen('start ' + file_path, shell=True)
+    
+    def clean_task(self):
+        output = subprocess.check_output('tasklist', shell=True)
+        if 'curl.exe' in str(output):
+            subprocess.run('taskkill /f /im curl.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        elif 'java.exe' in str(output):
+            subprocess.run('taskkill /f /im java.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        elif 'git.exe' in str(output):
+            subprocess.run('taskkill /f /im git.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

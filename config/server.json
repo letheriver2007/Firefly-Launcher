@@ -1,6 +1,5 @@
 {
     "PROXY_PORT": "7890",
-
     "SERVER_NAMES": ["Grasscutter", "NahidaImpact", "LunarCore", "Hutao-GS"],
     "SERVER_COMMANDS": {
         "Grasscutter": "cd ./server/Grasscutter/ && start java.exe -jar grasscutter.jar",

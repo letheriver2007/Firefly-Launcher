@@ -4,12 +4,13 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStacke
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QDesktopServices, QFont
 from PySide6.QtCore import Qt, QUrl, QSize, QProcess
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, SettingCardGroup, CustomColorSettingCard, PushButton,
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton,
                             setThemeColor, PrimaryPushSettingCard, TitleLabel, SubtitleLabel, setCustomStyleSheet,
                             SwitchSettingCard, InfoBar, InfoBarPosition)
-from src.module.config import cfg
-from src.component.style_sheet import StyleSheet
-from src.module.check_update import checkUpdate
+from app.module.config import cfg
+from app.component.style_sheet import StyleSheet
+from app.component.setting_group import SettingCardGroup
+from app.module.check_update import checkUpdate
 
 
 class Setting(ScrollArea):
@@ -25,8 +26,8 @@ class Setting(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
-        # 添加项 , 名字会隐藏(1)
-        self.PersonalInterface = SettingCardGroup('程序', self.scrollWidget)
+        # 添加项
+        self.PersonalInterface = SettingCardGroup(self.scrollWidget)
         self.themeColorCard = CustomColorSettingCard(
             cfg.themeColor,
             FIF.PALETTE,
@@ -45,20 +46,32 @@ class Setting(ScrollArea):
             '重启程序',
             '无奖竞猜，存在即合理'
         )
-        self.QuickInterface = SettingCardGroup('配置', self.scrollWidget)
-        self.settingConfigCard = PrimaryPushSettingCard(
-            '打开文件',
-            FIF.LABEL,
-            '设置配置',
-            '自定义设置选项'
+        self.FunctionInterface = SettingCardGroup(self.scrollWidget)
+        self.autoCopyCard = SwitchSettingCard(
+            FIF.COPY,
+            '命令自动复制',
+            '选择命令时，自动复制命令到剪贴板',
+            configItem=cfg.autoCopy
         )
-        self.personalConfigCard = PrimaryPushSettingCard(
-            '打开文件',
-            FIF.LABEL,
-            '个性化配置',
-            '自定义个性化选项'
+        self.useLoginCard = SwitchSettingCard(
+            FIF.PENCIL_INK,
+            '启用登录功能',
+            '使用自定义登陆彩蛋',
+            configItem=cfg.useLogin
         )
-        self.ProxyInterface = SettingCardGroup('代理', self.scrollWidget)
+        self.useAudioCard = SwitchSettingCard(
+            FIF.MUSIC,
+            '启用流萤语音(外部)',
+            '使用随机流萤语音彩蛋',
+            configItem=cfg.useAudio
+        )
+        self.randomHomeBgCard = SwitchSettingCard(
+            FIF.PHOTO,
+            '启用随机桌面背景',
+            '使用随机切换桌面背景彩蛋',
+            configItem=cfg.randomHomeBg
+        )
+        self.ProxyInterface = SettingCardGroup(self.scrollWidget)
         self.proxyCard = SwitchSettingCard(
             FIF.CERTIFICATE,
             '使用代理端口',
@@ -98,17 +111,17 @@ class Setting(ScrollArea):
         self.PersonalInterface.addSettingCard(self.themeColorCard)
         self.PersonalInterface.addSettingCard(self.updateOnStartUpCard)
         self.PersonalInterface.addSettingCard(self.restartCard)
+        self.FunctionInterface.addSettingCard(self.autoCopyCard)
+        self.FunctionInterface.addSettingCard(self.useLoginCard)
+        self.FunctionInterface.addSettingCard(self.useAudioCard)
+        self.FunctionInterface.addSettingCard(self.randomHomeBgCard)
         self.ProxyInterface.addSettingCard(self.proxyCard)
         self.ProxyInterface.addSettingCard(self.chinaCard)
         self.ProxyInterface.addSettingCard(self.noproxyCard)
 
-        # 目前无法做到导航栏各个页面独立分组 , 故隐藏组标题
-        self.QuickInterface.titleLabel.setHidden(True)
-        self.PersonalInterface.titleLabel.setHidden(True)
-        self.ProxyInterface.titleLabel.setHidden(True)
-
         # 栏绑定界面
         self.addSubInterface(self.PersonalInterface,'PersonalInterface','程序', icon=FIF.SETTING)
+        self.addSubInterface(self.FunctionInterface,'FunctionInterface','功能', icon=FIF.TILES)
         self.addSubInterface(self.ProxyInterface, 'ProxyInterface','代理', icon=FIF.CERTIFICATE)
         self.AboutInterface = About('About Interface', self)
         self.addSubInterface(self.AboutInterface, 'AboutInterface','关于', icon=FIF.INFO)
@@ -116,7 +129,7 @@ class Setting(ScrollArea):
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
-        self.vBoxLayout.setSpacing(28)
+        self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
         self.stackedWidget.setCurrentWidget(self.PersonalInterface)
@@ -127,8 +140,12 @@ class Setting(ScrollArea):
         self.themeColorCard.colorChanged.connect(lambda c: setThemeColor(c, lazy=True))
         self.updateOnStartUpCard.clicked.connect(lambda: checkUpdate(self.parent))
         self.restartCard.clicked.connect(self.restart_application)
-        self.proxyCard.checkedChanged.connect(self.proxy_changed)
-        self.chinaCard.checkedChanged.connect(self.china_changed)
+        self.autoCopyCard.checkedChanged.connect(lambda: self.common_changed(cfg.autoCopy.value, '自动复制功能已开启！', '自动复制功能已关闭！'))
+        self.useLoginCard.checkedChanged.connect(lambda: self.common_changed(cfg.useLogin.value, '登录功能已开启！', '登录功能已关闭！'))
+        self.useAudioCard.checkedChanged.connect(lambda: self.common_changed(cfg.useAudio.value, '流萤语音已开启！', '流萤语音已关闭！'))
+        self.randomHomeBgCard.checkedChanged.connect(lambda: self.common_changed(cfg.randomHomeBg.value, '随机桌面背景已开启！', '随机桌面背景已关闭！'))
+        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,f'代理端口{cfg.PROXY_PORT}已开启！','代理端口已关闭！','端口可在配置更改','',True))
+        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,'国内镜像已开启！','国内镜像已关闭！','','',True))
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -151,31 +168,29 @@ class Setting(ScrollArea):
         current_process.startDetached(sys.executable, sys.argv)
         sys.exit()
 
-    def proxy_changed(self):
-        if cfg.proxyStatus.value == True:
+    def common_changed(self, status, title_true, title_false, content_true='', content_false='', isproxy=False):
+        if status:
             InfoBar.success(
-                title=f'已使用代理端口{cfg.PROXY_PORT},可在配置更改',
-                content="",
+                title=title_true,
+                content=content_true,
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=1000,
                 parent=self
             )
-        self.china_proxy_check()
-
-    def china_changed(self):
-        if cfg.chinaStatus.value == True:
+        else:
             InfoBar.success(
-                title='国内镜像已开启！',
-                content="",
+                title=title_false,
+                content=content_false,
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=1000,
                 parent=self
             )
-        self.china_proxy_check()
+        if isproxy:
+            self.china_proxy_check()
                 
     def china_proxy_check(self):
         if cfg.chinaStatus.value == True and cfg.proxyStatus.value == True:

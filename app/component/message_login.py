@@ -1,8 +1,8 @@
 import sys
 from PySide6.QtGui import QColor
-from PySide6.QtCore import Signal, QSize, Qt
+from PySide6.QtCore import Signal, Qt
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QPushButton
-from qfluentwidgets import TitleLabel, SubtitleLabel, BodyLabel, PlainTextEdit, PasswordLineEdit, PrimaryPushButton, FluentStyleSheet
+from qfluentwidgets import TitleLabel, PasswordLineEdit, PrimaryPushButton, FluentStyleSheet
 from qfluentwidgets.components.dialog_box.mask_dialog_base import MaskDialogBase
 
 

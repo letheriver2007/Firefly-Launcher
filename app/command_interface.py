@@ -72,7 +72,7 @@ class Command(ScrollArea):
     def __connectSignalToSlot(self):
         self.LunarCoreInterface.buttonClicked.connect(self.handlebuttonClicked)
         self.clearButton.clicked.connect(lambda: self.updateText.clear())
-        self.copyButton.clicked.connect(self.copyToClipboard)
+        self.copyButton.clicked.connect(lambda: self.copyToClipboard('show'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -93,34 +93,36 @@ class Command(ScrollArea):
         self.updateText.clear()
         self.updateText.setText(text)
         if cfg.autoCopy.value:
-            self.copyToClipboard()
+            self.copyToClipboard('hide')
     
-    def copyToClipboard(self):
+    def copyToClipboard(self, status):
         text = self.updateText.text()
         app = QApplication.instance()
         try:
             if text != '':
                 clipboard = app.clipboard()
                 clipboard.setText(text)
-                InfoBar.success(
-                    title='复制成功！',
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
+                if status == 'show':
+                    InfoBar.success(
+                        title='复制成功！',
+                        content='',
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=1000,
+                        parent=self
+                    )
             else:
-                InfoBar.error(
-                    title='复制失败！',
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self
-                )
+                if status == 'show':
+                    InfoBar.error(
+                        title='复制失败！',
+                        content='',
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=3000,
+                        parent=self
+                    )
         except:
             InfoBar.error(
                 title='复制失败！',

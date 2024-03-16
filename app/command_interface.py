@@ -48,7 +48,7 @@ class Command(ScrollArea):
 
     def __initLayout(self):
         # 栏绑定界面
-        self.LunarCoreInterface = LunarCore('About Interface', self)
+        self.LunarCoreInterface = LunarCore('LunarCore Interface', self)
         self.addSubInterface(self.LunarCoreInterface, 'LunarCoreInterface','LunarCore', icon=FIF.COMMAND_PROMPT)
 
         # 初始化配置界面
@@ -323,9 +323,9 @@ class LunarCore(ScrollArea):
         qrouter.push(self.stackedWidget, widget.objectName())
 
     def handleGiveallClicked(self, types):
-        line_level = self.GiveInterface.line_level.Text()
-        line_eidolon = self.GiveInterface.line_eidolon.Text()
-        line_skill = self.GiveInterface.line_skill.Text()
+        line_level = self.giveallCard.line_level.text()
+        line_eidolon = self.giveallCard.line_eidolon.text()
+        line_skill = self.giveallCard.line_skill.text()
         command = '/giveall '+ types
         if types == 'materials':
             if line_level != '':
@@ -338,7 +338,7 @@ class LunarCore(ScrollArea):
             if line_eidolon != '':
                 command += ' r' + line_eidolon
             if line_skill != '':
-                command +='s' + line_skill
+                command +=' s' + line_skill
         self.buttonClicked.emit(command)
 
     def handleAccountClicked(self, types):

@@ -36,12 +36,6 @@ class Download(ScrollArea):
             '项目仓库',
             '打开Firefly-Launcher相关项目仓库'
         )
-        self.LauncherDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
-            FIF.DOWNLOAD,
-            'Firefly-Launcher',
-            '下载Firefly-Launcher启动器'
-        )
         self.AudioDownloadCard = PrimaryPushSettingCard(
             '详细信息',
             FIF.DOWNLOAD,
@@ -143,7 +137,6 @@ class Download(ScrollArea):
     def __initLayout(self):
         # 项绑定到栏目
         self.LauncherInterface.addSettingCard(self.LauncherRepoCard)
-        self.LauncherInterface.addSettingCard(self.LauncherDownloadCard)
         self.LauncherInterface.addSettingCard(self.AudioDownloadCard)
         self.EnvironmentInterface.addSettingCard(self.EnvironmentRepoCard)
         self.EnvironmentInterface.addSettingCard(self.GitDownloadCard)
@@ -173,7 +166,6 @@ class Download(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.LauncherInterface.objectName())
         
     def __connectSignalToSlot(self):
-        self.LauncherDownloadCard.clicked.connect(lambda: self.download_check('launcher'))
         self.AudioDownloadCard.clicked.connect(lambda: self.download_check('audio'))
         self.GitDownloadCard.clicked.connect(lambda: self.download_check('git'))
         self.JavaDownloadCard.clicked.connect(lambda: self.download_check('java'))
@@ -224,12 +216,7 @@ class Download(ScrollArea):
 
     def download_check(self, name):
         build_jar = ''
-        if name == 'launcher':
-            w = MessageLauncher(self)
-            types = 'url'
-            file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_LAUNCHER.split('/')[-1])
-            command = self.generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LAUNCHER, cfg.DOWNLOAD_COMMANDS_LAUNCHER_MIRROR)
-        elif name == 'audio':
+        if name == 'audio':
             w = MessageAudio(self)
             types = 'git'
             file_path = 'src\\audio'

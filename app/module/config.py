@@ -9,9 +9,9 @@ def get_json(file_path, key):
 
 def get_version_type(version):
     if not os.path.exists('main.py'):
-        return f'{version} Rel'
+        return f'{version} REL'
     else:
-        return f'{version} Dev'
+        return f'{version} DEV'
 
 class Config(QConfig):
     autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
@@ -22,7 +22,7 @@ class Config(QConfig):
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", True, BoolValidator())
 
     APP_NAME = "Firefly Launcher"
-    APP_VERSION = get_version_type("v1.3.0")
+    APP_VERSION = get_version_type(get_json('./config/setup.json', 'APP_VERSION'))
     APP_FONT = "SDK_SC_Web"
 
     URL_WRITER = "https://github.com/letheriver2007"
@@ -30,7 +30,6 @@ class Config(QConfig):
     URL_RELEASES = "https://github.com/letheriver2007/Firefly-Launcher/releases"
     URL_ISSUES = "https://github.com/letheriver2007/Firefly-Launcher/issues"
 
-    DOWNLOAD_COMMANDS_LAUNCHER = ('https://github.com/letheriver2007/Firefly-Launcher/releases/download/v1.3.0/Firefly-Launcher.zip')
     DOWNLOAD_COMMANDS_AUDIO = ('https://github.com/letheriver2007/Firefly-Launcher-Res.git src/audio')
     DOWNLOAD_COMMANDS_GIT = ('https://github.com/git-for-windows/git/releases/download/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA = ('https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.msi')
@@ -44,7 +43,6 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_FIDDLER = ('https://github.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler')
     DOWNLOAD_COMMANDS_MITMDUMP = ('https://github.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump')
 
-    DOWNLOAD_COMMANDS_LAUNCHER_MIRROR = ('https://hub.gitmirror.com/https://github.com/letheriver2007/Firefly-Launcher/releases/download/v1.3.0/Firefly-Launcher.zip')
     DOWNLOAD_COMMANDS_AUDIO_MIRROR = ('https://gitee.com/letheriver2007/Firefly-Launcher-Res.git src/audio')
     DOWNLOAD_COMMANDS_GIT_MIRROR = ('https://cdn.npmmirror.com/binaries/git-for-windows/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA_MIRROR = ('https://d6.injdk.cn/oraclejdk/17/jdk-17_windows-x64_bin.msi')
@@ -54,9 +52,9 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_FIDDLER_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler')
     DOWNLOAD_COMMANDS_MITMDUMP_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump')
 
-    PROXY_PORT = get_json('./config/config.json', 'PROXY_PORT')
-    SERVER_NAMES = get_json('./config/config.json', 'SERVER_NAMES')
-    SERVER_COMMANDS = get_json('./config/config.json', 'SERVER_COMMANDS')
+    PROXY_PORT = get_json('./config/server.json', 'PROXY_PORT')
+    SERVER_NAMES = get_json('./config/server.json', 'SERVER_NAMES')
+    SERVER_COMMANDS = get_json('./config/server.json', 'SERVER_COMMANDS')
 
 
 cfg = Config()

@@ -7,10 +7,10 @@ from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton,
                             setThemeColor, PrimaryPushSettingCard, TitleLabel, SubtitleLabel, setCustomStyleSheet,
                             SwitchSettingCard, InfoBar, InfoBarPosition)
-from app.module.config import cfg
-from app.component.style_sheet import StyleSheet
-from app.component.setting_group import SettingCardGroup
-from app.module.check_update import checkUpdate
+from app.model.config import cfg
+from app.model.style_sheet import StyleSheet
+from app.model.setting_group import SettingCardGroup
+from app.model.check_update import checkUpdate
 
 
 class Setting(ScrollArea):

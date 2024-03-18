@@ -5,7 +5,7 @@ from PySide6.QtCore import Signal, Qt
 from qfluentwidgets import (FluentIconBase, LineEdit, TogglePushButton, PrimaryPushButton, StrongBodyLabel,
                             TableWidget, SearchLineEdit, SettingCardGroup, SubtitleLabel, PrimaryToolButton)
 from qfluentwidgets import FluentIcon as FIF
-from app.component.setting_card import SettingCard
+from app.model.setting_card import SettingCard
 
 
 class PrimaryPushSettingCard_Giveall(SettingCard):

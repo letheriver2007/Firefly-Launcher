@@ -4,10 +4,10 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, HyperlinkCard, InfoBar, InfoBarPosition
-from app.module.config import cfg
-from app.component.style_sheet import StyleSheet
-from app.component.setting_group import SettingCardGroup
-from app.component.message_download import (MessageDownload, MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, HyperlinkCard_Tool,
+from app.model.config import cfg
+from app.model.style_sheet import StyleSheet
+from app.model.setting_group import SettingCardGroup
+from app.model.download_message import (MessageDownload, MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, HyperlinkCard_Tool,
                                        HyperlinkCard_Environment, MessageLauncher, MessageGit, MessageJava, MessageMongoDB, MessageFiddler,
                                        MessageMitmdump, HyperlinkCard_Launcher, MessageAudio)
 

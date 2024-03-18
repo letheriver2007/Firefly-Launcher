@@ -5,8 +5,8 @@ from PySide6.QtGui import QIcon
 from PySide6.QtCore import QThread, Signal, QSize, Qt
 from qfluentwidgets import (MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel,
                             PlainTextEdit, FluentIconBase, HyperlinkButton, IndeterminateProgressBar)
-from app.module.config import cfg
-from app.component.setting_card import SettingCard
+from app.model.config import cfg
+from app.model.setting_card import SettingCard
 
 
 class HyperlinkCard_Launcher(SettingCard):

@@ -3,7 +3,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtWidgets import QPushButton
 from qfluentwidgets import MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel, FluentIconBase
-from app.component.setting_card import SettingCard
+from app.model.setting_card import SettingCard
 
 
 class PushSettingCard_Fiddler(SettingCard):
@@ -26,9 +26,6 @@ class PrimaryPushSettingCard_Fiddler(PushSettingCard_Fiddler):
         super().__init__(text_script, text_old, icon, title, content, parent)
         self.button_script.setObjectName('primaryButton')
         self.button_old.setObjectName('primaryButton')
-
-
-
 
 
 class MessageFiddler(MessageBoxBase):

@@ -4,9 +4,9 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
-from app.component.style_sheet import StyleSheet
-from app.component.setting_group import SettingCardGroup
-from app.component.message_common import MessageFiddler, PrimaryPushSettingCard_Fiddler
+from app.model.style_sheet import StyleSheet
+from app.model.setting_group import SettingCardGroup
+from app.model.toolkit_message import MessageFiddler, PrimaryPushSettingCard_Fiddler
 
 
 class Toolkit(ScrollArea):

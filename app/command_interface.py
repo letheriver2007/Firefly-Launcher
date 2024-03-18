@@ -2,12 +2,12 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBo
 from PySide6.QtCore import Qt, Signal
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, LineEdit, PrimaryPushButton, InfoBar, InfoBarPosition, PrimaryPushSettingCard
-from app.component.style_sheet import StyleSheet
-from app.component.message_command import (PrimaryPushSettingCard_Giveall, PrimaryPushSettingCard_Clear, PrimaryPushSettingCard_Account,
+from app.model.style_sheet import StyleSheet
+from app.model.command_lunarcore import (PrimaryPushSettingCard_Giveall, PrimaryPushSettingCard_Clear, PrimaryPushSettingCard_Account,
                                            PrimaryPushSettingCard_Kick, PrimaryPushSettingCard_Unstuck, PrimaryPushSettingCard_Gender,
                                            PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, Scene, Spawn, Give, Relic)
-from app.component.setting_group import SettingCardGroup
-from app.module.config import cfg
+from app.model.setting_group import SettingCardGroup
+from app.model.config import cfg
 
 
 class Command(ScrollArea):

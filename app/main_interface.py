@@ -16,9 +16,9 @@ from app.edit_interface import Edit
 from app.toolkit_interface import Toolkit
 from app.command_interface import Command
 from app.setting_interface import Setting
-from app.module.config import cfg
-from app.module.check_update import checkUpdate
-from app.component.message_login import MessageLogin
+from app.model.config import cfg
+from app.model.check_update import checkUpdate
+from app.model.login_message import MessageLogin
 
 
 class Main(MSFluentWindow):

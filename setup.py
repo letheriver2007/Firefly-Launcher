@@ -80,7 +80,7 @@ if not os.path.exists('main.py'):
 
     print(f'最新版本：{latest_tag}')
 
-    if latest_tag and latest_tag >= APP_VERSION:
+    if latest_tag and latest_tag > APP_VERSION:
         update = input(f'检测到新版本：{latest_tag}, 是否更新? (' + "\033[32m" + 'y' + "\033[0m" + '/n)')
         if update in yes or update == '':
             if chinaStatus == True:

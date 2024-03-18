@@ -22,7 +22,7 @@ class Config(QConfig):
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", True, BoolValidator())
 
     APP_NAME = "Firefly Launcher"
-    APP_VERSION = get_version_type(get_json('./config/setup.json', 'APP_VERSION'))
+    APP_VERSION = get_version_type(get_json('./config/version.json', 'APP_VERSION'))
     APP_FONT = "SDK_SC_Web"
 
     URL_WRITER = "https://github.com/letheriver2007"
@@ -52,9 +52,9 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_FIDDLER_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler')
     DOWNLOAD_COMMANDS_MITMDUMP_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump')
 
-    PROXY_PORT = get_json('./config/server.json', 'PROXY_PORT')
-    SERVER_NAMES = get_json('./config/server.json', 'SERVER_NAMES')
-    SERVER_COMMANDS = get_json('./config/server.json', 'SERVER_COMMANDS')
+    PROXY_PORT = get_json('./config/config.json', 'PROXY_PORT')
+    SERVER_NAMES = get_json('./config/config.json', 'SERVER_NAMES')
+    SERVER_COMMANDS = get_json('./config/config.json', 'SERVER_COMMANDS')
 
 
 cfg = Config()

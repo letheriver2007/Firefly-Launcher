@@ -382,6 +382,7 @@ class Give(QWidget):
         self.button_item = TogglePushButton("物品", self)
         self.button_food = TogglePushButton("食物", self)
         self.button_head = TogglePushButton("头像", self)
+        self.button_all.setChecked(True)
         self.button_all.setFixedSize(60, 35)
         self.button_avatar.setFixedSize(60, 35)
         self.button_lightcone.setFixedSize(60, 35)
@@ -520,10 +521,15 @@ class Relic(QWidget):
         self.search_line = SearchLineEdit(self)
         self.search_line.setPlaceholderText("搜索遗器")
         self.search_line.setFixedSize(210, 35)
-        self.relic_base_button = PrimaryPushButton("基础", self)
+        self.relic_type_button_group = QButtonGroup(self)
+        self.relic_base_button = TogglePushButton("基础", self)
+        self.relic_custom_button = TogglePushButton("预设", self)
+        self.relic_base_button.setChecked(True)
         self.relic_base_button.setFixedSize(68, 35)
-        self.relic_custom_button = PrimaryPushButton("预设", self)
         self.relic_custom_button.setFixedSize(68, 35)
+        self.relic_type_button_group.addButton(self.relic_base_button)
+        self.relic_type_button_group.addButton(self.relic_custom_button)
+
         self.relic_table = TableWidget(self)
         self.relic_table.setFixedSize(355, 420)
         self.relic_table.setBorderVisible(True)
@@ -541,10 +547,15 @@ class Relic(QWidget):
         self.entry_search_line = SearchLineEdit(self)
         self.entry_search_line.setPlaceholderText("搜索词条")
         self.entry_search_line.setFixedSize(210, 35)
-        self.entry_main_button = PrimaryPushButton("主词条", self)
+        self.entry_type_button_group = QButtonGroup(self)
+        self.entry_main_button = TogglePushButton("主词条", self)
+        self.entry_side_button = TogglePushButton("副词条", self)
+        self.entry_main_button.setChecked(True)
         self.entry_main_button.setFixedSize(68, 35)
-        self.entry_side_button = PrimaryPushButton("副词条", self)
         self.entry_side_button.setFixedSize(68, 35)
+        self.entry_type_button_group.addButton(self.entry_main_button)
+        self.entry_type_button_group.addButton(self.entry_side_button)
+
         self.entry_table = TableWidget(self)
         self.entry_table.setFixedSize(355, 420)
         self.entry_table.setBorderVisible(True)
@@ -577,12 +588,6 @@ class Relic(QWidget):
 
         self.toright_button = PrimaryToolButton(FIF.RIGHT_ARROW)
         self.toright_button.setFixedSize(35, 35)
-        self.num_edit = LineEdit(self)
-        self.num_edit.setPlaceholderText("数量")
-        self.num_edit.setFixedSize(65, 35)
-        self.num_edit.setValidator(QIntValidator(self))
-        self.set_button = PrimaryToolButton(FIF.UP)
-        self.set_button.setFixedSize(35, 35)
         self.add_button = PrimaryToolButton(FIF.ADD)
         self.add_button.setFixedSize(35, 35)
         self.remove_button = PrimaryToolButton(FIF.REMOVE)
@@ -619,11 +624,7 @@ class Relic(QWidget):
 
         self.now_entry_tool_layout = QHBoxLayout()
         self.now_entry_tool_layout.addWidget(self.toright_button)
-        self.now_entry_tool_layout.addSpacing(60)
-        self.now_entry_tool_layout.addWidget(self.num_edit)
-        self.now_entry_tool_layout.addSpacing(5)
-        self.now_entry_tool_layout.addWidget(self.set_button)
-        self.now_entry_tool_layout.addSpacing(5)
+        self.now_entry_tool_layout.addSpacing(190)
         self.now_entry_tool_layout.addWidget(self.add_button)
         self.now_entry_tool_layout.addSpacing(5)
         self.now_entry_tool_layout.addWidget(self.remove_button)
@@ -792,13 +793,14 @@ class Relic(QWidget):
     
     def show_relic_entry(self):
         selected_relic = self.relic_table.selectedItems()
-        relic_type = selected_relic[1].text()
-        for row in range(self.entry_table.rowCount()):
-            if self.entry_table.item(row, 1).text() == relic_type:
-                self.entry_table.setRowHidden(row, False)
-            else:
-                self.entry_table.setRowHidden(row, True)
-        self.load_entry()
+        if selected_relic:
+            relic_type = selected_relic[1].text()
+            for row in range(self.entry_table.rowCount()):
+                if self.entry_table.item(row, 1).text() == relic_type:
+                    self.entry_table.setRowHidden(row, False)
+                else:
+                    self.entry_table.setRowHidden(row, True)
+            self.load_entry()
 
     def relic_clicked(self):
         selected_items = self.relic_table.selectedItems()

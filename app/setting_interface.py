@@ -71,6 +71,13 @@ class Setting(ScrollArea):
             '使用随机切换桌面背景彩蛋',
             configItem=cfg.randomHomeBg
         )
+        self.configInterface = SettingCardGroup(self.scrollWidget)
+        self.settingConfigCard = PrimaryPushSettingCard(
+            '打开文件',
+            FIF.LABEL,
+            '启动器设置',
+            '自定义启动器配置'
+        )
         self.ProxyInterface = SettingCardGroup(self.scrollWidget)
         self.proxyCard = SwitchSettingCard(
             FIF.CERTIFICATE,
@@ -115,6 +122,7 @@ class Setting(ScrollArea):
         self.FunctionInterface.addSettingCard(self.useLoginCard)
         self.FunctionInterface.addSettingCard(self.useAudioCard)
         self.FunctionInterface.addSettingCard(self.randomHomeBgCard)
+        self.configInterface.addSettingCard(self.settingConfigCard)
         self.ProxyInterface.addSettingCard(self.proxyCard)
         self.ProxyInterface.addSettingCard(self.chinaCard)
         self.ProxyInterface.addSettingCard(self.noproxyCard)
@@ -122,6 +130,7 @@ class Setting(ScrollArea):
         # 栏绑定界面
         self.addSubInterface(self.PersonalInterface,'PersonalInterface','程序', icon=FIF.SETTING)
         self.addSubInterface(self.FunctionInterface,'FunctionInterface','功能', icon=FIF.TILES)
+        self.addSubInterface(self.configInterface,'configInterface','配置', icon=FIF.LABEL)
         self.addSubInterface(self.ProxyInterface, 'ProxyInterface','代理', icon=FIF.CERTIFICATE)
         self.AboutInterface = About('About Interface', self)
         self.addSubInterface(self.AboutInterface, 'AboutInterface','关于', icon=FIF.INFO)
@@ -144,6 +153,7 @@ class Setting(ScrollArea):
         self.useLoginCard.checkedChanged.connect(lambda: self.common_changed(cfg.useLogin.value, '登录功能已开启！', '登录功能已关闭！'))
         self.useAudioCard.checkedChanged.connect(lambda: self.common_changed(cfg.useAudio.value, '流萤语音已开启！', '流萤语音已关闭！'))
         self.randomHomeBgCard.checkedChanged.connect(lambda: self.common_changed(cfg.randomHomeBg.value, '随机桌面背景已开启！', '随机桌面背景已关闭！'))
+        self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
         self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,f'代理端口{cfg.PROXY_PORT}已开启！','代理端口已关闭！','端口可在配置更改','',True))
         self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,'国内镜像已开启！','国内镜像已关闭！','','',True))
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
@@ -168,6 +178,20 @@ class Setting(ScrollArea):
         current_process.startDetached(sys.executable, sys.argv)
         sys.exit()
 
+    def open_file(self, file_path):
+        if os.path.exists(file_path):
+            subprocess.run(['start', file_path], shell=True)
+        else:
+            InfoBar.error(
+                title="找不到文件，请重新下载！",
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+    
     def common_changed(self, status, title_true, title_false, content_true='', content_false='', isproxy=False):
         if status:
             InfoBar.success(

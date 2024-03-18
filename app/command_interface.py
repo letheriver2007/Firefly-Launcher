@@ -32,11 +32,13 @@ class Command(ScrollArea):
         self.setWidgetResizable(True)    # 必须设置！！！
 
         self.updateText = LineEdit()
-        self.updateText.setFixedSize(930, 35)
+        self.updateText.setFixedSize(845, 35)
         self.clearButton = PrimaryPushButton('清空')
         self.copyButton = PrimaryPushButton('复制')
+        self.actionButton = PrimaryPushButton('执行')
         self.clearButton.setFixedSize(80, 35)
         self.copyButton.setFixedSize(80, 35)
+        self.actionButton.setFixedSize(80, 35)
         self.updateContainer = QWidget()
         
         # 使用qss设置样式
@@ -66,6 +68,8 @@ class Command(ScrollArea):
         self.updateLayout.addWidget(self.clearButton, alignment=Qt.AlignCenter)
         self.updateLayout.addSpacing(5)
         self.updateLayout.addWidget(self.copyButton, alignment=Qt.AlignCenter)
+        self.updateLayout.addSpacing(5)
+        self.updateLayout.addWidget(self.actionButton, alignment=Qt.AlignCenter)
         self.updateLayout.addSpacing(15)
         self.vBoxLayout.addWidget(self.updateContainer)
 
@@ -73,6 +77,7 @@ class Command(ScrollArea):
         self.LunarCoreInterface.buttonClicked.connect(self.handlebuttonClicked)
         self.clearButton.clicked.connect(lambda: self.updateText.clear())
         self.copyButton.clicked.connect(lambda: self.copyToClipboard('show'))
+        self.actionButton.clicked.connect(self.handleOpencommandActionCkicked)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -94,6 +99,9 @@ class Command(ScrollArea):
         self.updateText.setText(text)
         if cfg.autoCopy.value:
             self.copyToClipboard('hide')
+    
+    def handleOpencommandActionCkicked(self):
+        pass
     
     def copyToClipboard(self, status):
         text = self.updateText.text()
@@ -232,6 +240,25 @@ class LunarCore(ScrollArea):
             '/avatar [lv(level)] [r(eidolon)] [s(skill level)]'
         )
         self.RelicInterface = SettingCardGroup(self.scrollWidget)
+        self.OpencommandInterface = SettingCardGroup(self.scrollWidget)
+        self.pingCard = PrimaryPushSettingCard(
+            '使用',
+            FIF.TAG,
+            '确认插件连接状态',
+            '基于lc-opencommand-plugin'
+        )
+        self.sendcodeCard = PrimaryPushSettingCard(
+            '使用',
+            FIF.TAG,
+            '发送验证码',
+            '基于lc-opencommand-plugin'
+        )
+        self.vertifycodeCard = PrimaryPushSettingCard(
+            '使用',
+            FIF.TAG,
+            '验证验证码',
+            '基于lc-opencommand-plugin'
+        )
 
         self.__initWidget()
 
@@ -261,6 +288,9 @@ class LunarCore(ScrollArea):
         self.PersonalInterface.addSettingCard(self.genderCard)
         self.PersonalInterface.addSettingCard(self.worldLevelCard)
         self.PersonalInterface.addSettingCard(self.avatarCard)
+        self.OpencommandInterface.addSettingCard(self.pingCard)
+        self.OpencommandInterface.addSettingCard(self.sendcodeCard)
+        self.OpencommandInterface.addSettingCard(self.vertifycodeCard)
 
         # 栏绑定界面
         self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.TAG)
@@ -274,6 +304,12 @@ class LunarCore(ScrollArea):
         self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.TAG)
         self.RelicInterface = Relic('Relic Interface', self)
         self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.TAG)
+        self.pivot.addItem(
+            routeKey='verticalBar',
+            text="                                                                                          ",
+            onClick=lambda: self.pivot.setCurrentItem(self.stackedWidget.currentWidget().objectName()),
+        )
+        self.addSubInterface(self.OpencommandInterface, 'OpencommandInterface','远程', icon=FIF.ZOOM)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -308,6 +344,9 @@ class LunarCore(ScrollArea):
         self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
         self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
         self.RelicInterface.emit_relic_id.connect(lambda relic_id: self.handleRelicClicked(relic_id))
+        self.pingCard.clicked.connect(lambda: self.handleOpencommandClicked('ping'))
+        self.sendcodeCard.clicked.connect(lambda: self.handleOpencommandClicked('sendcode'))
+        self.vertifycodeCard.clicked.connect(lambda: self.handleOpencommandClicked('vertifycode'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -496,3 +535,6 @@ class LunarCore(ScrollArea):
                 command += ' ' + side_entry + ':' + str(entry_num)
 
         self.buttonClicked.emit(command)
+    
+    def handleOpencommandClicked(self, command):
+        pass

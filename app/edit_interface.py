@@ -8,7 +8,7 @@ from app.component.style_sheet import StyleSheet
 from app.component.setting_group import SettingCardGroup
 
 
-class Config(ScrollArea):
+class Edit(ScrollArea):
     Nav = Pivot
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
@@ -22,26 +22,7 @@ class Config(ScrollArea):
         self.stackedWidget = QStackedWidget(self)
 
         # 添加项
-        self.LauncherInterface = SettingCardGroup(self.scrollWidget)
-        self.settingConfigCard = PrimaryPushSettingCard(
-            '打开文件',
-            FIF.LABEL,
-            '启动器设置',
-            '自定义启动器配置'
-        )
-        self.personalConfigCard = PrimaryPushSettingCard(
-            '打开文件',
-            FIF.LABEL,
-            '个性化',
-            '自定义个性化配置'
-        )
-        self.LunarCoreInterface = SettingCardGroup(self.scrollWidget)
-        self.bannersConfigCard = PrimaryPushSettingCard(
-            '打开文件',
-            FIF.LABEL,
-            'Banners(外部)',
-            'LunarCore的跃迁配置'
-        )
+        self.BannerInterface = SettingCardGroup(self.scrollWidget)
 
         self.__initWidget()
 
@@ -60,13 +41,9 @@ class Config(ScrollArea):
 
     def __initLayout(self):
         # 项绑定到栏目
-        self.LauncherInterface.addSettingCard(self.settingConfigCard)
-        self.LauncherInterface.addSettingCard(self.personalConfigCard)
-        self.LunarCoreInterface.addSettingCard(self.bannersConfigCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.LauncherInterface, 'LauncherInterface','启动器', icon=FIF.TAG)
-        self.addSubInterface(self.LunarCoreInterface, 'LunarCoreInterface','LunarCore', icon=FIF.TAG)
+        self.addSubInterface(self.BannerInterface, 'Banner Interface', '跃迁', icon=FIF.LABEL)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -74,14 +51,12 @@ class Config(ScrollArea):
         self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.LauncherInterface)
-        self.pivot.setCurrentItem(self.LauncherInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.LauncherInterface.objectName())
+        self.stackedWidget.setCurrentWidget(self.BannerInterface)
+        self.pivot.setCurrentItem(self.BannerInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.BannerInterface.objectName())
         
     def __connectSignalToSlot(self):
-        self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
-        self.personalConfigCard.clicked.connect(lambda: self.open_file('config/auto.json'))
-        self.bannersConfigCard.clicked.connect(lambda: self.open_file('server/lunarcore/data/banners.json'))
+        pass
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -97,17 +72,3 @@ class Config(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
-
-    def open_file(self, file_path):
-        if os.path.exists(file_path):
-            subprocess.run(['start', file_path], shell=True)
-        else:
-            InfoBar.error(
-                title="找不到文件，请重新下载！",
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )

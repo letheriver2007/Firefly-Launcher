@@ -592,6 +592,12 @@ class Relic(QWidget):
         self.add_button.setFixedSize(35, 35)
         self.remove_button = PrimaryToolButton(FIF.REMOVE)
         self.remove_button.setFixedSize(35, 35)
+        self.set_edit = LineEdit(self)
+        self.set_edit.setPlaceholderText("数量")
+        self.set_edit.setFixedSize(55, 35)
+        self.set_edit.setValidator(QIntValidator(1, 9999, self))
+        self.set_button = PrimaryToolButton(FIF.SETTING)
+        self.set_button.setFixedSize(35, 35)
         self.delete_button = PrimaryToolButton(FIF.DELETE)
         self.delete_button.setFixedSize(35, 35)
 
@@ -624,10 +630,14 @@ class Relic(QWidget):
 
         self.now_entry_tool_layout = QHBoxLayout()
         self.now_entry_tool_layout.addWidget(self.toright_button)
-        self.now_entry_tool_layout.addSpacing(190)
+        self.now_entry_tool_layout.addSpacing(67)
         self.now_entry_tool_layout.addWidget(self.add_button)
         self.now_entry_tool_layout.addSpacing(5)
         self.now_entry_tool_layout.addWidget(self.remove_button)
+        self.now_entry_tool_layout.addSpacing(5)
+        self.now_entry_tool_layout.addWidget(self.set_edit)
+        self.now_entry_tool_layout.addSpacing(5)
+        self.now_entry_tool_layout.addWidget(self.set_button)
         self.now_entry_tool_layout.addSpacing(5)
         self.now_entry_tool_layout.addWidget(self.delete_button)
         self.now_entry_layout = QVBoxLayout()
@@ -672,10 +682,12 @@ class Relic(QWidget):
 
         self.add_button.clicked.connect(lambda: self.entry_num_changed('add'))
         self.remove_button.clicked.connect(lambda: self.entry_num_changed('remove'))
+        self.set_button.clicked.connect(lambda: self.entry_num_changed('set'))
         self.delete_button.clicked.connect(lambda: self.entry_num_changed('delete'))
 
         self.relic_table.cellClicked.connect(self.show_relic_entry)
         self.relic_table.cellClicked.connect(self.relic_clicked)
+        self.relic_table.cellClicked.connect(lambda: self.now_entry_label.setText(''))
         self.now_entry_label.textChanged.connect(self.relic_clicked)
         self.toright_button.clicked.connect(self.relic_clicked)
         self.add_button.clicked.connect(self.relic_clicked)
@@ -782,6 +794,12 @@ class Relic(QWidget):
             elif types =='remove':
                 if self.now_entry_list[entry_name] > 1:
                     self.now_entry_list[entry_name] -= 1
+                else:
+                    del self.now_entry_list[entry_name]
+            elif types =='set':
+                num = int(self.set_edit.text())
+                if num > 0:
+                    self.now_entry_list[entry_name] = num
                 else:
                     del self.now_entry_list[entry_name]
             elif types == 'delete':

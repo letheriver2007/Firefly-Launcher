@@ -215,6 +215,9 @@ class Setting(ScrollArea):
             )
         if isproxy:
             self.china_proxy_check()
+        if cfg.useLogin.value == False:
+            self.useAudioCard.setDisabled(True)
+            self.useAudioCard.setChecked(False)
                 
     def china_proxy_check(self):
         if cfg.chinaStatus.value == True and cfg.proxyStatus.value == True:

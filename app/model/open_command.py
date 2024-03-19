@@ -2,7 +2,11 @@ import json
 import ssl
 import urllib.request
 
-def ping(uid):
+def ping():
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    url = 'https://127.0.0.1:443/opencommand/api'
     request_data = {
         'action': 'ping',
         }
@@ -15,15 +19,19 @@ def ping(uid):
             response_data = response.read()
             response_json = json.loads(response_data)
             if response_json['retcode'] == 200:
-                return True
+                message = response_json['message']
+                return 'success', message
             else:
-                print("获取token失败:", response_json['message'])
-                return None
+                message = response_json['message']
+                return 'error', message
     except urllib.error.URLError as e:
-        print("与服务器通信时出现错误:", e)
-        return None
+        return 'error', e
 
 def send_code(uid):
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    url = 'https://127.0.0.1:443/opencommand/api'
     request_data = {
         'action': 'sendCode',
         'data': uid,
@@ -38,15 +46,19 @@ def send_code(uid):
             response_data = response.read()
             response_json = json.loads(response_data)
             if response_json['retcode'] == 200:
-                return response_json['token']
+                token = response_json['token']
+                return 'success', token
             else:
-                print("获取token失败:", response_json['message'])
-                return None
+                message = response_json['message']
+                return 'error', message
     except urllib.error.URLError as e:
-        print("与服务器通信时出现错误:", e)
-        return None
+        return 'error', e
 
 def verify_token(temp_token, code):
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    url = 'https://127.0.0.1:443/opencommand/api'
     request_data = {
         'action': 'verify',
         'token': temp_token,
@@ -61,21 +73,22 @@ def verify_token(temp_token, code):
             response_data = response.read()
             response_json = json.loads(response_data)
             if response_json['retcode'] == 200:
-                return True
+                return 'success'
             else:
-                print("验证token失败:", response_json['message'])
-                return None
+                message = response_json['message']
+                return 'error', message
     except urllib.error.URLError as e:
-        print("与服务器通信时出现错误:", e)
-        return None
+        return 'error', e
 
-def send_command(command):
+def send_command(token, command):
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    url = 'https://127.0.0.1:443/opencommand/api'
     request_data = {
         'action': 'command',
         'token': token,
-        'data': {
-            'command': command,
-        }
+        'data': command,
     }
     request_data_json = json.dumps(request_data).encode('utf-8')
     
@@ -86,35 +99,10 @@ def send_command(command):
             response_data = response.read()
             response_json = json.loads(response_data)
             if response_json['retcode'] == 200:
-                return response_json['data']
+                data = response_json['data']
+                return 'success', data
+            else:
+                message = response_json['message']
+                return 'error', message
     except urllib.error.URLError as e:
-        print("与服务器通信时出现错误:", e)
-
-
-context = ssl.create_default_context()
-context.check_hostname = False
-context.verify_mode = ssl.CERT_NONE
-url = 'https://127.0.0.1:443/opencommand/api'
-
-ping_status = ping()
-if ping_status == None:
-    print("无法连接到服务器")
-    return
-
-uid = input("请输入UID:")
-token = send_code(uid)
-if token == None:
-    print("获取临时token失败")
-    return
-
-code = input("请输入游戏内验证码:")
-verify = verify_token(code)
-if verify == None:
-    print("验证code失败")
-    return
-print(f"验证成功,token为:{token}")
-
-command = input("请输入指令:")
-command_return = send_command(command)
-print(f"指令执行结果:{command_return}")
-# 我反正加好了，等LC和插件修咯~~~
+        return 'error', e

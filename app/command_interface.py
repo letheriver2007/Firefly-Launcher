@@ -1,3 +1,4 @@
+import json
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QApplication, QTableWidgetItem
 from PySide6.QtCore import Qt, Signal
 from qfluentwidgets import FluentIcon as FIF
@@ -8,6 +9,7 @@ from app.model.command_lunarcore import (PrimaryPushSettingCard_Giveall, Primary
                                            PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, Scene, Spawn, Give, Relic)
 from app.model.setting_group import SettingCardGroup
 from app.model.config import cfg
+from app.model.open_command import send_command
 
 
 class Command(ScrollArea):
@@ -51,7 +53,7 @@ class Command(ScrollArea):
     def __initLayout(self):
         # 栏绑定界面
         self.LunarCoreInterface = LunarCore('LunarCore Interface', self)
-        self.addSubInterface(self.LunarCoreInterface, 'LunarCoreInterface','LunarCore', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.LunarCoreInterface, 'LunarCoreInterface','LunarCore', icon=FIF.TAG)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -101,7 +103,34 @@ class Command(ScrollArea):
             self.copyToClipboard('hide')
     
     def handleOpencommandActionCkicked(self):
-        pass
+        with open('config/config.json', 'r') as file:
+            data = json.load(file)
+            token = data['TOKEN']
+
+        command = self.updateText.text()
+        if token != '':
+            if self.updateText.text() != '':
+                response = send_command(token, command)
+                InfoBar.success(
+                    title='执行成功！',
+                    content=response,
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                )
+        else:
+            InfoBar.error(
+                title='执行失败！',
+                content='请先配置远程执行！',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+            
     
     def copyToClipboard(self, status):
         text = self.updateText.text()
@@ -240,25 +269,6 @@ class LunarCore(ScrollArea):
             '/avatar [lv(level)] [r(eidolon)] [s(skill level)]'
         )
         self.RelicInterface = SettingCardGroup(self.scrollWidget)
-        self.OpencommandInterface = SettingCardGroup(self.scrollWidget)
-        self.pingCard = PrimaryPushSettingCard(
-            '使用',
-            FIF.TAG,
-            '确认插件连接状态',
-            '基于lc-opencommand-plugin'
-        )
-        self.sendcodeCard = PrimaryPushSettingCard(
-            '使用',
-            FIF.TAG,
-            '发送验证码',
-            '基于lc-opencommand-plugin'
-        )
-        self.vertifycodeCard = PrimaryPushSettingCard(
-            '使用',
-            FIF.TAG,
-            '验证验证码',
-            '基于lc-opencommand-plugin'
-        )
 
         self.__initWidget()
 
@@ -288,28 +298,19 @@ class LunarCore(ScrollArea):
         self.PersonalInterface.addSettingCard(self.genderCard)
         self.PersonalInterface.addSettingCard(self.worldLevelCard)
         self.PersonalInterface.addSettingCard(self.avatarCard)
-        self.OpencommandInterface.addSettingCard(self.pingCard)
-        self.OpencommandInterface.addSettingCard(self.sendcodeCard)
-        self.OpencommandInterface.addSettingCard(self.vertifycodeCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.TAG)
-        self.addSubInterface(self.CustomInterface, 'CustomInterface','快捷', icon=FIF.TAG)
-        self.addSubInterface(self.PersonalInterface, 'PersonalInterface','账号', icon=FIF.TAG)
+        self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.CustomInterface, 'CustomInterface','快捷', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.PersonalInterface, 'PersonalInterface','账号', icon=FIF.COMMAND_PROMPT)
         self.SceneInterface = Scene('Scene Interface', self)
-        self.addSubInterface(self.SceneInterface, 'SceneInterface','场景', icon=FIF.TAG)
+        self.addSubInterface(self.SceneInterface, 'SceneInterface','场景', icon=FIF.COMMAND_PROMPT)
         self.SpawnInterface = Spawn('Spawn Interface', self)
-        self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.TAG)
+        self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.COMMAND_PROMPT)
         self.GiveInterface = Give('Give Interface', self)
-        self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.TAG)
+        self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.COMMAND_PROMPT)
         self.RelicInterface = Relic('Relic Interface', self)
-        self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.TAG)
-        self.pivot.addItem(
-            routeKey='verticalBar',
-            text="                                                                                          ",
-            onClick=lambda: self.pivot.setCurrentItem(self.stackedWidget.currentWidget().objectName()),
-        )
-        self.addSubInterface(self.OpencommandInterface, 'OpencommandInterface','远程', icon=FIF.ZOOM)
+        self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.COMMAND_PROMPT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -344,9 +345,6 @@ class LunarCore(ScrollArea):
         self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
         self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
         self.RelicInterface.emit_relic_id.connect(lambda relic_id: self.handleRelicClicked(relic_id))
-        self.pingCard.clicked.connect(lambda: self.handleOpencommandClicked('ping'))
-        self.sendcodeCard.clicked.connect(lambda: self.handleOpencommandClicked('sendcode'))
-        self.vertifycodeCard.clicked.connect(lambda: self.handleOpencommandClicked('vertifycode'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -535,6 +533,3 @@ class LunarCore(ScrollArea):
                 command += ' ' + side_entry + ':' + str(entry_num)
 
         self.buttonClicked.emit(command)
-    
-    def handleOpencommandClicked(self, command):
-        pass

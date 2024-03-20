@@ -36,7 +36,7 @@ def send_code(uid):
         'action': 'sendCode',
         'data': uid,
         }
-           
+
     request_data_json = json.dumps(request_data).encode('utf-8')
     
     req = urllib.request.Request(url, data=request_data_json, method='POST')
@@ -46,7 +46,7 @@ def send_code(uid):
             response_data = response.read()
             response_json = json.loads(response_data)
             if response_json['retcode'] == 200:
-                token = response_json['token']
+                token = response_json['data']
                 return 'success', token
             else:
                 message = response_json['message']
@@ -72,11 +72,11 @@ def verify_token(temp_token, code):
         with urllib.request.urlopen(req, context=context) as response:
             response_data = response.read()
             response_json = json.loads(response_data)
+            message = response_json['message']
             if response_json['retcode'] == 200:
-                return 'success'
+                return 'success', temp_token
             else:
-                message = response_json['message']
-                return 'error', message
+                return 'error', ''
     except urllib.error.URLError as e:
         return 'error', e
 
@@ -98,11 +98,7 @@ def send_command(token, command):
         with urllib.request.urlopen(req, context=context) as response:
             response_data = response.read()
             response_json = json.loads(response_data)
-            if response_json['retcode'] == 200:
-                data = response_json['data']
-                return 'success', data
-            else:
-                message = response_json['message']
-                return 'error', message
+            data = response_json['data']
+            return data
     except urllib.error.URLError as e:
         return 'error', e

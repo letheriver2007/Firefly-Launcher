@@ -17,7 +17,7 @@ class ToolkitDownload(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 

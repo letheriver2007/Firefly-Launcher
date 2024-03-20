@@ -41,7 +41,7 @@ class PushSettingCard_Sendcode(SettingCard):
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_sendcode, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_sendcode.clicked.connect(lambda: self.clicked_sendcode.emit(self.lineedit_sendcode.text()))
+        self.button_sendcode.clicked.connect(lambda: self.clicked_sendcode.emit(int(self.lineedit_sendcode.text())))
         self.setDisabled(True)
 
 
@@ -64,7 +64,7 @@ class PushSettingCard_Verifycode(SettingCard):
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_verifycode, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_verifycode.clicked.connect(lambda: self.clicked_verifycode.emit(self.lineedit_verifycode.text()))
+        self.button_verifycode.clicked.connect(lambda: self.clicked_verifycode.emit(int(self.lineedit_verifycode.text())))
         self.setDisabled(True)
 
 

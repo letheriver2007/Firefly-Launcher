@@ -12,7 +12,7 @@ class Scene(QWidget):
     emit_scene_id = Signal(str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
 
         self.__initWidget()
 
@@ -76,7 +76,7 @@ class Spawn(QWidget):
     emit_monster_id = Signal(str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
 
         self.__initWidget()
 
@@ -178,16 +178,31 @@ class Give(QWidget):
     emit_item_id = Signal(str, str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
 
         self.__initWidget()
 
     def __initWidget(self):
+        self.search_line_give = SearchLineEdit(self)
+        self.search_line_give.setPlaceholderText("搜索预设")
+        self.search_line_give.setFixedSize(290, 35)
+        self.custom_give_table = TableWidget(self)
+        self.custom_give_table.setFixedSize(290, 420)
+        self.custom_give_table.setBorderVisible(True)
+        self.custom_give_table.setBorderRadius(8)
+        self.custom_give_table.setWordWrap(False)
+        self.custom_give_table.setColumnCount(1)
+        self.custom_give_table.verticalHeader().hide()
+        # self.custom_give_table.setSelectRightClickedRow(True)
+        self.custom_give_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.custom_give_table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.custom_give_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
         self.search_line = SearchLineEdit(self)
         self.search_line.setPlaceholderText("搜索物品")
-        self.search_line.setFixedSize(915, 35)
+        self.search_line.setFixedSize(600, 35)
         self.give_table = TableWidget(self)
-        self.give_table.setFixedSize(915, 420)
+        self.give_table.setFixedSize(600, 420)
         self.give_table.setBorderVisible(True)
         self.give_table.setBorderRadius(8)
         self.give_table.setWordWrap(False)
@@ -237,6 +252,10 @@ class Give(QWidget):
         self.__connectSignalToSlot()
     
     def __initLayout(self):
+        self.custom_give_layout = QVBoxLayout()
+        self.custom_give_layout.addWidget(self.search_line_give)
+        self.custom_give_layout.addWidget(self.custom_give_table)
+
         self.give_layout = QVBoxLayout()
         self.give_layout.addWidget(self.search_line)
         self.give_layout.addWidget(self.give_table)
@@ -272,6 +291,8 @@ class Give(QWidget):
         self.set_layout.addStretch(1)
 
         self.main_layout = QHBoxLayout()
+        self.main_layout.addLayout(self.custom_give_layout)
+        self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.give_layout)
         self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.set_layout)
@@ -336,7 +357,7 @@ class Relic(QWidget):
     emit_relic_id = Signal(str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
 
         self.__initWidget()
 

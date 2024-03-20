@@ -86,4 +86,3 @@
 格拉默的寂静坟碑 连接绳 63116 base
 匹诺康尼的堂皇酒店 位面球 63125 base
 匹诺康尼的逐梦轨道 连接绳 63126 base
-temp temp temp custom

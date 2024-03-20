@@ -25,10 +25,10 @@ class Main(MSFluentWindow):
         setTheme(cfg.themeMode.value)
         self.initMainWindow()
 
-        self.homeInterface = Home('Home Interface', self)
-        self.lunarcoreInterface = LunarCore('LunarCore Interface', self)
-        self.toolkitInterface = Toolkit('Toolkit Interface', self)
-        self.settingInterface = Setting('Setting Interface', self)
+        self.homeInterface = Home('HomeInterface', self)
+        self.lunarcoreInterface = LunarCore('LunarCoreInterface', self)
+        self.toolkitInterface = Toolkit('ToolkitInterface', self)
+        self.settingInterface = Setting('SettingInterface', self)
 
         self.initNavigation()
         self.checkFont()

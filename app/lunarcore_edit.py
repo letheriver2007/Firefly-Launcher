@@ -13,7 +13,7 @@ class LunarCoreEdit(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 
@@ -43,8 +43,8 @@ class LunarCoreEdit(ScrollArea):
         # 项绑定到栏目
 
         # 栏绑定界面
-        self.LunarCoreEditInterface = LunarCoreEdit('LunarCore Interface', self)
-        self.addSubInterface(self.LunarCoreEditInterface, 'LunarCoreEdit Interface', 'LunarCore', icon=FIF.TAG)
+        self.LunarCoreEditInterface = LunarCoreEdit('LunarCoreInterface', self)
+        self.addSubInterface(self.LunarCoreEditInterface, 'LunarCoreEditInterface', 'LunarCore', icon=FIF.TAG)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -78,7 +78,7 @@ class LunarCoreEdit(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 

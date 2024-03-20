@@ -33,7 +33,7 @@ class RoundedImageWithText(QWidget):
 class Home(QWidget):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
 

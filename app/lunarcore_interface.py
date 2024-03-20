@@ -20,7 +20,7 @@ class LunarCore(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 
@@ -52,6 +52,13 @@ class LunarCore(ScrollArea):
             'LunarCore-Res',
             '下载LunarCore资源文件'
         )
+        self.ConfigInterface = SettingCardGroup(self.scrollWidget)
+        self.settingConfigCard = PrimaryPushSettingCard(
+            '设置',
+            FIF.LABEL,
+            'UID设置',
+            '自定义默认UID配置'
+        )
 
         self.__initWidget()
 
@@ -76,9 +83,10 @@ class LunarCore(ScrollArea):
 
         # 栏绑定界面
         self.addSubInterface(self.LunarCoreDownloadInterface, 'LunarCoreDownloadInterface','下载', icon=FIF.DOWNLOAD)
-        self.LunarCoreCommandInterface = LunarCoreCommand('Command Interface', self)
-        self.addSubInterface(self.LunarCoreCommandInterface, 'LunarCoreCommandInterface','命令', icon=FIF.TAG)
-        self.LunarCoreEditInterface = LunarCoreEdit('Edit Interface', self)
+        self.LunarCoreCommandInterface = LunarCoreCommand('CommandInterface', self)
+        self.addSubInterface(self.ConfigInterface,'configInterface','配置', icon=FIF.EDIT)
+        self.addSubInterface(self.LunarCoreCommandInterface, 'LunarCoreCommandInterface','命令', icon=FIF.COMMAND_PROMPT)
+        self.LunarCoreEditInterface = LunarCoreEdit('EditInterface', self)
         self.addSubInterface(self.LunarCoreEditInterface, 'LunarCoreEditInterface','编辑器', icon=FIF.LAYOUT)
 
         # 初始化配置界面
@@ -117,7 +125,7 @@ class LunarCoreCommand(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 
@@ -252,13 +260,13 @@ class LunarCoreCommand(ScrollArea):
         self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.COMMAND_PROMPT)
         self.addSubInterface(self.CustomInterface, 'CustomInterface','快捷', icon=FIF.COMMAND_PROMPT)
         self.addSubInterface(self.PersonalInterface, 'PersonalInterface','账号', icon=FIF.COMMAND_PROMPT)
-        self.SceneInterface = Scene('Scene Interface', self)
+        self.SceneInterface = Scene('SceneInterface', self)
         self.addSubInterface(self.SceneInterface, 'SceneInterface','场景', icon=FIF.COMMAND_PROMPT)
-        self.SpawnInterface = Spawn('Spawn Interface', self)
+        self.SpawnInterface = Spawn('SpawnInterface', self)
         self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.COMMAND_PROMPT)
-        self.GiveInterface = Give('Give Interface', self)
+        self.GiveInterface = Give('GiveInterface', self)
         self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.COMMAND_PROMPT)
-        self.RelicInterface = Relic('Relic Interface', self)
+        self.RelicInterface = Relic('RelicInterface', self)
         self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.COMMAND_PROMPT)
 
         # 初始化配置界面
@@ -341,7 +349,7 @@ class LunarCoreCommand(ScrollArea):
             data = json.load(file)
             token = data['TOKEN']
 
-        command = self.updateText.text()
+        command = self.updateText.text().replace('/', '')
         if token != '':
             if self.updateText.text() != '':
                 response = send_command(token, command)
@@ -352,7 +360,7 @@ class LunarCoreCommand(ScrollArea):
                     isClosable=True,
                     position=InfoBarPosition.TOP,
                     duration=1000,
-                    parent=self
+                    parent=self.parent
                 )
         else:
             InfoBar.error(
@@ -362,7 +370,7 @@ class LunarCoreCommand(ScrollArea):
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=3000,
-                parent=self
+                parent=self.parent
             )
 
     def copyToClipboard(self, status):
@@ -380,7 +388,7 @@ class LunarCoreCommand(ScrollArea):
                         isClosable=True,
                         position=InfoBarPosition.TOP,
                         duration=1000,
-                        parent=self
+                        parent=self.parent
                     )
             else:
                 if status == 'show':
@@ -391,7 +399,7 @@ class LunarCoreCommand(ScrollArea):
                         isClosable=True,
                         position=InfoBarPosition.TOP,
                         duration=3000,
-                        parent=self
+                        parent=self.parent
                     )
         except:
             InfoBar.error(
@@ -401,7 +409,7 @@ class LunarCoreCommand(ScrollArea):
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=3000,
-                parent=self
+                parent=self.parent
             )
 
     def handleGiveallClicked(self, types):

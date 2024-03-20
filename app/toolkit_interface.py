@@ -1,4 +1,5 @@
 import os
+import json
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
@@ -16,7 +17,7 @@ class Toolkit(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 
@@ -48,20 +49,20 @@ class Toolkit(ScrollArea):
         )
         self.OpencommandInterface = SettingCardGroup(self.scrollWidget)
         self.pingCard = PrimaryPushSettingCard(
-            '使用',
-            FIF.TAG,
+            '执行',
+            FIF.SPEED_OFF,
             '确认插件连接状态',
             '基于lc-opencommand-plugin'
         )
         self.sendcodeCard = PrimaryPushSettingCard_Sendcode(
-            '使用',
-            FIF.TAG,
+            '执行',
+            FIF.SEND,
             '发送验证码',
             '基于lc-opencommand-plugin'
         )
         self.vertifycodeCard = PrimaryPushSettingCard_Verifycode(
-            '使用',
-            FIF.TAG,
+            '执行',
+            FIF.FINGERPRINT,
             '验证验证码',
             '基于lc-opencommand-plugin'
         )
@@ -91,11 +92,11 @@ class Toolkit(ScrollArea):
         self.OpencommandInterface.addSettingCard(self.vertifycodeCard)
 
         # 栏绑定界面
-        self.ToolkitDownloadInterface = ToolkitDownload('ToolkitDownload Interface', self.scrollWidget)
+        self.ToolkitDownloadInterface = ToolkitDownload('ToolkitDownloadInterface', self.scrollWidget)
         self.addSubInterface(self.ToolkitDownloadInterface, 'ToolkitDownloadInterface','下载', icon=FIF.DOWNLOAD)
         self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface','代理', icon=FIF.CERTIFICATE)
-        self.addSubInterface(self.ConfigInterface,'configInterface','配置', icon=FIF.LABEL)
-        self.addSubInterface(self.OpencommandInterface, 'OpencommandInterface','远程', icon=FIF.ZOOM)
+        self.addSubInterface(self.ConfigInterface,'configInterface','配置', icon=FIF.EDIT)
+        self.addSubInterface(self.OpencommandInterface, 'OpencommandInterface','远程', icon=FIF.CONNECT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -175,7 +176,9 @@ class Toolkit(ScrollArea):
         if command == 'ping':
             status, response = ping()
             if status == 'success':
+                self.pingCard.iconLabel.setIcon(FIF.SPEED_HIGH)
                 self.sendcodeCard.setDisabled(False)
+                self.vertifycodeCard.setDisabled(False)
                 InfoBar.success(
                     title="连接成功！",
                     content='请继续配置token',
@@ -199,7 +202,7 @@ class Toolkit(ScrollArea):
             status, response = send_code(info)
             if status == 'success':
                 self.save_token(response, 'temp')
-                self.vertifycodeCard.setDisabled(False)
+                self.sendcodeCard.iconLabel.setIcon(FIF.SEND_FILL)
                 InfoBar.success(
                     title="发送成功！",
                     content=f'请尽快验证token({response})',
@@ -248,10 +251,12 @@ class Toolkit(ScrollArea):
                 )
 
     def save_token(self, token, types):
-        with open('config/config.json', 'w') as file:
+        with open('config/config.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
             if types == 'temp':
                 data['TEMP_TOKEN'] = token
             elif types =='verify':
                 data['TOKEN'] = token
+
+        with open('config/config.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False)

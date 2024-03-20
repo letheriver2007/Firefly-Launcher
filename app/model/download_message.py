@@ -303,7 +303,7 @@ def download_check(self, name):
         w = MessageLunarCore(self)
         types = 'git'
         file_path = 'server\\LunarCore'
-        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE, cfg.DOWNLOAD_COMMANDS_LUNARCORE_MIRROR, '', '--branch lunarcore ')
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE, cfg.DOWNLOAD_COMMANDS_LUNARCORE_MIRROR, '', '--branch development ')
         build_jar = 'lunarcore'
     elif name == 'lunarcoreres':
         w = MessageLunarCoreRes(self)
@@ -330,6 +330,7 @@ def download_check(self, name):
             x.show()
             x.start_download(types, command, file_path, build_jar)
             if x.exec():
+                self.clean_task()
                 InfoBar.success(
                     title='下载成功！',
                     content="",
@@ -340,8 +341,6 @@ def download_check(self, name):
                     parent=self
                     )
             else:
-                # x.runner.terminate()
-                # self.clean_task()
                 InfoBar.error(
                     title='下载失败！',
                     content="",

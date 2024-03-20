@@ -18,7 +18,7 @@ class Setting(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 
@@ -123,7 +123,7 @@ class Setting(ScrollArea):
         self.addSubInterface(self.PersonalInterface,'PersonalInterface','程序', icon=FIF.SETTING)
         self.addSubInterface(self.FunctionInterface,'FunctionInterface','功能', icon=FIF.TILES)
         self.addSubInterface(self.ProxyInterface, 'ProxyInterface','代理', icon=FIF.CERTIFICATE)
-        self.AboutInterface = About('About Interface', self)
+        self.AboutInterface = About('AboutInterface', self)
         self.addSubInterface(self.AboutInterface, 'AboutInterface','关于', icon=FIF.INFO)
 
         # 初始化配置界面
@@ -242,7 +242,7 @@ class About(QWidget):
         super().__init__(parent=parent)
         
         main_layout = QVBoxLayout(self)
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         
         image_layout = QVBoxLayout()
         image_widget = RoundedImageWidget("./src/image/bg_about.png")

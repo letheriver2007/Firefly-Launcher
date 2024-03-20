@@ -8,6 +8,7 @@ from app.model.style_sheet import StyleSheet
 from app.model.setting_group import SettingCardGroup
 from app.model.toolkit_message import MessageFiddler, PrimaryPushSettingCard_Fiddler, PrimaryPushSettingCard_Sendcode, PrimaryPushSettingCard_Verifycode
 from app.model.open_command import ping, send_code, verify_token, send_command
+from app.toolkit_download import ToolkitDownload
 
 
 class Toolkit(ScrollArea):
@@ -37,6 +38,13 @@ class Toolkit(ScrollArea):
             FIF.VPN,
             'Mitmdump(外部)',
             '使用Mitmdump代理'
+        )
+        self.ConfigInterface = SettingCardGroup(self.scrollWidget)
+        self.settingConfigCard = PrimaryPushSettingCard(
+            '打开文件',
+            FIF.LABEL,
+            '启动器设置',
+            '自定义启动器配置'
         )
         self.OpencommandInterface = SettingCardGroup(self.scrollWidget)
         self.pingCard = PrimaryPushSettingCard(
@@ -77,12 +85,16 @@ class Toolkit(ScrollArea):
         # 项绑定到栏目
         self.ProxyToolInterface.addSettingCard(self.FiddlerCard)
         self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
+        self.ConfigInterface.addSettingCard(self.settingConfigCard)
         self.OpencommandInterface.addSettingCard(self.pingCard)
         self.OpencommandInterface.addSettingCard(self.sendcodeCard)
         self.OpencommandInterface.addSettingCard(self.vertifycodeCard)
 
         # 栏绑定界面
+        self.ToolkitDownloadInterface = ToolkitDownload('ToolkitDownload Interface', self.scrollWidget)
+        self.addSubInterface(self.ToolkitDownloadInterface, 'ToolkitDownloadInterface','下载', icon=FIF.DOWNLOAD)
         self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface','代理', icon=FIF.CERTIFICATE)
+        self.addSubInterface(self.ConfigInterface,'configInterface','配置', icon=FIF.LABEL)
         self.addSubInterface(self.OpencommandInterface, 'OpencommandInterface','远程', icon=FIF.ZOOM)
 
         # 初始化配置界面
@@ -91,14 +103,15 @@ class Toolkit(ScrollArea):
         self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.ProxyToolInterface)
-        self.pivot.setCurrentItem(self.ProxyToolInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.ProxyToolInterface.objectName())
+        self.stackedWidget.setCurrentWidget(self.ToolkitDownloadInterface)
+        self.pivot.setCurrentItem(self.ToolkitDownloadInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.ToolkitDownloadInterface.objectName())
         
     def __connectSignalToSlot(self):
         self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
         self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
         self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)
+        self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
         self.pingCard.clicked.connect(lambda: self.handleOpencommandClicked('ping'))
         self.sendcodeCard.clicked_sendcode.connect(lambda uid: self.handleOpencommandClicked('sendcode', uid))
         self.vertifycodeCard.clicked_verifycode.connect(lambda code: self.handleOpencommandClicked('vertifycode', code))

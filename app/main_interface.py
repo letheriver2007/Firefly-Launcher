@@ -11,10 +11,8 @@ from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from qfluentwidgets import MSFluentWindow, NavigationItemPosition, setTheme, Theme, InfoBar, InfoBarPosition, SplashScreen
 from qfluentwidgets import FluentIcon as FIF
 from app.home_interface import Home
-from app.download_interface import Download
-from app.edit_interface import Edit
+from app.lunarcore_interface import LunarCore
 from app.toolkit_interface import Toolkit
-from app.command_interface import Command
 from app.setting_interface import Setting
 from app.model.config import cfg
 from app.model.check_update import checkUpdate
@@ -28,10 +26,8 @@ class Main(MSFluentWindow):
         self.initMainWindow()
 
         self.homeInterface = Home('Home Interface', self)
-        self.downloadInterface = Download('Download Interface', self)
+        self.lunarcoreInterface = LunarCore('LunarCore Interface', self)
         self.toolkitInterface = Toolkit('Toolkit Interface', self)
-        self.commandInterface = Command('Command Interface', self)
-        self.editInterface = Edit('Edit Interface', self)
         self.settingInterface = Setting('Setting Interface', self)
 
         self.initNavigation()
@@ -50,10 +46,8 @@ class Main(MSFluentWindow):
     
     def initNavigation(self):
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页', FIF.HOME_FILL)
-        self.addSubInterface(self.downloadInterface, FIF.DOWNLOAD, '下载', FIF.DOWNLOAD)
+        self.addSubInterface(self.lunarcoreInterface, FIF.CAFE, 'LC', FIF.CAFE)
         self.addSubInterface(self.toolkitInterface, FIF.APPLICATION, '工具', FIF.APPLICATION)
-        self.addSubInterface(self.commandInterface, FIF.COMMAND_PROMPT, '命令', FIF.COMMAND_PROMPT)
-        self.addSubInterface(self.editInterface, FIF.LABEL, '编辑器', FIF.LABEL)
         self.navigationInterface.addItem(
             routeKey='theme',
             icon=FIF.CONSTRACT,

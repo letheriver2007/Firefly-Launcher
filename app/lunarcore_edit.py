@@ -8,7 +8,7 @@ from app.model.style_sheet import StyleSheet
 from app.model.setting_group import SettingCardGroup
 
 
-class Edit(ScrollArea):
+class LunarCoreEdit(ScrollArea):
     Nav = Pivot
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)

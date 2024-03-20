@@ -4,15 +4,18 @@ from PySide6.QtCore import Qt, Signal
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, LineEdit, PrimaryPushButton, InfoBar, InfoBarPosition, PrimaryPushSettingCard
 from app.model.style_sheet import StyleSheet
-from app.model.command_lunarcore import (PrimaryPushSettingCard_Giveall, PrimaryPushSettingCard_Clear, PrimaryPushSettingCard_Account,
+from app.lunarcore_command import Scene, Spawn, Give, Relic
+from app.lunarcore_edit import LunarCoreEdit
+from app.model.lunarcore_message import (PrimaryPushSettingCard_Giveall, PrimaryPushSettingCard_Clear, PrimaryPushSettingCard_Account,
                                            PrimaryPushSettingCard_Kick, PrimaryPushSettingCard_Unstuck, PrimaryPushSettingCard_Gender,
-                                           PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, Scene, Spawn, Give, Relic)
+                                           PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar)
+from app.model.download_message import MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, download_check
 from app.model.setting_group import SettingCardGroup
 from app.model.config import cfg
 from app.model.open_command import send_command
 
 
-class Command(ScrollArea):
+class LunarCore(ScrollArea):
     Nav = Pivot
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
@@ -25,6 +28,31 @@ class Command(ScrollArea):
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
 
+        self.LunarCoreDownloadInterface = SettingCardGroup(self.scrollWidget)
+        self.LunarCoreRepoCard = HyperlinkCard_LunarCore(
+            'https://github.com/Melledy/LunarCore',
+            'LunarCore',
+            'https://github.com/Dimbreath/StarRailData',
+            'StarRailData',
+            'https://gitlab.com/Melledy/LunarCore-Configs',
+            'LunarCore-Configs',
+            FIF.LINK,
+            '项目仓库',
+            '打开LunarCore相关仓库'
+        )
+        self.LunarCoreDownloadCard = PrimaryPushSettingCard(
+            '详细信息',
+            FIF.DOWNLOAD,
+            'LunarCore',
+            '下载LunarCore并编译'
+        )
+        self.LunarCoreResDownloadCard = PrimaryPushSettingCard(
+            '详细信息',
+            FIF.DOWNLOAD,
+            'LunarCore-Res',
+            '下载LunarCore资源文件'
+        )
+
         self.__initWidget()
 
     def __initWidget(self):
@@ -32,16 +60,6 @@ class Command(ScrollArea):
         self.setViewportMargins(20, 0, 20, 20)
         self.setWidget(self.scrollWidget)
         self.setWidgetResizable(True)    # 必须设置！！！
-
-        self.updateText = LineEdit()
-        self.updateText.setFixedSize(845, 35)
-        self.clearButton = PrimaryPushButton('清空')
-        self.copyButton = PrimaryPushButton('复制')
-        self.actionButton = PrimaryPushButton('执行')
-        self.clearButton.setFixedSize(80, 35)
-        self.copyButton.setFixedSize(80, 35)
-        self.actionButton.setFixedSize(80, 35)
-        self.updateContainer = QWidget()
         
         # 使用qss设置样式
         self.scrollWidget.setObjectName('scrollWidget')
@@ -51,35 +69,31 @@ class Command(ScrollArea):
         self.__connectSignalToSlot()
 
     def __initLayout(self):
+        # 项绑定到栏目
+        self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreRepoCard)
+        self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreDownloadCard)
+        self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreResDownloadCard)
+
         # 栏绑定界面
-        self.LunarCoreInterface = LunarCore('LunarCore Interface', self)
-        self.addSubInterface(self.LunarCoreInterface, 'LunarCoreInterface','LunarCore', icon=FIF.TAG)
+        self.addSubInterface(self.LunarCoreDownloadInterface, 'LunarCoreDownloadInterface','下载', icon=FIF.DOWNLOAD)
+        self.LunarCoreCommandInterface = LunarCoreCommand('Command Interface', self)
+        self.addSubInterface(self.LunarCoreCommandInterface, 'LunarCoreCommandInterface','命令', icon=FIF.TAG)
+        self.LunarCoreEditInterface = LunarCoreEdit('Edit Interface', self)
+        self.addSubInterface(self.LunarCoreEditInterface, 'LunarCoreEditInterface','编辑器', icon=FIF.LAYOUT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
+        self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.LunarCoreInterface)
-        self.pivot.setCurrentItem(self.LunarCoreInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.LunarCoreInterface.objectName())
-
-        self.updateLayout = QHBoxLayout(self.updateContainer)
-        self.updateLayout.addWidget(self.updateText, alignment=Qt.AlignCenter)
-        self.updateLayout.addStretch(1)
-        self.updateLayout.addWidget(self.clearButton, alignment=Qt.AlignCenter)
-        self.updateLayout.addSpacing(5)
-        self.updateLayout.addWidget(self.copyButton, alignment=Qt.AlignCenter)
-        self.updateLayout.addSpacing(5)
-        self.updateLayout.addWidget(self.actionButton, alignment=Qt.AlignCenter)
-        self.updateLayout.addSpacing(15)
-        self.vBoxLayout.addWidget(self.updateContainer)
+        self.stackedWidget.setCurrentWidget(self.LunarCoreDownloadInterface)
+        self.pivot.setCurrentItem(self.LunarCoreDownloadInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.LunarCoreDownloadInterface.objectName())
 
     def __connectSignalToSlot(self):
-        self.LunarCoreInterface.buttonClicked.connect(self.handlebuttonClicked)
-        self.clearButton.clicked.connect(lambda: self.updateText.clear())
-        self.copyButton.clicked.connect(lambda: self.copyToClipboard('show'))
-        self.actionButton.clicked.connect(self.handleOpencommandActionCkicked)
+        self.LunarCoreDownloadCard.clicked.connect(lambda: download_check(self, 'lunarcore'))
+        self.LunarCoreResDownloadCard.clicked.connect(lambda: download_check(self, 'lunarcoreres'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -95,84 +109,9 @@ class Command(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
-    
-    def handlebuttonClicked(self, text):
-        self.updateText.clear()
-        self.updateText.setText(text)
-        if cfg.autoCopy.value:
-            self.copyToClipboard('hide')
-    
-    def handleOpencommandActionCkicked(self):
-        with open('config/config.json', 'r') as file:
-            data = json.load(file)
-            token = data['TOKEN']
-
-        command = self.updateText.text()
-        if token != '':
-            if self.updateText.text() != '':
-                response = send_command(token, command)
-                InfoBar.success(
-                    title='执行成功！',
-                    content=response,
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
-        else:
-            InfoBar.error(
-                title='执行失败！',
-                content='请先配置远程执行！',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
-            
-    
-    def copyToClipboard(self, status):
-        text = self.updateText.text()
-        app = QApplication.instance()
-        try:
-            if text != '':
-                clipboard = app.clipboard()
-                clipboard.setText(text)
-                if status == 'show':
-                    InfoBar.success(
-                        title='复制成功！',
-                        content='',
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=1000,
-                        parent=self
-                    )
-            else:
-                if status == 'show':
-                    InfoBar.error(
-                        title='复制失败！',
-                        content='',
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=3000,
-                        parent=self
-                    )
-        except:
-            InfoBar.error(
-                title='复制失败！',
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
 
 
-class LunarCore(ScrollArea):
+class LunarCoreCommand(ScrollArea):
     Nav = Pivot
     buttonClicked = Signal(str)
     def __init__(self, text: str, parent=None):
@@ -277,6 +216,16 @@ class LunarCore(ScrollArea):
         self.setWidget(self.scrollWidget)
         self.setWidgetResizable(True)    # 必须设置！！！
         
+        self.updateText = LineEdit()
+        self.updateText.setFixedSize(845, 35)
+        self.clearButton = PrimaryPushButton('清空')
+        self.copyButton = PrimaryPushButton('复制')
+        self.actionButton = PrimaryPushButton('执行')
+        self.clearButton.setFixedSize(80, 35)
+        self.copyButton.setFixedSize(80, 35)
+        self.actionButton.setFixedSize(80, 35)
+        self.updateContainer = QWidget()
+        
         # 使用qss设置样式
         self.scrollWidget.setObjectName('scrollWidget')
         StyleSheet.SETTING_INTERFACE.apply(self)
@@ -321,26 +270,46 @@ class LunarCore(ScrollArea):
         self.stackedWidget.setCurrentWidget(self.ServerInterface)
         self.pivot.setCurrentItem(self.ServerInterface.objectName())
         qrouter.setDefaultRouteKey(self.stackedWidget, self.ServerInterface.objectName())
+
+        self.updateLayout = QHBoxLayout(self.updateContainer)
+        self.updateLayout.addWidget(self.updateText, alignment=Qt.AlignCenter)
+        self.updateLayout.addStretch(1)
+        self.updateLayout.addWidget(self.clearButton, alignment=Qt.AlignCenter)
+        self.updateLayout.addSpacing(5)
+        self.updateLayout.addWidget(self.copyButton, alignment=Qt.AlignCenter)
+        self.updateLayout.addSpacing(5)
+        self.updateLayout.addWidget(self.actionButton, alignment=Qt.AlignCenter)
+        self.updateLayout.addSpacing(15)
+        self.vBoxLayout.addWidget(self.updateContainer)
         
     def __connectSignalToSlot(self):
+        self.buttonClicked.connect(self.handlebuttonClicked)
+        self.clearButton.clicked.connect(lambda: self.updateText.clear())
+        self.copyButton.clicked.connect(lambda: self.copyToClipboard('show'))
+        self.actionButton.clicked.connect(self.handleOpencommandActionCkicked)
+
         self.refillCard.clicked.connect(lambda: self.buttonClicked.emit('/refill'))
         self.healCard.clicked.connect(lambda: self.buttonClicked.emit('/heal'))
         self.helpCard.clicked.connect(lambda: self.buttonClicked.emit('/help'))
         self.reloadCard.clicked.connect(lambda: self.buttonClicked.emit('/reload'))
+
         self.accountCard.create_account.connect(lambda: self.handleAccountClicked('create'))
         self.accountCard.delete_account.connect(lambda: self.handleAccountClicked('delete'))
         self.kickCard.kick_player.connect(self.handleKickClicked)
         self.unstuckCard.unstuck_player.connect(self.handleUnstuckClicked)
+
         self.giveallCard.give_materials.connect(lambda: self.handleGiveallClicked('materials'))
         self.giveallCard.give_avatars.connect(lambda: self.handleGiveallClicked('avatars'))
         self.clearCard.clear_relics.connect(lambda: self.buttonClicked.emit('/clear relics'))
         self.clearCard.clear_lightcones.connect(lambda: self.buttonClicked.emit('/clear lightcones'))
         self.clearCard.clear_materials.connect(lambda: self.buttonClicked.emit('/clear materials'))
         self.clearCard.clear_items.connect(lambda: self.buttonClicked.emit('/clear items'))
+
         self.genderCard.gender_male.connect(lambda: self.buttonClicked.emit('/gender male'))
         self.genderCard.gender_female.connect(lambda: self.buttonClicked.emit('/gender female'))
         self.worldLevelCard.set_level.connect(self.handleWorldLevelClicked)
         self.avatarCard.avatar_set.connect(self.handleAvatarClicked)
+
         self.SceneInterface.emit_scene_id.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
         self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
         self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
@@ -360,6 +329,80 @@ class LunarCore(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
+    
+    def handlebuttonClicked(self, text):
+        self.updateText.clear()
+        self.updateText.setText(text)
+        if cfg.autoCopy.value:
+            self.copyToClipboard('hide')
+    
+    def handleOpencommandActionCkicked(self):
+        with open('config/config.json', 'r') as file:
+            data = json.load(file)
+            token = data['TOKEN']
+
+        command = self.updateText.text()
+        if token != '':
+            if self.updateText.text() != '':
+                response = send_command(token, command)
+                InfoBar.success(
+                    title='执行成功！',
+                    content=response,
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                )
+        else:
+            InfoBar.error(
+                title='执行失败！',
+                content='请先配置远程执行！',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+
+    def copyToClipboard(self, status):
+        text = self.updateText.text()
+        app = QApplication.instance()
+        try:
+            if text != '':
+                clipboard = app.clipboard()
+                clipboard.setText(text)
+                if status == 'show':
+                    InfoBar.success(
+                        title='复制成功！',
+                        content='',
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=1000,
+                        parent=self
+                    )
+            else:
+                if status == 'show':
+                    InfoBar.error(
+                        title='复制失败！',
+                        content='',
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=3000,
+                        parent=self
+                    )
+        except:
+            InfoBar.error(
+                title='复制失败！',
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
 
     def handleGiveallClicked(self, types):
         line_level = self.giveallCard.line_level.text()

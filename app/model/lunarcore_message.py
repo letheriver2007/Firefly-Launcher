@@ -2,8 +2,8 @@ from typing import Union
 from PySide6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView, QVBoxLayout, QHBoxLayout, QButtonGroup
 from PySide6.QtGui import QIcon, QIntValidator
 from PySide6.QtCore import Signal, Qt
-from qfluentwidgets import (FluentIconBase, LineEdit, TogglePushButton, PrimaryPushButton, StrongBodyLabel,
-                            TableWidget, SearchLineEdit, SettingCardGroup, SubtitleLabel, PrimaryToolButton)
+from qfluentwidgets import (FluentIconBase, LineEdit, TogglePushButton, PrimaryPushButton, StrongBodyLabel, ComboBox,
+                            TableWidget, SearchLineEdit, SettingCardGroup, SubtitleLabel, PrimaryToolButton, ConfigItem)
 from qfluentwidgets import FluentIcon as FIF
 from app.model.setting_card import SettingCard
 
@@ -39,31 +39,6 @@ class PrimaryPushSettingCard_Giveall(SettingCard):
         self.hBoxLayout.addSpacing(16)
         self.button_materials.clicked.connect(self.give_materials)
         self.button_avatars.clicked.connect(self.give_avatars)
-
-
-class PrimaryPushSettingCard_Clear(SettingCard):
-    clear_relics = Signal()
-    clear_lightcones = Signal()
-    clear_materials = Signal()
-    clear_items = Signal()
-    def __init__(self, relics, lightcones, meterials, items, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
-        self.button_relics = PrimaryPushButton(relics, self)
-        self.button_lightcones = PrimaryPushButton(lightcones, self)
-        self.button_materials = PrimaryPushButton(meterials, self)
-        self.button_items = PrimaryPushButton(items, self)
-        self.hBoxLayout.addWidget(self.button_relics, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_lightcones, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_materials, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_items, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(16)
-        self.button_relics.clicked.connect(self.clear_relics)
-        self.button_lightcones.clicked.connect(self.clear_lightcones)
-        self.button_materials.clicked.connect(self.clear_materials)
-        self.button_items.clicked.connect(self.clear_items)
 
 
 class PrimaryPushSettingCard_Account(SettingCard):
@@ -148,12 +123,9 @@ class PrimaryPushSettingCard_WorldLevel(SettingCard):
         self.world_level.setFixedWidth(85)
         validator = QIntValidator(1, 99, self)
         self.world_level.setValidator(validator)
-        self.button_set = PrimaryPushButton(worldlevel, self)
         self.hBoxLayout.addWidget(self.world_level, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_set, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_set.clicked.connect(self.set_level)
+        self.world_level.textChanged.connect(self.set_level)
 
 
 class PrimaryPushSettingCard_Avatar(SettingCard):
@@ -163,7 +135,6 @@ class PrimaryPushSettingCard_Avatar(SettingCard):
         self.avatar_level = LineEdit(self)
         self.avatar_eidolon = LineEdit(self)
         self.avatar_skill = LineEdit(self)
-        self.button_avatar = PrimaryPushButton(avatar, self)
         self.avatar_level.setPlaceholderText("等级")
         self.avatar_eidolon.setPlaceholderText("星魂")
         self.avatar_skill.setPlaceholderText("行迹")
@@ -179,7 +150,39 @@ class PrimaryPushSettingCard_Avatar(SettingCard):
         self.hBoxLayout.addWidget(self.avatar_eidolon, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.avatar_skill, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_avatar, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_avatar.clicked.connect(self.avatar_set)
+        self.avatar_level.textChanged.connect(self.avatar_set)
+        self.avatar_eidolon.textChanged.connect(self.avatar_set)
+        self.avatar_skill.textChanged.connect(self.avatar_set)
+
+
+class ComboBoxSettingCard_Quickgive(SettingCard):
+    quickgive_clicked = Signal(int)
+    def __init__(self, icon: Union[str, QIcon, FluentIconBase], title, content=None, texts=None, parent=None):
+        super().__init__(icon, title, content, parent)
+        self.comboBox = ComboBox(self)
+        self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.comboBox.setPlaceholderText('选择物品')
+        self.comboBox.addItems(texts)
+        self.comboBox.setCurrentIndex(-1)
+        self.comboBox.currentIndexChanged.connect(self._onCurrentIndexChanged)
+
+    def _onCurrentIndexChanged(self, index: int):
+        self.quickgive_clicked.emit(index)
+
+
+class ComboBoxSettingCard__Clear(SettingCard):
+    clear_clicked = Signal(int)
+    def __init__(self, icon: Union[str, QIcon, FluentIconBase], title, content=None, texts=None, parent=None):
+        super().__init__(icon, title, content, parent)
+        self.comboBox = ComboBox(self)
+        self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.comboBox.setPlaceholderText('选择物品')
+        self.comboBox.addItems(texts)
+        self.comboBox.setCurrentIndex(-1)
+        self.comboBox.currentIndexChanged.connect(self._onCurrentIndexChanged)
+
+    def _onCurrentIndexChanged(self, index: int):
+        self.clear_clicked.emit(index)

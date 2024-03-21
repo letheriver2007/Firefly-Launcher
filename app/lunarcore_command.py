@@ -183,26 +183,11 @@ class Give(QWidget):
         self.__initWidget()
 
     def __initWidget(self):
-        self.search_line_give = SearchLineEdit(self)
-        self.search_line_give.setPlaceholderText("搜索预设")
-        self.search_line_give.setFixedSize(290, 35)
-        self.custom_give_table = TableWidget(self)
-        self.custom_give_table.setFixedSize(290, 420)
-        self.custom_give_table.setBorderVisible(True)
-        self.custom_give_table.setBorderRadius(8)
-        self.custom_give_table.setWordWrap(False)
-        self.custom_give_table.setColumnCount(1)
-        self.custom_give_table.verticalHeader().hide()
-        # self.custom_give_table.setSelectRightClickedRow(True)
-        self.custom_give_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.custom_give_table.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.custom_give_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
         self.search_line = SearchLineEdit(self)
         self.search_line.setPlaceholderText("搜索物品")
-        self.search_line.setFixedSize(600, 35)
+        self.search_line.setFixedSize(915, 35)
         self.give_table = TableWidget(self)
-        self.give_table.setFixedSize(600, 420)
+        self.give_table.setFixedSize(915, 420)
         self.give_table.setBorderVisible(True)
         self.give_table.setBorderRadius(8)
         self.give_table.setWordWrap(False)
@@ -252,10 +237,6 @@ class Give(QWidget):
         self.__connectSignalToSlot()
     
     def __initLayout(self):
-        self.custom_give_layout = QVBoxLayout()
-        self.custom_give_layout.addWidget(self.search_line_give)
-        self.custom_give_layout.addWidget(self.custom_give_table)
-
         self.give_layout = QVBoxLayout()
         self.give_layout.addWidget(self.search_line)
         self.give_layout.addWidget(self.give_table)
@@ -291,8 +272,6 @@ class Give(QWidget):
         self.set_layout.addStretch(1)
 
         self.main_layout = QHBoxLayout()
-        self.main_layout.addLayout(self.custom_give_layout)
-        self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.give_layout)
         self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.set_layout)
@@ -379,12 +358,12 @@ class Relic(QWidget):
         self.relic_table.setBorderVisible(True)
         self.relic_table.setBorderRadius(8)
         self.relic_table.setWordWrap(False)
-        self.relic_table.setColumnCount(4)
+        self.relic_table.setColumnCount(3)
         self.relic_table.verticalHeader().hide()
         # self.relic_table.setSelectRightClickedRow(True)
-        self.relic_table.setColumnWidth(0, 198)
-        self.relic_table.setColumnWidth(1, 80)
-        self.relic_table.setColumnWidth(2, 75)
+        self.relic_table.setColumnWidth(0, 168)
+        self.relic_table.setColumnWidth(1, 100)
+        self.relic_table.setColumnWidth(2, 85)
         self.relic_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.relic_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
@@ -405,7 +384,7 @@ class Relic(QWidget):
         self.entry_table.setBorderVisible(True)
         self.entry_table.setBorderRadius(8)
         self.entry_table.setWordWrap(False)
-        self.entry_table.setColumnCount(4)
+        self.entry_table.setColumnCount(3)
         self.entry_table.verticalHeader().hide()
         # self.entry_table.setSelectRightClickedRow(True)
         self.entry_table.setColumnWidth(0, 198)
@@ -514,9 +493,9 @@ class Relic(QWidget):
         self.load_now_entry()
 
     def __connectSignalToSlot(self):
-        self.search_line.textChanged.connect(lambda: self.search_relic('line'))
-        self.relic_base_button.clicked.connect(lambda: self.search_relic('base'))
-        self.relic_custom_button.clicked.connect(lambda: self.search_relic('custom'))
+        self.search_line.textChanged.connect(self.search_relic)
+        self.relic_base_button.clicked.connect(self.load_relic)
+        self.relic_custom_button.clicked.connect(self.load_custom_relic)
 
         self.entry_search_line.textChanged.connect(lambda: self.search_entry('line'))
         self.entry_main_button.clicked.connect(lambda: self.search_entry('main'))
@@ -541,56 +520,65 @@ class Relic(QWidget):
 
     def load_relic(self):
         with open('src/data/relic.txt', 'r', encoding='utf-8') as file:
-            relic = file.readlines()
+            relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
         for i, line in enumerate(relic):
             parts = line.split()
+            self.relic_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
                 self.relic_table.setItem(i, j, QTableWidgetItem(part))
-        self.relic_table.setHorizontalHeaderLabels(['遗器名称', '部位', 'ID', 'types'])
-        self.relic_table.setColumnHidden(3, True)
+        self.relic_table.setHorizontalHeaderLabels(['遗器名称', '部位', 'ID'])
+        self.change_click_ability(False)
+    
+    def load_custom_relic(self):
+        with open('src/data/myrelic.txt', 'r', encoding='utf-8') as file:
+            relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
+        self.relic_table.setRowCount(len(relic))
+        for i, line in enumerate(relic):
+            parts = line.split()
+            self.relic_table.setRowHeight(i, 39)
+            for j, part in enumerate(parts):
+                self.relic_table.setItem(i, j, QTableWidgetItem(part))
+        self.relic_table.setHorizontalHeaderLabels(['套装名称', '部位', '适用角色'])
+        self.change_click_ability(True)
+    
+    def change_click_ability(self, flag):
+        layouts = [self.entry_layout, self.entry_button_layout, self.now_entry_layout, self.now_entry_tool_layout]
+        for layout in layouts:
+            for i in range(layout.count()):
+                widget = layout.itemAt(i).widget()
+                if widget is not None:
+                    widget.setDisabled(flag)
     
     def load_entry(self):
         with open('src/data/entry.txt', 'r', encoding='utf-8') as file:
-            entry = file.readlines()
+            entry = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.entry_table.setRowCount(len(entry))
         for i, line in enumerate(entry):
             parts = line.split()
+            self.entry_table.setRowHeight(i, 30)
             for j, part in enumerate(parts):
                 self.entry_table.setItem(i, j, QTableWidgetItem(part))
-        self.entry_table.setHorizontalHeaderLabels(['词条名称', '部位', 'ID', 'types'])
-        self.entry_table.setColumnHidden(3, True)
+        self.entry_table.setHorizontalHeaderLabels(['词条名称', '部位', 'ID'])
     
     def load_now_entry(self):
         self.now_entry_table.clearContents()
         self.now_entry_table.setRowCount(len(self.now_entry_list))
         for row, (key, value) in enumerate(self.now_entry_list.items()):
+            self.now_entry_table.setRowHeight(row, 30)
             self.now_entry_table.setItem(row, 0, QTableWidgetItem(key))
             self.now_entry_table.setItem(row, 1, QTableWidgetItem(str(value)))
         self.now_entry_table.setHorizontalHeaderLabels(['词条名称', '数量'])
 
-    def search_relic(self, types):
-        if types == 'line':
-            keyword = self.search_line.text()
-            for row in range(self.relic_table.rowCount()):
-                item = self.relic_table.item(row, 0)
-                if item.text().lower().find(keyword.lower()) != -1:
-                    self.relic_table.setRowHidden(row, False)
-                else:
-                    self.relic_table.setRowHidden(row, True)
-        else:
-            for row in range(self.relic_table.rowCount()):
-                item = self.relic_table.item(row, 3)
-                if types == 'base':
-                    if item.text() != 'base':
-                        self.relic_table.setRowHidden(row, True)
-                    else:
-                        self.relic_table.setRowHidden(row, False)
-                elif types == 'custom':
-                    if item.text() != 'custom':
-                        self.relic_table.setRowHidden(row, True)
-                    else:
-                        self.relic_table.setRowHidden(row, False)
+    def search_relic(self):
+        keyword = self.search_line.text()
+        for row in range(self.relic_table.rowCount()):
+            item_1 = self.relic_table.item(row, 0)
+            item_2 = self.relic_table.item(row, 1)
+            if (item_1 and item_1.text().lower().find(keyword) != -1) or (item_2 and item_2.text().lower().find(keyword) != -1):
+                self.relic_table.setRowHidden(row, False)
+            else:
+                self.relic_table.setRowHidden(row, True)
     
     def search_entry(self, types):
         if types == 'line':
@@ -603,15 +591,15 @@ class Relic(QWidget):
                     self.entry_table.setRowHidden(row, True)
         else:
             for row in range(self.entry_table.rowCount()):
-                item = self.entry_table.item(row, 3)
+                item = self.entry_table.item(row, 1)
                 if types == 'main':
-                    if item.text() != 'main':
+                    if item.text() != '通用':
                         self.entry_table.setRowHidden(row, True)
                     else:
                         self.entry_table.setRowHidden(row, False)
                     self.show_relic_entry()
-                elif types =='side':
-                    if item.text() !='side':
+                else:
+                    if item.text() !='通用':
                         self.entry_table.setRowHidden(row, True)
                     else:
                         self.entry_table.setRowHidden(row, False)

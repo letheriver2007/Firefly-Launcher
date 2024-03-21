@@ -6,9 +6,9 @@ from qfluentwidgets import Pivot, qrouter, ScrollArea, LineEdit, PrimaryPushButt
 from app.model.style_sheet import StyleSheet
 from app.lunarcore_command import Scene, Spawn, Give, Relic
 from app.lunarcore_edit import LunarCoreEdit
-from app.model.lunarcore_message import (PrimaryPushSettingCard_Giveall, PrimaryPushSettingCard_Clear, PrimaryPushSettingCard_Account,
+from app.model.lunarcore_message import (PrimaryPushSettingCard_Giveall, ComboBoxSettingCard__Clear, PrimaryPushSettingCard_Account,
                                            PrimaryPushSettingCard_Kick, PrimaryPushSettingCard_Unstuck, PrimaryPushSettingCard_Gender,
-                                           PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar)
+                                           PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, ComboBoxSettingCard_Quickgive)
 from app.model.download_message import MessageLunarCore, MessageLunarCoreRes, HyperlinkCard_LunarCore, download_check
 from app.model.setting_group import SettingCardGroup
 from app.model.config import cfg
@@ -134,6 +134,38 @@ class LunarCoreCommand(ScrollArea):
         self.stackedWidget = QStackedWidget(self)
 
         # 添加项
+        self.CustomInterface = SettingCardGroup(self.scrollWidget)
+        self.giveallCard = PrimaryPushSettingCard_Giveall(
+            '物品',
+            '角色',
+            FIF.TAG,
+            '给予全部',
+            '/giveall {items | avatars}'
+        )
+        self.quickgiveCard = ComboBoxSettingCard_Quickgive(
+            FIF.TAG,
+            '物品快捷给予',
+            '选择你想要快捷得到的物品',
+            texts=['1000专票', '1000通票']
+        )
+        self.clearCard = ComboBoxSettingCard__Clear(
+            FIF.TAG,
+            '清空物品',
+            '/clear {all | relics | lightcones | materials | items}',
+            texts=['全部', '遗器', '光锥', '材料', '物品']
+        )
+        self.refillCard = PrimaryPushSettingCard(
+            '使用',
+            FIF.TAG,
+            '秘技点补充',
+            '/refill'
+        )
+        self.healCard = PrimaryPushSettingCard(
+            '使用',
+            FIF.TAG,
+            '治疗全部队伍角色',
+            '/heal'
+        )
         self.ServerInterface = SettingCardGroup(self.scrollWidget)
         self.helpCard = PrimaryPushSettingCard(
             '使用',
@@ -165,35 +197,6 @@ class LunarCoreCommand(ScrollArea):
             FIF.TAG,
             '解除场景未加载造成的卡死',
             '/unstuck'
-        )
-        self.CustomInterface = SettingCardGroup(self.scrollWidget)
-        self.giveallCard = PrimaryPushSettingCard_Giveall(
-            '物品',
-            '角色',
-            FIF.TAG,
-            '给予全部',
-            '/giveall {items | avatars}'
-        )
-        self.clearCard = PrimaryPushSettingCard_Clear(
-            '遗器',
-            '光锥',
-            '材料',
-            '物品',
-            FIF.TAG,
-            '清空物品',
-            '/clear {relics | lightcones | materials | items}'
-        )
-        self.refillCard = PrimaryPushSettingCard(
-            '使用',
-            FIF.TAG,
-            '秘技点补充',
-            '/refill'
-        )
-        self.healCard = PrimaryPushSettingCard(
-            '使用',
-            FIF.TAG,
-            '治疗全部队伍角色',
-            '/heal'
         )
         self.PersonalInterface = SettingCardGroup(self.scrollWidget)
         self.genderCard = PrimaryPushSettingCard_Gender(
@@ -243,23 +246,25 @@ class LunarCoreCommand(ScrollArea):
 
     def __initLayout(self):
         # 项绑定到栏目
+        self.CustomInterface.addSettingCard(self.giveallCard)
+        self.CustomInterface.addSettingCard(self.quickgiveCard)
+        self.CustomInterface.addSettingCard(self.clearCard)
+        self.CustomInterface.addSettingCard(self.refillCard)
+        self.CustomInterface.addSettingCard(self.healCard)
         self.ServerInterface.addSettingCard(self.helpCard)
         self.ServerInterface.addSettingCard(self.reloadCard)
         self.ServerInterface.addSettingCard(self.accountCard)
         self.ServerInterface.addSettingCard(self.kickCard)
         self.ServerInterface.addSettingCard(self.unstuckCard)
-        self.CustomInterface.addSettingCard(self.giveallCard)
-        self.CustomInterface.addSettingCard(self.clearCard)
-        self.CustomInterface.addSettingCard(self.refillCard)
-        self.CustomInterface.addSettingCard(self.healCard)
         self.PersonalInterface.addSettingCard(self.genderCard)
         self.PersonalInterface.addSettingCard(self.worldLevelCard)
         self.PersonalInterface.addSettingCard(self.avatarCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.COMMAND_PROMPT)
         self.addSubInterface(self.CustomInterface, 'CustomInterface','快捷', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.COMMAND_PROMPT)
         self.addSubInterface(self.PersonalInterface, 'PersonalInterface','账号', icon=FIF.COMMAND_PROMPT)
+
         self.SceneInterface = Scene('SceneInterface', self)
         self.addSubInterface(self.SceneInterface, 'SceneInterface','场景', icon=FIF.COMMAND_PROMPT)
         self.SpawnInterface = Spawn('SpawnInterface', self)
@@ -275,9 +280,9 @@ class LunarCoreCommand(ScrollArea):
         self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 0, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.ServerInterface)
-        self.pivot.setCurrentItem(self.ServerInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.ServerInterface.objectName())
+        self.stackedWidget.setCurrentWidget(self.CustomInterface)
+        self.pivot.setCurrentItem(self.CustomInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.CustomInterface.objectName())
 
         self.updateLayout = QHBoxLayout(self.updateContainer)
         self.updateLayout.addWidget(self.updateText, alignment=Qt.AlignCenter)
@@ -296,22 +301,20 @@ class LunarCoreCommand(ScrollArea):
         self.copyButton.clicked.connect(lambda: self.copyToClipboard('show'))
         self.actionButton.clicked.connect(self.handleOpencommandActionCkicked)
 
-        self.refillCard.clicked.connect(lambda: self.buttonClicked.emit('/refill'))
-        self.healCard.clicked.connect(lambda: self.buttonClicked.emit('/heal'))
-        self.helpCard.clicked.connect(lambda: self.buttonClicked.emit('/help'))
-        self.reloadCard.clicked.connect(lambda: self.buttonClicked.emit('/reload'))
-
         self.accountCard.create_account.connect(lambda: self.handleAccountClicked('create'))
         self.accountCard.delete_account.connect(lambda: self.handleAccountClicked('delete'))
         self.kickCard.kick_player.connect(self.handleKickClicked)
         self.unstuckCard.unstuck_player.connect(self.handleUnstuckClicked)
 
+        self.refillCard.clicked.connect(lambda: self.buttonClicked.emit('/refill'))
+        self.healCard.clicked.connect(lambda: self.buttonClicked.emit('/heal'))
+        self.helpCard.clicked.connect(lambda: self.buttonClicked.emit('/help'))
+        self.reloadCard.clicked.connect(lambda: self.buttonClicked.emit('/reload'))
+
         self.giveallCard.give_materials.connect(lambda: self.handleGiveallClicked('materials'))
         self.giveallCard.give_avatars.connect(lambda: self.handleGiveallClicked('avatars'))
-        self.clearCard.clear_relics.connect(lambda: self.buttonClicked.emit('/clear relics'))
-        self.clearCard.clear_lightcones.connect(lambda: self.buttonClicked.emit('/clear lightcones'))
-        self.clearCard.clear_materials.connect(lambda: self.buttonClicked.emit('/clear materials'))
-        self.clearCard.clear_items.connect(lambda: self.buttonClicked.emit('/clear items'))
+        self.quickgiveCard.quickgive_clicked.connect(lambda itemid: self.handleQuickgiveClicked(itemid))
+        self.clearCard.clear_clicked.connect(lambda itemid: self.handleClearClicked(itemid))
 
         self.genderCard.gender_male.connect(lambda: self.buttonClicked.emit('/gender male'))
         self.genderCard.gender_female.connect(lambda: self.buttonClicked.emit('/gender female'))
@@ -431,6 +434,24 @@ class LunarCoreCommand(ScrollArea):
                 command +=' s' + line_skill
         self.buttonClicked.emit(command)
 
+    def handleQuickgiveClicked(self, itemid):
+        if itemid == 0:
+            self.buttonClicked.emit('/give 102 x1000')
+        elif itemid == 1:
+            self.buttonClicked.emit('/give 101 x1000')
+    
+    def handleClearClicked(self, itemid):
+        if itemid == 0:
+            self.buttonClicked.emit('/clear all')
+        elif itemid == 1:
+            self.buttonClicked.emit('/clear relics')
+        elif itemid == 2:
+            self.buttonClicked.emit('/clear lightcones')
+        elif itemid == 3:
+            self.buttonClicked.emit('/clear materials')
+        elif itemid == 4:
+            self.buttonClicked.emit('/clear items')
+    
     def handleAccountClicked(self, types):
         account_name = self.accountCard.account_name.text()
         account_uid = self.accountCard.account_uid.text()
@@ -485,15 +506,7 @@ class LunarCoreCommand(ScrollArea):
         if world_level != '':
             self.buttonClicked.emit('/worldlevel ' + world_level)
         else:
-            InfoBar.error(
-                title='请输入正确的开拓等级！',
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            self.buttonClicked.emit('')
     
     def handleAvatarClicked(self):
         avatar_level = self.avatarCard.avatar_level.text()
@@ -509,15 +522,7 @@ class LunarCoreCommand(ScrollArea):
         if command != '/avatar':
             self.buttonClicked.emit(command)
         else:
-            InfoBar.error(
-                title='请输入正确的角色信息！',
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            self.buttonClicked.emit('')
 
     def handleSpawnClicked(self, monster_id):
         monster_num = self.SpawnInterface.monster_num.text()

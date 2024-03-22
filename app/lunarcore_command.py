@@ -334,6 +334,7 @@ class Give(QWidget):
 
 class Relic(QWidget):
     emit_relic_id = Signal(str)
+    emit_custom_relic_command = Signal(str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -343,51 +344,52 @@ class Relic(QWidget):
     def __initWidget(self):
         self.search_line = SearchLineEdit(self)
         self.search_line.setPlaceholderText("搜索遗器")
-        self.search_line.setFixedSize(210, 35)
+        self.search_line.setFixedSize(238, 35)
         self.relic_type_button_group = QButtonGroup(self)
         self.relic_base_button = TogglePushButton("基础", self)
         self.relic_custom_button = TogglePushButton("预设", self)
         self.relic_base_button.setChecked(True)
-        self.relic_base_button.setFixedSize(68, 35)
-        self.relic_custom_button.setFixedSize(68, 35)
+        self.relic_base_button.setFixedSize(67, 35)
+        self.relic_custom_button.setFixedSize(67, 35)
         self.relic_type_button_group.addButton(self.relic_base_button)
         self.relic_type_button_group.addButton(self.relic_custom_button)
 
         self.relic_table = TableWidget(self)
-        self.relic_table.setFixedSize(355, 420)
+        self.relic_table.setFixedSize(385, 420)
         self.relic_table.setBorderVisible(True)
         self.relic_table.setBorderRadius(8)
         self.relic_table.setWordWrap(False)
-        self.relic_table.setColumnCount(3)
+        self.relic_table.setColumnCount(4)
         self.relic_table.verticalHeader().hide()
         # self.relic_table.setSelectRightClickedRow(True)
-        self.relic_table.setColumnWidth(0, 168)
-        self.relic_table.setColumnWidth(1, 100)
-        self.relic_table.setColumnWidth(2, 85)
+        self.relic_table.setColumnWidth(0, 163)
+        self.relic_table.setColumnWidth(1, 80)
+        self.relic_table.setColumnWidth(2, 140)
+        self.relic_table.setColumnWidth(3, 0)
         self.relic_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.relic_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.entry_search_line = SearchLineEdit(self)
         self.entry_search_line.setPlaceholderText("搜索词条")
-        self.entry_search_line.setFixedSize(210, 35)
+        self.entry_search_line.setFixedSize(180, 35)
         self.entry_type_button_group = QButtonGroup(self)
         self.entry_main_button = TogglePushButton("主词条", self)
         self.entry_side_button = TogglePushButton("副词条", self)
         self.entry_main_button.setChecked(True)
-        self.entry_main_button.setFixedSize(68, 35)
-        self.entry_side_button.setFixedSize(68, 35)
+        self.entry_main_button.setFixedSize(67, 35)
+        self.entry_side_button.setFixedSize(67, 35)
         self.entry_type_button_group.addButton(self.entry_main_button)
         self.entry_type_button_group.addButton(self.entry_side_button)
 
         self.entry_table = TableWidget(self)
-        self.entry_table.setFixedSize(355, 420)
+        self.entry_table.setFixedSize(325, 420)
         self.entry_table.setBorderVisible(True)
         self.entry_table.setBorderRadius(8)
         self.entry_table.setWordWrap(False)
         self.entry_table.setColumnCount(3)
         self.entry_table.verticalHeader().hide()
         # self.entry_table.setSelectRightClickedRow(True)
-        self.entry_table.setColumnWidth(0, 198)
+        self.entry_table.setColumnWidth(0, 168)
         self.entry_table.setColumnWidth(1, 80)
         self.entry_table.setColumnWidth(2, 75)
         self.entry_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -538,8 +540,13 @@ class Relic(QWidget):
             parts = line.split()
             self.relic_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
-                self.relic_table.setItem(i, j, QTableWidgetItem(part))
-        self.relic_table.setHorizontalHeaderLabels(['套装名称', '部位', '适用角色'])
+                if j == 3:
+                    item = ' '.join(parts[3:])
+                    self.relic_table.setItem(i, j, QTableWidgetItem(item))
+                    break
+                else:
+                    self.relic_table.setItem(i, j, QTableWidgetItem(part))
+        self.relic_table.setHorizontalHeaderLabels(['遗器名称', '部位', '适用角色', 'command'])
         self.change_click_ability(True)
     
     def change_click_ability(self, flag):
@@ -549,6 +556,11 @@ class Relic(QWidget):
                 widget = layout.itemAt(i).widget()
                 if widget is not None:
                     widget.setDisabled(flag)
+        self.search_line.clear()
+        if flag:
+            self.entry_table.clearContents()
+        else:
+            self.load_entry()
     
     def load_entry(self):
         with open('src/data/entry.txt', 'r', encoding='utf-8') as file:
@@ -556,7 +568,7 @@ class Relic(QWidget):
         self.entry_table.setRowCount(len(entry))
         for i, line in enumerate(entry):
             parts = line.split()
-            self.entry_table.setRowHeight(i, 30)
+            self.entry_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
                 self.entry_table.setItem(i, j, QTableWidgetItem(part))
         self.entry_table.setHorizontalHeaderLabels(['词条名称', '部位', 'ID'])
@@ -575,7 +587,11 @@ class Relic(QWidget):
         for row in range(self.relic_table.rowCount()):
             item_1 = self.relic_table.item(row, 0)
             item_2 = self.relic_table.item(row, 1)
-            if (item_1 and item_1.text().lower().find(keyword) != -1) or (item_2 and item_2.text().lower().find(keyword) != -1):
+            item_3 = self.relic_table.item(row, 2)
+            iskeyword_1 = item_1 and item_1.text().lower().find(keyword.lower()) != -1
+            iskeyword_2 = item_2 and item_2.text().lower().find(keyword.lower()) != -1
+            iskeyword_3 = item_3 and item_3.text().lower().find(keyword.lower()) != -1
+            if iskeyword_1 or iskeyword_2 or iskeyword_3:
                 self.relic_table.setRowHidden(row, False)
             else:
                 self.relic_table.setRowHidden(row, True)
@@ -593,12 +609,12 @@ class Relic(QWidget):
             for row in range(self.entry_table.rowCount()):
                 item = self.entry_table.item(row, 1)
                 if types == 'main':
-                    if item.text() != '通用':
+                    if item.text() == '通用':
                         self.entry_table.setRowHidden(row, True)
                     else:
                         self.entry_table.setRowHidden(row, False)
                     self.show_relic_entry()
-                else:
+                elif types =='side':
                     if item.text() !='通用':
                         self.entry_table.setRowHidden(row, True)
                     else:
@@ -608,9 +624,9 @@ class Relic(QWidget):
         selected_entry = self.entry_table.selectedItems()
         if selected_entry:
             selected_row = self.entry_table.currentRow()
-            if self.entry_table.item(selected_row, 3).text() == 'main' and types == 'cell':
+            if self.entry_table.item(selected_row, 1).text() != '通用' and types == 'cell':
                 self.now_entry_label.setText(selected_entry[0].text())
-            elif self.entry_table.item(selected_row, 3).text() == 'side' and types == 'button':
+            elif self.entry_table.item(selected_row, 1).text() == '通用' and types == 'button':
                 if len(self.now_entry_list) < 4:
                     entry_id = selected_entry[0].text()
                     if entry_id not in self.now_entry_list:
@@ -643,7 +659,8 @@ class Relic(QWidget):
     
     def show_relic_entry(self):
         selected_relic = self.relic_table.selectedItems()
-        if selected_relic:
+        if selected_relic and not self.relic_custom_button.isChecked():
+            self.entry_main_button.setChecked(True)
             relic_type = selected_relic[1].text()
             for row in range(self.entry_table.rowCount()):
                 if self.entry_table.item(row, 1).text() == relic_type:
@@ -655,5 +672,9 @@ class Relic(QWidget):
     def relic_clicked(self):
         selected_items = self.relic_table.selectedItems()
         if selected_items:
-            relic_id = selected_items[2].text()
-            self.emit_relic_id.emit(relic_id)
+            if self.relic_base_button.isChecked():
+                relic_id = selected_items[2].text()
+                self.emit_relic_id.emit(relic_id)
+            elif self.relic_custom_button.isChecked():
+                command = selected_items[3].text()
+                self.emit_custom_relic_command.emit(command)

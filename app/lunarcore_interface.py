@@ -325,6 +325,7 @@ class LunarCoreCommand(ScrollArea):
         self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
         self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
         self.RelicInterface.emit_relic_id.connect(lambda relic_id: self.handleRelicClicked(relic_id))
+        self.RelicInterface.emit_custom_relic_command.connect(lambda command: self.buttonClicked.emit(command))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -351,20 +352,30 @@ class LunarCoreCommand(ScrollArea):
         with open('config/config.json', 'r') as file:
             data = json.load(file)
             token = data['TOKEN']
-
         command = self.updateText.text().replace('/', '')
         if token != '':
             if self.updateText.text() != '':
-                response = send_command(token, command)
-                InfoBar.success(
-                    title='执行成功！',
-                    content=response,
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self.parent
-                )
+                try:
+                    response = send_command(token, command)
+                    InfoBar.success(
+                        title='执行成功！',
+                        content=response,
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=1000,
+                        parent=self.parent
+                    )
+                except Exception as e:
+                    InfoBar.error(
+                        title='执行失败！',
+                        content=str(e),
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=3000,
+                        parent=self.parent
+                    )
         else:
             InfoBar.error(
                 title='执行失败！',
@@ -572,7 +583,7 @@ class LunarCoreCommand(ScrollArea):
         if main_entry_name != '':
             entry_index = 0
             for i in range(entry_table.rowCount()):
-                if entry_table.item(i, 0).text() == main_entry_name and entry_table.item(i, 3).text() == 'main':
+                if entry_table.item(i, 0).text() == main_entry_name and entry_table.item(i, 1).text() != '通用':
                     entry_index = i
                     break
             main_entry = entry_table.item(entry_index, 2).text()
@@ -582,7 +593,7 @@ class LunarCoreCommand(ScrollArea):
             if entry_name != '':
                 entry_index = 0
                 for i in range(entry_table.rowCount()):
-                    if entry_table.item(i, 0).text() == entry_name and entry_table.item(i, 3).text() =='side':
+                    if entry_table.item(i, 0).text() == entry_name and entry_table.item(i, 1).text() =='通用':
                         entry_index = i
                         break
                 side_entry = entry_table.item(entry_index, 2).text()

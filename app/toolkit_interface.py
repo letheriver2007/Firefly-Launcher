@@ -80,6 +80,7 @@ class Toolkit(ScrollArea):
         StyleSheet.SETTING_INTERFACE.apply(self)
 
         self.__initLayout()
+        self.__initInfo()
         self.__connectSignalToSlot()
 
     def __initLayout(self):
@@ -107,7 +108,10 @@ class Toolkit(ScrollArea):
         self.stackedWidget.setCurrentWidget(self.ToolkitDownloadInterface)
         self.pivot.setCurrentItem(self.ToolkitDownloadInterface.objectName())
         qrouter.setDefaultRouteKey(self.stackedWidget, self.ToolkitDownloadInterface.objectName())
-        
+
+    def __initInfo(self):
+        TEMP_TOKEN = ''
+
     def __connectSignalToSlot(self):
         self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
         self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
@@ -201,7 +205,7 @@ class Toolkit(ScrollArea):
         if command =='sendcode':
             status, response = send_code(info)
             if status == 'success':
-                self.save_token(response, 'temp')
+                self.TEMP_TOKEN = response
                 self.sendcodeCard.iconLabel.setIcon(FIF.SEND_FILL)
                 InfoBar.success(
                     title="发送成功！",
@@ -223,13 +227,9 @@ class Toolkit(ScrollArea):
                     parent=self
                 )
         if command =='vertifycode':
-            with open('config/config.json', 'r') as file:
-                data = json.load(file)
-                temp_token = data['TEMP_TOKEN']
-
-            status, response = verify_token(temp_token, info)
+            status, response = verify_token(self.TEMP_TOKEN, info)
             if status == 'success':
-                self.save_token(response, 'verify')
+                self.save_token(response)
                 InfoBar.success(
                     title="验证成功！",
                     content='远程执行配置完成',
@@ -250,13 +250,9 @@ class Toolkit(ScrollArea):
                     parent=self
                 )
 
-    def save_token(self, token, types):
+    def save_token(self, token):
         with open('config/config.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
-            if types == 'temp':
-                data['TEMP_TOKEN'] = token
-            elif types =='verify':
-                data['TOKEN'] = token
-
+            data['TOKEN'] = token
         with open('config/config.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False)

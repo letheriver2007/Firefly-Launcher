@@ -1,4 +1,5 @@
 import json
+import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QApplication, QTableWidgetItem
 from PySide6.QtCore import Qt, Signal
 from qfluentwidgets import FluentIcon as FIF
@@ -53,11 +54,11 @@ class LunarCore(ScrollArea):
             '下载LunarCore资源文件'
         )
         self.ConfigInterface = SettingCardGroup(self.scrollWidget)
-        self.settingConfigCard = PrimaryPushSettingCard(
-            '设置',
+        self.CommandDataConfigCard = PrimaryPushSettingCard(
+            '打开文件夹',
             FIF.LABEL,
-            'UID设置',
-            '自定义默认UID配置'
+            '命令数据设置',
+            '自定义命令数据配置'
         )
 
         self.__initWidget()
@@ -80,6 +81,7 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreRepoCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreDownloadCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreResDownloadCard)
+        self.ConfigInterface.addSettingCard(self.CommandDataConfigCard)
 
         # 栏绑定界面
         self.addSubInterface(self.LunarCoreDownloadInterface, 'LunarCoreDownloadInterface','下载', icon=FIF.DOWNLOAD)
@@ -102,6 +104,7 @@ class LunarCore(ScrollArea):
     def __connectSignalToSlot(self):
         self.LunarCoreDownloadCard.clicked.connect(lambda: download_check(self, 'lunarcore'))
         self.LunarCoreResDownloadCard.clicked.connect(lambda: download_check(self, 'lunarcoreres'))
+        self.CommandDataConfigCard.clicked.connect(lambda: subprocess.run(['start', '.\\src\\data\\'], shell=True))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -147,12 +150,6 @@ class LunarCoreCommand(ScrollArea):
             '物品快捷给予',
             '选择你想要快捷得到的物品',
             texts=['1000专票', '1000通票']
-        )
-        self.clearCard = ComboBoxSettingCard__Clear(
-            FIF.TAG,
-            '清空物品',
-            '/clear {all | relics | lightcones | materials | items}',
-            texts=['全部', '遗器', '光锥', '材料', '物品']
         )
         self.refillCard = PrimaryPushSettingCard(
             '使用',
@@ -218,6 +215,12 @@ class LunarCoreCommand(ScrollArea):
             '设置当前角色属性',
             '/avatar [lv(level)] [r(eidolon)] [s(skill level)]'
         )
+        self.clearCard = ComboBoxSettingCard__Clear(
+            FIF.TAG,
+            '清空物品',
+            '/clear {all | relics | lightcones | materials | items}',
+            texts=['全部', '遗器', '光锥', '材料', '物品']
+        )
         self.RelicInterface = SettingCardGroup(self.scrollWidget)
 
         self.__initWidget()
@@ -248,7 +251,6 @@ class LunarCoreCommand(ScrollArea):
         # 项绑定到栏目
         self.CustomInterface.addSettingCard(self.giveallCard)
         self.CustomInterface.addSettingCard(self.quickgiveCard)
-        self.CustomInterface.addSettingCard(self.clearCard)
         self.CustomInterface.addSettingCard(self.refillCard)
         self.CustomInterface.addSettingCard(self.healCard)
         self.ServerInterface.addSettingCard(self.helpCard)
@@ -259,6 +261,7 @@ class LunarCoreCommand(ScrollArea):
         self.PersonalInterface.addSettingCard(self.genderCard)
         self.PersonalInterface.addSettingCard(self.worldLevelCard)
         self.PersonalInterface.addSettingCard(self.avatarCard)
+        self.PersonalInterface.addSettingCard(self.clearCard)
 
         # 栏绑定界面
         self.addSubInterface(self.CustomInterface, 'CustomInterface','快捷', icon=FIF.COMMAND_PROMPT)
@@ -314,16 +317,16 @@ class LunarCoreCommand(ScrollArea):
         self.giveallCard.give_materials.connect(lambda: self.handleGiveallClicked('materials'))
         self.giveallCard.give_avatars.connect(lambda: self.handleGiveallClicked('avatars'))
         self.quickgiveCard.quickgive_clicked.connect(lambda itemid: self.handleQuickgiveClicked(itemid))
-        self.clearCard.clear_clicked.connect(lambda itemid: self.handleClearClicked(itemid))
 
         self.genderCard.gender_male.connect(lambda: self.buttonClicked.emit('/gender male'))
         self.genderCard.gender_female.connect(lambda: self.buttonClicked.emit('/gender female'))
         self.worldLevelCard.set_level.connect(self.handleWorldLevelClicked)
         self.avatarCard.avatar_set.connect(self.handleAvatarClicked)
+        self.clearCard.clear_clicked.connect(lambda itemid: self.handleClearClicked(itemid))
 
-        self.SceneInterface.emit_scene_id.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
-        self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
-        self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
+        self.SceneInterface.scene_id_signal.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
+        self.SpawnInterface.monster_id_signal.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
+        self.GiveInterface.item_id_signal.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
         self.RelicInterface.relic_id_signal.connect(lambda relic_id: self.handleRelicClicked(relic_id))
         self.RelicInterface.custom_relic_signal.connect(lambda command: self.buttonClicked.emit(command))
 
@@ -358,7 +361,7 @@ class LunarCoreCommand(ScrollArea):
                 try:
                     response = send_command(token, command)
                     InfoBar.success(
-                        title='执行成功！',
+                        title='执行完成！',
                         content=response,
                         orient=Qt.Horizontal,
                         isClosable=True,
@@ -536,38 +539,38 @@ class LunarCoreCommand(ScrollArea):
             self.buttonClicked.emit('')
 
     def handleSpawnClicked(self, monster_id):
-        monster_num = self.SpawnInterface.monster_num.text()
-        monster_level = self.SpawnInterface.monster_level.text()
-        monster_round = self.SpawnInterface.monster_round.text()
+        monster_num_edit = self.SpawnInterface.monster_num_edit.text()
+        monster_level_edit = self.SpawnInterface.monster_level_edit.text()
+        monster_round_edit = self.SpawnInterface.monster_round_edit.text()
         command = '/spawn ' + monster_id
-        if monster_num != '':
-            command += ' x' + monster_num
-        if monster_level != '':
-            command += ' lv' + monster_level
-        if monster_round != '':
-            command += ' r' + monster_round
+        if monster_num_edit != '':
+            command += ' x' + monster_num_edit
+        if monster_level_edit != '':
+            command += ' lv' + monster_level_edit
+        if monster_round_edit != '':
+            command += ' r' + monster_round_edit
         self.buttonClicked.emit(command)
     
     def handleGiveClicked(self, item_id, types):
-        search_level = self.GiveInterface.search_level.text()
-        search_eidolon = self.GiveInterface.search_eidolon.text()
-        search_num = self.GiveInterface.search_num.text()
+        give_level_edit = self.GiveInterface.give_level_edit.text()
+        give_eidolon_edit = self.GiveInterface.give_eidolon_edit.text()
+        give_num_edit = self.GiveInterface.give_num_edit.text()
         command = '/give ' + item_id
         if types == 'avatar':
-            if search_level != '':
-                command += ' lv' + search_level
-            if search_eidolon != '':
-                command += ' r' + search_eidolon
+            if give_level_edit != '':
+                command += ' lv' + give_level_edit
+            if give_eidolon_edit != '':
+                command += ' r' + give_eidolon_edit
         elif types == 'lightcone':
-            if search_num != '':
-                command += ' x' + search_num
-            if search_level != '':
-                command += ' lv' + search_level
-            if search_eidolon != '':
-                command += ' r' + search_eidolon
+            if give_num_edit != '':
+                command += ' x' + give_num_edit
+            if give_level_edit != '':
+                command += ' lv' + give_level_edit
+            if give_eidolon_edit != '':
+                command += ' r' + give_eidolon_edit
         elif types == 'item' or types == 'food':
-            if search_num != '':
-                command += ' x' + search_num
+            if give_num_edit != '':
+                command += ' x' + give_num_edit
         self.buttonClicked.emit(command)
     
     def handleRelicClicked(self, relic_id):

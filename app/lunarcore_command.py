@@ -333,8 +333,8 @@ class Give(QWidget):
 
 
 class Relic(QWidget):
-    emit_relic_id = Signal(str)
-    emit_custom_relic_command = Signal(str)
+    relic_id_signal = Signal(str)
+    custom_relic_signal = Signal(str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -342,185 +342,325 @@ class Relic(QWidget):
         self.__initWidget()
 
     def __initWidget(self):
-        self.search_line = SearchLineEdit(self)
-        self.search_line.setPlaceholderText("搜索遗器")
-        self.search_line.setFixedSize(238, 35)
+        # 遗物
+        self.relic_search_line = SearchLineEdit(self)
+        self.relic_search_line.setPlaceholderText("搜索遗器")
+        self.relic_search_line.setFixedSize(238, 35)
+
+        self.base_relic_button = TogglePushButton("基础", self)
+        self.base_relic_button.setFixedSize(67, 35)
+        self.custom_relic_button = TogglePushButton("预设", self)
+        self.custom_relic_button.setFixedSize(67, 35)
+        self.base_relic_button.setChecked(True)
+
         self.relic_type_button_group = QButtonGroup(self)
-        self.relic_base_button = TogglePushButton("基础", self)
-        self.relic_custom_button = TogglePushButton("预设", self)
-        self.relic_base_button.setChecked(True)
-        self.relic_base_button.setFixedSize(67, 35)
-        self.relic_custom_button.setFixedSize(67, 35)
-        self.relic_type_button_group.addButton(self.relic_base_button)
-        self.relic_type_button_group.addButton(self.relic_custom_button)
+        self.relic_type_button_group.addButton(self.base_relic_button)
+        self.relic_type_button_group.addButton(self.custom_relic_button)
 
         self.relic_table = TableWidget(self)
-        self.relic_table.setFixedSize(385, 420)
-        self.relic_table.setBorderVisible(True)
-        self.relic_table.setBorderRadius(8)
-        self.relic_table.setWordWrap(False)
         self.relic_table.setColumnCount(4)
-        self.relic_table.verticalHeader().hide()
-        # self.relic_table.setSelectRightClickedRow(True)
+        self.relic_table.setFixedSize(385, 420)
         self.relic_table.setColumnWidth(0, 163)
         self.relic_table.setColumnWidth(1, 80)
         self.relic_table.setColumnWidth(2, 140)
-        self.relic_table.setColumnWidth(3, 0)
+        self.relic_table.setColumnWidth(3, 0) # 隐藏command列
+
+        self.relic_table.setBorderVisible(True)
+        self.relic_table.setBorderRadius(8)
+        self.relic_table.setWordWrap(False)
+        self.relic_table.verticalHeader().hide()
         self.relic_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.relic_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
+        # 词条
         self.entry_search_line = SearchLineEdit(self)
         self.entry_search_line.setPlaceholderText("搜索词条")
         self.entry_search_line.setFixedSize(180, 35)
+
+        self.main_entry_button = TogglePushButton("主词条", self)
+        self.side_entry_button = TogglePushButton("副词条", self)
+        self.main_entry_button.setFixedSize(67, 35)
+        self.side_entry_button.setFixedSize(67, 35)
+        self.main_entry_button.setChecked(True)
+
         self.entry_type_button_group = QButtonGroup(self)
-        self.entry_main_button = TogglePushButton("主词条", self)
-        self.entry_side_button = TogglePushButton("副词条", self)
-        self.entry_main_button.setChecked(True)
-        self.entry_main_button.setFixedSize(67, 35)
-        self.entry_side_button.setFixedSize(67, 35)
-        self.entry_type_button_group.addButton(self.entry_main_button)
-        self.entry_type_button_group.addButton(self.entry_side_button)
+        self.entry_type_button_group.addButton(self.main_entry_button)
+        self.entry_type_button_group.addButton(self.side_entry_button)
 
         self.entry_table = TableWidget(self)
-        self.entry_table.setFixedSize(325, 420)
-        self.entry_table.setBorderVisible(True)
-        self.entry_table.setBorderRadius(8)
-        self.entry_table.setWordWrap(False)
         self.entry_table.setColumnCount(3)
-        self.entry_table.verticalHeader().hide()
-        # self.entry_table.setSelectRightClickedRow(True)
+        self.entry_table.setFixedSize(325, 420)
         self.entry_table.setColumnWidth(0, 168)
         self.entry_table.setColumnWidth(1, 80)
         self.entry_table.setColumnWidth(2, 75)
+
+        self.entry_table.setBorderVisible(True)
+        self.entry_table.setBorderRadius(8)
+        self.entry_table.setWordWrap(False)
+        self.entry_table.verticalHeader().hide()
         self.entry_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.entry_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
-        self.now_entry_label1 = SubtitleLabel("当前主词条：", self)
-        self.now_entry_label = LineEdit(self)
-        self.now_entry_label.setReadOnly(True)
-        self.now_entry_label2 = SubtitleLabel("当前副词条：", self)
-        self.now_entry_table = TableWidget(self)
-        self.now_entry_table.setFixedSize(365, 160)
-        self.now_entry_table.setBorderVisible(True)
-        self.now_entry_table.setBorderRadius(8)
-        self.now_entry_table.setWordWrap(False)
-        self.now_entry_table.setColumnCount(2)
-        self.now_entry_table.verticalHeader().hide()
-        # self.now_entry_table.setSelectRightClickedRow(True)
-        self.now_entry_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.now_entry_table.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.now_entry_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # 当前信息
+        self.main_now_label = SubtitleLabel("当前主词条：", self)
+        self.main_now_edit = LineEdit(self)
+        self.main_now_edit.setReadOnly(True)
+        self.side_now_label = SubtitleLabel("当前副词条：", self)
 
-        self.toright_button = PrimaryToolButton(FIF.RIGHT_ARROW)
-        self.toright_button.setFixedSize(35, 35)
-        self.add_button = PrimaryToolButton(FIF.ADD)
-        self.add_button.setFixedSize(35, 35)
-        self.remove_button = PrimaryToolButton(FIF.REMOVE)
-        self.remove_button.setFixedSize(35, 35)
-        self.set_edit = LineEdit(self)
-        self.set_edit.setPlaceholderText("数量")
-        self.set_edit.setFixedSize(55, 35)
-        self.set_edit.setValidator(QIntValidator(1, 9999, self))
-        self.set_button = PrimaryToolButton(FIF.SETTING)
-        self.set_button.setFixedSize(35, 35)
-        self.delete_button = PrimaryToolButton(FIF.DELETE)
-        self.delete_button.setFixedSize(35, 35)
+        self.now_table = TableWidget(self)
+        self.now_table.setColumnCount(2)
+        self.now_table.setFixedSize(365, 160)
+        self.now_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.now_table.setBorderVisible(True)
+        self.now_table.setWordWrap(False)
+        self.now_table.setBorderRadius(8)
+        self.now_table.verticalHeader().hide()
+        self.now_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.now_table.setSelectionMode(QAbstractItemView.SingleSelection)
+
+        self.add_side_button = PrimaryToolButton(FIF.RIGHT_ARROW)
+        self.add_side_button.setFixedSize(35, 35)
+        self.add_num_button = PrimaryToolButton(FIF.ADD)
+        self.add_num_button.setFixedSize(35, 35)
+        self.minus_num_button = PrimaryToolButton(FIF.REMOVE)
+        self.minus_num_button.setFixedSize(35, 35)
+        self.set_num_edit = LineEdit(self)
+        self.set_num_edit.setPlaceholderText("数量")
+        self.set_num_edit.setFixedSize(55, 35)
+        self.set_num_edit.setValidator(QIntValidator(1, 9999, self))
+        self.set_num_button = PrimaryToolButton(FIF.SETTING)
+        self.set_num_button.setFixedSize(35, 35)
+        self.delete_num_button = PrimaryToolButton(FIF.DELETE)
+        self.delete_num_button.setFixedSize(35, 35)
 
         self.level_label = SubtitleLabel("等级：", self)
         self.level_edit = LineEdit(self)
         self.level_edit.setPlaceholderText("请输入生成遗器的等级")
         self.level_edit.setValidator(QIntValidator(1, 99, self))
 
-        self.now_entry_list = {}
-
         self.__initLayout()
+        self.__initInfo()
         self.__connectSignalToSlot()
 
     def __initLayout(self):
+        # 遗物
         self.relic_button_layout = QHBoxLayout()
-        self.relic_button_layout.addWidget(self.search_line)
-        self.relic_button_layout.addWidget(self.relic_base_button)
-        self.relic_button_layout.addWidget(self.relic_custom_button)
+        self.relic_button_layout.addWidget(self.relic_search_line)
+        self.relic_button_layout.addWidget(self.base_relic_button)
+        self.relic_button_layout.addWidget(self.custom_relic_button)
+
         self.relic_layout = QVBoxLayout()
         self.relic_layout.addLayout(self.relic_button_layout)
         self.relic_layout.addWidget(self.relic_table)
 
+        # 词条
         self.entry_button_layout = QHBoxLayout()
         self.entry_button_layout.addWidget(self.entry_search_line)
-        self.entry_button_layout.addWidget(self.entry_main_button)
-        self.entry_button_layout.addWidget(self.entry_side_button)
+        self.entry_button_layout.addWidget(self.main_entry_button)
+        self.entry_button_layout.addWidget(self.side_entry_button)
         self.entry_layout = QVBoxLayout()
         self.entry_layout.addLayout(self.entry_button_layout)
         self.entry_layout.addWidget(self.entry_table)
 
-        self.now_entry_tool_layout = QHBoxLayout()
-        self.now_entry_tool_layout.addWidget(self.toright_button)
-        self.now_entry_tool_layout.addSpacing(67)
-        self.now_entry_tool_layout.addWidget(self.add_button)
-        self.now_entry_tool_layout.addSpacing(5)
-        self.now_entry_tool_layout.addWidget(self.remove_button)
-        self.now_entry_tool_layout.addSpacing(5)
-        self.now_entry_tool_layout.addWidget(self.set_edit)
-        self.now_entry_tool_layout.addSpacing(5)
-        self.now_entry_tool_layout.addWidget(self.set_button)
-        self.now_entry_tool_layout.addSpacing(5)
-        self.now_entry_tool_layout.addWidget(self.delete_button)
-        self.now_entry_layout = QVBoxLayout()
-        self.now_entry_layout.addSpacing(15)
-        self.now_entry_layout.addWidget(self.now_entry_label1)
-        self.now_entry_layout.addSpacing(5)
-        self.now_entry_layout.addWidget(self.now_entry_label)
-        self.now_entry_layout.addSpacing(20)
-        self.now_entry_layout.addWidget(self.now_entry_label2)
-        self.now_entry_layout.addSpacing(5)
-        self.now_entry_layout.addWidget(self.now_entry_table)
-        self.now_entry_layout.addSpacing(14)
-        self.now_entry_layout.addLayout(self.now_entry_tool_layout)
-        self.now_entry_layout.addSpacing(15)
-        self.now_entry_layout.addWidget(self.level_label)
-        self.now_entry_layout.addSpacing(5)
-        self.now_entry_layout.addWidget(self.level_edit)
-        self.now_entry_layout.addStretch(1)
+        # 当前信息
+        self.now_layout = QVBoxLayout()
+        self.now_layout.addSpacing(15)
+        self.now_layout.addWidget(self.main_now_label)
+        self.now_layout.addSpacing(5)
+        self.now_layout.addWidget(self.main_now_edit)
+        self.now_layout.addSpacing(20)
+        self.now_layout.addWidget(self.side_now_label)
+        self.now_layout.addSpacing(5)
+        self.now_layout.addWidget(self.now_table)
+        self.now_layout.addSpacing(14)
+
+        self.now_tool_layout = QHBoxLayout()
+        self.now_tool_layout.addWidget(self.add_side_button)
+        self.now_tool_layout.addSpacing(67)
+        self.now_tool_layout.addWidget(self.add_num_button)
+        self.now_tool_layout.addSpacing(5)
+        self.now_tool_layout.addWidget(self.minus_num_button)
+        self.now_tool_layout.addSpacing(5)
+        self.now_tool_layout.addWidget(self.set_num_edit)
+        self.now_tool_layout.addSpacing(5)
+        self.now_tool_layout.addWidget(self.set_num_button)
+        self.now_tool_layout.addSpacing(5)
+        self.now_tool_layout.addWidget(self.delete_num_button)
+
+        self.now_layout.addLayout(self.now_tool_layout)
+        self.now_layout.addSpacing(15)
+        self.now_layout.addWidget(self.level_label)
+        self.now_layout.addSpacing(5)
+        self.now_layout.addWidget(self.level_edit)
+        self.now_layout.addStretch(1)
 
         self.main_layout = QHBoxLayout()
         self.main_layout.addLayout(self.relic_layout)
         self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.entry_layout)
         self.main_layout.addSpacing(20)
-        self.main_layout.addLayout(self.now_entry_layout)
+        self.main_layout.addLayout(self.now_layout)
         self.setLayout(self.main_layout)
 
-        self.load_relic()
-        self.load_entry()
-        self.load_now_entry()
+    def __initInfo(self):
+        self.now_list = {}
+        self.handleRelicTypeChanged()
+        self.handleEntryLoad()
+        self.handleNowLoad()
 
     def __connectSignalToSlot(self):
-        self.search_line.textChanged.connect(self.search_relic)
-        self.relic_base_button.clicked.connect(self.load_relic)
-        self.relic_custom_button.clicked.connect(self.load_custom_relic)
+        self.relic_search_line.textChanged.connect(self.handleRelicSearch)
+        self.base_relic_button.clicked.connect(self.handleRelicTypeChanged)
+        self.custom_relic_button.clicked.connect(self.handleRelicTypeChanged)
+        self.relic_table.cellClicked.connect(self.handleRelicTableClicked)
 
-        self.entry_search_line.textChanged.connect(lambda: self.search_entry('line'))
-        self.entry_main_button.clicked.connect(lambda: self.search_entry('main'))
-        self.entry_side_button.clicked.connect(lambda: self.search_entry('side'))
-        self.entry_table.cellClicked.connect(lambda: self.move_to_right('cell'))
-        self.toright_button.clicked.connect(lambda: self.move_to_right('button'))
+        self.entry_search_line.textChanged.connect(self.handleEntrySearch)
+        self.main_entry_button.clicked.connect(self.handleEntryTypeChanged)
+        self.side_entry_button.clicked.connect(self.handleEntryTypeChanged)
+        self.entry_table.cellClicked.connect(self.handleEntryTableClicked)
 
-        self.add_button.clicked.connect(lambda: self.entry_num_changed('add'))
-        self.remove_button.clicked.connect(lambda: self.entry_num_changed('remove'))
-        self.set_button.clicked.connect(lambda: self.entry_num_changed('set'))
-        self.delete_button.clicked.connect(lambda: self.entry_num_changed('delete'))
+        # 更新当前信息
+        self.add_side_button.clicked.connect(self.handleAddSideClicked)
+        self.add_side_button.clicked.connect(self.handleRelicSingal)
+        self.add_num_button.clicked.connect(lambda: self.handleEntryNumChanged('add'))
+        self.add_num_button.clicked.connect(self.handleRelicSingal)
+        self.minus_num_button.clicked.connect(lambda: self.handleEntryNumChanged('remove'))
+        self.minus_num_button.clicked.connect(self.handleRelicSingal)
+        self.set_num_button.clicked.connect(lambda: self.handleEntryNumChanged('set'))
+        self.delete_num_button.clicked.connect(lambda: self.handleEntryNumChanged('delete'))
+        self.delete_num_button.clicked.connect(self.handleRelicSingal)
 
-        self.relic_table.cellClicked.connect(self.show_relic_entry)
-        self.relic_table.cellClicked.connect(self.relic_clicked)
-        self.relic_table.cellClicked.connect(lambda: self.now_entry_label.setText(''))
-        self.now_entry_label.textChanged.connect(self.relic_clicked)
-        self.toright_button.clicked.connect(self.relic_clicked)
-        self.add_button.clicked.connect(self.relic_clicked)
-        self.remove_button.clicked.connect(self.relic_clicked)
-        self.delete_button.clicked.connect(self.relic_clicked)
-        self.level_edit.textChanged.connect(self.relic_clicked)
+        self.main_now_edit.textChanged.connect(self.handleRelicSingal)
+        self.level_edit.textChanged.connect(self.handleRelicSingal)
 
-    def load_relic(self):
+    # 信号
+    def handleRelicSingal(self):
+        selected_items = self.relic_table.selectedItems()
+        if selected_items:
+            if self.base_relic_button.isChecked():
+                relic_id = selected_items[2].text()
+                self.relic_id_signal.emit(relic_id)
+            elif self.custom_relic_button.isChecked():
+                command = selected_items[3].text()
+                self.custom_relic_signal.emit(command)
+
+    # 条件更新时切换显示状态相关
+    def handleRelicSearch(self):
+        keyword = self.relic_search_line.text()
+        for row in range(self.relic_table.rowCount()):
+            item_1 = self.relic_table.item(row, 0)
+            item_2 = self.relic_table.item(row, 1)
+            item_3 = self.relic_table.item(row, 2)
+            iskeyword_1 = item_1 and item_1.text().lower().find(keyword.lower()) != -1
+            iskeyword_2 = item_2 and item_2.text().lower().find(keyword.lower()) != -1
+            iskeyword_3 = item_3 and item_3.text().lower().find(keyword.lower()) != -1
+            if iskeyword_1 or iskeyword_2 or iskeyword_3:
+                self.relic_table.setRowHidden(row, False)
+            else:
+                self.relic_table.setRowHidden(row, True)
+
+    def handleEntrySearch(self):
+        keyword = self.entry_search_line.text()
+        for row in range(self.entry_table.rowCount()):
+            item = self.entry_table.item(row, 0)
+            if item.text().lower().find(keyword.lower()) != -1:
+                self.entry_table.setRowHidden(row, False)
+            else:
+                self.entry_table.setRowHidden(row, True)
+
+    def handleRelicTypeChanged(self):
+        self.relic_search_line.clear()
+        self.relic_table.clearSelection()
+        self.entry_table.clearSelection()
+        self.now_table.clearSelection()
+
+        selected_base_relic = self.base_relic_button.isChecked()
+        if selected_base_relic:
+            self.handleBaseRelicLoad()
+            self.handleEntryLoad()
+            self.handleNowLoad()
+        else:
+            self.entry_table.clearContents()
+            self.now_table.clearContents()
+            self.handleCustomRelicLoad()
+
+        layouts = [self.entry_layout, self.entry_button_layout, self.now_layout, self.now_tool_layout]
+        for layout in layouts:
+            for i in range(layout.count()):
+                widget = layout.itemAt(i).widget()
+                if widget is not None:
+                    if selected_base_relic:
+                        widget.setDisabled(False)
+                    else:
+                        widget.setDisabled(True)
+
+    def handleEntryTypeChanged(self):
+        selected_main_entry = self.main_entry_button.isChecked()
+        for row in range(self.entry_table.rowCount()):
+            entry_type = self.entry_table.item(row, 1).text()
+            if selected_main_entry:
+                if entry_type == '通用':
+                    self.entry_table.setRowHidden(row, True)
+                else:
+                    self.entry_table.setRowHidden(row, False)
+                self.__handleRelatedEntryUpdate()
+            else:
+                if entry_type == '通用':
+                    self.entry_table.setRowHidden(row, False)
+                else:
+                    self.entry_table.setRowHidden(row, True)
+
+    # 信息更新行为相关
+    def handleRelicTableClicked(self):
+        self.handleRelicSingal()
+        self.__handleRelatedEntryUpdate()
+        if self.base_relic_button.isChecked():
+            self.main_now_edit.setText('')
+    
+    def handleEntryTableClicked(self):
+        selected_entry = self.entry_table.selectedItems()
+        selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
+        if selected_entry and selected_entry_type != '通用':
+            self.main_now_edit.setText(selected_entry[0].text())
+
+    def handleAddSideClicked(self):
+        selected_side_entry = self.side_entry_button.isChecked()
+        if selected_side_entry:
+            selected_entry = self.entry_table.selectedItems()
+            selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
+            entry_id = selected_entry[0].text()
+            if selected_entry and selected_entry_type == '通用' and len(self.now_list) < 4 and entry_id not in self.now_list:
+                self.now_list[entry_id] = 1
+                self.handleNowLoad()
+
+    def handleEntryNumChanged(self, types):
+        selected_now = self.now_table.selectedItems()
+        if selected_now:
+            entry_name = selected_now[0].text()
+            if types == 'add':
+                self.now_list[entry_name] += 1
+            elif types =='remove':
+                if self.now_list[entry_name] > 1:
+                    self.now_list[entry_name] -= 1
+                else:
+                    del self.now_list[entry_name]
+            elif types =='set':
+                num = int(self.set_num_edit.text())
+                if num > 0:
+                    self.now_list[entry_name] = num
+                else:
+                    del self.now_list[entry_name]
+            elif types == 'delete':
+                del self.now_list[entry_name]
+
+            # 保存行数，在表格更新后仍然选中(支持连续更改)
+            selected_row = self.now_table.currentRow()
+            self.handleNowLoad()
+            self.now_table.selectRow(selected_row)
+
+    # 读取和加载页面信息相关
+    def handleBaseRelicLoad(self):
         with open('src/data/relic.txt', 'r', encoding='utf-8') as file:
             relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
@@ -530,9 +670,8 @@ class Relic(QWidget):
             for j, part in enumerate(parts):
                 self.relic_table.setItem(i, j, QTableWidgetItem(part))
         self.relic_table.setHorizontalHeaderLabels(['遗器名称', '部位', 'ID'])
-        self.change_click_ability(False)
-    
-    def load_custom_relic(self):
+
+    def handleCustomRelicLoad(self):
         with open('src/data/myrelic.txt', 'r', encoding='utf-8') as file:
             relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
@@ -547,22 +686,8 @@ class Relic(QWidget):
                 else:
                     self.relic_table.setItem(i, j, QTableWidgetItem(part))
         self.relic_table.setHorizontalHeaderLabels(['遗器名称', '部位', '适用角色', 'command'])
-        self.change_click_ability(True)
-    
-    def change_click_ability(self, flag):
-        layouts = [self.entry_layout, self.entry_button_layout, self.now_entry_layout, self.now_entry_tool_layout]
-        for layout in layouts:
-            for i in range(layout.count()):
-                widget = layout.itemAt(i).widget()
-                if widget is not None:
-                    widget.setDisabled(flag)
-        self.search_line.clear()
-        if flag:
-            self.entry_table.clearContents()
-        else:
-            self.load_entry()
-    
-    def load_entry(self):
+
+    def handleEntryLoad(self):
         with open('src/data/entry.txt', 'r', encoding='utf-8') as file:
             entry = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.entry_table.setRowCount(len(entry))
@@ -572,109 +697,25 @@ class Relic(QWidget):
             for j, part in enumerate(parts):
                 self.entry_table.setItem(i, j, QTableWidgetItem(part))
         self.entry_table.setHorizontalHeaderLabels(['词条名称', '部位', 'ID'])
-    
-    def load_now_entry(self):
-        self.now_entry_table.clearContents()
-        self.now_entry_table.setRowCount(len(self.now_entry_list))
-        for row, (key, value) in enumerate(self.now_entry_list.items()):
-            self.now_entry_table.setRowHeight(row, 30)
-            self.now_entry_table.setItem(row, 0, QTableWidgetItem(key))
-            self.now_entry_table.setItem(row, 1, QTableWidgetItem(str(value)))
-        self.now_entry_table.setHorizontalHeaderLabels(['词条名称', '数量'])
 
-    def search_relic(self):
-        keyword = self.search_line.text()
-        for row in range(self.relic_table.rowCount()):
-            item_1 = self.relic_table.item(row, 0)
-            item_2 = self.relic_table.item(row, 1)
-            item_3 = self.relic_table.item(row, 2)
-            iskeyword_1 = item_1 and item_1.text().lower().find(keyword.lower()) != -1
-            iskeyword_2 = item_2 and item_2.text().lower().find(keyword.lower()) != -1
-            iskeyword_3 = item_3 and item_3.text().lower().find(keyword.lower()) != -1
-            if iskeyword_1 or iskeyword_2 or iskeyword_3:
-                self.relic_table.setRowHidden(row, False)
-            else:
-                self.relic_table.setRowHidden(row, True)
-    
-    def search_entry(self, types):
-        if types == 'line':
-            keyword = self.entry_search_line.text()
-            for row in range(self.entry_table.rowCount()):
-                item = self.entry_table.item(row, 0)
-                if item.text().lower().find(keyword.lower()) != -1:
-                    self.entry_table.setRowHidden(row, False)
-                else:
-                    self.entry_table.setRowHidden(row, True)
-        else:
-            for row in range(self.entry_table.rowCount()):
-                item = self.entry_table.item(row, 1)
-                if types == 'main':
-                    if item.text() == '通用':
-                        self.entry_table.setRowHidden(row, True)
-                    else:
-                        self.entry_table.setRowHidden(row, False)
-                    self.show_relic_entry()
-                elif types =='side':
-                    if item.text() !='通用':
-                        self.entry_table.setRowHidden(row, True)
-                    else:
-                        self.entry_table.setRowHidden(row, False)
-    
-    def move_to_right(self, types):
-        selected_entry = self.entry_table.selectedItems()
-        if selected_entry:
-            selected_row = self.entry_table.currentRow()
-            if self.entry_table.item(selected_row, 1).text() != '通用' and types == 'cell':
-                self.now_entry_label.setText(selected_entry[0].text())
-            elif self.entry_table.item(selected_row, 1).text() == '通用' and types == 'button':
-                if len(self.now_entry_list) < 4:
-                    entry_id = selected_entry[0].text()
-                    if entry_id not in self.now_entry_list:
-                        self.now_entry_list[entry_id] = 1
-                    self.load_now_entry()
+    def handleNowLoad(self):
+        self.now_table.clearContents()
+        self.now_table.setRowCount(len(self.now_list))
+        for row, (key, value) in enumerate(self.now_list.items()):
+            self.now_table.setRowHeight(row, 30)
+            self.now_table.setItem(row, 0, QTableWidgetItem(key))
+            self.now_table.setItem(row, 1, QTableWidgetItem(str(value)))
+        self.now_table.setHorizontalHeaderLabels(['词条名称', '数量'])
 
-    def entry_num_changed(self, types):
-        selected_entry = self.now_entry_table.selectedItems()
-        if selected_entry:
-            entry_name = selected_entry[0].text()
-            if types == 'add':
-                self.now_entry_list[entry_name] += 1
-            elif types =='remove':
-                if self.now_entry_list[entry_name] > 1:
-                    self.now_entry_list[entry_name] -= 1
-                else:
-                    del self.now_entry_list[entry_name]
-            elif types =='set':
-                num = int(self.set_edit.text())
-                if num > 0:
-                    self.now_entry_list[entry_name] = num
-                else:
-                    del self.now_entry_list[entry_name]
-            elif types == 'delete':
-                del self.now_entry_list[entry_name]
-
-            selected_row = self.now_entry_table.currentRow()
-            self.load_now_entry()
-            self.now_entry_table.selectRow(selected_row)
-    
-    def show_relic_entry(self):
+    # 遗器条件更新时，更新对应词条
+    def __handleRelatedEntryUpdate(self):
         selected_relic = self.relic_table.selectedItems()
-        if selected_relic and not self.relic_custom_button.isChecked():
-            self.entry_main_button.setChecked(True)
+        if selected_relic and self.base_relic_button.isChecked():
+            self.main_entry_button.setChecked(True)
             relic_type = selected_relic[1].text()
             for row in range(self.entry_table.rowCount()):
                 if self.entry_table.item(row, 1).text() == relic_type:
                     self.entry_table.setRowHidden(row, False)
                 else:
                     self.entry_table.setRowHidden(row, True)
-            self.load_entry()
-
-    def relic_clicked(self):
-        selected_items = self.relic_table.selectedItems()
-        if selected_items:
-            if self.relic_base_button.isChecked():
-                relic_id = selected_items[2].text()
-                self.emit_relic_id.emit(relic_id)
-            elif self.relic_custom_button.isChecked():
-                command = selected_items[3].text()
-                self.emit_custom_relic_command.emit(command)
+            self.handleEntryLoad()

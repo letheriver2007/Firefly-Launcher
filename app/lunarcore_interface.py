@@ -324,8 +324,8 @@ class LunarCoreCommand(ScrollArea):
         self.SceneInterface.emit_scene_id.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
         self.SpawnInterface.emit_monster_id.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
         self.GiveInterface.emit_item_id.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
-        self.RelicInterface.emit_relic_id.connect(lambda relic_id: self.handleRelicClicked(relic_id))
-        self.RelicInterface.emit_custom_relic_command.connect(lambda command: self.buttonClicked.emit(command))
+        self.RelicInterface.relic_id_signal.connect(lambda relic_id: self.handleRelicClicked(relic_id))
+        self.RelicInterface.custom_relic_signal.connect(lambda command: self.buttonClicked.emit(command))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -572,8 +572,8 @@ class LunarCoreCommand(ScrollArea):
     
     def handleRelicClicked(self, relic_id):
         relic_level = self.RelicInterface.level_edit.text()
-        main_entry_name = self.RelicInterface.now_entry_label.text()
-        side_entry_name = self.RelicInterface.now_entry_list
+        main_entry_name = self.RelicInterface.main_now_edit.text()
+        side_entry_name = self.RelicInterface.now_list
         entry_table = self.RelicInterface.entry_table
         command = '/give ' + relic_id
 

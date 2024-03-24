@@ -198,6 +198,9 @@ class Give(QWidget):
         self.give_table = TableWidget(self)
         self.give_table.setFixedSize(915, 420)
         self.give_table.setColumnCount(3)
+        self.give_table.setColumnWidth(0, 613)
+        self.give_table.setColumnWidth(1, 150)
+        self.give_table.setColumnWidth(2, 150)
 
         self.give_table.setBorderVisible(True)
         self.give_table.setBorderRadius(8)
@@ -205,7 +208,6 @@ class Give(QWidget):
         self.give_table.verticalHeader().hide()
         self.give_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.give_table.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.give_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
 
         self.all_button = TogglePushButton("全部", self)
@@ -327,6 +329,7 @@ class Give(QWidget):
                 self.give_table.setRowHidden(row, True)
 
     def handleGiveTypeChanged(self, types):
+        self.give_search_line.clear()
         if types == 'all':
             for row in range(self.give_table.rowCount()):
                 self.give_table.setRowHidden(row, False)
@@ -362,7 +365,7 @@ class Relic(QWidget):
         # 遗物
         self.relic_search_line = SearchLineEdit(self)
         self.relic_search_line.setPlaceholderText("搜索遗器")
-        self.relic_search_line.setFixedSize(238, 35)
+        self.relic_search_line.setFixedSize(258, 35)
 
         self.base_relic_button = TogglePushButton("基础", self)
         self.base_relic_button.setFixedSize(67, 35)
@@ -376,10 +379,10 @@ class Relic(QWidget):
 
         self.relic_table = TableWidget(self)
         self.relic_table.setColumnCount(4)
-        self.relic_table.setFixedSize(385, 420)
-        self.relic_table.setColumnWidth(0, 163)
-        self.relic_table.setColumnWidth(1, 80)
-        self.relic_table.setColumnWidth(2, 140)
+        self.relic_table.setFixedSize(405, 420)
+        self.relic_table.setColumnWidth(0, 190)
+        self.relic_table.setColumnWidth(1, 78)
+        self.relic_table.setColumnWidth(2, 135)
         self.relic_table.setColumnWidth(3, 0) # 隐藏command列
 
         self.relic_table.setBorderVisible(True)
@@ -392,7 +395,7 @@ class Relic(QWidget):
         # 词条
         self.entry_search_line = SearchLineEdit(self)
         self.entry_search_line.setPlaceholderText("搜索词条")
-        self.entry_search_line.setFixedSize(180, 35)
+        self.entry_search_line.setFixedSize(160, 35)
 
         self.main_entry_button = TogglePushButton("主词条", self)
         self.side_entry_button = TogglePushButton("副词条", self)
@@ -406,8 +409,8 @@ class Relic(QWidget):
 
         self.entry_table = TableWidget(self)
         self.entry_table.setColumnCount(3)
-        self.entry_table.setFixedSize(325, 420)
-        self.entry_table.setColumnWidth(0, 168)
+        self.entry_table.setFixedSize(305, 420)
+        self.entry_table.setColumnWidth(0, 148)
         self.entry_table.setColumnWidth(1, 80)
         self.entry_table.setColumnWidth(2, 75)
 
@@ -613,6 +616,7 @@ class Relic(QWidget):
                         widget.setDisabled(True)
 
     def handleEntryTypeChanged(self):
+        self.entry_search_line.clear()
         selected_main_entry = self.main_entry_button.isChecked()
         for row in range(self.entry_table.rowCount()):
             entry_type = self.entry_table.item(row, 1).text()

@@ -70,7 +70,7 @@ class Main(MSFluentWindow):
 
         # 启用加载界面
         self.splashScreen = SplashScreen(self.windowIcon(), self)
-        self.splashScreen.setIconSize(QSize(128, 128))
+        self.splashScreen.setIconSize(QSize(200, 200))
         self.splashScreen.raise_()
 
         # 居中显示

@@ -8,7 +8,7 @@ from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, I
 from app.model.style_sheet import StyleSheet
 from app.model.setting_group import SettingCardGroup
 from app.model.toolkit_message import MessageFiddler, PrimaryPushSettingCard_Fiddler, PrimaryPushSettingCard_Sendcode, PrimaryPushSettingCard_Verifycode
-from app.model.open_command import ping, send_code, verify_token, send_command
+from app.model.open_command import ping, send_code, verify_token
 from app.toolkit_download import ToolkitDownload
 
 

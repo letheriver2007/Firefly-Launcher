@@ -1,9 +1,7 @@
-import os
-import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
+from qfluentwidgets import Pivot, qrouter, ScrollArea
 from app.model.style_sheet import StyleSheet
 from app.model.setting_group import SettingCardGroup
 

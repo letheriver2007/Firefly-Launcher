@@ -6,7 +6,8 @@ import zipfile
 import subprocess
 import urllib.request
 
-if not os.path.exists('main.py'):
+current_dir = os.getcwd()
+if not os.path.exists(f'{current_dir}\\main.py'):
     print('正在配置环境...')
 
     yes = ['yes','Yes','YES','y','Y']
@@ -29,18 +30,21 @@ if not os.path.exists('main.py'):
     print('开始检测更新...')
 
     try:
-        with open('config/setup.json', 'r') as file:
+        with open(f'{current_dir}\\config\\version.json', 'r') as file:
             ver = json.load(file)
             APP_VERSION = ver['APP_VERSION']
-        with open('config/server.json', 'r') as file:
+        with open(f'{current_dir}\\config\\config.json', 'r') as file:
             port = json.load(file)
             PROXY_PORT = port['PROXY_PORT']
-    except:
-        print('配置文件损坏,使用默认版本:v1.0.0')
-        APP_VERSION = 'v1.0.0'
+        print(f'当前版本：{APP_VERSION}')
         if proxyStatus:
-            PROXY_PORT = input('配置文件损坏,请输入代理端口:')
-    print(f'当前版本：{APP_VERSION}')
+            print(f'当前代理端口：{PROXY_PORT}')
+    except Exception as e:
+        print(f'配置文件损坏:{e}')
+        APP_VERSION = 'v0.0.0'
+        print(f'使用默认版本:{APP_VERSION}')
+        if proxyStatus:
+            PROXY_PORT = input('请输入代理端口:')
 
     if chinaStatus:
         url = 'https://api.github.com/repos/letheriver2007/Firefly-Launcher/releases/latest'
@@ -109,7 +113,6 @@ if not os.path.exists('main.py'):
 
             print("正在删除旧版本...")
 
-            current_dir = os.getcwd()
             for root, dirs, files in os.walk(current_dir, topdown=False):
                 for name in files:
                     file_path = os.path.join(root, name)
@@ -126,15 +129,14 @@ if not os.path.exists('main.py'):
             print("正在解压新版本...")
 
             zip_file_path = os.path.join(current_dir, 'Firefly-Launcher.zip')
-            extract_folder = current_dir
             with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
                 file_list = zip_ref.namelist()
                 for file in file_list:
-                    target_file = os.path.join(extract_folder, file)
+                    target_file = os.path.join(current_dir, file)
                     if os.path.exists(target_file):
                         print(f"{file}已存在,跳过解压!")
                         continue
-                    zip_ref.extract(file, extract_folder)
+                    zip_ref.extract(file, current_dir)
             os.remove(zip_file_path)
 
             print("解压完成!")

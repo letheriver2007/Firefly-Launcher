@@ -17,7 +17,6 @@ class Config(QConfig):
     autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
     useLogin = ConfigItem("Function", "UseLogin", True, BoolValidator())
     useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())
-    randomHomeBg = ConfigItem("Function", "RandomHomeBg", True, BoolValidator())
     proxyStatus = ConfigItem("Proxy", "ProxyStatus", False, BoolValidator())
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", True, BoolValidator())
 

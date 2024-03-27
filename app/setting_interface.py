@@ -67,12 +67,6 @@ class Setting(ScrollArea):
             '使用随机流萤语音彩蛋',
             configItem=cfg.useAudio
         )
-        self.randomHomeBgCard = SwitchSettingCard(
-            FIF.PHOTO,
-            '启用随机桌面背景',
-            '使用随机切换桌面背景彩蛋',
-            configItem=cfg.randomHomeBg
-        )
         self.ProxyInterface = SettingCardGroup(self.scrollWidget)
         self.proxyCard = SwitchSettingCard(
             FIF.CERTIFICATE,
@@ -121,7 +115,6 @@ class Setting(ScrollArea):
         self.FunctionInterface.addSettingCard(self.autoCopyCard)
         self.FunctionInterface.addSettingCard(self.useLoginCard)
         self.FunctionInterface.addSettingCard(self.useAudioCard)
-        self.FunctionInterface.addSettingCard(self.randomHomeBgCard)
         self.ProxyInterface.addSettingCard(self.proxyCard)
         self.ProxyInterface.addSettingCard(self.proxyPortCard)
         self.ProxyInterface.addSettingCard(self.chinaCard)
@@ -159,10 +152,9 @@ class Setting(ScrollArea):
         self.autoCopyCard.checkedChanged.connect(lambda: self.common_changed(cfg.autoCopy.value, '自动复制功能已开启！', '自动复制功能已关闭！'))
         self.useLoginCard.checkedChanged.connect(lambda: self.common_changed(cfg.useLogin.value, '登录功能已开启！', '登录功能已关闭！'))
         self.useAudioCard.checkedChanged.connect(lambda: self.common_changed(cfg.useAudio.value, '流萤语音已开启！', '流萤语音已关闭！'))
-        self.randomHomeBgCard.checkedChanged.connect(lambda: self.common_changed(cfg.randomHomeBg.value, '随机桌面背景已开启！', '随机桌面背景已关闭！'))
-        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,f'代理端口{cfg.PROXY_PORT}已开启！','代理端口已关闭！','端口可在配置更改','',True))
+        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,'代理端口已开启！','代理端口已关闭！',True))
         self.proxyPortCard.set_port.connect(self.handleSetProxyPort)
-        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,'国内镜像已开启！','国内镜像已关闭！','','',True))
+        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,'国内镜像已开启！','国内镜像已关闭！',True))
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -185,11 +177,11 @@ class Setting(ScrollArea):
         current_process.startDetached(sys.executable, sys.argv)
         sys.exit()
     
-    def common_changed(self, status, title_true, title_false, content_true='', content_false='', isproxy=False):
+    def common_changed(self, status, title_true, title_false, isproxy=False):
         if status:
             InfoBar.success(
                 title=title_true,
-                content=content_true,
+                content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
@@ -199,7 +191,7 @@ class Setting(ScrollArea):
         else:
             InfoBar.success(
                 title=title_false,
-                content=content_false,
+                content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
@@ -212,7 +204,7 @@ class Setting(ScrollArea):
             self.proxyPortCard.setDisabled(True)
         if isproxy and cfg.chinaStatus.value and cfg.proxyStatus.value:
             InfoBar.warning(
-                title="已同时启用代理端口和国内镜像,默认使用国内镜像！",
+                title="代理设置冲突,优先使用国内镜像！",
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -325,6 +317,6 @@ class RoundedImageWidget(QWidget):
         pixmap = QPixmap(self.image_path)
 
         path = QPainterPath()
-        path.addRoundedRect(self.rect(), 20, 20)
+        path.addRoundedRect(self.rect(), 35, 35)
         painter.setClipPath(path)
         painter.drawPixmap(0, 0, self.width(), self.height(), pixmap)

@@ -1,1 +1,11 @@
-{"TOKEN": "ee3bb57ae3d9d5ab8dfd387ffca154db64af0522a233dfb1776197891ee92be2", "PROXY_PORT": "7890", "SERVER_NAMES": ["LunarCore", "Grasscutter", "Hutao-GS", "NahidaImpact"], "SERVER_COMMANDS": {"LunarCore": "cd ./server/LunarCore/ && start java.exe -jar LunarCore.jar", "Grasscutter": "cd ./server/Grasscutter/ && start java.exe -jar grasscutter.jar", "Hutao-GS": "cd ./server/HuTao-GS/ && start START-DEV.bat", "NahidaImpact": "start ./server/NahidaImpact/NahidaImpact.Proxy/bin/Release/net8.0/NahidaImpact.Proxy.exe && start ./server/NahidaImpact/NahidaImpact.SDK/bin/Release/net8.0/NahidaImpact.SDK.exe && cd ./server/NahidaImpact/NahidaImpact.GameServer/bin/Release/net8.0/ && start NahidaImpact.GameServer.exe"}}
+{
+    "TOKEN": "ee3bb57ae3d9d5ab8dfd387ffca154db64af0522a233dfb1776197891ee92be2",
+    "PROXY_PORT": "7890",
+    "SERVER_NAMES": ["LunarCore", "Grasscutter", "Hutao-GS", "NahidaImpact"],
+    "SERVER_COMMANDS": {
+        "LunarCore": "cd ./server/LunarCore/ && start java.exe -jar LunarCore.jar",
+        "Grasscutter": "cd ./server/Grasscutter/ && start java.exe -jar grasscutter.jar",
+        "Hutao-GS": "cd ./server/HuTao-GS/ && start START-DEV.bat",
+        "NahidaImpact": "start ./server/NahidaImpact/NahidaImpact.Proxy/bin/Release/net8.0/NahidaImpact.Proxy.exe && start ./server/NahidaImpact/NahidaImpact.SDK/bin/Release/net8.0/NahidaImpact.SDK.exe && cd ./server/NahidaImpact/NahidaImpact.GameServer/bin/Release/net8.0/ && start NahidaImpact.GameServer.exe"
+    }
+}

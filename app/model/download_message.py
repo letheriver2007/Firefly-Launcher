@@ -330,7 +330,7 @@ def download_check(self, name):
             x.show()
             x.start_download(types, command, file_path, build_jar)
             if x.exec():
-                self.clean_task()
+                clean_task()
                 InfoBar.success(
                     title='下载成功！',
                     content="",

@@ -11,8 +11,10 @@ from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from qfluentwidgets import MSFluentWindow, NavigationItemPosition, setTheme, Theme, InfoBar, InfoBarPosition, SplashScreen
 from qfluentwidgets import FluentIcon as FIF
 from app.home_interface import Home
+from app.launcher_interface import Launcher
+from app.environment_interface import Environment
 from app.lunarcore_interface import LunarCore
-from app.toolkit_interface import Toolkit
+from app.proxy_interface import Proxy
 from app.setting_interface import Setting
 from app.model.config import cfg
 from app.model.check_update import checkUpdate
@@ -23,17 +25,14 @@ class Main(MSFluentWindow):
     def __init__(self):
         super().__init__()
         setTheme(cfg.themeMode.value)
+
         self.initMainWindow()
-
-        self.homeInterface = Home('HomeInterface', self)
-        self.lunarcoreInterface = LunarCore('LunarCoreInterface', self)
-        self.toolkitInterface = Toolkit('ToolkitInterface', self)
-        self.settingInterface = Setting('SettingInterface', self)
-
         self.initNavigation()
         self.checkFont()
+
         # 加载界面结束
         self.splashScreen.finish()
+
         checkUpdate(self)
         if cfg.useLogin.value:
             self.incorrect_count = 1
@@ -45,9 +44,17 @@ class Main(MSFluentWindow):
                 self.mediaPlay('success')
     
     def initNavigation(self):
+        self.homeInterface = Home('HomeInterface', self)
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页', FIF.HOME_FILL)
+        self.launcherInterface = Launcher('LauncherInterface', self)
+        self.addSubInterface(self.launcherInterface, FIF.PLAY, '启动器', FIF.PLAY)
+        self.environmentInterface = Environment('EnvironmentInterface', self)
+        self.addSubInterface(self.environmentInterface, FIF.DICTIONARY, '环境', FIF.DICTIONARY)
+        self.lunarcoreInterface = LunarCore('LunarCoreInterface', self)
         self.addSubInterface(self.lunarcoreInterface, FIF.CAFE, 'LC', FIF.CAFE)
-        self.addSubInterface(self.toolkitInterface, FIF.APPLICATION, '工具', FIF.APPLICATION)
+        self.proxyInterface = Proxy('ProxyInterface', self)
+        self.addSubInterface(self.proxyInterface, FIF.CERTIFICATE, '代理', FIF.CERTIFICATE)
+
         self.navigationInterface.addItem(
             routeKey='theme',
             icon=FIF.CONSTRACT,
@@ -56,6 +63,8 @@ class Main(MSFluentWindow):
             selectable=False,
             position=NavigationItemPosition.BOTTOM
         )
+
+        self.settingInterface = Setting('SettingInterface', self)
         self.addSubInterface(self.settingInterface, FIF.SETTING, '设置', FIF.SETTING, NavigationItemPosition.BOTTOM)
 
     def initMainWindow(self):
@@ -64,6 +73,7 @@ class Main(MSFluentWindow):
         self.titleBar.setDoubleClickEnabled(False)
         self.setResizeEnabled(False)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMaximizeButtonHint)
+
         self.setWindowTitle(cfg.APP_NAME)
         self.setFixedSize(1280, 768)
         self.setWindowIcon(QIcon('./src/image/icon.ico'))

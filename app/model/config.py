@@ -17,8 +17,8 @@ class Config(QConfig):
     autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
     useLogin = ConfigItem("Function", "UseLogin", True, BoolValidator())
     useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())
-    proxyStatus = ConfigItem("Proxy", "ProxyStatus", False, BoolValidator())
-    chinaStatus = ConfigItem("Proxy", "ChinaStatus", True, BoolValidator())
+    proxyStatus = ConfigItem("Proxy", "ProxyStatus", True, BoolValidator())
+    chinaStatus = ConfigItem("Proxy", "ChinaStatus", False, BoolValidator())
 
     APP_NAME = "Firefly Launcher"
     APP_VERSION = get_version_type(get_json('./config/version.json', 'APP_VERSION'))

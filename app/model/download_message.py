@@ -263,18 +263,18 @@ def generate_download_url(types, repo_url, mirror_url, repo_branch=None, mirror_
             url_cfg = f'curl -x http://127.0.0.1:7890 -o {file} -L '
         return url_cfg + repo_url
     elif types == 'git':
-        git_cfg = 'git clone --progress '
+        git_cfg = 'git config --global core.longpaths true && git clone --progress '
         if not is_add:
             if cfg.chinaStatus.value:
                 return git_cfg + mirror_branch + mirror_url
             elif cfg.proxyStatus.value:
-                git_cfg = 'git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
+                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
             return git_cfg + repo_branch + repo_url
         else:
             if cfg.chinaStatus.value:
                 return ''
             elif cfg.proxyStatus.value:
-                git_cfg = 'git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
+                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
             return ' && ' + git_cfg + repo_branch + repo_url
 
 def download_check(self, name):

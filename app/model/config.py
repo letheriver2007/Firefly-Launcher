@@ -17,12 +17,11 @@ class Config(QConfig):
     autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
     useLogin = ConfigItem("Function", "UseLogin", True, BoolValidator())
     useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())
-    randomHomeBg = ConfigItem("Function", "RandomHomeBg", True, BoolValidator())
-    proxyStatus = ConfigItem("Proxy", "ProxyStatus", False, BoolValidator())
-    chinaStatus = ConfigItem("Proxy", "ChinaStatus", True, BoolValidator())
+    proxyStatus = ConfigItem("Proxy", "ProxyStatus", True, BoolValidator())
+    chinaStatus = ConfigItem("Proxy", "ChinaStatus", False, BoolValidator())
 
     APP_NAME = "Firefly Launcher"
-    APP_VERSION = get_version_type(get_json('./config/setup.json', 'APP_VERSION'))
+    APP_VERSION = get_version_type(get_json('./config/version.json', 'APP_VERSION'))
     APP_FONT = "SDK_SC_Web"
 
     URL_WRITER = "https://github.com/letheriver2007"
@@ -47,14 +46,14 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_GIT_MIRROR = ('https://cdn.npmmirror.com/binaries/git-for-windows/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA_MIRROR = ('https://d6.injdk.cn/oraclejdk/17/jdk-17_windows-x64_bin.msi')
     DOWNLOAD_COMMANDS_MONGODB_MIRROR = ('https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi')
-    DOWNLOAD_COMMANDS_LUNARCORE_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git server/LunarCore')
+    DOWNLOAD_COMMANDS_LUNARCORE_MIRROR = ('https://gitee.com/kenny-pk/LunarCore.git server/LunarCore')
     DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git server/LunarCore/resources')
     DOWNLOAD_COMMANDS_FIDDLER_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler')
     DOWNLOAD_COMMANDS_MITMDUMP_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump')
 
-    PROXY_PORT = get_json('./config/server.json', 'PROXY_PORT')
-    SERVER_NAMES = get_json('./config/server.json', 'SERVER_NAMES')
-    SERVER_COMMANDS = get_json('./config/server.json', 'SERVER_COMMANDS')
+    PROXY_PORT = get_json('./config/config.json', 'PROXY_PORT')
+    SERVER_NAMES = get_json('./config/config.json', 'SERVER_NAMES')
+    SERVER_COMMANDS = get_json('./config/config.json', 'SERVER_COMMANDS')
 
 
 cfg = Config()

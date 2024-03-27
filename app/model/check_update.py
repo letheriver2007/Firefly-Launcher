@@ -4,7 +4,7 @@ import winreg
 import urllib.request
 from PySide6.QtCore import QThread, Signal, Qt
 from qfluentwidgets import InfoBar, InfoBarPosition
-from app.module.config import cfg
+from app.model.config import cfg
 
 def get_latest_version():
     if cfg.chinaStatus.value:

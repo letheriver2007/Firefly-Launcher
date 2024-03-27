@@ -1,20 +1,20 @@
 import os
 import subprocess
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
+from PySide6.QtWidgets import QWidget, QLabel, QStackedWidget, QVBoxLayout
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
-from app.component.style_sheet import StyleSheet
-from app.component.setting_group import SettingCardGroup
-from app.component.message_common import MessageFiddler, PrimaryPushSettingCard_Fiddler
+from app.model.style_sheet import StyleSheet
+from app.model.setting_group import SettingCardGroup
+from app.model.download_message import HyperlinkCard_Launcher, download_check
 
 
-class Toolkit(ScrollArea):
+class Launcher(ScrollArea):
     Nav = Pivot
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 
@@ -23,19 +23,28 @@ class Toolkit(ScrollArea):
         self.stackedWidget = QStackedWidget(self)
 
         # 添加项
-        self.ProxyToolInterface = SettingCardGroup(self.scrollWidget)
-        self.FiddlerCard = PrimaryPushSettingCard_Fiddler(
-            '脚本打开',
-            '原版打开',
-            FIF.VPN,
-            'Fiddler(外部)',
-            '使用Fiddler Scripts代理'
+        self.LauncherDownloadInterface = SettingCardGroup(self.scrollWidget)
+        self.LauncherRepoCard = HyperlinkCard_Launcher(
+            'https://github.com/letheriver2007/Firefly-Launcher',
+            'Firefly-Launcher',
+            'https://github.com/letheriver2007/Firefly-Launcher-Res',
+            'Firefly-Launcher-Res',
+            FIF.LINK,
+            '项目仓库',
+            '打开Firefly-Launcher相关项目仓库'
         )
-        self.mitmdumpCard = PrimaryPushSettingCard( 
-            '打开',
-            FIF.VPN,
-            'Mitmdump(外部)',
-            '使用Mitmdump代理'
+        self.AudioDownloadCard = PrimaryPushSettingCard(
+            '详细信息',
+            FIF.DOWNLOAD,
+            'Firefly-Launcher-Audio',
+            '下载流萤音频文件'
+        )
+        self.ConfigInterface = SettingCardGroup(self.scrollWidget)
+        self.settingConfigCard = PrimaryPushSettingCard(
+            '打开文件',
+            FIF.LABEL,
+            '启动器设置',
+            '自定义启动器配置'
         )
 
         self.__initWidget()
@@ -55,11 +64,13 @@ class Toolkit(ScrollArea):
 
     def __initLayout(self):
         # 项绑定到栏目
-        self.ProxyToolInterface.addSettingCard(self.FiddlerCard)
-        self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
+        self.LauncherDownloadInterface.addSettingCard(self.LauncherRepoCard)
+        self.LauncherDownloadInterface.addSettingCard(self.AudioDownloadCard)
+        self.ConfigInterface.addSettingCard(self.settingConfigCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface','代理', icon=FIF.CERTIFICATE)
+        self.addSubInterface(self.LauncherDownloadInterface, 'LauncherDownloadInterface','下载', icon=FIF.DOWNLOAD)
+        self.addSubInterface(self.ConfigInterface,'configInterface','配置', icon=FIF.EDIT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -67,14 +78,13 @@ class Toolkit(ScrollArea):
         self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.ProxyToolInterface)
-        self.pivot.setCurrentItem(self.ProxyToolInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.ProxyToolInterface.objectName())
-        
+        self.stackedWidget.setCurrentWidget(self.LauncherDownloadInterface)
+        self.pivot.setCurrentItem(self.LauncherDownloadInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.LauncherDownloadInterface.objectName())
+
     def __connectSignalToSlot(self):
-        self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
-        self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
-        self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)
+        self.AudioDownloadCard.clicked.connect(lambda: download_check(self, 'audio'))
+        self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -91,35 +101,9 @@ class Toolkit(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
-    def proxy_fiddler(self, mode):
-        if mode =='script':
-            w = MessageFiddler(self)
-            if w.exec():
-                self.open_file('src/patch/yuanshen/update.exe')
-                self.open_file('tool/Fiddler/Fiddler.exe')
-            else:
-                self.open_file('src/patch/starrail/update.exe')
-                self.open_file('tool/Fiddler/Fiddler.exe')
-        elif mode == 'old':
-            self.open_file('tool/Fiddler/Fiddler.exe')
-
     def open_file(self, file_path):
         if os.path.exists(file_path):
             subprocess.run(['start', file_path], shell=True)
-        else:
-            InfoBar.error(
-                title="找不到文件，请重新下载！",
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
-
-    def proxy_mitmdump(self):
-        if os.path.exists('tool/Mitmdump'):
-            subprocess.run('cd ./tool/Mitmdump && start /b Proxy.exe', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
         else:
             InfoBar.error(
                 title="找不到文件，请重新下载！",

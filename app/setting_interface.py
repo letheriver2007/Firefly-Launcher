@@ -1,4 +1,5 @@
 import sys
+import json
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStackedWidget
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QDesktopServices, QFont
@@ -7,10 +8,11 @@ from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton,
                             setThemeColor, PrimaryPushSettingCard, TitleLabel, SubtitleLabel, setCustomStyleSheet,
                             SwitchSettingCard, InfoBar, InfoBarPosition)
-from app.module.config import cfg
-from app.component.style_sheet import StyleSheet
-from app.component.setting_group import SettingCardGroup
-from app.module.check_update import checkUpdate
+from app.model.setting_message import LineEditSettingCard
+from app.model.config import cfg
+from app.model.style_sheet import StyleSheet
+from app.model.setting_group import SettingCardGroup
+from app.model.check_update import checkUpdate
 
 
 class Setting(ScrollArea):
@@ -18,7 +20,7 @@ class Setting(ScrollArea):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
 
@@ -32,7 +34,7 @@ class Setting(ScrollArea):
             cfg.themeColor,
             FIF.PALETTE,
             '主题色',
-            '默认流萤主题色，开拓者你不会改的吧？'
+            '默认流萤主题色，开拓者你不会改的吧?'
         )
         self.updateOnStartUpCard = PrimaryPushSettingCard(
             '检查更新',
@@ -65,18 +67,16 @@ class Setting(ScrollArea):
             '使用随机流萤语音彩蛋',
             configItem=cfg.useAudio
         )
-        self.randomHomeBgCard = SwitchSettingCard(
-            FIF.PHOTO,
-            '启用随机桌面背景',
-            '使用随机切换桌面背景彩蛋',
-            configItem=cfg.randomHomeBg
-        )
         self.ProxyInterface = SettingCardGroup(self.scrollWidget)
         self.proxyCard = SwitchSettingCard(
             FIF.CERTIFICATE,
             '使用代理端口',
             '启用代理，在配置文件里更改地址',
             configItem=cfg.proxyStatus
+        )
+        self.proxyPortCard = LineEditSettingCard(
+            FIF.SETTING,
+            '代理端口:'
         )
         self.chinaCard = SwitchSettingCard(
             FIF.CALORIES,
@@ -104,6 +104,7 @@ class Setting(ScrollArea):
         StyleSheet.SETTING_INTERFACE.apply(self)
 
         self.__initLayout()
+        self.__initInfo()
         self.__connectSignalToSlot()
 
     def __initLayout(self):
@@ -114,8 +115,8 @@ class Setting(ScrollArea):
         self.FunctionInterface.addSettingCard(self.autoCopyCard)
         self.FunctionInterface.addSettingCard(self.useLoginCard)
         self.FunctionInterface.addSettingCard(self.useAudioCard)
-        self.FunctionInterface.addSettingCard(self.randomHomeBgCard)
         self.ProxyInterface.addSettingCard(self.proxyCard)
+        self.ProxyInterface.addSettingCard(self.proxyPortCard)
         self.ProxyInterface.addSettingCard(self.chinaCard)
         self.ProxyInterface.addSettingCard(self.noproxyCard)
 
@@ -123,7 +124,7 @@ class Setting(ScrollArea):
         self.addSubInterface(self.PersonalInterface,'PersonalInterface','程序', icon=FIF.SETTING)
         self.addSubInterface(self.FunctionInterface,'FunctionInterface','功能', icon=FIF.TILES)
         self.addSubInterface(self.ProxyInterface, 'ProxyInterface','代理', icon=FIF.CERTIFICATE)
-        self.AboutInterface = About('About Interface', self)
+        self.AboutInterface = About('AboutInterface', self)
         self.addSubInterface(self.AboutInterface, 'AboutInterface','关于', icon=FIF.INFO)
 
         # 初始化配置界面
@@ -135,6 +136,14 @@ class Setting(ScrollArea):
         self.stackedWidget.setCurrentWidget(self.PersonalInterface)
         self.pivot.setCurrentItem(self.PersonalInterface.objectName())
         qrouter.setDefaultRouteKey(self.stackedWidget, self.PersonalInterface.objectName())
+    
+    def __initInfo(self):
+        with open('config/config.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            port = data['PROXY_PORT']
+        self.proxyPortCard.titleLabel.setText(f'代理端口: {port}')
+        if not cfg.proxyStatus.value:
+            self.proxyPortCard.setDisabled(True)
         
     def __connectSignalToSlot(self):
         self.themeColorCard.colorChanged.connect(lambda c: setThemeColor(c, lazy=True))
@@ -143,9 +152,9 @@ class Setting(ScrollArea):
         self.autoCopyCard.checkedChanged.connect(lambda: self.common_changed(cfg.autoCopy.value, '自动复制功能已开启！', '自动复制功能已关闭！'))
         self.useLoginCard.checkedChanged.connect(lambda: self.common_changed(cfg.useLogin.value, '登录功能已开启！', '登录功能已关闭！'))
         self.useAudioCard.checkedChanged.connect(lambda: self.common_changed(cfg.useAudio.value, '流萤语音已开启！', '流萤语音已关闭！'))
-        self.randomHomeBgCard.checkedChanged.connect(lambda: self.common_changed(cfg.randomHomeBg.value, '随机桌面背景已开启！', '随机桌面背景已关闭！'))
-        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,f'代理端口{cfg.PROXY_PORT}已开启！','代理端口已关闭！','端口可在配置更改','',True))
-        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,'国内镜像已开启！','国内镜像已关闭！','','',True))
+        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,'代理端口已开启！','代理端口已关闭！',True))
+        self.proxyPortCard.set_port.connect(self.handleSetProxyPort)
+        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,'国内镜像已开启！','国内镜像已关闭！',True))
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -167,12 +176,12 @@ class Setting(ScrollArea):
         current_process = QProcess()
         current_process.startDetached(sys.executable, sys.argv)
         sys.exit()
-
-    def common_changed(self, status, title_true, title_false, content_true='', content_false='', isproxy=False):
+    
+    def common_changed(self, status, title_true, title_false, isproxy=False):
         if status:
             InfoBar.success(
                 title=title_true,
-                content=content_true,
+                content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
@@ -182,27 +191,27 @@ class Setting(ScrollArea):
         else:
             InfoBar.success(
                 title=title_false,
-                content=content_false,
+                content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=1000,
                 parent=self
             )
-        if isproxy:
-            self.china_proxy_check()
-                
-    def china_proxy_check(self):
-        if cfg.chinaStatus.value == True and cfg.proxyStatus.value == True:
+        if cfg.proxyStatus.value:
+            self.proxyPortCard.setDisabled(False)
+        else:
+            self.proxyPortCard.setDisabled(True)
+        if isproxy and cfg.chinaStatus.value and cfg.proxyStatus.value:
             InfoBar.warning(
-                    title="已同时启用代理端口和国内镜像,默认使用国内镜像！",
-                    content="",
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
+                title="代理设置冲突,优先使用国内镜像！",
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
 
     def disable_global_proxy(self):
         try:
@@ -232,6 +241,16 @@ class Setting(ScrollArea):
                 duration=3000,
                 parent=self
             )
+    
+    def handleSetProxyPort(self):
+        new_port = self.proxyPortCard.port_edit.text()
+        if new_port != '':
+            with open('config/config.json', 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                data['PROXY_PORT'] = new_port
+            with open('config/config.json', 'w', encoding='utf-8') as file:
+                json.dump(data, file, ensure_ascii=False)
+        self.proxyPortCard.titleLabel.setText(f'代理端口: {new_port}')
 
 
 class About(QWidget):
@@ -239,7 +258,7 @@ class About(QWidget):
         super().__init__(parent=parent)
         
         main_layout = QVBoxLayout(self)
-        self.setObjectName(text.replace(' ', '-'))
+        self.setObjectName(text)
         
         image_layout = QVBoxLayout()
         image_widget = RoundedImageWidget("./src/image/bg_about.png")
@@ -298,6 +317,6 @@ class RoundedImageWidget(QWidget):
         pixmap = QPixmap(self.image_path)
 
         path = QPainterPath()
-        path.addRoundedRect(self.rect(), 20, 20)
+        path.addRoundedRect(self.rect(), 35, 35)
         painter.setClipPath(path)
         painter.drawPixmap(0, 0, self.width(), self.height(), pixmap)

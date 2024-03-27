@@ -3,10 +3,10 @@ import subprocess
 from typing import Union
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QThread, Signal, QSize, Qt
-from qfluentwidgets import (MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel,
+from qfluentwidgets import (MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel, InfoBar, InfoBarPosition,
                             PlainTextEdit, FluentIconBase, HyperlinkButton, IndeterminateProgressBar)
-from app.module.config import cfg
-from app.component.setting_card import SettingCard
+from app.model.config import cfg
+from app.model.setting_card import SettingCard
 
 
 class HyperlinkCard_Launcher(SettingCard):
@@ -251,3 +251,122 @@ class CommandRunner(QThread):
             else:
                 self.output_updated.emit('LunarCore编译失败！')
         self.download_finished.emit(process.returncode == 0, self.check)
+
+
+def generate_download_url(types, repo_url, mirror_url, repo_branch=None, mirror_branch=None, is_add=False):
+    if types == 'url':
+        file = os.path.join("temp", repo_url.split('/')[-1])
+        url_cfg = f'curl -o {file} -L '
+        if cfg.chinaStatus.value:
+            return url_cfg + mirror_url
+        elif cfg.proxyStatus.value:
+            url_cfg = f'curl -x http://127.0.0.1:7890 -o {file} -L '
+        return url_cfg + repo_url
+    elif types == 'git':
+        git_cfg = 'git config --global core.longpaths true && git clone --progress '
+        if not is_add:
+            if cfg.chinaStatus.value:
+                return git_cfg + mirror_branch + mirror_url
+            elif cfg.proxyStatus.value:
+                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
+            return git_cfg + repo_branch + repo_url
+        else:
+            if cfg.chinaStatus.value:
+                return ''
+            elif cfg.proxyStatus.value:
+                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
+            return ' && ' + git_cfg + repo_branch + repo_url
+
+def download_check(self, name):
+    build_jar = ''
+    if name == 'audio':
+        w = MessageAudio(self)
+        types = 'git'
+        file_path = 'src\\audio'
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_AUDIO, cfg.DOWNLOAD_COMMANDS_AUDIO_MIRROR, '--branch audio ', '--branch audio ')
+    elif name == 'git':
+        w = MessageGit(self)
+        types = 'url'
+        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_GIT.split('/')[-1])
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_GIT, cfg.DOWNLOAD_COMMANDS_GIT_MIRROR)
+    elif name == 'java':
+        w = MessageJava(self)
+        types = 'url'
+        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_JAVA.split('/')[-1])
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_JAVA, cfg.DOWNLOAD_COMMANDS_JAVA_MIRROR)
+    elif name =='mongodb':
+        w = MessageMongoDB(self)
+        types = 'url'
+        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_MONGODB.split('/')[-1])
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_MONGODB, cfg.DOWNLOAD_COMMANDS_MONGODB_MIRROR)
+    elif name == 'lunarcore':
+        w = MessageLunarCore(self)
+        types = 'git'
+        file_path = 'server\\LunarCore'
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE, cfg.DOWNLOAD_COMMANDS_LUNARCORE_MIRROR, '', '--branch development ')
+        build_jar = 'lunarcore'
+    elif name == 'lunarcoreres':
+        w = MessageLunarCoreRes(self)
+        types = 'git'
+        file_path = 'server\\LunarCore\\resources'
+        command_1 = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_1, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR, '', '--branch lunarcoreres ')
+        command_2 = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_2, '', '', '', True)
+        command = command_1 + command_2
+    elif name == 'fiddler':
+        w = MessageFiddler(self)
+        types = 'git'
+        file_path = 'tool\\Fiddler'
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_FIDDLER, cfg.DOWNLOAD_COMMANDS_FIDDLER_MIRROR, '--branch fiddler ', '--branch fiddler ')
+    elif name == 'mitmdump':
+        w = MessageMitmdump(self)
+        types = 'git'
+        file_path = 'tool\\Mitmdump'
+        command = generate_download_url(types, cfg.DOWNLOAD_COMMANDS_MITMDUMP, cfg.DOWNLOAD_COMMANDS_MITMDUMP_MIRROR, '--branch mitmdump ', '--branch mitmdump ')
+    print(command)
+
+    if w.exec():
+        if not os.path.exists(file_path):
+            x = MessageDownload(self)
+            x.show()
+            x.start_download(types, command, file_path, build_jar)
+            if x.exec():
+                clean_task()
+                InfoBar.success(
+                    title='下载成功！',
+                    content="",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                    )
+            else:
+                InfoBar.error(
+                    title='下载失败！',
+                    content="",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self
+                    )
+        else:
+            InfoBar.error(
+            title=f'该目录已存在文件,无法下载！',
+            content="",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=3000,
+            parent=self
+            )
+            subprocess.Popen('start ' + file_path, shell=True)
+    
+def clean_task():
+    output = subprocess.check_output('tasklist', shell=True)
+    if 'curl.exe' in str(output):
+        subprocess.run('taskkill /f /im curl.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    elif 'java.exe' in str(output):
+        subprocess.run('taskkill /f /im java.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    elif 'git.exe' in str(output):
+        subprocess.run('taskkill /f /im git.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

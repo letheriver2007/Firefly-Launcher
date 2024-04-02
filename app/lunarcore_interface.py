@@ -27,17 +27,7 @@ class LunarCore(ScrollArea):
         self.stackedWidget = QStackedWidget(self)
 
         self.LunarCoreDownloadInterface = SettingCardGroup(self.scrollWidget)
-        self.LunarCoreRepoCard = HyperlinkCard_LunarCore(
-            'https://github.com/Melledy/LunarCore',
-            'LunarCore',
-            'https://github.com/Dimbreath/StarRailData',
-            'StarRailData',
-            'https://gitlab.com/Melledy/LunarCore-Configs',
-            'LunarCore-Configs',
-            FIF.LINK,
-            self.tr('项目仓库'),
-            self.tr('打开LunarCore相关仓库')
-        )
+        self.LunarCoreRepoCard = HyperlinkCard_LunarCore()
         self.LunarCoreDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
             FIF.DOWNLOAD,
@@ -68,19 +58,19 @@ class LunarCore(ScrollArea):
             self.tr('执行'),
             FIF.SPEED_OFF,
             self.tr('确认插件连接状态'),
-            self.tr('ping')
+            'Ping Web Server'
         )
         self.sendcodeCard = PrimaryPushSettingCard_Sendcode(
             self.tr('执行'),
             FIF.SEND,
             self.tr('发送验证码'),
-            self.tr('sendcode')
+            'Send Code'
         )
         self.vertifycodeCard = PrimaryPushSettingCard_Verifycode(
             self.tr('执行'),
             FIF.FINGERPRINT,
             self.tr('验证验证码'),
-            self.tr('vertifycode')
+            'Vertify Code'
         )
 
         self.__initWidget()

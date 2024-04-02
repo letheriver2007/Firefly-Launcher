@@ -3,13 +3,11 @@ from PySide6.QtWidgets import (QWidget, QTableWidgetItem, QHeaderView, QAbstract
                                QHBoxLayout, QButtonGroup, QLabel, QStackedWidget, QApplication)
 from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Signal, Qt
-from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton,
+from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, ComboBox,
                             TableWidget, SearchLineEdit, SettingCardGroup, SubtitleLabel, PrimaryToolButton, 
                             Pivot, qrouter, ScrollArea, InfoBar, InfoBarPosition, PrimaryPushSettingCard)
 from qfluentwidgets import FluentIcon as FIF
-from app.model.setting_card import (SettingCardGroup, PrimaryPushSettingCard_Giveall, ComboBoxSettingCard__Clear, PrimaryPushSettingCard_Account,
-                                    PrimaryPushSettingCard_Kick, PrimaryPushSettingCard_Unstuck, PrimaryPushSettingCard_Gender,
-                                    PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, ComboBoxSettingCard_Quickgive)
+from app.model.setting_card import SettingCardGroup, SettingCard
 from app.model.config import cfg
 from app.model.open_command import send_command
 from app.model.style_sheet import StyleSheet
@@ -31,18 +29,12 @@ class LunarCoreCommand(ScrollArea):
 
         # 添加项
         self.CustomInterface = SettingCardGroup(self.scrollWidget)
-        self.giveallCard = PrimaryPushSettingCard_Giveall(
-            self.tr('物品'),
-            self.tr('角色'),
-            FIF.TAG,
-            self.tr('给予全部'),
-            '/giveall {items | avatars}'
-        )
-        self.quickgiveCard = ComboBoxSettingCard_Quickgive(
+        self.giveallCard = PrimaryPushSettingCard_Giveall()
+        self.quickgiveCard = PrimaryPushSettingCard(
+            self.tr('跳转'),
             FIF.TAG,
             self.tr('物品快捷给予'),
-            self.tr('选择你想要快捷得到的物品'),
-            texts=[self.tr('1000专票'), self.tr('1000通票')]
+            self.tr('自定义物品快捷给予跳转')
         )
         self.refillCard = PrimaryPushSettingCard(
             self.tr('使用'),
@@ -69,51 +61,14 @@ class LunarCoreCommand(ScrollArea):
             self.tr('重载服务端'),
             '/reload'
         )
-        self.accountCard = PrimaryPushSettingCard_Account(
-            self.tr('添加'),
-            self.tr('删除'),
-            FIF.TAG,
-            self.tr('添加或删除账号'),
-            '/account {create | delete} [username]'
-        )
-        self.kickCard = PrimaryPushSettingCard_Kick(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('踢出玩家'),
-            '/kick @[player id]'
-        )
-        self.unstuckCard = PrimaryPushSettingCard_Unstuck(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('解除场景未加载造成的卡死'),
-            '/unstuck'
-        )
+        self.accountCard = PrimaryPushSettingCard_Account()
+        self.kickCard = PrimaryPushSettingCard_Kick()
+        self.unstuckCard = PrimaryPushSettingCard_Unstuck()
         self.PersonalInterface = SettingCardGroup(self.scrollWidget)
-        self.genderCard = PrimaryPushSettingCard_Gender(
-            self.tr('星'),
-            self.tr('穹'),
-            FIF.TAG,
-            self.tr('设置开拓者性别'),
-            '/gender {male | female}'
-        )
-        self.worldLevelCard = PrimaryPushSettingCard_WorldLevel(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('设置开拓等级'),
-            '/worldlevel [world level]'
-        )
-        self.avatarCard = PrimaryPushSettingCard_Avatar(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('设置当前角色属性'),
-            '/avatar [lv(level)] [r(eidolon)] [s(skill level)]'
-        )
-        self.clearCard = ComboBoxSettingCard__Clear(
-            FIF.TAG,
-            self.tr('清空物品'),
-            '/clear {all | relics | lightcones | materials | items}',
-            texts=[self.tr('全部'), self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('物品')]
-        )
+        self.genderCard = PrimaryPushSettingCard_Gender()
+        self.worldLevelCard = PrimaryPushSettingCard_WorldLevel()
+        self.avatarCard = PrimaryPushSettingCard_Avatar()
+        self.clearCard = ComboBoxSettingCard__Clear()
 
         self.__initWidget()
 
@@ -208,7 +163,7 @@ class LunarCoreCommand(ScrollArea):
 
         self.giveallCard.give_materials.connect(lambda: self.handleGiveallClicked('materials'))
         self.giveallCard.give_avatars.connect(lambda: self.handleGiveallClicked('avatars'))
-        self.quickgiveCard.quickgive_clicked.connect(lambda itemid: self.handleQuickgiveClicked(itemid))
+        self.quickgiveCard.clicked.connect(self.handleQuickgiveClicked)
 
         self.genderCard.gender_male.connect(lambda: self.buttonClicked.emit('/gender male'))
         self.genderCard.gender_female.connect(lambda: self.buttonClicked.emit('/gender female'))
@@ -340,11 +295,9 @@ class LunarCoreCommand(ScrollArea):
                 command +=' s' + line_skill
         self.buttonClicked.emit(command)
 
-    def handleQuickgiveClicked(self, itemid):
-        if itemid == 0:
-            self.buttonClicked.emit('/give 102 x1000')
-        elif itemid == 1:
-            self.buttonClicked.emit('/give 101 x1000')
+    def handleQuickgiveClicked(self):
+        self.stackedWidget.setCurrentWidget(self.GiveInterface)
+        self.pivot.setCurrentItem(self.GiveInterface.objectName())
     
     def handleClearClicked(self, itemid):
         if itemid == 0:
@@ -495,6 +448,171 @@ class LunarCoreCommand(ScrollArea):
                 command += ' ' + side_entry + ':' + str(entry_num)
 
         self.buttonClicked.emit(command)
+
+
+class PrimaryPushSettingCard_Giveall(SettingCard):
+    give_materials = Signal()
+    give_avatars = Signal()
+    def __init__(self, icon=FIF.TAG, title='给予全部', content='/giveall {items | avatars}'):
+        super().__init__(icon, title, content)
+        self.line_level = LineEdit(self)
+        self.line_eidolon = LineEdit(self)
+        self.line_skill = LineEdit(self)
+        self.button_materials = PrimaryPushButton('物品', self)
+        self.button_avatars = PrimaryPushButton('角色', self)
+        self.line_level.setFixedWidth(60)
+        self.line_eidolon.setFixedWidth(60)
+        self.line_skill.setFixedWidth(60)
+        self.line_level.setPlaceholderText("等级")
+        self.line_eidolon.setPlaceholderText("叠/魂")
+        self.line_skill.setPlaceholderText("行迹")
+        self.line_level.setValidator(QIntValidator(1,99,self))
+        self.line_eidolon.setValidator(QIntValidator(1,9,self))
+        self.line_skill.setValidator(QIntValidator(1,99,self))
+        self.hBoxLayout.addWidget(self.line_level, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.line_eidolon, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.line_skill, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_materials, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_avatars, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_materials.clicked.connect(self.give_materials)
+        self.button_avatars.clicked.connect(self.give_avatars)
+
+
+class PrimaryPushSettingCard_Account(SettingCard):
+    create_account = Signal()
+    delete_account = Signal()
+    def __init__(self, icon=FIF.TAG, title='添加或删除账号', content='/account {create | delete} [username]'):
+        super().__init__(icon, title, content)
+        self.account_name = LineEdit(self)
+        self.account_uid = LineEdit(self)
+        self.button_create = PrimaryPushButton('添加', self)
+        self.button_delete = PrimaryPushButton('删除', self)
+        self.account_name.setPlaceholderText("名称")
+        self.account_uid.setPlaceholderText("UID")
+        self.account_name.setFixedWidth(60)
+        self.account_uid.setFixedWidth(60)
+        self.account_uid.setValidator(QIntValidator(self))
+        self.hBoxLayout.addWidget(self.account_name, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.account_uid, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_create, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_delete, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_create.clicked.connect(self.create_account)
+        self.button_delete.clicked.connect(self.delete_account)
+
+
+class PrimaryPushSettingCard_Kick(SettingCard):
+    kick_player = Signal()
+    def __init__(self, icon=FIF.TAG, title='踢出玩家', content='/kick @[player id]'):
+        super().__init__(icon, title, content)
+        self.account_uid = LineEdit(self)
+        self.account_uid.setPlaceholderText("UID")
+        self.account_uid.setFixedWidth(60)
+        self.account_uid.setValidator(QIntValidator(self))
+        self.button_kick = PrimaryPushButton('使用', self)
+        self.hBoxLayout.addWidget(self.account_uid, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_kick, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_kick.clicked.connect(self.kick_player)
+
+
+class PrimaryPushSettingCard_Unstuck(SettingCard):
+    unstuck_player = Signal()
+    def __init__(self, icon=FIF.TAG, title='解除场景未加载造成的卡死', content='/unstuck'):
+        super().__init__(icon, title, content)
+        self.stucked_uid = LineEdit(self)
+        self.stucked_uid.setPlaceholderText("UID")
+        self.stucked_uid.setFixedWidth(60)
+        self.stucked_uid.setValidator(QIntValidator(self))
+        self.button_unstuck = PrimaryPushButton('使用', self)
+        self.hBoxLayout.addWidget(self.stucked_uid, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_unstuck, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_unstuck.clicked.connect(self.unstuck_player)
+
+
+class PrimaryPushSettingCard_Gender(SettingCard):
+    gender_male = Signal()
+    gender_female = Signal()
+    def __init__(self, icon=FIF.TAG, title='设置开拓者性别', content='/gender {male | female}'):
+        super().__init__(icon, title, content)
+        self.button_male = PrimaryPushButton('星', self)
+        self.button_female = PrimaryPushButton('穹', self)
+        self.hBoxLayout.addWidget(self.button_male, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_female, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_male.clicked.connect(self.gender_male)
+        self.button_female.clicked.connect(self.gender_female)
+
+
+class PrimaryPushSettingCard_WorldLevel(SettingCard):
+    set_level = Signal()
+    def __init__(self, icon=FIF.TAG, title='设置开拓等级', content='/worldlevel [world level]'):
+        super().__init__(icon, title, content)
+        self.world_level = LineEdit(self)
+        self.world_level.setPlaceholderText("开拓等级")
+        self.world_level.setFixedWidth(85)
+        validator = QIntValidator(1, 99, self)
+        self.world_level.setValidator(validator)
+        self.hBoxLayout.addWidget(self.world_level, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.world_level.textChanged.connect(self.set_level)
+
+
+class PrimaryPushSettingCard_Avatar(SettingCard):
+    avatar_set = Signal()
+    def __init__(self, icon=FIF.TAG, title='设置角色属性', content='/avatar [lv(level)] [r(eidolon)] [s(skill level)]'):
+        super().__init__(icon, title, content)
+        self.avatar_level = LineEdit(self)
+        self.avatar_eidolon = LineEdit(self)
+        self.avatar_skill = LineEdit(self)
+        self.avatar_level.setPlaceholderText("等级")
+        self.avatar_eidolon.setPlaceholderText("星魂")
+        self.avatar_skill.setPlaceholderText("行迹")
+        self.avatar_level.setFixedWidth(60)
+        self.avatar_eidolon.setFixedWidth(60)
+        self.avatar_skill.setFixedWidth(60)
+        validator = QIntValidator(1, 99, self)
+        self.avatar_level.setValidator(validator)
+        self.avatar_eidolon.setValidator(validator)
+        self.avatar_skill.setValidator(validator)
+        self.hBoxLayout.addWidget(self.avatar_level, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.avatar_eidolon, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.avatar_skill, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.avatar_level.textChanged.connect(self.avatar_set)
+        self.avatar_eidolon.textChanged.connect(self.avatar_set)
+        self.avatar_skill.textChanged.connect(self.avatar_set)
+
+
+class ComboBoxSettingCard__Clear(SettingCard):
+    clear_clicked = Signal(int)
+    def __init__(self, icon=FIF.TAG, title='清空物品', content='/clear {all | relics | lightcones | materials | items}'):
+        super().__init__(icon, title, content)
+        self.texts=[self.tr('全部'), self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('物品')]
+        self.comboBox = ComboBox(self)
+        self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.comboBox.setPlaceholderText('选择物品')
+        self.comboBox.addItems(self.texts)
+        self.comboBox.setCurrentIndex(-1)
+        self.comboBox.currentIndexChanged.connect(self._onCurrentIndexChanged)
+
+    def _onCurrentIndexChanged(self, index: int):
+        self.clear_clicked.emit(index)
 
 
 class Scene(QWidget):

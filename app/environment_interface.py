@@ -22,33 +22,23 @@ class Environment(ScrollArea):
 
         # 添加项
         self.EnvironmentDownloadInterface = SettingCardGroup(self.scrollWidget)
-        self.EnvironmentRepoCard = HyperlinkCard_Environment(
-            'https://git-scm.com/download/win',
-            'Git',
-            'https://www.oracle.com/java/technologies/javase-downloads.html',
-            'Java',
-            'https://www.mongodb.com/try/download/community',
-            self.tr('MongoDB'),
-            FIF.LINK,
-            self.tr('项目仓库'),
-            self.tr('打开各环境仓库')
-        )
+        self.EnvironmentRepoCard = HyperlinkCard_Environment()
         self.GitDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
             FIF.DOWNLOAD,
-            self.tr('Git'),
+            'Git',
             self.tr('下载Git安装包')
         )
         self.JavaDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
             FIF.DOWNLOAD,
-            self.tr('Java'),
+            'Java',
             self.tr('下载Java安装包')
         )
         self.MongoDBDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
             FIF.DOWNLOAD,
-            self.tr('MongoDB'),
+            'MongoDB',
             self.tr('下载MongoDB安装包')
         )
 

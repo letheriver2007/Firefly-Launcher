@@ -18,7 +18,7 @@ from app.proxy_interface import Proxy
 from app.setting_interface import Setting
 from app.model.config import cfg
 from app.model.check_update import checkUpdate
-from app.model.login_message import MessageLogin
+from app.model.login_card import MessageLogin
 
 
 class Main(MSFluentWindow):
@@ -45,27 +45,27 @@ class Main(MSFluentWindow):
     
     def initNavigation(self):
         self.homeInterface = Home('HomeInterface', self)
-        self.addSubInterface(self.homeInterface, FIF.HOME, '主页', FIF.HOME_FILL)
+        self.addSubInterface(self.homeInterface, FIF.HOME, self.tr('主页'), FIF.HOME_FILL)
         self.launcherInterface = Launcher('LauncherInterface', self)
-        self.addSubInterface(self.launcherInterface, FIF.PLAY, '启动器', FIF.PLAY)
+        self.addSubInterface(self.launcherInterface, FIF.PLAY, self.tr('启动器'), FIF.PLAY)
         self.environmentInterface = Environment('EnvironmentInterface', self)
-        self.addSubInterface(self.environmentInterface, FIF.DICTIONARY, '环境', FIF.DICTIONARY)
+        self.addSubInterface(self.environmentInterface, FIF.DICTIONARY, self.tr('环境'), FIF.DICTIONARY)
         self.lunarcoreInterface = LunarCore('LunarCoreInterface', self)
-        self.addSubInterface(self.lunarcoreInterface, FIF.CAFE, 'LC', FIF.CAFE)
+        self.addSubInterface(self.lunarcoreInterface, FIF.CAFE, self.tr('LC'), FIF.CAFE)
         self.proxyInterface = Proxy('ProxyInterface', self)
-        self.addSubInterface(self.proxyInterface, FIF.CERTIFICATE, '代理', FIF.CERTIFICATE)
+        self.addSubInterface(self.proxyInterface, FIF.CERTIFICATE, self.tr('代理'), FIF.CERTIFICATE)
 
         self.navigationInterface.addItem(
             routeKey='theme',
             icon=FIF.CONSTRACT,
-            text='主题',
+            text=self.tr('主题'),
             onClick=self.changeTheme,
             selectable=False,
             position=NavigationItemPosition.BOTTOM
         )
 
         self.settingInterface = Setting('SettingInterface', self)
-        self.addSubInterface(self.settingInterface, FIF.SETTING, '设置', FIF.SETTING, NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('设置'), FIF.SETTING, NavigationItemPosition.BOTTOM)
 
     def initMainWindow(self):
         self.titleBar.maxBtn.setHidden(True)
@@ -100,10 +100,10 @@ class Main(MSFluentWindow):
 
     def checkLogin(self, password):
         md5_hash = hashlib.md5(password.encode()).hexdigest()[8:24].upper()
-        # if md5_hash == 'EE1FC4FB7AD2BE1C':
-        if password == '':
+        if md5_hash == 'EE1FC4FB7AD2BE1C':
+        # if password == '':
             InfoBar.success(
-                title='登录成功',
+                title=self.tr('登录成功'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -116,7 +116,7 @@ class Main(MSFluentWindow):
             self.w.close()
         else:
             InfoBar.error(
-                title=f'密码错误{self.incorrect_count}次',
+                title=self.tr(f'密码错误{self.incorrect_count}次'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -141,7 +141,7 @@ class Main(MSFluentWindow):
     def handleUpdate(self, status, info):
         if status == 2:
             InfoBar.warning(
-                title=f'检测到新版本: {info}',
+                title=self.tr(f'检测到新版本: {info}'),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -151,7 +151,7 @@ class Main(MSFluentWindow):
             )
         elif status == 1:
             InfoBar.success(
-                title=f'当前是最新版本: {info}',
+                title=self.tr(f'当前是最新版本: {info}'),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -161,7 +161,7 @@ class Main(MSFluentWindow):
             )
         elif status == 0:
             InfoBar.error(
-                title=f'检测更新失败: {info}',
+                title=self.tr(f'检测更新失败: {info}'),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -182,7 +182,7 @@ class Main(MSFluentWindow):
             self.player.play()
         except:
             InfoBar.error(
-                title='未找到语音，请重新下载！',
+                title=self.tr('未找到语音，请重新下载！'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,

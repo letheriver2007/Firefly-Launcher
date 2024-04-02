@@ -7,7 +7,7 @@ import subprocess
 import urllib.request
 
 current_dir = os.getcwd()
-if not os.path.exists(f'{current_dir}\\main.py'):
+if not os.path.exists(f'{current_dir}\\firefly-launcher.py'):
     print('正在配置环境...')
 
     yes = ['yes','Yes','YES','y','Y']

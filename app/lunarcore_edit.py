@@ -3,7 +3,7 @@ from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea
 from app.model.style_sheet import StyleSheet
-from app.model.setting_group import SettingCardGroup
+from app.model.setting_card import SettingCardGroup
 
 
 class LunarCoreEdit(ScrollArea):
@@ -105,7 +105,7 @@ class LunarCoreEdit(ScrollArea):
         # 项绑定到栏目
 
         # 栏绑定界面
-        self.addSubInterface(self.WarpInterface, 'WarpInterface','跃迁', icon=FIF.LABEL)
+        self.addSubInterface(self.WarpInterface, 'WarpInterface',self.tr('跃迁'), icon=FIF.LABEL)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)

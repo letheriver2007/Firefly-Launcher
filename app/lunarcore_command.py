@@ -7,10 +7,9 @@ from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton,
                             TableWidget, SearchLineEdit, SettingCardGroup, SubtitleLabel, PrimaryToolButton, 
                             Pivot, qrouter, ScrollArea, InfoBar, InfoBarPosition, PrimaryPushSettingCard)
 from qfluentwidgets import FluentIcon as FIF
-from app.model.lunarcore_message import (PrimaryPushSettingCard_Giveall, ComboBoxSettingCard__Clear, PrimaryPushSettingCard_Account,
-                                           PrimaryPushSettingCard_Kick, PrimaryPushSettingCard_Unstuck, PrimaryPushSettingCard_Gender,
-                                           PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, ComboBoxSettingCard_Quickgive)
-from app.model.setting_group import SettingCardGroup
+from app.model.setting_card import (SettingCardGroup, PrimaryPushSettingCard_Giveall, ComboBoxSettingCard__Clear, PrimaryPushSettingCard_Account,
+                                    PrimaryPushSettingCard_Kick, PrimaryPushSettingCard_Unstuck, PrimaryPushSettingCard_Gender,
+                                    PrimaryPushSettingCard_WorldLevel, PrimaryPushSettingCard_Avatar, ComboBoxSettingCard_Quickgive)
 from app.model.config import cfg
 from app.model.open_command import send_command
 from app.model.style_sheet import StyleSheet
@@ -33,87 +32,87 @@ class LunarCoreCommand(ScrollArea):
         # 添加项
         self.CustomInterface = SettingCardGroup(self.scrollWidget)
         self.giveallCard = PrimaryPushSettingCard_Giveall(
-            '物品',
-            '角色',
+            self.tr('物品'),
+            self.tr('角色'),
             FIF.TAG,
-            '给予全部',
+            self.tr('给予全部'),
             '/giveall {items | avatars}'
         )
         self.quickgiveCard = ComboBoxSettingCard_Quickgive(
             FIF.TAG,
-            '物品快捷给予',
-            '选择你想要快捷得到的物品',
-            texts=['1000专票', '1000通票']
+            self.tr('物品快捷给予'),
+            self.tr('选择你想要快捷得到的物品'),
+            texts=[self.tr('1000专票'), self.tr('1000通票')]
         )
         self.refillCard = PrimaryPushSettingCard(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '秘技点补充',
+            self.tr('秘技点补充'),
             '/refill'
         )
         self.healCard = PrimaryPushSettingCard(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '治疗全部队伍角色',
+            self.tr('治疗全部队伍角色'),
             '/heal'
         )
         self.ServerInterface = SettingCardGroup(self.scrollWidget)
         self.helpCard = PrimaryPushSettingCard(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '查看服务端命令帮助',
+            self.tr('查看服务端命令帮助'),
             '/help'
         )
         self.reloadCard = PrimaryPushSettingCard(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '重载服务端',
+            self.tr('重载服务端'),
             '/reload'
         )
         self.accountCard = PrimaryPushSettingCard_Account(
-            '添加',
-            '删除',
+            self.tr('添加'),
+            self.tr('删除'),
             FIF.TAG,
-            '添加或删除账号',
+            self.tr('添加或删除账号'),
             '/account {create | delete} [username]'
         )
         self.kickCard = PrimaryPushSettingCard_Kick(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '踢出玩家',
+            self.tr('踢出玩家'),
             '/kick @[player id]'
         )
         self.unstuckCard = PrimaryPushSettingCard_Unstuck(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '解除场景未加载造成的卡死',
+            self.tr('解除场景未加载造成的卡死'),
             '/unstuck'
         )
         self.PersonalInterface = SettingCardGroup(self.scrollWidget)
         self.genderCard = PrimaryPushSettingCard_Gender(
-            '星',
-            '穹',
+            self.tr('星'),
+            self.tr('穹'),
             FIF.TAG,
-            '设置开拓者性别',
+            self.tr('设置开拓者性别'),
             '/gender {male | female}'
         )
         self.worldLevelCard = PrimaryPushSettingCard_WorldLevel(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '设置开拓等级',
+            self.tr('设置开拓等级'),
             '/worldlevel [world level]'
         )
         self.avatarCard = PrimaryPushSettingCard_Avatar(
-            '使用',
+            self.tr('使用'),
             FIF.TAG,
-            '设置当前角色属性',
+            self.tr('设置当前角色属性'),
             '/avatar [lv(level)] [r(eidolon)] [s(skill level)]'
         )
         self.clearCard = ComboBoxSettingCard__Clear(
             FIF.TAG,
-            '清空物品',
+            self.tr('清空物品'),
             '/clear {all | relics | lightcones | materials | items}',
-            texts=['全部', '遗器', '光锥', '材料', '物品']
+            texts=[self.tr('全部'), self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('物品')]
         )
 
         self.__initWidget()
@@ -125,9 +124,9 @@ class LunarCoreCommand(ScrollArea):
         
         self.updateText = LineEdit()
         self.updateText.setFixedSize(845, 35)
-        self.clearButton = PrimaryPushButton('清空')
-        self.copyButton = PrimaryPushButton('复制')
-        self.actionButton = PrimaryPushButton('执行')
+        self.clearButton = PrimaryPushButton(self.tr('清空'))
+        self.copyButton = PrimaryPushButton(self.tr('复制'))
+        self.actionButton = PrimaryPushButton(self.tr('执行'))
         self.clearButton.setFixedSize(80, 35)
         self.copyButton.setFixedSize(80, 35)
         self.actionButton.setFixedSize(80, 35)
@@ -157,18 +156,18 @@ class LunarCoreCommand(ScrollArea):
         self.PersonalInterface.addSettingCard(self.clearCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.CustomInterface, 'CustomInterface','快捷', icon=FIF.COMMAND_PROMPT)
-        self.addSubInterface(self.ServerInterface, 'ServerInterface','服务端', icon=FIF.COMMAND_PROMPT)
-        self.addSubInterface(self.PersonalInterface, 'PersonalInterface','账号', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.CustomInterface, 'CustomInterface',self.tr('快捷'), icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.ServerInterface, 'ServerInterface',self.tr('服务端'), icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.PersonalInterface, 'PersonalInterface',self.tr('账号'), icon=FIF.COMMAND_PROMPT)
 
         self.SceneInterface = Scene('SceneInterface', self)
-        self.addSubInterface(self.SceneInterface, 'SceneInterface','场景', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.SceneInterface, 'SceneInterface',self.tr('场景'), icon=FIF.COMMAND_PROMPT)
         self.SpawnInterface = Spawn('SpawnInterface', self)
-        self.addSubInterface(self.SpawnInterface, 'SpawnInterface','生成', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.SpawnInterface, 'SpawnInterface',self.tr('生成'), icon=FIF.COMMAND_PROMPT)
         self.GiveInterface = Give('GiveInterface', self)
-        self.addSubInterface(self.GiveInterface, 'GiveInterface','给予', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.GiveInterface, 'GiveInterface',self.tr('给予'), icon=FIF.COMMAND_PROMPT)
         self.RelicInterface = Relic('RelicInterface', self)
-        self.addSubInterface(self.RelicInterface, 'RelicInterface','遗器', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.RelicInterface, 'RelicInterface',self.tr('遗器'), icon=FIF.COMMAND_PROMPT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -254,7 +253,7 @@ class LunarCoreCommand(ScrollArea):
                 try:
                     response = send_command(token, command)
                     InfoBar.success(
-                        title='执行完成！',
+                        title=self.tr('执行完成！'),
                         content=response,
                         orient=Qt.Horizontal,
                         isClosable=True,
@@ -264,7 +263,7 @@ class LunarCoreCommand(ScrollArea):
                     )
                 except Exception as e:
                     InfoBar.error(
-                        title='执行失败！',
+                        title=self.tr('执行失败！'),
                         content=str(e),
                         orient=Qt.Horizontal,
                         isClosable=True,
@@ -274,8 +273,8 @@ class LunarCoreCommand(ScrollArea):
                     )
         else:
             InfoBar.error(
-                title='执行失败！',
-                content='请先配置远程执行！',
+                title=self.tr('执行失败！'),
+                content=self.tr('请先配置远程执行！'),
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
@@ -292,7 +291,7 @@ class LunarCoreCommand(ScrollArea):
                 clipboard.setText(text)
                 if status == 'show':
                     InfoBar.success(
-                        title='复制成功！',
+                        title=self.tr('复制成功！'),
                         content='',
                         orient=Qt.Horizontal,
                         isClosable=True,
@@ -303,7 +302,7 @@ class LunarCoreCommand(ScrollArea):
             else:
                 if status == 'show':
                     InfoBar.error(
-                        title='复制失败！',
+                        title=self.tr('复制失败！'),
                         content='',
                         orient=Qt.Horizontal,
                         isClosable=True,
@@ -313,7 +312,7 @@ class LunarCoreCommand(ScrollArea):
                     )
         except:
             InfoBar.error(
-                title='复制失败！',
+                title=self.tr('复制失败！'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -369,7 +368,7 @@ class LunarCoreCommand(ScrollArea):
             self.buttonClicked.emit(account)
         else:
             InfoBar.error(
-                title='请输入正确的用户名！',
+                title=self.tr('请输入正确的用户名！'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -384,7 +383,7 @@ class LunarCoreCommand(ScrollArea):
             self.buttonClicked.emit('/kick @' + account_uid)
         else:
             InfoBar.error(
-                title='请输入正确的UID！',
+                title=self.tr('请输入正确的UID！'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -399,7 +398,7 @@ class LunarCoreCommand(ScrollArea):
             self.buttonClicked.emit('/unstuck @' + stucked_uid)
         else:
             InfoBar.error(
-                title='请输入正确的UID！',
+                title=self.tr('请输入正确的UID！'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -508,7 +507,7 @@ class Scene(QWidget):
 
     def __initWidget(self):
         self.scene_search_line = SearchLineEdit(self)
-        self.scene_search_line.setPlaceholderText("搜索场景")
+        self.scene_search_line.setPlaceholderText(self.tr("搜索场景"))
         self.scene_search_line.setFixedHeight(35)
 
         self.scene_table = TableWidget(self)
@@ -565,7 +564,7 @@ class Scene(QWidget):
             parts = line.split()
             for j, part in enumerate(parts):
                 self.scene_table.setItem(i, j, QTableWidgetItem(part))
-        self.scene_table.setHorizontalHeaderLabels(['场景描述', '场景ID'])
+        self.scene_table.setHorizontalHeaderLabels([self.tr('场景描述'), self.tr('场景ID')])
 
 
 class Spawn(QWidget):
@@ -577,23 +576,23 @@ class Spawn(QWidget):
         self.__initWidget()
 
     def __initWidget(self):
-        self.monster_num_label = SubtitleLabel("数量：", self)
+        self.monster_num_label = SubtitleLabel(self.tr("数量："), self)
         self.monster_num_edit = LineEdit(self)
-        self.monster_num_edit.setPlaceholderText("请输入怪物数量")
+        self.monster_num_edit.setPlaceholderText(self.tr("请输入怪物数量"))
         self.monster_num_edit.setValidator(QIntValidator(1, 99, self))
 
-        self.monster_level_label = SubtitleLabel("等级：", self)
+        self.monster_level_label = SubtitleLabel(self.tr("等级："), self)
         self.monster_level_edit = LineEdit(self)
-        self.monster_level_edit.setPlaceholderText("请输入怪物等级")
+        self.monster_level_edit.setPlaceholderText(self.tr("请输入怪物等级"))
         self.monster_level_edit.setValidator(QIntValidator(1, 99, self))
 
-        self.monster_round_label = SubtitleLabel("半径：", self)
+        self.monster_round_label = SubtitleLabel(self.tr("半径："), self)
         self.monster_round_edit = LineEdit(self)
-        self.monster_round_edit.setPlaceholderText("请输入仇恨半径")
+        self.monster_round_edit.setPlaceholderText(self.tr("请输入仇恨半径"))
         self.monster_round_edit.setValidator(QIntValidator(1, 99, self))
 
         self.monster_search_line = SearchLineEdit(self)
-        self.monster_search_line.setPlaceholderText("搜索怪物")
+        self.monster_search_line.setPlaceholderText(self.tr("搜索怪物"))
         self.monster_search_line.setFixedSize(915, 35)
 
         self.spawn_table = TableWidget(self)
@@ -675,7 +674,7 @@ class Spawn(QWidget):
             parts = line.split()
             for j, part in enumerate(parts):
                 self.spawn_table.setItem(i, j, QTableWidgetItem(part))
-        self.spawn_table.setHorizontalHeaderLabels(['怪物名称', '怪物ID'])
+        self.spawn_table.setHorizontalHeaderLabels([self.tr('怪物名称'), self.tr('怪物ID')])
 
 
 class Give(QWidget):
@@ -688,7 +687,7 @@ class Give(QWidget):
 
     def __initWidget(self):
         self.give_search_line = SearchLineEdit(self)
-        self.give_search_line.setPlaceholderText("搜索物品")
+        self.give_search_line.setPlaceholderText(self.tr("搜索物品"))
         self.give_search_line.setFixedSize(915, 35)
 
         self.give_table = TableWidget(self)
@@ -706,17 +705,17 @@ class Give(QWidget):
         self.give_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
 
-        self.all_button = TogglePushButton("全部", self)
+        self.all_button = TogglePushButton(self.tr("全部"), self)
         self.all_button.setFixedSize(60, 35)
-        self.avatar_button = TogglePushButton("角色", self)
+        self.avatar_button = TogglePushButton(self.tr("角色"), self)
         self.avatar_button.setFixedSize(60, 35)
-        self.lightcone_button = TogglePushButton("光锥", self)
+        self.lightcone_button = TogglePushButton(self.tr("光锥"), self)
         self.lightcone_button.setFixedSize(60, 35)
-        self.item_button = TogglePushButton("物品", self)
+        self.item_button = TogglePushButton(self.tr("物品"), self)
         self.item_button.setFixedSize(60, 35)
-        self.food_button = TogglePushButton("食物", self)
+        self.food_button = TogglePushButton(self.tr("食物"), self)
         self.food_button.setFixedSize(60, 35)
-        self.head_button = TogglePushButton("头像", self)
+        self.head_button = TogglePushButton(self.tr("头像"), self)
         self.head_button.setFixedSize(60, 35)
         self.all_button.setChecked(True)
 
@@ -728,19 +727,19 @@ class Give(QWidget):
         self.give_button_group.addButton(self.food_button)
         self.give_button_group.addButton(self.head_button)
         
-        self.give_num_label = SubtitleLabel("数量：", self)
+        self.give_num_label = SubtitleLabel(self.tr("数量："), self)
         self.give_num_edit = LineEdit(self)
-        self.give_num_edit.setPlaceholderText("请输入物品数量")
+        self.give_num_edit.setPlaceholderText(self.tr("请输入物品数量"))
         self.give_num_edit.setValidator(QIntValidator(self))
 
-        self.give_level_label = SubtitleLabel("等级：", self)
+        self.give_level_label = SubtitleLabel(self.tr("等级："), self)
         self.give_level_edit = LineEdit(self)
-        self.give_level_edit.setPlaceholderText("请输入角色/光锥等级")
+        self.give_level_edit.setPlaceholderText(self.tr("请输入角色/光锥等级"))
         self.give_level_edit.setValidator(QIntValidator(1, 99, self))
 
-        self.give_eidolon_label = SubtitleLabel("星魂/叠影：", self)
+        self.give_eidolon_label = SubtitleLabel(self.tr("星魂/叠影："), self)
         self.give_eidolon_edit = LineEdit(self)
-        self.give_eidolon_edit.setPlaceholderText("请输入角色星魂/光锥叠影")
+        self.give_eidolon_edit.setPlaceholderText(self.tr("请输入角色星魂/光锥叠影"))
         self.give_eidolon_edit.setValidator(QIntValidator(1, 9, self))
 
         self.__initLayout()
@@ -848,7 +847,7 @@ class Give(QWidget):
             parts = line.split()
             for j, part in enumerate(parts):
                 self.give_table.setItem(i, j, QTableWidgetItem(part))
-        self.give_table.setHorizontalHeaderLabels(['物品名称', '物品ID', '物品类型'])
+        self.give_table.setHorizontalHeaderLabels([self.tr('物品名称'), 'ID', self.tr('物品类型')])
 
 
 class Relic(QWidget):
@@ -863,12 +862,12 @@ class Relic(QWidget):
     def __initWidget(self):
         # 遗物
         self.relic_search_line = SearchLineEdit(self)
-        self.relic_search_line.setPlaceholderText("搜索遗器")
+        self.relic_search_line.setPlaceholderText(self.tr("搜索遗器"))
         self.relic_search_line.setFixedSize(258, 35)
 
-        self.base_relic_button = TogglePushButton("基础", self)
+        self.base_relic_button = TogglePushButton(self.tr("基础"), self)
         self.base_relic_button.setFixedSize(67, 35)
-        self.custom_relic_button = TogglePushButton("预设", self)
+        self.custom_relic_button = TogglePushButton(self.tr("预设"), self)
         self.custom_relic_button.setFixedSize(67, 35)
         self.base_relic_button.setChecked(True)
 
@@ -893,11 +892,11 @@ class Relic(QWidget):
 
         # 词条
         self.entry_search_line = SearchLineEdit(self)
-        self.entry_search_line.setPlaceholderText("搜索词条")
+        self.entry_search_line.setPlaceholderText(self.tr("搜索词条"))
         self.entry_search_line.setFixedSize(160, 35)
 
-        self.main_entry_button = TogglePushButton("主词条", self)
-        self.side_entry_button = TogglePushButton("副词条", self)
+        self.main_entry_button = TogglePushButton(self.tr("主词条"), self)
+        self.side_entry_button = TogglePushButton(self.tr("副词条"), self)
         self.main_entry_button.setFixedSize(67, 35)
         self.side_entry_button.setFixedSize(67, 35)
         self.main_entry_button.setChecked(True)
@@ -921,10 +920,10 @@ class Relic(QWidget):
         self.entry_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
         # 当前信息
-        self.main_now_label = SubtitleLabel("当前主词条：", self)
+        self.main_now_label = SubtitleLabel(self.tr("当前主词条："), self)
         self.main_now_edit = LineEdit(self)
         self.main_now_edit.setReadOnly(True)
-        self.side_now_label = SubtitleLabel("当前副词条：", self)
+        self.side_now_label = SubtitleLabel(self.tr("当前副词条："), self)
 
         self.now_table = TableWidget(self)
         self.now_table.setColumnCount(2)
@@ -945,7 +944,7 @@ class Relic(QWidget):
         self.minus_num_button = PrimaryToolButton(FIF.REMOVE)
         self.minus_num_button.setFixedSize(35, 35)
         self.set_num_edit = LineEdit(self)
-        self.set_num_edit.setPlaceholderText("数量")
+        self.set_num_edit.setPlaceholderText(self.tr("数量"))
         self.set_num_edit.setFixedSize(55, 35)
         self.set_num_edit.setValidator(QIntValidator(1, 9999, self))
         self.set_num_button = PrimaryToolButton(FIF.SETTING)
@@ -953,9 +952,9 @@ class Relic(QWidget):
         self.delete_num_button = PrimaryToolButton(FIF.DELETE)
         self.delete_num_button.setFixedSize(35, 35)
 
-        self.level_label = SubtitleLabel("等级：", self)
+        self.level_label = SubtitleLabel(self.tr("等级："), self)
         self.level_edit = LineEdit(self)
-        self.level_edit.setPlaceholderText("请输入生成遗器的等级")
+        self.level_edit.setPlaceholderText(self.tr("请输入生成遗器的等级"))
         self.level_edit.setValidator(QIntValidator(1, 99, self))
 
         self.__initLayout()
@@ -1189,7 +1188,7 @@ class Relic(QWidget):
             self.relic_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
                 self.relic_table.setItem(i, j, QTableWidgetItem(part))
-        self.relic_table.setHorizontalHeaderLabels(['遗器名称', '部位', 'ID'])
+        self.relic_table.setHorizontalHeaderLabels([self.tr('遗器名称'), self.tr('部位'), 'ID'])
 
     def handleCustomRelicLoad(self):
         with open('src/data/myrelic.txt', 'r', encoding='utf-8') as file:
@@ -1205,7 +1204,7 @@ class Relic(QWidget):
                     break
                 else:
                     self.relic_table.setItem(i, j, QTableWidgetItem(part))
-        self.relic_table.setHorizontalHeaderLabels(['遗器名称', '部位', '适用角色', 'command'])
+        self.relic_table.setHorizontalHeaderLabels([self.tr('遗器名称'), self.tr('部位'), self.tr('适用角色'), 'command'])
 
     def handleEntryLoad(self):
         with open('src/data/entry.txt', 'r', encoding='utf-8') as file:
@@ -1216,7 +1215,7 @@ class Relic(QWidget):
             self.entry_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
                 self.entry_table.setItem(i, j, QTableWidgetItem(part))
-        self.entry_table.setHorizontalHeaderLabels(['词条名称', '部位', 'ID'])
+        self.entry_table.setHorizontalHeaderLabels([self.tr('词条名称'), self.tr('部位'), 'ID'])
 
     def handleNowLoad(self):
         self.now_table.clearContents()
@@ -1225,7 +1224,7 @@ class Relic(QWidget):
             self.now_table.setRowHeight(row, 30)
             self.now_table.setItem(row, 0, QTableWidgetItem(key))
             self.now_table.setItem(row, 1, QTableWidgetItem(str(value)))
-        self.now_table.setHorizontalHeaderLabels(['词条名称', '数量'])
+        self.now_table.setHorizontalHeaderLabels([self.tr('词条名称'), self.tr('数量')])
 
     # 遗器条件更新时，更新对应词条
     def __handleRelatedEntryUpdate(self):

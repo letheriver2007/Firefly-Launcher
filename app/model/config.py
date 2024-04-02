@@ -8,14 +8,14 @@ def get_json(file_path, key):
         return json_data[f"{key}"]
 
 def get_version_type(version):
-    if not os.path.exists('main.py'):
+    if not os.path.exists('firefly-launcher.py'):
         return f'{version} REL'
     else:
         return f'{version} DEV'
 
 class Config(QConfig):
     autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
-    useLogin = ConfigItem("Function", "UseLogin", True, BoolValidator())
+    useLogin = ConfigItem("Function", "UseLogin", False, BoolValidator())
     useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())
     proxyStatus = ConfigItem("Proxy", "ProxyStatus", True, BoolValidator())
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", False, BoolValidator())

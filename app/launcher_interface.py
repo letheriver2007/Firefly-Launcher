@@ -5,8 +5,8 @@ from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
 from app.model.style_sheet import StyleSheet
-from app.model.setting_group import SettingCardGroup
-from app.model.download_message import HyperlinkCard_Launcher, download_check
+from app.model.setting_card import SettingCardGroup, HyperlinkCard_Launcher
+from app.model.download_process import DownloadCMD
 
 
 class Launcher(ScrollArea):
@@ -26,25 +26,25 @@ class Launcher(ScrollArea):
         self.LauncherDownloadInterface = SettingCardGroup(self.scrollWidget)
         self.LauncherRepoCard = HyperlinkCard_Launcher(
             'https://github.com/letheriver2007/Firefly-Launcher',
-            'Firefly-Launcher',
+            self.tr('Firefly-Launcher'),
             'https://github.com/letheriver2007/Firefly-Launcher-Res',
-            'Firefly-Launcher-Res',
+            self.tr('Firefly-Launcher-Res'),
             FIF.LINK,
-            '项目仓库',
-            '打开Firefly-Launcher相关项目仓库'
+            self.tr('项目仓库'),
+            self.tr('打开Firefly-Launcher相关项目仓库')
         )
         self.AudioDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
-            'Firefly-Launcher-Audio',
-            '下载流萤音频文件'
+            self.tr('Firefly-Launcher-Audio'),
+            self.tr('下载流萤音频文件')
         )
         self.ConfigInterface = SettingCardGroup(self.scrollWidget)
         self.settingConfigCard = PrimaryPushSettingCard(
-            '打开文件',
+            self.tr('打开文件'),
             FIF.LABEL,
-            '启动器设置',
-            '自定义启动器配置'
+            self.tr('启动器设置'),
+            self.tr('自定义启动器配置')
         )
 
         self.__initWidget()
@@ -69,8 +69,8 @@ class Launcher(ScrollArea):
         self.ConfigInterface.addSettingCard(self.settingConfigCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.LauncherDownloadInterface, 'LauncherDownloadInterface','下载', icon=FIF.DOWNLOAD)
-        self.addSubInterface(self.ConfigInterface,'configInterface','配置', icon=FIF.EDIT)
+        self.addSubInterface(self.LauncherDownloadInterface, 'LauncherDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
+        self.addSubInterface(self.ConfigInterface,'configInterface',self.tr('配置'), icon=FIF.EDIT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -83,7 +83,8 @@ class Launcher(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.LauncherDownloadInterface.objectName())
 
     def __connectSignalToSlot(self):
-        self.AudioDownloadCard.clicked.connect(lambda: download_check(self, 'audio'))
+        DownloadCMDSelf = DownloadCMD(self)
+        self.AudioDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('audio'))
         self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -106,7 +107,7 @@ class Launcher(ScrollArea):
             subprocess.run(['start', file_path], shell=True)
         else:
             InfoBar.error(
-                title="找不到文件，请重新下载！",
+                title=self.tr("找不到文件，请重新下载！"),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,

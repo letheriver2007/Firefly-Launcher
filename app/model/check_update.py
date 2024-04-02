@@ -1,9 +1,7 @@
 import os
 import json
-import winreg
 import urllib.request
-from PySide6.QtCore import QThread, Signal, Qt
-from qfluentwidgets import InfoBar, InfoBarPosition
+from PySide6.QtCore import QThread, Signal
 from app.model.config import cfg
 
 def get_latest_version():
@@ -33,6 +31,11 @@ def get_latest_version():
     except:
         return None
 
+def get_json(file_path, key):
+    with open(f'{file_path}', 'r') as file:
+        json_data = json.load(file)
+        return json_data[f"{key}"]
+
 def checkUpdate(self):
     self.check_thread = UpdateThread()
     self.check_thread._update_signal.connect(self.handleUpdate)
@@ -44,17 +47,17 @@ class UpdateThread(QThread):
         super().__init__()
     
     def run(self):
-        if not os.path.exists('main.py'):
+        if os.path.exists('firefly-launcher.py'):
             latest_version = get_latest_version()
-            installed_version = cfg.APP_VERSION
+            installed_version = get_json('./config/version.json', 'APP_VERSION')
             if latest_version and installed_version:
                 if latest_version > installed_version:
                     self._update_signal.emit(2, str(latest_version))
                 elif latest_version == installed_version:
                     self._update_signal.emit(1, str(latest_version))
                 else:
-                    self._update_signal.emit(0, '版本信息错误')
+                    self._update_signal.emit(0, self.tr('版本信息错误'))
             else:
-                self._update_signal.emit(0, '网络访问错误')
+                self._update_signal.emit(0, self.tr('网络访问错误'))
         else:
-            self._update_signal.emit(0, '当前为Dev版本')
+            self._update_signal.emit(0, self.tr('当前为Dev版本'))

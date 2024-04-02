@@ -3,8 +3,8 @@ from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
 from app.model.style_sheet import StyleSheet
-from app.model.setting_group import SettingCardGroup
-from app.model.download_message import HyperlinkCard_Environment, download_check
+from app.model.setting_card import SettingCardGroup, HyperlinkCard_Environment
+from app.model.download_process import DownloadCMD
 
 
 class Environment(ScrollArea):
@@ -28,28 +28,28 @@ class Environment(ScrollArea):
             'https://www.oracle.com/java/technologies/javase-downloads.html',
             'Java',
             'https://www.mongodb.com/try/download/community',
-            'MongoDB',
+            self.tr('MongoDB'),
             FIF.LINK,
-            '项目仓库',
-            '打开各环境仓库'
+            self.tr('项目仓库'),
+            self.tr('打开各环境仓库')
         )
         self.GitDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
-            'Git',
-            '下载Git安装包'
+            self.tr('Git'),
+            self.tr('下载Git安装包')
         )
         self.JavaDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
-            'Java',
-            '下载Java安装包'
+            self.tr('Java'),
+            self.tr('下载Java安装包')
         )
         self.MongoDBDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
-            'MongoDB',
-            '下载MongoDB安装包'
+            self.tr('MongoDB'),
+            self.tr('下载MongoDB安装包')
         )
 
         self.__initWidget()
@@ -75,7 +75,7 @@ class Environment(ScrollArea):
         self.EnvironmentDownloadInterface.addSettingCard(self.MongoDBDownloadCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.EnvironmentDownloadInterface, 'EnvironmentDownloadInterface','下载', icon=FIF.DOWNLOAD)
+        self.addSubInterface(self.EnvironmentDownloadInterface, 'EnvironmentDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -88,9 +88,10 @@ class Environment(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.EnvironmentDownloadInterface.objectName())
 
     def __connectSignalToSlot(self):
-        self.GitDownloadCard.clicked.connect(lambda: download_check(self, 'git'))
-        self.JavaDownloadCard.clicked.connect(lambda: download_check(self, 'java'))
-        self.MongoDBDownloadCard.clicked.connect(lambda: download_check(self, 'mongodb'))
+        DownloadCMDSelf = DownloadCMD(self)
+        self.GitDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('git'))
+        self.JavaDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('java'))
+        self.MongoDBDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('mongodb'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)

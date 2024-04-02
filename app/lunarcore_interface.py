@@ -1,3 +1,4 @@
+import os
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
@@ -6,10 +7,10 @@ from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, I
 from app.model.style_sheet import StyleSheet
 from app.lunarcore_command import LunarCoreCommand
 from app.lunarcore_edit import LunarCoreEdit
-from app.model.download_message import HyperlinkCard_LunarCore, download_check
-from app.model.toolkit_message import PrimaryPushSettingCard_Sendcode, PrimaryPushSettingCard_Verifycode
-from app.model.setting_group import SettingCardGroup
+from app.model.setting_card import SettingCardGroup, HyperlinkCard_LunarCore, PrimaryPushSettingCard_Sendcode, PrimaryPushSettingCard_Verifycode
+from app.model.download_process import DownloadCMD
 from app.model.open_command import ping, send_code, verify_token
+from app.model.config import cfg
 
 
 class LunarCore(ScrollArea):
@@ -34,46 +35,52 @@ class LunarCore(ScrollArea):
             'https://gitlab.com/Melledy/LunarCore-Configs',
             'LunarCore-Configs',
             FIF.LINK,
-            '项目仓库',
-            '打开LunarCore相关仓库'
+            self.tr('项目仓库'),
+            self.tr('打开LunarCore相关仓库')
         )
         self.LunarCoreDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
             'LunarCore',
-            '下载LunarCore并编译'
+            self.tr('下载LunarCore并编译')
         )
         self.LunarCoreResDownloadCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
             'LunarCore-Res',
-            '下载LunarCore资源文件'
+            self.tr('下载LunarCore资源文件')
+        )
+        self.LunarCoreBuildCard = PrimaryPushSettingCard(
+            self.tr('编译'),
+            FIF.ZIP_FOLDER,
+            'LunarCore-Build',
+            self.tr('完成下载后，编译LunarCore')
         )
         self.ConfigInterface = SettingCardGroup(self.scrollWidget)
         self.CommandDataConfigCard = PrimaryPushSettingCard(
-            '打开文件夹',
+            self.tr('打开文件夹'),
             FIF.LABEL,
-            '命令数据设置',
-            '自定义命令数据配置'
+            self.tr('命令数据设置'),
+            self.tr('自定义命令数据配置')
         )
         self.OpencommandInterface = SettingCardGroup(self.scrollWidget)
         self.pingCard = PrimaryPushSettingCard(
-            '执行',
+            self.tr('执行'),
             FIF.SPEED_OFF,
-            '确认插件连接状态',
-            '基于lc-opencommand-plugin'
+            self.tr('确认插件连接状态'),
+            self.tr('ping')
         )
         self.sendcodeCard = PrimaryPushSettingCard_Sendcode(
-            '执行',
+            self.tr('执行'),
             FIF.SEND,
-            '发送验证码',
-            '基于lc-opencommand-plugin'
+            self.tr('发送验证码'),
+            self.tr('sendcode')
         )
         self.vertifycodeCard = PrimaryPushSettingCard_Verifycode(
-            '执行',
+            self.tr('执行'),
             FIF.FINGERPRINT,
-            '验证验证码',
-            '基于lc-opencommand-plugin'
+            self.tr('验证验证码'),
+            self.tr('vertifycode')
         )
 
         self.__initWidget()
@@ -97,19 +104,20 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreRepoCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreDownloadCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreResDownloadCard)
+        self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreBuildCard)
         self.ConfigInterface.addSettingCard(self.CommandDataConfigCard)
         self.OpencommandInterface.addSettingCard(self.pingCard)
         self.OpencommandInterface.addSettingCard(self.sendcodeCard)
         self.OpencommandInterface.addSettingCard(self.vertifycodeCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.LunarCoreDownloadInterface, 'LunarCoreDownloadInterface','下载', icon=FIF.DOWNLOAD)
-        self.addSubInterface(self.ConfigInterface,'configInterface','配置', icon=FIF.EDIT)
+        self.addSubInterface(self.LunarCoreDownloadInterface, 'LunarCoreDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
+        self.addSubInterface(self.ConfigInterface,'configInterface',self.tr('配置'), icon=FIF.EDIT)
         self.LunarCoreCommandInterface = LunarCoreCommand('CommandInterface', self)
-        self.addSubInterface(self.LunarCoreCommandInterface, 'LunarCoreCommandInterface','命令', icon=FIF.COMMAND_PROMPT)
+        self.addSubInterface(self.LunarCoreCommandInterface, 'LunarCoreCommandInterface',self.tr('命令'), icon=FIF.COMMAND_PROMPT)
         self.LunarCoreEditInterface = LunarCoreEdit('EditInterface', self)
-        self.addSubInterface(self.LunarCoreEditInterface, 'LunarCoreEditInterface','编辑器', icon=FIF.LAYOUT)
-        self.addSubInterface(self.OpencommandInterface, 'OpencommandInterface','远程', icon=FIF.CONNECT)
+        self.addSubInterface(self.LunarCoreEditInterface, 'LunarCoreEditInterface',self.tr('编辑器'), icon=FIF.LAYOUT)
+        self.addSubInterface(self.OpencommandInterface, 'OpencommandInterface',self.tr('远程'), icon=FIF.CONNECT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -125,8 +133,10 @@ class LunarCore(ScrollArea):
         TEMP_TOKEN = ''
     
     def __connectSignalToSlot(self):
-        self.LunarCoreDownloadCard.clicked.connect(lambda: download_check(self, 'lunarcore'))
-        self.LunarCoreResDownloadCard.clicked.connect(lambda: download_check(self, 'lunarcoreres'))
+        DownloadCMDSelf = DownloadCMD(self)
+        self.LunarCoreDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted(self, 'lunarcore'))
+        self.LunarCoreResDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted(self, 'lunarcoreres'))
+        self.LunarCoreBuildCard.clicked.connect(self.handleLunarCoreBuild)
         self.CommandDataConfigCard.clicked.connect(lambda: subprocess.run(['start', '.\\src\\data\\'], shell=True))
         self.pingCard.clicked.connect(lambda: self.handleOpencommandClicked('ping'))
         self.sendcodeCard.clicked_sendcode.connect(lambda uid: self.handleOpencommandClicked('sendcode', uid))
@@ -147,6 +157,34 @@ class LunarCore(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
+    def handleLunarCoreBuild(self):
+        if os.path.exists('server\\LunarCore\\LunarCore.jar'):
+            InfoBar.error(
+                title=self.tr("LunarCore已编译！"),
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
+            return
+        if not os.path.exists('server\\LunarCore'):
+            InfoBar.error(
+                title=self.tr("LunarCore不存在, 请先下载！"),
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
+            return
+        if cfg.chinaStatus:
+            subprocess.run('copy /y "src\\patch\\gradle\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
+            'copy /y "src\\patch\\gradle\\build.gradle" "server\\LunarCore\\build.gradle"', shell=True)
+        process = subprocess.run('start cmd /c "cd server\\LunarCore && gradlew jar && pause"', shell=True)
+
     def handleOpencommandClicked(self, command, info=None):
         if command == 'ping':
             status, response = ping()
@@ -155,8 +193,8 @@ class LunarCore(ScrollArea):
                 self.sendcodeCard.setDisabled(False)
                 self.vertifycodeCard.setDisabled(False)
                 InfoBar.success(
-                    title="连接成功！",
-                    content='请继续配置token',
+                    title=self.tr("连接成功！"),
+                    content=self.tr('请继续配置token'),
                     orient=Qt.Horizontal,
                     isClosable=True,
                     position=InfoBarPosition.TOP,
@@ -165,7 +203,7 @@ class LunarCore(ScrollArea):
                 )
             else:
                 InfoBar.error(
-                    title="连接失败！",
+                    title=self.tr("连接失败！"),
                     content=str(response),
                     orient=Qt.Horizontal,
                     isClosable=True,
@@ -179,8 +217,8 @@ class LunarCore(ScrollArea):
                 self.TEMP_TOKEN = response
                 self.sendcodeCard.iconLabel.setIcon(FIF.SEND_FILL)
                 InfoBar.success(
-                    title="发送成功！",
-                    content=f'请尽快验证token({response})',
+                    title=self.tr("发送成功！"),
+                    content=self.tr(f'请尽快验证token({response})'),
                     orient=Qt.Horizontal,
                     isClosable=True,
                     position=InfoBarPosition.TOP,
@@ -189,7 +227,7 @@ class LunarCore(ScrollArea):
                 )
             else:
                 InfoBar.error(
-                    title="发送失败！",
+                    title=self.tr("发送失败！"),
                     content=str(response),
                     orient=Qt.Horizontal,
                     isClosable=True,
@@ -202,8 +240,8 @@ class LunarCore(ScrollArea):
             if status == 'success':
                 self.save_token(response)
                 InfoBar.success(
-                    title="验证成功！",
-                    content='远程执行配置完成',
+                    title=self.tr("验证成功！"),
+                    content=self.tr('远程执行配置完成'),
                     orient=Qt.Horizontal,
                     isClosable=True,
                     position=InfoBarPosition.TOP,
@@ -212,7 +250,7 @@ class LunarCore(ScrollArea):
                 )
             else:
                 InfoBar.error(
-                    title="验证失败！",
+                    title=self.tr("验证失败！"),
                     content=str(response),
                     orient=Qt.Horizontal,
                     isClosable=True,

@@ -101,7 +101,6 @@ class Main(MSFluentWindow):
     def checkLogin(self, password):
         md5_hash = hashlib.md5(password.encode()).hexdigest()[8:24].upper()
         if md5_hash == 'EE1FC4FB7AD2BE1C':
-        # if password == '':
             InfoBar.success(
                 title=self.tr('登录成功'),
                 content='',
@@ -116,8 +115,8 @@ class Main(MSFluentWindow):
             self.w.close()
         else:
             InfoBar.error(
-                title=self.tr(f'密码错误{self.incorrect_count}次'),
-                content='',
+                title=self.tr('密码错误!'),
+                content=self.tr('次数：')+self.incorrect_count,
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
@@ -141,7 +140,7 @@ class Main(MSFluentWindow):
     def handleUpdate(self, status, info):
         if status == 2:
             InfoBar.warning(
-                title=self.tr(f'检测到新版本: {info}'),
+                title=self.tr('检测到新版本: ')+info,
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -151,7 +150,7 @@ class Main(MSFluentWindow):
             )
         elif status == 1:
             InfoBar.success(
-                title=self.tr(f'当前是最新版本: {info}'),
+                title=self.tr('当前是最新版本: ')+info,
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -161,7 +160,7 @@ class Main(MSFluentWindow):
             )
         elif status == 0:
             InfoBar.error(
-                title=self.tr(f'检测更新失败: {info}'),
+                title=self.tr('检测更新失败: ')+info,
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,

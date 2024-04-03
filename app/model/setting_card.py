@@ -35,7 +35,7 @@ class SettingCardGroup(QWidget):
 
 
 class SettingCard(QFrame):
-    def __init__(self, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
+    def __init__(self, icon: Union[str, QIcon, FluentIconBase], title=None, content=None, parent=None):
         super().__init__(parent=parent)
         self.iconLabel = SettingIconWidget(icon, self)
         self.titleLabel = QLabel(title, self)
@@ -106,7 +106,7 @@ class SettingIconWidget(IconWidget):
 
 ############### Environment Interface ###############
 class HyperlinkCard_Environment(SettingCard):
-    def __init__(self, icon=FIF.LINK, title='项目仓库', content='打开各环境仓库'):
+    def __init__(self, title, content=None, icon=FIF.LINK):
         super().__init__(icon, title, content)
         self.linkButton_git = HyperlinkButton('https://git-scm.com/download/win', 'Git', self)
         self.linkButton_jar = HyperlinkButton('https://www.oracle.com/java/technologies/javase-downloads.html', 'Java', self)
@@ -119,7 +119,7 @@ class HyperlinkCard_Environment(SettingCard):
 
 ############### Launcher Interface ###############
 class HyperlinkCard_Launcher(SettingCard):
-    def __init__(self, icon=FIF.LINK, title='项目仓库', content='打开Firefly-Launcher相关项目仓库'):
+    def __init__(self, title, content=None, icon=FIF.LINK):
         super().__init__(icon, title, content)
         self.linkButton_launcher = HyperlinkButton('https://github.com/letheriver2007/Firefly-Launcher', 'Firefly-Launcher', self)
         self.linkButton_audio = HyperlinkButton('https://github.com/letheriver2007/Firefly-Launcher-Res', 'Firefly-Launcher-Res', self)
@@ -130,7 +130,7 @@ class HyperlinkCard_Launcher(SettingCard):
 
 ############### LunarCore Interface ###############
 class HyperlinkCard_LunarCore(SettingCard):
-    def __init__(self, icon=FIF.LINK, title='项目仓库', content='打开LunarCore相关仓库'):
+    def __init__(self, title, content=None, icon=FIF.LINK):
         super().__init__(icon, title, content)
         self.linkButton_repo = HyperlinkButton('https://github.com/Melledy/LunarCore', 'LunarCore', self)
         self.linkButton_res1 = HyperlinkButton('https://github.com/Dimbreath/StarRailData', 'StarRailData', self)
@@ -142,15 +142,15 @@ class HyperlinkCard_LunarCore(SettingCard):
 
 
 ############### Setting Interface ###############
-class LineEditSettingCard(SettingCard):
+class LineEditSettingCard_Port(SettingCard):
     set_port = Signal()
-    def __init__(self, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
+    def __init__(self, title, icon=FIF.SETTING):
+        super().__init__(icon, title)
         self.port_edit = LineEdit(self)
         self.port_edit.setFixedWidth(85)
-        self.port_edit.setPlaceholderText("端口")
+        self.port_edit.setPlaceholderText(self.tr("端口"))
         self.port_edit.setValidator(QIntValidator(1,99999,self))
-        self.set_port_button = PrimaryPushButton('设置', self)
+        self.set_port_button = PrimaryPushButton(self.tr('设置'), self)
 
         self.hBoxLayout.addWidget(self.port_edit, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
@@ -161,10 +161,10 @@ class LineEditSettingCard(SettingCard):
 
 ############### Proxy Interface ###############
 class HyperlinkCard_Tool(SettingCard):
-    def __init__(self, url_fiddler, text_fiddler, url_mitmdump, text_mitmdump, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
-        self.linkButton_fiddler = HyperlinkButton(url_fiddler, text_fiddler, self)
-        self.linkButton_mitmdump = HyperlinkButton(url_mitmdump, text_mitmdump, self)
+    def __init__(self, title, content=None, icon=FIF.LINK):
+        super().__init__(icon, title, content)
+        self.linkButton_fiddler = HyperlinkButton('https://www.telerik.com/fiddler#fiddler-classic', 'Fiddler', self)
+        self.linkButton_mitmdump = HyperlinkButton('https://mitmproxy.org/', 'Mitmdump', self)
         self.hBoxLayout.addWidget(self.linkButton_fiddler, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.linkButton_mitmdump, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
@@ -173,10 +173,10 @@ class HyperlinkCard_Tool(SettingCard):
 class PrimaryPushSettingCard_Fiddler(SettingCard):
     clicked_script = Signal()
     clicked_old = Signal()
-    def __init__(self, text_script, text_old, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
-        self.button_script = PrimaryPushButton(text_script, self)
-        self.button_old = PrimaryPushButton(text_old, self)
+    def __init__(self, title, content=None, icon=FIF.VPN):
+        super().__init__(icon, title, content)
+        self.button_script = PrimaryPushButton(self.tr('脚本打开'), self)
+        self.button_old = PrimaryPushButton(self.tr('原版打开'), self)
         self.hBoxLayout.addWidget(self.button_script, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_old, 0, Qt.AlignRight)
@@ -187,13 +187,13 @@ class PrimaryPushSettingCard_Fiddler(SettingCard):
 
 class PrimaryPushSettingCard_Sendcode(SettingCard):
     clicked_sendcode = Signal(int)
-    def __init__(self, text_sendcode, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
+    def __init__(self, title, icon=FIF.SEND, content='Send Code'):
+        super().__init__(icon, title, content)
         self.lineedit_sendcode = LineEdit(self)
         self.lineedit_sendcode.setPlaceholderText("UID")
         self.lineedit_sendcode.setFixedWidth(60)
         self.lineedit_sendcode.setValidator(QIntValidator(self))
-        self.button_sendcode = PrimaryPushButton(text_sendcode, self)
+        self.button_sendcode = PrimaryPushButton(self.tr('执行'), self)
         self.hBoxLayout.addWidget(self.lineedit_sendcode, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_sendcode, 0, Qt.AlignRight)
@@ -204,13 +204,13 @@ class PrimaryPushSettingCard_Sendcode(SettingCard):
 
 class PrimaryPushSettingCard_Verifycode(SettingCard):
     clicked_verifycode = Signal(int)
-    def __init__(self, text_verifycode, icon: Union[str, QIcon, FluentIconBase], title, content=None, parent=None):
-        super().__init__(icon, title, content, parent)
+    def __init__(self, title, icon=FIF.FINGERPRINT, content='Vertify Code'):
+        super().__init__(icon, title, content)
         self.lineedit_verifycode = LineEdit(self)
-        self.lineedit_verifycode.setPlaceholderText("验证码")
+        self.lineedit_verifycode.setPlaceholderText(self.tr("验证码"))
         self.lineedit_verifycode.setFixedWidth(70)
         self.lineedit_verifycode.setValidator(QIntValidator(1, 9999, self))
-        self.button_verifycode = PrimaryPushButton(text_verifycode, self)
+        self.button_verifycode = PrimaryPushButton(self.tr('执行'), self)
         self.hBoxLayout.addWidget(self.lineedit_verifycode, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_verifycode, 0, Qt.AlignRight)
@@ -222,10 +222,10 @@ class PrimaryPushSettingCard_Verifycode(SettingCard):
 class MessageFiddler(MessageBoxBase):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.titleLabel = TitleLabel('选择需要使用Fiddler Scripts的服务端:    ')
-        self.label1 = SubtitleLabel('    目前支持的服务端列表:')
-        self.label2 = BodyLabel('        Yuanshen: Hutao-GS')
-        self.label3 = BodyLabel('        StarRail: LunarCore')
+        self.titleLabel = TitleLabel(self.tr('选择需要使用Fiddler Scripts的服务端:    '))
+        self.label1 = SubtitleLabel(self.tr('    目前支持的服务端列表:'))
+        self.label2 = BodyLabel(self.tr('        Yuanshen: Hutao-GS'))
+        self.label3 = BodyLabel(self.tr('        StarRail: LunarCore'))
 
         self.viewLayout.addWidget(self.titleLabel)
         self.viewLayout.addWidget(self.label1)

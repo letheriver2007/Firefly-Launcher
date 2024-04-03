@@ -1,4 +1,5 @@
 import os
+import time
 import subprocess
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtWidgets import QDialog, QVBoxLayout
@@ -94,12 +95,14 @@ class DownloadCMD(QDialog):
             self.runner = CommandRunner(types, command, file_path)
             self.runner.command_updated.connect(self.handleTextUpdate)
             self.runner.download_finished.connect(self.handleDownloadFinished)
+            self.success = False
+            self.commandOutput.clear()
             self.runner.start()
             if self.exec_() == 0:
-                self.runner.download_finished.emit(1, file_path)
+                self.runner.download_finished.emit(-1, file_path)
         else:
             InfoBar.error(
-            title=f'该目录已存在文件,无法下载！',
+            title=self.tr('该目录已存在文件！'),
             content="",
             orient=Qt.Horizontal,
             isClosable=True,
@@ -114,35 +117,48 @@ class DownloadCMD(QDialog):
     
     def handleDownloadFinished(self, returncode, file_path):
         if returncode == 0:
-            subprocess.Popen('start ' + file_path, shell=True)
-            self.close()
             InfoBar.success(
-                title='下载成功！',
+                title=self.tr('下载成功！'),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
-                duration=1000,
+                duration=2000,
                 parent=self.parent
                 )
-        else:
-            InfoBar.error(
-                title='下载失败！',
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-                )
+            self.success = True
+            self.commandOutput.clear()
+            self.close()
+            subprocess.Popen('start ' + file_path, shell=True)
+        if self.success == False:
+            if returncode == -1:
+                InfoBar.error(
+                    title=self.tr('下载取消！'),
+                    content="",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self.parent
+                    )
+            else:
+                InfoBar.error(
+                    title=self.tr('下载失败！'),
+                    content=str(returncode),
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self.parent
+                    )
         self.runner.process.kill()
         self.runner.terminate()
         output = subprocess.check_output('tasklist', shell=True)
         if 'curl.exe' in str(output):
             subprocess.run('taskkill /f /im curl.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        elif 'java.exe' in str(output):
+        if 'java.exe' in str(output):
             subprocess.run('taskkill /f /im java.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        elif 'git.exe' in str(output):
+        if 'git.exe' in str(output):
             subprocess.run('taskkill /f /im git.exe', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 

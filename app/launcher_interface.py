@@ -24,7 +24,10 @@ class Launcher(ScrollArea):
 
         # 添加项
         self.LauncherDownloadInterface = SettingCardGroup(self.scrollWidget)
-        self.LauncherRepoCard = HyperlinkCard_Launcher()
+        self.LauncherRepoCard = HyperlinkCard_Launcher(
+            self.tr('项目仓库'),
+            self.tr('打开Firefly-Launcher相关项目仓库')
+        )
         self.AudioDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
             FIF.DOWNLOAD,

@@ -22,7 +22,10 @@ class Environment(ScrollArea):
 
         # 添加项
         self.EnvironmentDownloadInterface = SettingCardGroup(self.scrollWidget)
-        self.EnvironmentRepoCard = HyperlinkCard_Environment()
+        self.EnvironmentRepoCard = HyperlinkCard_Environment(
+            self.tr('项目仓库'),
+            self.tr('打开各环境仓库')
+        )
         self.GitDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
             FIF.DOWNLOAD,

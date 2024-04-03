@@ -117,7 +117,7 @@ class Home(QWidget):
                 )
             else:
                 InfoBar.error(
-                    title=self.tr(f'找不到服务端{name}，请重新下载！'),
+                    title=self.tr('找不到服务端')+name+self.tr('，请重新下载！'),
                     content='',
                     orient=Qt.Horizontal,
                     isClosable=True,

@@ -5,10 +5,10 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStacke
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QDesktopServices, QFont
 from PySide6.QtCore import Qt, QUrl, QSize, QProcess
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton,
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton, OptionsSettingCard,
                             setThemeColor, PrimaryPushSettingCard, TitleLabel, SubtitleLabel, setCustomStyleSheet,
-                            SwitchSettingCard, InfoBar, InfoBarPosition)
-from app.model.setting_card import SettingCardGroup, LineEditSettingCard
+                            SwitchSettingCard, InfoBar, InfoBarPosition, ComboBoxSettingCard)
+from app.model.setting_card import SettingCardGroup, LineEditSettingCard_Port
 from app.model.style_sheet import StyleSheet
 from app.model.check_update import checkUpdate
 from app.model.config import cfg
@@ -34,6 +34,20 @@ class Setting(ScrollArea):
             FIF.PALETTE,
             self.tr('主题色'),
             self.tr('默认流萤主题色，开拓者你不会改的吧?')
+        )
+        self.zoomCard = ComboBoxSettingCard(
+            cfg.dpiScale,
+            FIF.ZOOM,
+            self.tr("DPI调整"),
+            self.tr("调整全局缩放"),
+            texts=["100%", "125%", "150%", "175%", "200%", self.tr("跟随系统设置")]
+        )
+        self.languageCard = ComboBoxSettingCard(
+            cfg.language,
+            FIF.LANGUAGE,
+            self.tr('语言'),
+            self.tr('设置UI界面显示语言'),
+            texts=['简体中文', '繁體中文', 'English', self.tr('跟随系统设置')]
         )
         self.updateOnStartUpCard = PrimaryPushSettingCard(
             self.tr('检查更新'),
@@ -73,8 +87,7 @@ class Setting(ScrollArea):
             self.tr('启用代理，在配置文件里更改地址'),
             configItem=cfg.proxyStatus
         )
-        self.proxyPortCard = LineEditSettingCard(
-            FIF.SETTING,
+        self.proxyPortCard = LineEditSettingCard_Port(
             self.tr('代理端口:')
         )
         self.chinaCard = SwitchSettingCard(
@@ -109,6 +122,8 @@ class Setting(ScrollArea):
     def __initLayout(self):
         # 项绑定到栏目
         self.PersonalInterface.addSettingCard(self.themeColorCard)
+        self.PersonalInterface.addSettingCard(self.zoomCard)
+        self.PersonalInterface.addSettingCard(self.languageCard)
         self.PersonalInterface.addSettingCard(self.updateOnStartUpCard)
         self.PersonalInterface.addSettingCard(self.restartCard)
         self.FunctionInterface.addSettingCard(self.autoCopyCard)
@@ -249,7 +264,7 @@ class Setting(ScrollArea):
                 data['PROXY_PORT'] = new_port
             with open('config/config.json', 'w', encoding='utf-8') as file:
                 json.dump(data, file, ensure_ascii=False)
-        self.proxyPortCard.titleLabel.setText(self.tr(f'代理端口: {new_port}'))
+        self.proxyPortCard.titleLabel.setText(self.tr('代理端口: ') + new_port)
 
 
 class About(QWidget):

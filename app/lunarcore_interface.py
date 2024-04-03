@@ -27,12 +27,15 @@ class LunarCore(ScrollArea):
         self.stackedWidget = QStackedWidget(self)
 
         self.LunarCoreDownloadInterface = SettingCardGroup(self.scrollWidget)
-        self.LunarCoreRepoCard = HyperlinkCard_LunarCore()
+        self.LunarCoreRepoCard = HyperlinkCard_LunarCore(
+            self.tr('项目仓库'),
+            self.tr('打开LunarCore相关仓库')
+        )
         self.LunarCoreDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
             FIF.DOWNLOAD,
             'LunarCore',
-            self.tr('下载LunarCore并编译')
+            self.tr('下载LunarCore')
         )
         self.LunarCoreResDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
@@ -44,7 +47,7 @@ class LunarCore(ScrollArea):
             self.tr('编译'),
             FIF.ZIP_FOLDER,
             'LunarCore-Build',
-            self.tr('完成下载后，编译LunarCore')
+            self.tr('编译LunarCore')
         )
         self.ConfigInterface = SettingCardGroup(self.scrollWidget)
         self.CommandDataConfigCard = PrimaryPushSettingCard(
@@ -61,16 +64,10 @@ class LunarCore(ScrollArea):
             'Ping Web Server'
         )
         self.sendcodeCard = PrimaryPushSettingCard_Sendcode(
-            self.tr('执行'),
-            FIF.SEND,
-            self.tr('发送验证码'),
-            'Send Code'
+            self.tr('发送验证码')
         )
         self.vertifycodeCard = PrimaryPushSettingCard_Verifycode(
-            self.tr('执行'),
-            FIF.FINGERPRINT,
-            self.tr('验证验证码'),
-            'Vertify Code'
+            self.tr('验证验证码')
         )
 
         self.__initWidget()
@@ -124,8 +121,8 @@ class LunarCore(ScrollArea):
     
     def __connectSignalToSlot(self):
         DownloadCMDSelf = DownloadCMD(self)
-        self.LunarCoreDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted(self, 'lunarcore'))
-        self.LunarCoreResDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted(self, 'lunarcoreres'))
+        self.LunarCoreDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('lunarcore'))
+        self.LunarCoreResDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('lunarcoreres'))
         self.LunarCoreBuildCard.clicked.connect(self.handleLunarCoreBuild)
         self.CommandDataConfigCard.clicked.connect(lambda: subprocess.run(['start', '.\\src\\data\\'], shell=True))
         self.pingCard.clicked.connect(lambda: self.handleOpencommandClicked('ping'))
@@ -208,7 +205,7 @@ class LunarCore(ScrollArea):
                 self.sendcodeCard.iconLabel.setIcon(FIF.SEND_FILL)
                 InfoBar.success(
                     title=self.tr("发送成功！"),
-                    content=self.tr(f'请尽快验证token({response})'),
+                    content=str(response),
                     orient=Qt.Horizontal,
                     isClosable=True,
                     position=InfoBarPosition.TOP,

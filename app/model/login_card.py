@@ -80,13 +80,13 @@ class MessageLogin(MessageBoxBase):
     passwordEntered = Signal(str)
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.titleLabel = TitleLabel('你的老婆是?    ')
+        self.titleLabel = TitleLabel(self.tr('你的老婆是?    '))
         self.passwordLabel = PasswordLineEdit(self)
         self.passwordLabel.setFixedWidth(300)
-        self.passwordLabel.setPlaceholderText('请输入TA的英文名')
-        self.yesButton.setText('登录')
+        self.passwordLabel.setPlaceholderText(self.tr('请输入TA的英文名'))
+        self.yesButton.setText(self.tr('登录'))
         self.yesButton.clicked.connect(self.emitPassword)
-        self.cancelButton.setText('退出')
+        self.cancelButton.setText(self.tr('退出'))
         self.cancelButton.clicked.connect(lambda: sys.exit())
 
         self.viewLayout.addWidget(self.titleLabel)

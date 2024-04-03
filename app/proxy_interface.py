@@ -25,11 +25,6 @@ class Proxy(ScrollArea):
         # 添加项
         self.ProxyDownloadInterface = SettingCardGroup(self.scrollWidget)
         self.ProxyRepoCard = HyperlinkCard_Tool(
-            'https://www.telerik.com/fiddler#fiddler-classic',
-            'Fiddler',
-            'https://mitmproxy.org/',
-            'Mitmdump',
-            FIF.LINK,
             self.tr('项目仓库'),
             self.tr('打开代理工具仓库')
         )
@@ -47,9 +42,6 @@ class Proxy(ScrollArea):
         )
         self.ProxyToolInterface = SettingCardGroup(self.scrollWidget)
         self.FiddlerCard = PrimaryPushSettingCard_Fiddler(
-            self.tr('脚本打开'),
-            self.tr('原版打开'),
-            FIF.VPN,
             self.tr('Fiddler(外部)'),
             self.tr('使用Fiddler Scripts代理')
         )
@@ -99,8 +91,8 @@ class Proxy(ScrollArea):
 
     def __connectSignalToSlot(self):
         DownloadCMDSelf = DownloadCMD(self)
-        self.DownloadFiddlerCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted(self, 'fiddler'))
-        self.DownloadMitmdumpCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted(self, 'mitmdump'))
+        self.DownloadFiddlerCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('fiddler'))
+        self.DownloadMitmdumpCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('mitmdump'))
         self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
         self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
         self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)

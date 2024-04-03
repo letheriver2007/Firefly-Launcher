@@ -1,6 +1,8 @@
 import os
 import json
-from qfluentwidgets import qconfig, QConfig, Theme, ConfigItem, BoolValidator
+from enum import Enum
+from PySide6.QtCore import QLocale
+from qfluentwidgets import qconfig, QConfig, Theme, ConfigItem, BoolValidator, OptionsValidator, OptionsConfigItem, ConfigSerializer
 
 def get_json(file_path, key):
     with open(f'{file_path}', 'r') as file:
@@ -13,7 +15,26 @@ def get_version_type(version):
     else:
         return f'{version} DEV'
 
+
+class Language(Enum):
+    CHINESE_SIMPLIFIED = QLocale(QLocale.Chinese, QLocale.China)
+    CHINESE_TRADITIONAL = QLocale(QLocale.Chinese, QLocale.HongKong)
+    ENGLISH = QLocale(QLocale.English)
+    AUTO = QLocale()
+
+
+class LanguageSerializer(ConfigSerializer):
+    def serialize(self, language):
+        return language.value.name() if language != Language.AUTO else "Auto"
+    def deserialize(self, value: str):
+        return Language(QLocale(value)) if value != "Auto" else Language.AUTO
+
+
 class Config(QConfig):
+    dpiScale = OptionsConfigItem(
+        "Style", "DpiScale", "Auto", OptionsValidator([1, 1.25, 1.5, 1.75, 2, "Auto"]), restart=True)
+    language = OptionsConfigItem(
+        "Style", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(), restart=True)
     autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
     useLogin = ConfigItem("Function", "UseLogin", False, BoolValidator())
     useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())

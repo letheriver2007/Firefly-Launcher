@@ -29,7 +29,9 @@ class LunarCoreCommand(ScrollArea):
 
         # 添加项
         self.CustomInterface = SettingCardGroup(self.scrollWidget)
-        self.giveallCard = PrimaryPushSettingCard_Giveall()
+        self.giveallCard = Giveall(
+            self.tr('给予全部')
+        )
         self.quickgiveCard = PrimaryPushSettingCard(
             self.tr('跳转'),
             FIF.TAG,
@@ -61,14 +63,28 @@ class LunarCoreCommand(ScrollArea):
             self.tr('重载服务端'),
             '/reload'
         )
-        self.accountCard = PrimaryPushSettingCard_Account()
-        self.kickCard = PrimaryPushSettingCard_Kick()
-        self.unstuckCard = PrimaryPushSettingCard_Unstuck()
+        self.accountCard = Account(
+            self.tr('添加或删除账号')
+        )
+        self.kickCard = Kick(
+            self.tr('踢出玩家')
+        )
+        self.unstuckCard = Unstuck(
+            self.tr('解除场景未加载造成的卡死')
+        )
         self.PersonalInterface = SettingCardGroup(self.scrollWidget)
-        self.genderCard = PrimaryPushSettingCard_Gender()
-        self.worldLevelCard = PrimaryPushSettingCard_WorldLevel()
-        self.avatarCard = PrimaryPushSettingCard_Avatar()
-        self.clearCard = ComboBoxSettingCard__Clear()
+        self.genderCard = Gender(
+            self.tr('设置开拓者性别')
+        )
+        self.worldLevelCard = WorldLevel(
+            self.tr('设置开拓等级')
+        )
+        self.avatarCard = Avatar(
+            self.tr('设置角色属性')
+        )
+        self.clearCard = Clear(
+            self.tr('清空物品')
+        )
 
         self.__initWidget()
 
@@ -168,7 +184,7 @@ class LunarCoreCommand(ScrollArea):
         self.genderCard.gender_male.connect(lambda: self.buttonClicked.emit('/gender male'))
         self.genderCard.gender_female.connect(lambda: self.buttonClicked.emit('/gender female'))
         self.worldLevelCard.set_level.connect(self.handleWorldLevelClicked)
-        self.avatarCard.avatar_set.connect(self.handleAvatarClicked)
+        self.avatarCard.avatar_set.connect(lambda index: self.handleAvatarClicked(index))
         self.clearCard.clear_clicked.connect(lambda itemid: self.handleClearClicked(itemid))
 
         self.SceneInterface.scene_id_signal.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
@@ -277,22 +293,7 @@ class LunarCoreCommand(ScrollArea):
             )
 
     def handleGiveallClicked(self, types):
-        line_level = self.giveallCard.line_level.text()
-        line_eidolon = self.giveallCard.line_eidolon.text()
-        line_skill = self.giveallCard.line_skill.text()
         command = '/giveall '+ types
-        if types == 'materials':
-            if line_level != '':
-                command += ' lv' + line_level
-            if line_eidolon != '':
-                command += ' r' + line_eidolon
-        elif types == 'avatars':
-            if line_level != '':
-                command += ' lv' + line_level
-            if line_eidolon != '':
-                command += ' r' + line_eidolon
-            if line_skill != '':
-                command +=' s' + line_skill
         self.buttonClicked.emit(command)
 
     def handleQuickgiveClicked(self):
@@ -300,16 +301,8 @@ class LunarCoreCommand(ScrollArea):
         self.pivot.setCurrentItem(self.GiveInterface.objectName())
     
     def handleClearClicked(self, itemid):
-        if itemid == 0:
-            self.buttonClicked.emit('/clear all')
-        elif itemid == 1:
-            self.buttonClicked.emit('/clear relics')
-        elif itemid == 2:
-            self.buttonClicked.emit('/clear lightcones')
-        elif itemid == 3:
-            self.buttonClicked.emit('/clear materials')
-        elif itemid == 4:
-            self.buttonClicked.emit('/clear items')
+        types = ['all','relics', 'lightcones','materials', 'items']
+        self.buttonClicked.emit('/clear ' + types[itemid])
     
     def handleAccountClicked(self, types):
         account_name = self.accountCard.account_name.text()
@@ -367,11 +360,14 @@ class LunarCoreCommand(ScrollArea):
         else:
             self.buttonClicked.emit('')
     
-    def handleAvatarClicked(self):
+    def handleAvatarClicked(self, index):
         avatar_level = self.avatarCard.avatar_level.text()
         avatar_eidolon = self.avatarCard.avatar_eidolon.text()
         avatar_skill = self.avatarCard.avatar_skill.text()
+        types = ['', ' lineup', ' all']
         command = '/avatar'
+        if index > -1:
+            command += types[index]
         if avatar_level != '':
             command += ' lv' + avatar_level
         if avatar_eidolon != '':
@@ -450,31 +446,13 @@ class LunarCoreCommand(ScrollArea):
         self.buttonClicked.emit(command)
 
 
-class PrimaryPushSettingCard_Giveall(SettingCard):
+class Giveall(SettingCard):
     give_materials = Signal()
     give_avatars = Signal()
-    def __init__(self, icon=FIF.TAG, title='给予全部', content='/giveall {items | avatars}'):
+    def __init__(self, title, icon=FIF.TAG, content='/giveall {items | avatars}'):
         super().__init__(icon, title, content)
-        self.line_level = LineEdit(self)
-        self.line_eidolon = LineEdit(self)
-        self.line_skill = LineEdit(self)
-        self.button_materials = PrimaryPushButton('物品', self)
-        self.button_avatars = PrimaryPushButton('角色', self)
-        self.line_level.setFixedWidth(60)
-        self.line_eidolon.setFixedWidth(60)
-        self.line_skill.setFixedWidth(60)
-        self.line_level.setPlaceholderText("等级")
-        self.line_eidolon.setPlaceholderText("叠/魂")
-        self.line_skill.setPlaceholderText("行迹")
-        self.line_level.setValidator(QIntValidator(1,99,self))
-        self.line_eidolon.setValidator(QIntValidator(1,9,self))
-        self.line_skill.setValidator(QIntValidator(1,99,self))
-        self.hBoxLayout.addWidget(self.line_level, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.line_eidolon, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.line_skill, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
+        self.button_materials = PrimaryPushButton(self.tr('物品'), self)
+        self.button_avatars = PrimaryPushButton(self.tr('角色'), self)
         self.hBoxLayout.addWidget(self.button_materials, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_avatars, 0, Qt.AlignRight)
@@ -483,16 +461,16 @@ class PrimaryPushSettingCard_Giveall(SettingCard):
         self.button_avatars.clicked.connect(self.give_avatars)
 
 
-class PrimaryPushSettingCard_Account(SettingCard):
+class Account(SettingCard):
     create_account = Signal()
     delete_account = Signal()
-    def __init__(self, icon=FIF.TAG, title='添加或删除账号', content='/account {create | delete} [username]'):
+    def __init__(self, title, icon=FIF.TAG, content='/account {create | delete} [username]'):
         super().__init__(icon, title, content)
         self.account_name = LineEdit(self)
         self.account_uid = LineEdit(self)
-        self.button_create = PrimaryPushButton('添加', self)
-        self.button_delete = PrimaryPushButton('删除', self)
-        self.account_name.setPlaceholderText("名称")
+        self.button_create = PrimaryPushButton(self.tr('添加'), self)
+        self.button_delete = PrimaryPushButton(self.tr('删除'), self)
+        self.account_name.setPlaceholderText(self.tr("名称"))
         self.account_uid.setPlaceholderText("UID")
         self.account_name.setFixedWidth(60)
         self.account_uid.setFixedWidth(60)
@@ -509,15 +487,15 @@ class PrimaryPushSettingCard_Account(SettingCard):
         self.button_delete.clicked.connect(self.delete_account)
 
 
-class PrimaryPushSettingCard_Kick(SettingCard):
+class Kick(SettingCard):
     kick_player = Signal()
-    def __init__(self, icon=FIF.TAG, title='踢出玩家', content='/kick @[player id]'):
+    def __init__(self, title, icon=FIF.TAG, content='/kick @[player id]'):
         super().__init__(icon, title, content)
         self.account_uid = LineEdit(self)
         self.account_uid.setPlaceholderText("UID")
         self.account_uid.setFixedWidth(60)
         self.account_uid.setValidator(QIntValidator(self))
-        self.button_kick = PrimaryPushButton('使用', self)
+        self.button_kick = PrimaryPushButton(self.tr('使用'), self)
         self.hBoxLayout.addWidget(self.account_uid, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_kick, 0, Qt.AlignRight)
@@ -525,15 +503,15 @@ class PrimaryPushSettingCard_Kick(SettingCard):
         self.button_kick.clicked.connect(self.kick_player)
 
 
-class PrimaryPushSettingCard_Unstuck(SettingCard):
+class Unstuck(SettingCard):
     unstuck_player = Signal()
-    def __init__(self, icon=FIF.TAG, title='解除场景未加载造成的卡死', content='/unstuck'):
+    def __init__(self, title, icon=FIF.TAG, content='/unstuck @[player id]'):
         super().__init__(icon, title, content)
         self.stucked_uid = LineEdit(self)
         self.stucked_uid.setPlaceholderText("UID")
         self.stucked_uid.setFixedWidth(60)
         self.stucked_uid.setValidator(QIntValidator(self))
-        self.button_unstuck = PrimaryPushButton('使用', self)
+        self.button_unstuck = PrimaryPushButton(self.tr('使用'), self)
         self.hBoxLayout.addWidget(self.stucked_uid, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_unstuck, 0, Qt.AlignRight)
@@ -541,13 +519,13 @@ class PrimaryPushSettingCard_Unstuck(SettingCard):
         self.button_unstuck.clicked.connect(self.unstuck_player)
 
 
-class PrimaryPushSettingCard_Gender(SettingCard):
+class Gender(SettingCard):
     gender_male = Signal()
     gender_female = Signal()
-    def __init__(self, icon=FIF.TAG, title='设置开拓者性别', content='/gender {male | female}'):
+    def __init__(self, title, icon=FIF.TAG, content='/gender {male | female}'):
         super().__init__(icon, title, content)
-        self.button_male = PrimaryPushButton('星', self)
-        self.button_female = PrimaryPushButton('穹', self)
+        self.button_male = PrimaryPushButton(self.tr('星'), self)
+        self.button_female = PrimaryPushButton(self.tr('穹'), self)
         self.hBoxLayout.addWidget(self.button_male, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_female, 0, Qt.AlignRight)
@@ -556,12 +534,12 @@ class PrimaryPushSettingCard_Gender(SettingCard):
         self.button_female.clicked.connect(self.gender_female)
 
 
-class PrimaryPushSettingCard_WorldLevel(SettingCard):
+class WorldLevel(SettingCard):
     set_level = Signal()
-    def __init__(self, icon=FIF.TAG, title='设置开拓等级', content='/worldlevel [world level]'):
+    def __init__(self, title, icon=FIF.TAG, content='/worldlevel [world level]'):
         super().__init__(icon, title, content)
         self.world_level = LineEdit(self)
-        self.world_level.setPlaceholderText("开拓等级")
+        self.world_level.setPlaceholderText(self.tr("开拓等级"))
         self.world_level.setFixedWidth(85)
         validator = QIntValidator(1, 99, self)
         self.world_level.setValidator(validator)
@@ -570,16 +548,16 @@ class PrimaryPushSettingCard_WorldLevel(SettingCard):
         self.world_level.textChanged.connect(self.set_level)
 
 
-class PrimaryPushSettingCard_Avatar(SettingCard):
-    avatar_set = Signal()
-    def __init__(self, icon=FIF.TAG, title='设置角色属性', content='/avatar [lv(level)] [r(eidolon)] [s(skill level)]'):
+class Avatar(SettingCard):
+    avatar_set = Signal(int)
+    def __init__(self, title, icon=FIF.TAG, content='/avatar [lv(level)] [r(eidolon)] [s(skill level)]'):
         super().__init__(icon, title, content)
         self.avatar_level = LineEdit(self)
         self.avatar_eidolon = LineEdit(self)
         self.avatar_skill = LineEdit(self)
-        self.avatar_level.setPlaceholderText("等级")
-        self.avatar_eidolon.setPlaceholderText("星魂")
-        self.avatar_skill.setPlaceholderText("行迹")
+        self.avatar_level.setPlaceholderText(self.tr("等级"))
+        self.avatar_eidolon.setPlaceholderText(self.tr("星魂"))
+        self.avatar_skill.setPlaceholderText(self.tr("行迹"))
         self.avatar_level.setFixedWidth(60)
         self.avatar_eidolon.setFixedWidth(60)
         self.avatar_skill.setFixedWidth(60)
@@ -587,31 +565,44 @@ class PrimaryPushSettingCard_Avatar(SettingCard):
         self.avatar_level.setValidator(validator)
         self.avatar_eidolon.setValidator(validator)
         self.avatar_skill.setValidator(validator)
+
+        self.texts=[self.tr('当前'), self.tr('队伍'), self.tr('全部')]
+        self.avatar_types = ComboBox(self)
+        self.avatar_types.setPlaceholderText(self.tr('应用范围'))
+        self.avatar_types.addItems(self.texts)
+        self.avatar_types.setCurrentIndex(-1)
+
         self.hBoxLayout.addWidget(self.avatar_level, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.avatar_eidolon, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.avatar_skill, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.avatar_types, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.avatar_level.textChanged.connect(self.avatar_set)
-        self.avatar_eidolon.textChanged.connect(self.avatar_set)
-        self.avatar_skill.textChanged.connect(self.avatar_set)
+        self.avatar_level.textChanged.connect(lambda: self.onSignalEmit(-1))
+        self.avatar_eidolon.textChanged.connect(lambda: self.onSignalEmit(-1))
+        self.avatar_skill.textChanged.connect(lambda: self.onSignalEmit(-1))
+        self.avatar_types.currentIndexChanged.connect(lambda index: self.onSignalEmit(index))
+    
+    def onSignalEmit(self, index: int):
+        self.avatar_set.emit(index)
 
 
-class ComboBoxSettingCard__Clear(SettingCard):
+class Clear(SettingCard):
     clear_clicked = Signal(int)
-    def __init__(self, icon=FIF.TAG, title='清空物品', content='/clear {all | relics | lightcones | materials | items}'):
+    def __init__(self, title, icon=FIF.TAG, content='/clear {all | relics | lightcones | materials | items}'):
         super().__init__(icon, title, content)
         self.texts=[self.tr('全部'), self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('物品')]
         self.comboBox = ComboBox(self)
-        self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(16)
         self.comboBox.setPlaceholderText('选择物品')
         self.comboBox.addItems(self.texts)
+        self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
         self.comboBox.setCurrentIndex(-1)
-        self.comboBox.currentIndexChanged.connect(self._onCurrentIndexChanged)
+        self.comboBox.currentIndexChanged.connect(self.onSignalEmit)
 
-    def _onCurrentIndexChanged(self, index: int):
+    def onSignalEmit(self, index: int):
         self.clear_clicked.emit(index)
 
 
@@ -679,10 +670,13 @@ class Scene(QWidget):
             scene = file.readlines()
         self.scene_table.setRowCount(len(scene))
         for i, line in enumerate(scene):
-            parts = line.split()
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            scene[i] = ' : '.join(parts)
             for j, part in enumerate(parts):
                 self.scene_table.setItem(i, j, QTableWidgetItem(part))
-        self.scene_table.setHorizontalHeaderLabels([self.tr('场景描述'), self.tr('场景ID')])
+        self.scene_table.setHorizontalHeaderLabels([self.tr('场景描述'), 'ID'])
 
 
 class Spawn(QWidget):
@@ -789,10 +783,13 @@ class Spawn(QWidget):
             monster = file.readlines()
         self.spawn_table.setRowCount(len(monster))
         for i, line in enumerate(monster):
-            parts = line.split()
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            monster[i] = ' : '.join(parts)
             for j, part in enumerate(parts):
                 self.spawn_table.setItem(i, j, QTableWidgetItem(part))
-        self.spawn_table.setHorizontalHeaderLabels([self.tr('怪物名称'), self.tr('怪物ID')])
+        self.spawn_table.setHorizontalHeaderLabels([self.tr('怪物名称'), 'ID'])
 
 
 class Give(QWidget):
@@ -810,10 +807,9 @@ class Give(QWidget):
 
         self.give_table = TableWidget(self)
         self.give_table.setFixedSize(915, 420)
-        self.give_table.setColumnCount(3)
+        self.give_table.setColumnCount(2)
         self.give_table.setColumnWidth(0, 613)
-        self.give_table.setColumnWidth(1, 150)
-        self.give_table.setColumnWidth(2, 150)
+        self.give_table.setColumnWidth(1, 300)
 
         self.give_table.setBorderVisible(True)
         self.give_table.setBorderRadius(8)
@@ -822,9 +818,6 @@ class Give(QWidget):
         self.give_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.give_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
-
-        self.all_button = TogglePushButton(self.tr("全部"), self)
-        self.all_button.setFixedSize(60, 35)
         self.avatar_button = TogglePushButton(self.tr("角色"), self)
         self.avatar_button.setFixedSize(60, 35)
         self.lightcone_button = TogglePushButton(self.tr("光锥"), self)
@@ -835,10 +828,14 @@ class Give(QWidget):
         self.food_button.setFixedSize(60, 35)
         self.head_button = TogglePushButton(self.tr("头像"), self)
         self.head_button.setFixedSize(60, 35)
-        self.all_button.setChecked(True)
+        self.avatar_button.setObjectName("avatar")
+        self.lightcone_button.setObjectName("lightcone")
+        self.item_button.setObjectName("item")
+        self.food_button.setObjectName("food")
+        self.head_button.setObjectName("head")
+        self.avatar_button.setChecked(True)
 
         self.give_button_group = QButtonGroup(self)
-        self.give_button_group.addButton(self.all_button)
         self.give_button_group.addButton(self.avatar_button)
         self.give_button_group.addButton(self.lightcone_button)
         self.give_button_group.addButton(self.item_button)
@@ -870,13 +867,13 @@ class Give(QWidget):
         self.give_layout.addWidget(self.give_table)
 
         horizontal_layout1 = QHBoxLayout()
-        horizontal_layout1.addWidget(self.all_button)
         horizontal_layout1.addWidget(self.avatar_button)
         horizontal_layout1.addWidget(self.lightcone_button)
+        horizontal_layout1.addWidget(self.item_button)
         horizontal_layout2 = QHBoxLayout()
-        horizontal_layout2.addWidget(self.item_button)
         horizontal_layout2.addWidget(self.food_button)
         horizontal_layout2.addWidget(self.head_button)
+        horizontal_layout2.addSpacing(70)
         vertical_layout = QVBoxLayout()
         vertical_layout.addSpacing(65)
         vertical_layout.addLayout(horizontal_layout1)
@@ -906,14 +903,12 @@ class Give(QWidget):
         self.setLayout(self.main_layout)
 
     def __initInfo(self):
-        self.types_dict = {'avatar': '角色', 'lightcone': '光锥', 'item': '物品', 'food': '食物', 'head': '头像'}
-        self.handleItemLoad()
+        self.handleAvatarLoad()
 
     def __connectSignalToSlot(self):
         self.give_table.cellClicked.connect(self.handleGiveSignal)
         self.give_search_line.textChanged.connect(self.handleGiveSearch)
 
-        self.all_button.clicked.connect(lambda: self.handleGiveTypeChanged("all"))
         self.avatar_button.clicked.connect(lambda: self.handleGiveTypeChanged("avatar"))
         self.lightcone_button.clicked.connect(lambda: self.handleGiveTypeChanged("lightcone"))
         self.item_button.clicked.connect(lambda: self.handleGiveTypeChanged("item"))
@@ -926,11 +921,10 @@ class Give(QWidget):
    
     def handleGiveSignal(self):
         selected_items = self.give_table.selectedItems()
+        types = self.give_button_group.checkedButton().objectName()
         if selected_items:
             item_id = selected_items[1].text()
-            value = selected_items[2].text()
-            keys = [key for key, val in self.types_dict.items() if val == value]
-            self.item_id_signal.emit(item_id, keys[0])
+            self.item_id_signal.emit(item_id, types)
 
     def handleGiveSearch(self):
         keyword = self.give_search_line.text()
@@ -945,27 +939,76 @@ class Give(QWidget):
                 self.give_table.setRowHidden(row, True)
 
     def handleGiveTypeChanged(self, types):
-        self.give_search_line.clear()
-        if types == 'all':
-            for row in range(self.give_table.rowCount()):
-                self.give_table.setRowHidden(row, False)
-        elif types in self.types_dict:
-            for row in range(self.give_table.rowCount()):
-                item = self.give_table.item(row, 2)
-                if item.text() == self.types_dict[types]:
-                    self.give_table.setRowHidden(row, False)
-                else:
-                    self.give_table.setRowHidden(row, True)
+        interface = {
+            'avatar': self.handleAvatarLoad, 'lightcone': self.handleLightconeLoad,
+            'item': self.handleItemLoad, 'food': self.handleFoodLoad, 'head': self.handleHeadLoad
+        }
+        interface[types]()
+
+    def handleAvatarLoad(self):
+        with open('src/data/avatar.txt', 'r', encoding='utf-8') as file:
+            avatar = file.readlines()
+        self.give_table.setRowCount(len(avatar))
+        for i, line in enumerate(avatar):
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            avatar[i] = ' : '.join(parts)
+            for j, part in enumerate(parts):
+                self.give_table.setItem(i, j, QTableWidgetItem(part))
+        self.give_table.setHorizontalHeaderLabels([self.tr('角色名称'), 'ID'])
+
+    def handleLightconeLoad(self):
+        with open('src/data/lightcone.txt', 'r', encoding='utf-8') as file:
+            lightcone = file.readlines()
+        self.give_table.setRowCount(len(lightcone))
+        for i, line in enumerate(lightcone):
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            lightcone[i] = ' : '.join(parts)
+            for j, part in enumerate(parts):
+                self.give_table.setItem(i, j, QTableWidgetItem(part))
+        self.give_table.setHorizontalHeaderLabels([self.tr('光锥名称'), 'ID'])
 
     def handleItemLoad(self):
         with open('src/data/item.txt', 'r', encoding='utf-8') as file:
             item = file.readlines()
         self.give_table.setRowCount(len(item))
         for i, line in enumerate(item):
-            parts = line.split()
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            item[i] = ' : '.join(parts)
             for j, part in enumerate(parts):
                 self.give_table.setItem(i, j, QTableWidgetItem(part))
-        self.give_table.setHorizontalHeaderLabels([self.tr('物品名称'), 'ID', self.tr('物品类型')])
+        self.give_table.setHorizontalHeaderLabels([self.tr('物品名称'), 'ID'])
+
+    def handleFoodLoad(self):
+        with open('src/data/food.txt', 'r', encoding='utf-8') as file:
+            food = file.readlines()
+        self.give_table.setRowCount(len(food))
+        for i, line in enumerate(food):
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            food[i] = ' : '.join(parts)
+            for j, part in enumerate(parts):
+                self.give_table.setItem(i, j, QTableWidgetItem(part))
+        self.give_table.setHorizontalHeaderLabels([self.tr('食物名称'), 'ID'])
+
+    def handleHeadLoad(self):
+        with open('src/data/head.txt', 'r', encoding='utf-8') as file:
+            head = file.readlines()
+        self.give_table.setRowCount(len(head))
+        for i, line in enumerate(head):
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            head[i] = ' : '.join(parts)
+            for j, part in enumerate(parts):
+                self.give_table.setItem(i, j, QTableWidgetItem(part))
+        self.give_table.setHorizontalHeaderLabels([self.tr('头像名称'), 'ID'])
 
 
 class Relic(QWidget):
@@ -1237,13 +1280,13 @@ class Relic(QWidget):
         for row in range(self.entry_table.rowCount()):
             entry_type = self.entry_table.item(row, 1).text()
             if selected_main_entry:
-                if entry_type == '通用':
+                if entry_type == self.tr('通用'):
                     self.entry_table.setRowHidden(row, True)
                 else:
                     self.entry_table.setRowHidden(row, False)
                 self.__handleRelatedEntryUpdate()
             else:
-                if entry_type == '通用':
+                if entry_type == self.tr('通用'):
                     self.entry_table.setRowHidden(row, False)
                 else:
                     self.entry_table.setRowHidden(row, True)
@@ -1258,7 +1301,7 @@ class Relic(QWidget):
     def handleEntryTableClicked(self):
         selected_entry = self.entry_table.selectedItems()
         selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
-        if selected_entry and selected_entry_type != '通用':
+        if selected_entry and selected_entry_type != self.tr('通用'):
             self.main_now_edit.setText(selected_entry[0].text())
 
     def handleAddSideClicked(self):
@@ -1267,7 +1310,7 @@ class Relic(QWidget):
             selected_entry = self.entry_table.selectedItems()
             selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
             entry_id = selected_entry[0].text()
-            if selected_entry and selected_entry_type == '通用' and len(self.now_list) < 4 and entry_id not in self.now_list:
+            if selected_entry and selected_entry_type == self.tr('通用') and len(self.now_list) < 4 and entry_id not in self.now_list:
                 self.now_list[entry_id] = 1
                 self.handleNowLoad()
 

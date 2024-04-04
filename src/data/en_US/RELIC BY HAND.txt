@@ -1,0 +1,100 @@
+61011 : Passerby'sRejuvenatedWoodenHairstick
+61012 : Passerby'sRoamingDragonBracer
+61013 : Passerby'sRaggedEmbroidedCoat
+61014 : Passerby'sStygianHikingBoots
+61021 : Musketeer'sWildWheatFeltHat
+61022 : Musketeer'sCoarseLeatherGloves
+61023 : Musketeer'sWind-HuntingShawl
+61024 : Musketeer'sRivetsRidingBoots
+61031 : Knight'sForgivingCasque
+61032 : Knight'sSilentOathRing
+61033 : Knight'sSolemnBreastplate
+61034 : Knight'sIronBootsofOrder
+61041 : Hunter'sArtaiusHood
+61042 : Hunter'sLizardGloves
+61043 : Hunter's ceDragonCloak
+61044 : Hunter'sSoftElkskinBoots
+61051 : Champion'sHeadgear
+61052 : Champion'sHeavyGloves
+61053 : Champion's Chest Guard
+61054 : Champion's Fleetfoot Boots
+61061 : Guard's Cast Iron Helmet
+61062 : Guard's Shining Gauntlets
+61063 : Guard's Uniform of Old
+61064 : Guard's Silver Greaves
+61071 : Firesmith's Obsidian Goggles
+61072 : Firesmith's Ring of Flame-Mastery
+61073 : Firesmith's Fireproof Apron
+61074 : Firesmith's Alloy Leg
+61081 : Genius's Ultraremote Sensing Visor
+61082 : Genius's Frequency Catcher
+61083 : Genius's Metafield Suit
+61084 : Genius's Gravity Walker
+61091 : Band's Polarized Sunglasses
+61092 : Band's Touring Bracelet
+61093 : Band's Leather Jacket With Studs
+61094 : Band's Ankle Boots With Rivets
+61101 : Eagle's Beaked Helmet
+61102 : Eagle's Soaring Ring
+61103 : Eagle's Winged Suit Harness
+61104 : Eagle's Quilted Puttees
+61111 : Thief's Myriad-Faced Mask
+61112 : Thief's Gloves With Prints
+61113 : Thief's Steel Grappling Hook
+61114 : Thief's Meteor Boots
+61121 : Wastelander's Breathing Mask
+61122 : Wastelander's Desert Terminal
+61123 : Wastelander's Friar Robe
+61124 : Wastelander's Powered Greaves
+61131 : Disciple's Prosthetic Eye
+61132 : Disciple's Ingenium Hand
+61133 : Disciple's Dewy Feather Garb
+61134 : Disciple's Celestial Silk Sandals
+61141 : Messenger's Holovisor
+61142 : Messenger's Transformative Arm
+61143 : Messenger's Secret Satchel
+61144 : Messenger's Par-kool Sneakers
+61151 : Grand Duke's Crown of Netherflame
+61152 : Grand Duke's Gloves of Fieryfur
+61153 : Grand Duke's Robe of Grace
+61154 : Grand Duke's Ceremonial Boots
+61161 : Prisoner's Sealed Muzzle
+61162 : Prisoner's Leadstone Shackles
+61163 : Prisoner's Repressive Straitjacket
+61164 : Prisoner's Restrictive Fetters
+61171 : Pioneer's Heatproof Shell
+61172 : Pioneer's Lacuna Compass
+61173 : Pioneer's Sealed Lead Apron
+61174 : Pioneer's Starfaring Anchor
+61181 : Watchmaker's Telescoping Lens
+61182 : Watchmaker's Fortuitous Wristwatch
+61183 : Watchmaker's Illusory Formal Suit
+61184 : Watchmaker's Dream-Concealing Dress Shoes
+63015 : Herta's Space Station
+63016 : Herta's Wandering Trek
+63025 : The Xianzhou Luofu's Celestial Ark
+63026 : The Xianzhou Luofu's Ambrosial Arbor Vines
+63035 : The IPC's Mega HQ
+63036 : The IPC's Trade Route
+63045 : Belobog's Fortress of Preservation
+63046 : Belobog's Iron Defense
+63055 : Planet Screwllum's Mechanical Sun
+63056 : Planet Screwllum's Ring System
+63065 : Salsotto's Moving City
+63066 : Salsotto's Terminator Line
+63075 : Talia's Nailscrap Town
+63076 : Talia's Exposed Electric Wire
+63085 : Vonwacq's Island of Birth
+63086 : Vonwacq's Islandic Coast
+63095 : Taikiyan Laser Stadium
+63096 : Taikiyan's Arclight Race Track
+63105 : Insumousu's Whalefall Ship
+63106 : Insumousu's Frayed Hawser
+63115 : Glamoth's Iron Cavalry Regiment
+63116 : Glamoth's Silent Tombstone
+63125 : Penacony's Grand Hotel
+63126 : Penacony's Dream-Seeking Tracks
+63135 : Sigonia's Gaiathra Berth
+63136 : Sigonia's Knot of Cyclicality
+63145 : Izumo's Magatsu no Morokami
+63146 : Izumo's Blades of Origin and End

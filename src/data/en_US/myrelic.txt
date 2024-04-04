@@ -1,0 +1,204 @@
+Genius'sUltraremoteSensingVisor Head Seele /give 61081 7:1 8:2 9:3 lv15
+Genius'sFrequencyCatcher Hand Seele /give 61082 7:1 8:1 9:4 lv15
+Genius'sMetafieldSuit Body Seele /give 61083 s4 5:1 7:4 9:1 lv15
+Genius'sGravityWalker Foot Seele /give 61084 s2 7:2 8:1 9:3 lv15
+Glamoth'sIronCavalryRegiment Sphere Seele /give 63115 s9 7:1 8:1 9:4 lv15
+Glamoth'sSilentTombstone Rope Seele /give 63116 s4 7:1 8:1 9:4 lv15
+Genius'sUltraremoteSensingVisor Head SilverWolf(E2+DPS) /give 61081 7:1 8:2 9:3 lv15
+Genius'sFrequencyCatcher Hand SilverWolf(E2+DPS) /give 61082 7:1 8:2 9:3 lv15
+Genius'sMetafieldSuit Body SilverWolf(E2+DPS) /give 61083 s4 5:1 7:1 9:4 lv15
+Genius'sGravityWalker Foot SilverWolf(E2+DPS) /give 61084 s4 5:1 8:2 10:3 lv15
+Glamoth'sIronCavalryRegiment Sphere SilverWolf(E2+DPS) /give 63115 s9 7:1 8:2 9:3 lv15
+Glamoth'sSilentTombstone Rope SilverWolf(E2+DPS) /give 63116 s2 7:1 8:2 9:3 lv15
+Penacony'sDream-SeekingTracks Rope SilverWolf(Break) /give 63126 s2 7:1 10:1 12:4 lv15
+Penacony'sGrandHotel Sphere SilverWolf(Break) /give 63125 s9 7:1 10:1 12:4 lv15
+Genius'sUltraremoteSensingVisor Head SilverWolf(Break) /give 61081 7:1 10:1 12:4 lv15
+Genius'sFrequencyCatcher Hand SilverWolf(Break) /give 61082 7:1 10:1 12:4 lv15
+Genius'sMetafieldSuit Body SilverWolf(Break) /give 61083 s7 4:1 7:1 12:4 lv15
+Genius'sGravityWalker Foot SilverWolf(Break) /give 61084 s4 4:1 10:1 12:4 lv15
+Champion'sHeadgear Head Argenti /give 61051 4:1 8:2 9:3 lv15
+Champion'sHeavyGloves Hand Argenti /give 61052 5:1 8:1 9:4 lv15
+Champion'sChestGuard Body Argenti /give 61053 s4 5:1 7:1 9:4 lv15
+Champion'sFleetfootBoots Foot Argenti /give 61054 s4 5:1 8:2 9:3 lv15
+Glamoth'sIronCavalryRegiment Sphere Argenti /give 63115 s4 7:1 8:1 9:4 lv15
+Glamoth'sSilentTombstone Rope Argenti /give 63116 s4 7:1 8:1 9:4 lv15
+Champion'sHeadgear Head Clara /give 61051 4:1 8:2 9:3 lv15
+Champion'sHeavyGloves Hand Clara /give 61052 5:1 8:2 9:3 lv15
+Champion'sChestGuard Body Clara /give 61053 s4 5:1 12:1 9:4 lv15
+Champion'sFleetfootBoots Foot Clara /give 61054 s2 12:2 8:2 9:3 lv15
+Salsotto'sMovingCity Sphere Clara /give 63065 s4 12:1 8:1 9:4 lv15
+Salsotto'sTerminatorLine Rope Clara /give 63066 s4 12:1 8:1 9:4 lv15
+GrandDuke'sCrownofNetherflame Head JingYuan /give 61151 7:1 8:2 9:3 lv15
+GrandDuke'sGlovesofFieryfur Hand JingYuan /give 61152 5:1 8:1 9:4 lv15
+GrandDuke'sRobeofGrace Body JingYuan /give 61153 s4 5:1 7:1 9:4 lv15
+GrandDuke'sCeremonialBoots Foot JingYuan /give 61154 s4 5:1 8:1 9:4 lv15
+Salsotto'sMovingCity Sphere JingYuan /give 63065 s7 7:1 8:1 9:4 lv15
+Salsotto'sTerminatorLine Rope JingYuan /give 63066 s4 7:1 8:1 9:4 lv15
+GrandDuke'sCrownofNetherflame Head Topaz /give 61151 7:1 8:2 9:3 lv15
+GrandDuke'sGlovesofFieryfur Hand Topaz /give 61152 5:1 8:2 9:3 lv15
+GrandDuke'sRobeofGrace Body Topaz /give 61153 s5 5:1 7:2 8:3 lv15
+GrandDuke'sCeremonialBoots Foot Topaz /give 61154 s4 5:1 8:1 9:4 lv15
+Salsotto'sMovingCity Sphere Topaz /give 63065 s5 7:2 8:1 9:3 lv15
+Salsotto'sTerminatorLine Rope Topaz /give 63066 s4 7:2 8:1 9:3 lv15
+GrandDuke'sCrownofNetherflame Head Himeko /give 61151 7:3 8:1 9:2 lv15
+GrandDuke'sGlovesofFieryfur Hand Himeko /give 61152 5:1 8:1 9:4 lv15
+GrandDuke'sRobeofGrace Body Himeko /give 61153 s4 5:1 7:1 9:4 lv15
+GrandDuke'sCeremonialBoots Foot Himeko /give 61154 s2 7:1 8:2 9:3 lv15
+Salsotto'sMovingCity Sphere Himeko /give 63065 s5 7:2 8:1 9:3 lv15
+Salsotto'sTerminatorLine Rope Himeko /give 63066 s4 7:1 8:2 9:3 lv15
+Prisoner'sSealedMuzzle Head Kafka /give 61161 5:4 7:1 12:1 lv15
+Prisoner'sLeadstoneShackles Hand Kafka /give 61162 5:4 7:1 12:1 lv15
+Prisoner'sRepressiveStraitjacket Body Kafka /give 61163 s2 12:1 7:4 10:1 lv15
+Prisoner'sRestrictiveFetters Foot Kafka /give 61164 s4 4:1 5:4 10:1 lv15
+Glamoth'sIronCavalryRegiment Sphere Kafka /give 63115 s7 5:3 7:2 10:1 lv15
+Glamoth'sSilentTombstone Rope Kafka /give 63116 s4 7:4 10:1 12:1 lv15
+Prisoner'sSealedMuzzle Head Sampo /give 61161 5:3 7:2 12:1 lv15
+Prisoner'sLeadstoneShackles Hand Sampo /give 61162 5:3 7:2 12:1 lv15
+Prisoner'sRepressiveStraitjacket Body Sampo /give 61163 s2 4:1 7:4 10:1 lv15
+Prisoner'sRestrictiveFetters Foot Sampo /give 61164 s4 5:4 10:1 12:1 lv15
+Glamoth'sIronCavalryRegiment Sphere Sampo /give 63115 s8 5:2 7:3 10:1 lv15
+Glamoth'sSilentTombstone Rope Sampo /give 63116 s4 7:4 10:1 12:1 lv15
+Wastelander'sBreathingMask Head ImbibitorLunae /give 61121 4:1 8:1 9:4 lv15
+Wastelander'sDesertTerminal Hand ImbibitorLunae /give 61122 5:1 8:1 9:4 lv15
+Wastelander'sFriarRobe Body ImbibitorLunae /give 61123 s5 5:1 7:2 8:4 lv15
+Wastelander'sPoweredGreaves Foot ImbibitorLunae /give 61124 s2 7:1 8:1 9:3 lv15
+TaikiyanLaserStadium Sphere ImbibitorLunae /give 63095 s10 5:1 8:1 9:4 lv15
+Taikiyan'sArclightRaceTrack Rope ImbibitorLunae /give 63096 s4 7:1 8:1 9:4 lv15
+Wastelander'sBreathingMask Head Welt /give 61121 7:1 8:3 9:2 lv15
+Wastelander'sDesertTerminal Hand Welt /give 61122 5:1 8:3 9:2 lv15
+Wastelander'sFriarRobe Body Welt /give 61123 s4 5:2 7:1 9:4 lv15
+Wastelander'sPoweredGreaves Foot Welt /give 61124 s4 5:1 8:2 9:3 lv15
+TaikiyanLaserStadium Sphere Welt /give 63095 s10 7:1 8:1 9:4 lv15
+Taikiyan'sArclightRaceTrack Rope Welt /give 63096 s2 10:3 8:1 9:1 lv15
+Prisoner'sSealedMuzzle Head Jingliu /give 61161 8:1 5:1 9:4 lv15
+Prisoner'sLeadstoneShackles Hand Jingliu /give 61162 8:1 5:1 9:4 lv15
+Prisoner'sRepressiveStraitjacket Body Jingliu /give 61043 s5 8:4 5:1 7:1 lv15
+Prisoner'sRestrictiveFetters Foot Jingliu /give 61044 s4 8:1 5:1 9:4 lv15
+TaikiyanLaserStadium Sphere Jingliu /give 63095 s6 8:1 7:1 9:4 lv15
+Taikiyan'sArclightRaceTrack Rope Jingliu /give 63096 s4 8:1 7:1 9:4 lv15
+Disciple'sProstheticEye Head Blade /give 61131 7:1 8:3 9:2 lv15
+Disciple'sIngeniumHand Hand Blade /give 61132 4:1 8:3 9:2 lv15
+Disciple'sDewyFeatherGarb Body Blade /give 61133 s5 8:1 4:4 7:2 lv15
+Disciple'sCelestialSilkSandals Foot Blade /give 61134 s1 8:1 7:1 9:4 lv15
+TaikiyanLaserStadium Sphere Blade /give 63095 s8 4:1 7:1 9:4 lv15
+Taikiyan'sArclightRaceTrack Rope Blade /give 63096 s3 5:1 7:1 9:4 lv15
+Genius'sUltraremoteSensingVisor Head Qingque /give 61081 7:1 8:2 9:3 lv15
+Genius'sFrequencyCatcher Hand Qingque /give 61082 7:1 8:3 9:2 lv15
+Genius'sMetafieldSuit Body Qingque /give 61083 s4 4:1 7:1 9:4 lv15
+Genius'sGravityWalker Foot Qingque /give 61084 s4 4:1 8:2 9:3 lv15
+TaikiyanLaserStadium Sphere Qingque /give 63095 s9 8:1 7:1 9:4 lv15
+Taikiyan'sArclightRaceTrack Rope Qingque /give 63096 s4 8:1 7:1 9:4 lv15
+Messenger'sHolovisor Head Asta(Break) /give 61141 4:1 7:2 12:3 lv15
+Messenger'sTransformativeArm Hand Asta(Break) /give 61142 4:1 7:2 12:3 lv15
+Messenger'sSecretSatchel Body Asta(Break) /give 61143 s4 4:1 7:2 12:3 lv15
+Messenger'sPar-koolSneakers Foot Asta(Break) /give 61144 s4 4:2 6:1 12:3 lv15
+Penacony'sGrandHotel Sphere Asta(Break) /give 63125 s5 4:1 7:2 12:3 lv15
+Penacony'sDream-SeekingTracks Rope Asta(Break) /give 63126 s2 4:1 7:2 12:3 lv15
+Wastelander'sBreathingMask Head Yukong(SubDPS) /give 61121 8:1 9:3 7:2 lv15
+Wastelander'sDesertTerminal Hand Yukong(SubDPS) /give 61122 8:3 9:1 7:2 lv15
+Wastelander'sFriarRobe Body Yukong(SubDPS) /give 61143 s4 5:1 7:4 9:1 lv15
+Wastelander'sPoweredGreaves Foot Yukong(SubDPS) /give 61144 s4 5:1 8:1 9:3 lv15
+Penacony'sGrandHotel Sphere Yukong(SubDPS) /give 63125 s10 5:1 8:1 9:4 lv15
+Penacony'sDream-SeekingTracks Rope Yukong(SubDPS) /give 63126 s2 5:1 8:1 9:4 lv15
+Musketeer'sWildWheatFeltHat Head Tingyun(HSpeed+HP) /give 61021 5:2 7:2 4:2 lv15
+Musketeer'sCoarseLeatherGloves Hand Tingyun(HSpeed+HP) /give 61022 5:2 7:2 4:2 lv15
+Musketeer'sWind-HuntingShawl Body Tingyun(HSpeed+HP) /give 61023 s2 4:2 7:3 6:1 lv15
+Musketeer'sRivetsRidingBoots Foot Tingyun(HSpeed+HP) /give 61024 s4 4:3 5:2 6:1 lv15
+Penacony'sGrandHotel Sphere Tingyun(HSpeed+HP) /give 63125 s2 4:3 7:2 6:1 lv15
+Penacony'sDream-SeekingTracks Rope Tingyun(HSpeed+HP) /give 63126 s2 4:3 5:1 7:2 lv15
+Messenger'sHolovisor Head Bronya(HSpeed) /give 61141 9:2 7:3 4:1 lv15
+Messenger'sTransformativeArm Hand Bronya(HSpeed) /give 61142 9:2 7:3 4:1 lv15
+Messenger'sSecretSatchel Body Bronya(HSpeed) /give 61143 s5 6:1 7:4 11:1 lv15
+Messenger'sPar-koolSneakers Foot Bronya(HSpeed) /give 61144 s4 6:1 11:1 9:4 lv15
+Insumousu'sWhalefallShip Sphere Bronya(HSpeed) /give 63105 s1 7:3 11:1 9:2 lv15
+Insumousu'sFrayedHawser Rope Bronya(HSpeed) /give 63106 s2 7:3 11:1 9:2 lv15
+Passerby'sRejuvenatedWoodenHairstick Head Huohuo(HSpeed) /give 61011 4:2 7:3 11:1 lv15
+Passerby'sRoamingDragonBracer Hand Huohuo(HSpeed) /give 61012 4:2 7:3 11:1 lv15
+Passerby'sRaggedEmbroidedCoat Body Huohuo(HSpeed) /give 61013 s6 4:2 7:3 11:1 lv15
+Passerby'sStygianHikingBoots Foot Huohuo(HSpeed) /give 61014 s4 4:4 11:1 6:1 lv15
+Insumousu'sWhalefallShip Sphere Huohuo(HSpeed) /give 63105 s1 6:1 11:4 7:1 lv15
+Insumousu'sFrayedHawser Rope Huohuo(HSpeed) /give 63106 s2 4:2 11:1 7:3 lv15
+Passerby'sRejuvenatedWoodenHairstick Head Luocha(HP) /give 61011 4:1 5:3 7:2 lv15
+Passerby'sRoamingDragonBracer Hand Luocha(HP) /give 61012 4:1 5:3 7:2 lv15
+Passerby'sRaggedEmbroidedCoat Body Luocha(HP) /give 61013 s2 4:1 7:2 11:2 lv15
+Passerby'sStygianHikingBoots Foot Luocha(HP) /give 61014 s4 4:1 5:3 11:2 lv15
+Insumousu'sWhalefallShip Sphere Luocha(HP) /give 63105 s2 4:1 7:3 11:2 lv15
+Insumousu'sFrayedHawser Rope Luocha(HP) /give 63106 s2 5:1 11:2 7:3 lv15
+GrandDuke'sCrownofNetherflame Head Herta /give 61151 7:1 8:2 9:3 lv15
+GrandDuke'sGlovesofFieryfur Hand Herta /give 61152 5:1 8:1 9:4 lv15
+GrandDuke'sRobeofGrace Body Herta /give 61153 s4 5:1 7:1 9:4 lv15
+GrandDuke'sCeremonialBoots Foot Herta /give 61154 s4 5:1 8:1 9:4 lv15
+PlanetScrewllum'sMechanicalSun Sphere Herta /give 63065 s6 7:1 8:1 9:4 lv15
+PlanetScrewllum'sRingSystem Rope Herta /give 63066 s4 7:1 8:1 9:4 lv15
+Disciple'sProstheticEye Head FuXuan(HP) /give 61131 7:2 6:2 11:2 lv15
+Disciple'sIngeniumHand Hand FuXuan(HP) /give 61132 7:2 4:3 6:1 lv15
+Guard'sUniformofOld Body FuXuan(HP) /give 61063 s1 6:2 11:2 7:2 lv15
+Guard'sSilverGreaves Foot FuXuan(HP) /give 61064 s4 4:3 6:2 11:2 lv15
+Insumousu'sWhalefallShip Sphere FuXuan(HP) /give 63105 s1 11:2 7:2 6:2 lv15
+Insumousu'sFrayedHawser Rope FuXuan(HP) /give 63106 s2 4:3 6:2 7:2 lv15
+Musketeer'sWildWheatFeltHat Head Pela(SubDPS) /give 61021 8:1 9:4 7:1 4:1 lv15
+Musketeer'sCoarseLeatherGloves Hand Pela(SubDPS) /give 61022 8:3 9:1 7:3 4:1 lv15
+Musketeer'sWind-HuntingShawl Body Pela(SubDPS) /give 61023 s4 4:1 5:1 7:4 9:2 lv15
+Musketeer'sRivetsRidingBoots Foot Pela(SubDPS) /give 61024 s4 4:2 10:1 8:3 9:2 lv15
+Penacony'sGrandHotel Sphere Pela(SubDPS) /give 63125 s6 4:1 7:2 8:1 9:4 lv15
+Penacony'sDream-SeekingTracks Rope Pela(SubDPS) /give 63126 s2 4:1 10:1 8:1 9:4 lv15
+Musketeer'sWildWheatFeltHat Head Pela(HSpeed+HP) /give 61021 4:3 7:2 6:1 lv15
+Musketeer'sCoarseLeatherGloves Hand Pela(HSpeed+HP) /give 61022 4:3 7:2 6:1 lv15
+Musketeer'sWind-HuntingShawl Body Pela(HSpeed+HP) /give 61023 s1 6:1 7:3 10:2 lv15
+Musketeer'sRivetsRidingBoots Foot Pela(HSpeed+HP) /give 61024 s4 4:3 10:2 6:1 lv15
+Penacony'sGrandHotel Sphere Pela(HSpeed+HP) /give 63125 s1 6:1 7:3 10:2 lv15
+Penacony'sDream-SeekingTracks Rope Pela(HSpeed+HP) /give 63126 s2 4:3 10:2 6:1 lv15
+Knight'sForgivingCasque Head Gepard /give 61031 4:1 6:4 10:1 lv15
+Knight'sSilentOathRing Hand Gepard /give 61032 4:1 6:4 10:1 lv15
+Knight'sSolemnBreastplate Body Gepard /give 61033 s3 4:1 7:3 11:2 lv15
+Knight'sIronBootsofOrder Foot Gepard /give 61034 s4 4:1 6:4 10:1 lv15
+Insumousu'sWhalefallShip Sphere Gepard /give 63105 s3 3:1 7:3 11:2 lv15
+Insumousu'sFrayedHawser Rope Gepard /give 63106 s2 6:2 7:3 10:1 lv15
+Pioneer'sHeatproofShell Head Dr.Ratio /give 61171 7:2 8:1 9:3 lv15
+Pioneer'sLacunaCompass Hand Dr.Ratio /give 61172 7:2 8:1 9:3 lv15
+Pioneer'sSealedLeadApron Body Dr.Ratio /give 61173 s4 5:1 7:2 9:3 lv15
+Pioneer'sStarfaringAnchor Foot Dr.Ratio /give 61174 s4 5:1 8:1 9:4 lv15
+Glamoth'sIronCavalryRegiment Sphere Dr.Ratio /give 63115 s10 7:2 8:1 9:3 lv15
+Glamoth'sSilentTombstone Rope Dr.Ratio /give 63116 s4 7:2 8:1 9:3 lv15
+Messenger'sHolovisor Head RuanMei(HSpeed) /give 61141 4:1 7:2 12:3 lv15
+Messenger'sTransformativeArm Hand RuanMei(HSpeed) /give 61142 6:1 7:2 12:3 lv15
+Messenger'sSecretSatchel Body RuanMei(HSpeed) /give 61143 s1 11:1 7:2 12:3 lv15
+Messenger'sPar-koolSneakers Foot RuanMei(HSpeed) /give 61144 s4 11:1 4:1 12:4 lv15
+Vonwacq'sIslandofBirth Sphere RuanMei(HSpeed) /give 63085 s1 11:1 7:2 12:3 lv15
+Vonwacq'sIslandicCoast Rope RuanMei(HSpeed) /give 63086 s2 11:1 7:2 12:3 lv15
+Watchmaker'sTelescopingLens Head RuanMei(LSpeed+Break) /give 61181 4:1 11:1 12:4 lv15
+Watchmaker'sFortuitousWristwatch Hand RuanMei(LSpeed+Break) /give 61182 4:1 11:1 12:4 lv15
+Watchmaker'sIllusoryFormalSuit Body RuanMei(LSpeed+Break) /give 61183 s1 11:1 6:1 12:4 lv15
+Watchmaker'sDream-ConcealingDressShoes Foot RuanMei(LSpeed+Break) /give 61184 s1 6:1 7:1 12:4 lv15
+Vonwacq'sIslandofBirth Sphere RuanMei(LSpeed+Break) /give 63085 s1 6:1 7:1 12:4 lv15
+Vonwacq'sIslandicCoast Rope RuanMei(LSpeed+Break) /give 63086 s2 11:1 7:1 12:4 lv15
+Genius'sUltraremoteSensingVisor Head Xueyi /give 61081 8:2 9:2 12:2 lv15
+Genius'sFrequencyCatcher Hand Xueyi /give 61082 8:2 9:2 12:2 lv15
+Genius'sMetafieldSuit Body Xueyi /give 61083 s4 7:1 9:3 12:2 lv15
+Genius'sGravityWalker Foot Xueyi /give 61084 s4 8:1 9:3 12:2 lv15
+Talia'sNailscrapTown Sphere Xueyi /give 63075 s2 8:1 9:3 12:2 lv15
+Talia'sExposedElectricWire Rope Xueyi /give 63076 s1 7:1 8:2 9:3 lv15
+Prisoner'sSealedMuzzle Head BlackSwan /give 61161 5:1 10:4 12:1 lv15
+Prisoner'sLeadstoneShackles Hand BlackSwan /give 61162 5:2 7:3 12:1 lv15
+Prisoner'sRepressiveStraitjacket Body BlackSwan /give 61163 s7 7:3 5:1 12:2 lv15
+Prisoner'sRestrictiveFetters Foot BlackSwan /give 61164 s4 5:2 10:1 12:3 lv15
+TheIPC'sMegaHQ Sphere BlackSwan /give 63035 s8 7:3 10:2 12:1 lv15
+TheIPC'sTradeRoute Rope BlackSwan /give 63036 s4 7:3 10:1 12:2 lv15
+Messenger'sHolovisor Head Sparkle(HSpeed) /give 61141 9:2 7:3 4:1 lv15
+Messenger'sTransformativeArm Hand Sparkle(HSpeed) /give 61142 9:2 7:3 4:1 lv15
+Messenger'sSecretSatchel Body Sparkle(HSpeed) /give 61143 s5 4:1 7:4 11:1 lv15
+Messenger'sPar-koolSneakers Foot Sparkle(HSpeed) /give 61144 s4 4:1 11:1 9:4 lv15
+Insumousu'sWhalefallShip Sphere Sparkle(HSpeed) /give 63105 s1 7:2 11:1 9:3 lv15
+Insumousu'sFrayedHawser Rope Sparkle(HSpeed) /give 63106 s2 7:2 11:1 9:3 lv15
+Pioneer'sHeatproofShell Head Acheron(2.1) /give 61171 7:2 8:1 9:3 lv15
+Pioneer'sLacunaCompass Hand Acheron(2.1) /give 61172 7:2 8:1 9:3 lv15
+Pioneer'sSealedLeadApron Body Acheron(2.1) /give 61173 s4 5:1 7:2 9:3 lv15
+Pioneer'sStarfaringAnchor Foot Acheron(2.1) /give 61174 s4 5:1 8:1 9:4 lv15
+Glamoth'sIronCavalryRegiment Sphere Acheron(2.1) /give 63115 s7 7:2 8:1 9:3 lv15
+Glamoth'sSilentTombstone Rope Acheron(2.1) /give 63116 s4 7:2 8:1 9:3 lv15
+Pioneer'sHeatproofShell Head Aventurine(2.1) /give 61171 7:2 8:1 9:3 lv15
+Pioneer'sLacunaCompass Hand Aventurine(2.1) /give 61172 7:2 8:1 9:3 lv15
+Pioneer'sSealedLeadApron Body Aventurine(2.1) /give 61173 s4 6:1 7:2 9:3 lv15
+Pioneer'sStarfaringAnchor Foot Aventurine(2.1) /give 61174 s4 7:1 8:1 9:4 lv15
+Insumousu'sWhalefallShip Sphere Aventurine(2.1) /give 63105 s10 7:2 8:1 9:3 lv15
+Insumousu'sFrayedHawser Rope Aventurine(2.1) /give 63106 s5 7:2 8:1 9:3 lv15

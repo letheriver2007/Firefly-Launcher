@@ -1,8 +1,7 @@
 import os
 
 ########## CONFIG ##########
-'zh-cn || en-us'
-FILENAME = "2.1.5-zh-cn"
+FILENAME = "2.1.0-en-us"
 ############################
 
 current_file_path = os.path.abspath(__file__)
@@ -42,9 +41,9 @@ with open(input_file_path, "r", encoding="utf-8") as input_file:
             start_flag_avatar = True
         if line.startswith(("20000 :")):
             start_flag_lightcone = True
-        if line.startswith(("# Items", "11001 :", "100000 : 荣", "210001 :")):
+        if line.startswith(("# Items", "11001 :", "100000 : Star", "210001 :")):
             start_flag_item = True
-        if line.startswith(("400004 : 果")):
+        if line.startswith(("400004 : Comfort")):
             start_flag_food = True
         if line.startswith(("200001 :")):
             start_flag_head = True
@@ -59,7 +58,7 @@ with open(input_file_path, "r", encoding="utf-8") as input_file:
             avatar_lines.append(line)
         elif start_flag_lightcone and not line.startswith(("31011 :")):
             lightcone_lines.append(line)
-        elif start_flag_item and not line.startswith(("# Items", "1001 : 三", "20000 :", "200001 :", "400004 : 果")):
+        elif start_flag_item and not line.startswith(("# Items", "1001 : March", "20000 :", "200001 :", "400004 : Comfort")):
             item_lines.append(line)
         elif start_flag_food and not line.startswith(("# Props")):
             food_lines.append(line)
@@ -76,7 +75,7 @@ with open(input_file_path, "r", encoding="utf-8") as input_file:
             start_flag_avatar = False
         elif start_flag_lightcone and line.startswith(("31011 :")):
             start_flag_lightcone = False
-        elif start_flag_item and line.startswith(("1001 : 三", "20000 :", "200001 :", "400004 : 果")):
+        elif start_flag_item and line.startswith(("1001 : March", "20000 :", "200001 :", "400004 : Comfort")):
             start_flag_item = False
         elif start_flag_food and line.startswith(("# Props")):
             start_flag_food = False

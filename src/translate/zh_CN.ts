@@ -109,6 +109,29 @@
     </message>
 </context>
 <context>
+    <name>DownloadCMD</name>
+    <message>
+        <location filename="../../app/model/download_process.py" line="105"/>
+        <source>该目录已存在文件！</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/model/download_process.py" line="121"/>
+        <source>下载成功！</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/model/download_process.py" line="136"/>
+        <source>下载取消！</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/model/download_process.py" line="146"/>
+        <source>下载失败！</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Environment</name>
     <message>
         <location filename="../../app/environment_interface.py" line="26"/>
@@ -191,7 +214,7 @@
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="845"/>
-        <source>数量：</source>
+        <source>数量:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -201,7 +224,7 @@
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="850"/>
-        <source>等级：</source>
+        <source>等级:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -211,7 +234,7 @@
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="855"/>
-        <source>星魂/叠影：</source>
+        <source>星魂/叠影:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -727,7 +750,7 @@
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="119"/>
-        <source>次数：</source>
+        <source>次数:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -944,12 +967,12 @@
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1084"/>
-        <source>当前主词条：</source>
+        <source>当前主词条:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1087"/>
-        <source>当前副词条：</source>
+        <source>当前副词条:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -960,7 +983,7 @@
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1116"/>
-        <source>等级：</source>
+        <source>等级:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1120,6 +1143,8 @@
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="92"/>
+        <location filename="../../app/setting_interface.py" line="158"/>
+        <location filename="../../app/setting_interface.py" line="267"/>
         <source>代理端口:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1233,17 +1258,12 @@
         <source>全局代理关闭失败！</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../../app/setting_interface.py" line="267"/>
-        <source>代理端口: </source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Spawn</name>
     <message>
         <location filename="../../app/lunarcore_command.py" line="691"/>
-        <source>数量：</source>
+        <source>数量:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1253,7 +1273,7 @@
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="696"/>
-        <source>等级：</source>
+        <source>等级:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1263,7 +1283,7 @@
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="701"/>
-        <source>半径：</source>
+        <source>半径:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

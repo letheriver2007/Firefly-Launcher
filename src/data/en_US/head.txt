@@ -1,0 +1,87 @@
+200001 : None
+200101 : March 7th — Welcome
+200102 : Dan Heng — Welcome
+200103 : Himeko — Welcome
+200104 : Welt — Welcome
+200105 : Trailblazer — Welcome
+200106 : Trailblazer — Welcome
+200107 : Kafka: Dinner Party
+200108 : Blade: Dinner Party
+200109 : Jing Yuan: In Leisure
+200110 : Fu Xuan: In Leisure
+200111 : Bronya: Celebration
+200112 : Gepard: Celebration
+200113 : Jingliu: Odyssey
+200114 : Yanqing: Odyssey
+200115 : Ruan Mei: Academia
+200116 : Dr. Ratio: Academia
+200117 : Sparkle: Illusion
+200118 : Sampo: Illusion
+200119 : Topaz: Bullseye
+200120 : Aventurine: Bullseye
+201001 : March 7th
+201002 : Dan Heng
+201003 : Himeko
+201004 : Welt
+201005 : Kafka
+201006 : Silver Wolf
+201008 : Arlan
+201009 : Asta
+201013 : Herta
+201101 : Bronya
+201102 : Seele
+201103 : Serval
+201104 : Gepard
+201105 : Natasha
+201106 : Pela
+201107 : Clara
+201108 : Sampo
+201109 : Hook
+201110 : Lynx
+201111 : Luka
+201112 : Topaz & Numby
+201201 : Qingque
+201202 : Tingyun
+201203 : Luocha
+201204 : Jing Yuan
+201205 : Blade
+201206 : Sushang
+201207 : Yukong
+201208 : Fu Xuan
+201209 : Yanqing
+201210 : Guinaifen
+201211 : Bailu
+201212 : Jingliu
+201213 : Dan Heng • Imbibitor Lunae
+201214 : Xueyi
+201215 : Hanya
+201217 : Huohuo
+201301 : Gallagher
+201302 : Argenti
+201303 : Ruan Mei
+201304 : Aventurine
+201305 : Dr. Ratio
+201306 : Sparkle
+201307 : Black Swan
+201308 : Acheron
+201312 : Misha
+202001 : Wubbaboo
+202002 : Trashcan
+202003 : Junjun
+202004 : Peppy
+202005 : Diting
+202006 : Wanted Poster
+202007 : Chef Pom-Pom
+202008 : Snack Life
+202009 : {NICKNAME}: Star Rail
+202010 : {NICKNAME}: Star Rail
+202011 : Clockie
+202012 : Brother Hanu
+202013 : Origami Bird
+202014 : Kakavasha
+202015 : Hamster Ball Knight
+202016 : One-Year Anniversary Commemoration
+208001 : {NICKNAME}: Destruction
+208002 : {NICKNAME}: Destruction
+208003 : {NICKNAME}: Preservation
+208004 : {NICKNAME}: Preservation

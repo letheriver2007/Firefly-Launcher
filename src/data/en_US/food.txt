@@ -1,0 +1,194 @@
+400004 : Comfort Food
+400005 : Punitive Food
+400006 : Trick Snack
+400007 : Simple First-Aid Device
+400008 : Startaro Bubble
+401003 : Cosmic Fried Rice
+401004 : Yucky Fried Rice
+401005 : Punitive Energy
+401006 : Energy Drink
+401007 : Life Transmitter
+401008 : Bottled Soda
+401009 : Simple Protective Gear
+401010 : Rice Plant Panicle
+401011 : Camo Paint
+401012 : Diet Fried Rice
+401013 : Wrathful Gauntlets
+401014 : Fruitwood-Grilled Shantak Moa Drumettes
+401015 : Flaming Potent Tea
+401016 : Backscratcher
+401017 : Deep-fried Flying Sea Anemone
+401018 : Amber Huadiao Wine
+401019 : Delicious Shumai
+401020 : Delicious Bean Cake
+401021 : Clockie Pizza (Single Slice)
+401022 : Sliced Cake Stargazer
+401023 : Mr. Herring's Lemon Tart
+401024 : Hundred-Layer Sundae (Zero Calories)
+401025 : Classic SoulGlad
+401026 : "Sour Dreams" Soft Candy
+401027 : "Dreamlight" Mixed Sweets
+401028 : Momentary Freedom
+402001 : Healing Spray
+402002 : Disposable Shield
+402003 : Energy Drink (sugar-free)
+402004 : Antimatter Field Generator
+402005 : High-Tech Protective Gear
+402006 : Inferior Protective Gear
+402007 : Tasty Field Nutrient Bar
+402008 : Dust of Alacrity
+402009 : Enhancement Paste: Physical
+402010 : Enhancement Paste: Wind
+402011 : Enhancement Paste: Fire
+402012 : Enhancement Paste: Ice
+402013 : Enhancement Paste: Lightning
+402014 : Enhancement Paste: Quantum
+402015 : Enhancement Paste: Imaginary
+402016 : Vomit Inducing Agent
+402017 : All Good Potion
+402018 : Snow Plains Combo Stew
+402019 : Prayer Machine
+402020 : Five-Grain Jade Elixir
+402021 : Health Detox Pill
+402022 : Jade Marrow Diffusion
+402023 : Pom-Pom's Fried Fowl
+402024 : Children's Fragrant Orange Pills
+402025 : Alfalfa Salad
+402026 : The Moment of Betrayal
+402027 : Fleeting Happiness
+402028 : The Cloud of Doubt
+403001 : Disposable Kinetic Arm
+403002 : Ruby Potion
+403003 : Disposable Kinetic Cannon
+403004 : Stone From the Everwinter Monument
+403005 : Topological Acceleration Band
+403006 : Longevity Pill of Cruelty
+403007 : Sugarball-Fried Viscorpi
+403008 : Automatic Wooden Dummy
+403009 : The Moment Before Death
+403010 : Bustling Ambience
+404004 : Recipe: Comfort Food
+404005 : Recipe: Punitive Food
+404006 : Recipe: Trick Snack
+404007 : Recipe: Simple First-Aid Device
+404008 : Recipe: Startaro Bubble
+405003 : Recipe: Cosmic Fried Rice
+405004 : Recipe: Yucky Fried Rice
+405005 : Recipe: Punitive Energy
+405006 : Recipe: Energy Drink
+405007 : Recipe: Life Transmitter
+405008 : Recipe: Bottled Soda
+405009 : Recipe: Simple Protective Gear
+405010 : Recipe: Rice Plant Panicle
+405011 : Recipe: Camo Paint
+405012 : Recipe: Diet Fried Rice
+405013 : Recipe: Wrathful Gauntlets
+405014 : Recipe: Fruitwood-Grilled Shantak Moa Drumettes
+405015 : Recipe: Flaming Potent Tea
+405016 : Recipe: Backscratcher
+405017 : Recipe: Deep-fried Flying Sea Anemone
+405018 : Recipe: Amber Huadiao Wine
+405019 : Recipe: Delicious Shumai
+405020 : Recipe: Delicious Bean Cake
+405021 : Recipe: Clockie Pizza (Single Slice)
+405022 : Recipe: Sliced Cake Stargazer
+405023 : Recipe: Mr. Herring's Lemon Tart
+405024 : Recipe: Hundred-Layer Sundae (Zero Calories)
+405025 : Recipe: Classic SoulGlad
+405026 : Recipe: "Sour Dreams" Soft Candy
+405027 : Recipe: "Dreamlight" Mixed Sweets
+405028 : Recipe: Momentary Freedom
+406001 : Recipe: Healing Spray
+406002 : Recipe: Disposable Shield
+406003 : Recipe: Energy Drink (sugar-free)
+406004 : Recipe: Antimatter Field Generator
+406005 : Recipe: High-Tech Protective Gear
+406006 : Recipe: Inferior Protective Gear
+406007 : Recipe: Tasty Field Nutrient Bar
+406008 : Recipe: Dust of Alacrity
+406009 : Recipe: Enhancement Paste: Physical
+406010 : Recipe: Enhancement Paste: Wind
+406011 : Recipe: Enhancement Paste: Fire
+406012 : Recipe: Enhancement Paste: Ice
+406013 : Recipe: Enhancement Paste: Lightning
+406014 : Recipe: Enhancement Paste: Quantum
+406015 : Recipe: Enhancement Paste: Imaginary
+406016 : Recipe: Vomit Inducing Agent
+406017 : Recipe: All Good Potion
+406018 : Recipe: Snow Plains Combo Stew
+406019 : Recipe: Prayer Machine
+406020 : Recipe: Five-Grain Jade Elixir
+406021 : Recipe: Health Detox Pill
+406022 : Recipe: Jade Marrow Diffusion
+406023 : Recipe: Pom-Pom's Fried Fowl
+406024 : Recipe: Children's Fragrant Orange Pills
+406025 : Recipe: Alfalfa Salad
+406026 : Recipe: The Moment of Betrayal
+406027 : Recipe: Fleeting Happiness
+406028 : Recipe: The Cloud of Doubt
+407001 : Recipe: Disposable Kinetic Arm
+407002 : Recipe: Ruby Potion
+407003 : Recipe: Disposable Kinetic Cannon
+407004 : Recipe: Stone from the Everwinter Monument
+407005 : Recipe: Topological Acceleration Band
+407006 : Recipe: Longevity Pill of Cruelty
+407007 : Recipe: Sugarball-Fried Viscorpi
+407008 : Recipe: Automatic Wooden Dummy
+407009 : Recipe: The Moment Before Death
+407010 : Recipe: Bustling Ambience
+408001 : Trash
+408002 : Pleasant-Looking Trash
+408003 : Sanctity of the Trashcan
+408004 : Jim Roger Bread Soda
+408005 : Kapo-Kali
+408201 : Tuskpir Wrap
+408202 : Berrypheasant Skewers
+408203 : Rye Bread Soda Iceberg
+408204 : Stone-Roasted Meat Skewer
+408205 : Fighter Jet Lucky Plaque
+408206 : Grande Rejuvepill
+408207 : Short Rejuvepill
+408208 : Newspaper
+408401 : Snapper Jam Appetizer
+408402 : Crystal Lizard Satay
+408403 : Wild Herb Soup
+408404 : Deep-Fried Rock Crab
+408405 : Mung Bean Soda
+408406 : Scalegorge Spring Water
+408407 : Songlotus Cake
+408408 : Steamed Puffergoat Milk
+408409 : Frostweave Salmon Bread
+408410 : Sweet Dreams Soda
+408411 : Mineshroom
+408412 : Dry Emergency Light
+408413 : Tranquil Duster
+408414 : Puffergoat Belly Bliss
+408415 : Popcorn
+408416 : Thundering Appetites
+408417 : Bright Future
+408418 : Dream Syrup
+408601 : Belobog Sausage
+408602 : Stone-Grilled Olm
+408603 : Immortal's Delight
+408604 : Rejuvenation Pellet
+408605 : Signature Chili Oil Beef Offal Stew
+408606 : Suncake
+408607 : Hypnotic Hammer
+408608 : Izumo Miso
+408609 : Floatdisc Burger
+408610 : Clockie Pizza (Whole)
+408611 : Potato Fries Sundae
+408612 : Oak Cake Rolls
+408613 : Pika White Grape Soda
+408614 : Murderer's Gaze
+408615 : Everlasting Hatred
+408616 : Eternal Endurance
+408617 : Duelist's Plume
+408618 : Gown of Extermination
+408619 : Wild Balaclava
+408620 : Dreamville Special
+408621 : Sweet Dreams Holographic Ticket
+408622 : Odd Gummy Candy
+408623 : Origami Family Bucket
+408801 : Dreamy Cone (Three Flavors)
+408802 : All or Nothing

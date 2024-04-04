@@ -116,7 +116,7 @@ class Main(MSFluentWindow):
         else:
             InfoBar.error(
                 title=self.tr('密码错误!'),
-                content=self.tr('次数：')+self.incorrect_count,
+                content=self.tr('次数:')+self.incorrect_count,
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,

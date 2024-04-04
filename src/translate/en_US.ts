@@ -6,7 +6,7 @@
     <message>
         <location filename="../../app/setting_interface.py" line="296"/>
         <source>   作者主页</source>
-        <translation>Author&apos;s Homepage</translation>
+        <translation>Author Home</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="297"/>
@@ -21,7 +21,7 @@
     <message>
         <location filename="../../app/setting_interface.py" line="299"/>
         <source>   反馈交流</source>
-        <translation>Feedback and Communication</translation>
+        <translation>Feedback</translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="571"/>
         <source>应用范围</source>
-        <translation>Application Scope</translation>
+        <translation>Target</translation>
     </message>
 </context>
 <context>
@@ -90,22 +90,45 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="580"/>
         <source>遗器</source>
-        <translation>Relics</translation>
+        <translation>Relic</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="580"/>
         <source>光锥</source>
-        <translation>Light Cones</translation>
+        <translation>Lightcone</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="580"/>
         <source>材料</source>
-        <translation>Materials</translation>
+        <translation>Material</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="581"/>
         <source>物品</source>
-        <translation>Items</translation>
+        <translation>Item</translation>
+    </message>
+</context>
+<context>
+    <name>DownloadCMD</name>
+    <message>
+        <location filename="../../app/model/download_process.py" line="105"/>
+        <source>该目录已存在文件！</source>
+        <translation>File Path Exists!</translation>
+    </message>
+    <message>
+        <location filename="../../app/model/download_process.py" line="121"/>
+        <source>下载成功！</source>
+        <translation>Download Success!</translation>
+    </message>
+    <message>
+        <location filename="../../app/model/download_process.py" line="136"/>
+        <source>下载取消！</source>
+        <translation>Download Cancelled!</translation>
+    </message>
+    <message>
+        <location filename="../../app/model/download_process.py" line="146"/>
+        <source>下载失败！</source>
+        <translation>Download Failed!</translation>
     </message>
 </context>
 <context>
@@ -167,12 +190,12 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="821"/>
         <source>角色</source>
-        <translation>Character</translation>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="823"/>
         <source>光锥</source>
-        <translation>Light Cone</translation>
+        <translation>Lightcone</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="825"/>
@@ -187,47 +210,47 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="829"/>
         <source>头像</source>
-        <translation>Avatar</translation>
+        <translation>Head</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="845"/>
-        <source>数量：</source>
-        <translation>Quantity:</translation>
+        <source>数量:</source>
+        <translation>Number:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="847"/>
         <source>请输入物品数量</source>
-        <translation>Please enter the item quantity</translation>
+        <translation>Enterm Number </translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="850"/>
-        <source>等级：</source>
+        <source>等级:</source>
         <translation>Level:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="852"/>
         <source>请输入角色/光锥等级</source>
-        <translation>Please enter the character/light cone level</translation>
+        <translation>Enter Level</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="855"/>
-        <source>星魂/叠影：</source>
-        <translation>Eidolon/Superimposition:</translation>
+        <source>星魂/叠影:</source>
+        <translation>Eidolon:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="857"/>
         <source>请输入角色星魂/光锥叠影</source>
-        <translation>Please enter the character eidolon/light cone superimposition</translation>
+        <translation>Enter Eidolon</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="959"/>
         <source>角色名称</source>
-        <translation>Character Name</translation>
+        <translation>Avatar Name</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="972"/>
         <source>光锥名称</source>
-        <translation>Light Cone Name</translation>
+        <translation>Lightcone Name</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="985"/>
@@ -250,12 +273,12 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="454"/>
         <source>物品</source>
-        <translation>Items</translation>
+        <translation>Item</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="455"/>
         <source>角色</source>
-        <translation>Characters</translation>
+        <translation>Avatar</translation>
     </message>
 </context>
 <context>
@@ -263,22 +286,22 @@
     <message>
         <location filename="../../app/home_interface.py" line="57"/>
         <source> 一键启动</source>
-        <translation>One-Click Start</translation>
+        <translation>Play</translation>
     </message>
     <message>
         <location filename="../../app/home_interface.py" line="110"/>
         <source>服务端已启动！</source>
-        <translation>Server has started!</translation>
+        <translation>Server Start!</translation>
     </message>
     <message>
         <location filename="../../app/home_interface.py" line="120"/>
         <source>找不到服务端</source>
-        <translation>Server not found</translation>
+        <translation>Server Not Found!</translation>
     </message>
     <message>
         <location filename="../../app/home_interface.py" line="120"/>
         <source>，请重新下载！</source>
-        <translation>, please download again!</translation>
+        <translation>, Please Download Again!</translation>
     </message>
 </context>
 <context>
@@ -290,16 +313,16 @@
     </message>
 </context>
 <context>
-    <name>HyperlinkCard_Launcher</name>
+    <name>Launcher</name>
     <message>
         <location filename="../../app/launcher_interface.py" line="28"/>
         <source>项目仓库</source>
         <translation>Project Repository</translation>
     </message>
     <message>
-        <location filename="../../app/launcher_interface.py" line="30"/>
+        <location filename="../../app/launcher_interface.py" line="29"/>
         <source>打开Firefly-Launcher相关项目仓库</source>
-        <translation>Open Firefly-Launcher related project repository</translation>
+        <translation>Open Firefly-Launcher Repository</translation>
     </message>
     <message>
         <location filename="../../app/launcher_interface.py" line="32"/>
@@ -325,17 +348,17 @@
     <message>
         <location filename="../../app/launcher_interface.py" line="43"/>
         <source>自定义启动器配置</source>
-        <translation>Customize Launcher Configuration</translation>
+        <translation>Customize Launcher Config</translation>
     </message>
     <message>
         <location filename="../../app/launcher_interface.py" line="68"/>
         <source>配置</source>
-        <translation>Configuration</translation>
+        <translation>Config</translation>
     </message>
     <message>
         <location filename="../../app/launcher_interface.py" line="105"/>
         <source>找不到文件，请重新下载！</source>
-        <translation>File not found, please download again!</translation>
+        <translation>File Not Found, Please Download Again!</translation>
     </message>
 </context>
 <context>
@@ -361,7 +384,7 @@
     <message>
         <location filename="../../app/lunarcore_interface.py" line="33"/>
         <source>打开LunarCore相关仓库</source>
-        <translation>Open LunarCore related repository</translation>
+        <translation>Open LunarCore repository</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="35"/>
@@ -378,17 +401,17 @@
     <message>
         <location filename="../../app/lunarcore_interface.py" line="45"/>
         <source>下载LunarCore资源文件</source>
-        <translation>Download LunarCore Resource Files</translation>
+        <translation>Download LunarCore Resources</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="47"/>
         <source>编译</source>
-        <translation>Compile</translation>
+        <translation>Build</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="51"/>
         <source>编译LunarCore</source>
-        <translation>Compile LunarCore</translation>
+        <translation>Build LunarCore</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="54"/>
@@ -403,12 +426,12 @@
     <message>
         <location filename="../../app/lunarcore_interface.py" line="58"/>
         <source>自定义命令数据配置</source>
-        <translation>Customize Command Data Configuration</translation>
+        <translation>Customize Command Data Resources</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="61"/>
         <source>执行</source>
-        <translation>Execute</translation>
+        <translation>Action</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="63"/>
@@ -418,17 +441,17 @@
     <message>
         <location filename="../../app/lunarcore_interface.py" line="68"/>
         <source>发送验证码</source>
-        <translation>Send Verification Code</translation>
+        <translation>Send Code</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="71"/>
         <source>验证验证码</source>
-        <translation>Vertify Verification Code</translation>
+        <translation>Vertify Code</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="102"/>
         <source>配置</source>
-        <translation>Configuration</translation>
+        <translation>Config</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="104"/>
@@ -448,12 +471,12 @@
     <message>
         <location filename="../../app/lunarcore_interface.py" line="150"/>
         <source>LunarCore已编译！</source>
-        <translation>LunarCore compiled!</translation>
+        <translation>LunarCore Has Been Build!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="161"/>
         <source>LunarCore不存在, 请先下载！</source>
-        <translation>LunarCore does not exist, please download first!</translation>
+        <translation>LunarCore Not Exist, Download First!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="183"/>
@@ -463,7 +486,7 @@
     <message>
         <location filename="../../app/lunarcore_interface.py" line="184"/>
         <source>请继续配置token</source>
-        <translation>Please continue to configure token</translation>
+        <translation>Please Config Token Now!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="193"/>
@@ -473,27 +496,27 @@
     <message>
         <location filename="../../app/lunarcore_interface.py" line="207"/>
         <source>发送成功！</source>
-        <translation>Sent successfully!</translation>
+        <translation>Send Successfully!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="217"/>
         <source>发送失败！</source>
-        <translation>Sending failed!</translation>
+        <translation>Send Failed!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="230"/>
         <source>验证成功！</source>
-        <translation>Verification successful!</translation>
+        <translation>Verify Successful!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="231"/>
         <source>远程执行配置完成</source>
-        <translation>Remote execution configuration completed</translation>
+        <translation>Remote Config Completed!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_interface.py" line="240"/>
         <source>验证失败！</source>
-        <translation>Verification failed!</translation>
+        <translation>Verify Failed!</translation>
     </message>
 </context>
 <context>
@@ -511,12 +534,12 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="38"/>
         <source>物品快捷给予</source>
-        <translation>Quick Item Give</translation>
+        <translation>Item Quick Give</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="40"/>
         <source>自定义物品快捷给予跳转</source>
-        <translation>Custom Quick Item Give Jump</translation>
+        <translation>Custom Item Quick Give Jump</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="42"/>
@@ -529,12 +552,12 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="44"/>
         <source>秘技点补充</source>
-        <translation>Skill Point Replenishment</translation>
+        <translation>Skill Point Refill</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="50"/>
         <source>治疗全部队伍角色</source>
-        <translation>Heal All Team Characters</translation>
+        <translation>Heal All Team Avatars</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="57"/>
@@ -559,22 +582,22 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="74"/>
         <source>解除场景未加载造成的卡死</source>
-        <translation>Unstuck Dead Characters in Unloaded Scenes</translation>
+        <translation>Unstuck Dead Avatars in Unloaded Scenes</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="78"/>
         <source>设置开拓者性别</source>
-        <translation>Set the Main Character&apos;s Gender</translation>
+        <translation>Set MainCharacter Gender</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="81"/>
         <source>设置开拓等级</source>
-        <translation>Set the Main Character&apos;s Level</translation>
+        <translation>Set Main WorldLevel</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="84"/>
         <source>设置角色属性</source>
-        <translation>Set Character Attributes</translation>
+        <translation>Set Avatar Attributes</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="87"/>
@@ -594,7 +617,7 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="100"/>
         <source>执行</source>
-        <translation>Execute</translation>
+        <translation>Action</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="130"/>
@@ -634,40 +657,40 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="227"/>
         <source>执行完成！</source>
-        <translation>Execution completed!</translation>
+        <translation>Action Completed!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="237"/>
         <location filename="../../app/lunarcore_command.py" line="247"/>
         <source>执行失败！</source>
-        <translation>Execution failed!</translation>
+        <translation>Action Failed!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="248"/>
         <source>请先配置远程执行！</source>
-        <translation>Please configure remote execution first!</translation>
+        <translation>Please Config Remote First!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="265"/>
         <source>复制成功！</source>
-        <translation>Copied successfully!</translation>
+        <translation>Copy Successfully!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="276"/>
         <location filename="../../app/lunarcore_command.py" line="286"/>
         <source>复制失败！</source>
-        <translation>Copy failed!</translation>
+        <translation>Copy Failed!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="317"/>
         <source>请输入正确的用户名！</source>
-        <translation>Please enter a valid username!</translation>
+        <translation>Please Enter Correct Username!</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="332"/>
         <location filename="../../app/lunarcore_command.py" line="347"/>
         <source>请输入正确的UID！</source>
-        <translation>Please enter a valid UID!</translation>
+        <translation>Please Enter Correct UID!</translation>
     </message>
 </context>
 <context>
@@ -713,12 +736,12 @@
     <message>
         <location filename="../../app/main_interface.py" line="68"/>
         <source>设置</source>
-        <translation>Settings</translation>
+        <translation>Setting</translation>
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="105"/>
         <source>登录成功</source>
-        <translation>Login successful</translation>
+        <translation>Login Successfully!</translation>
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="118"/>
@@ -727,28 +750,28 @@
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="119"/>
-        <source>次数：</source>
+        <source>次数:</source>
         <translation>Times:</translation>
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="143"/>
         <source>检测到新版本: </source>
-        <translation>New version detected: </translation>
+        <translation>New Version Detected: </translation>
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="153"/>
         <source>当前是最新版本: </source>
-        <translation>Current version is the latest: </translation>
+        <translation>Current Version Latest: </translation>
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="163"/>
         <source>检测更新失败: </source>
-        <translation>Failed to check for updates: </translation>
+        <translation>Failed to Check Updates: </translation>
     </message>
     <message>
         <location filename="../../app/main_interface.py" line="184"/>
         <source>未找到语音，请重新下载！</source>
-        <translation>Voice not found, please download again!</translation>
+        <translation>Voice Not Found, Please Download Again!</translation>
     </message>
 </context>
 <context>
@@ -792,12 +815,12 @@
     <message>
         <location filename="../../app/model/login_card.py" line="83"/>
         <source>你的老婆是?    </source>
-        <translation>Your wife is?    </translation>
+        <translation>Your Wife is?    </translation>
     </message>
     <message>
         <location filename="../../app/model/login_card.py" line="86"/>
         <source>请输入TA的英文名</source>
-        <translation>Please enter their English name</translation>
+        <translation>Please Enter Her Name</translation>
     </message>
     <message>
         <location filename="../../app/model/login_card.py" line="87"/>
@@ -815,12 +838,12 @@
     <message>
         <location filename="../../app/model/setting_card.py" line="178"/>
         <source>脚本打开</source>
-        <translation>Open Script</translation>
+        <translation>Script Open</translation>
     </message>
     <message>
         <location filename="../../app/model/setting_card.py" line="179"/>
         <source>原版打开</source>
-        <translation>Open Original</translation>
+        <translation>Original Open</translation>
     </message>
 </context>
 <context>
@@ -828,7 +851,7 @@
     <message>
         <location filename="../../app/model/setting_card.py" line="196"/>
         <source>执行</source>
-        <translation>Execute</translation>
+        <translation>Action</translation>
     </message>
 </context>
 <context>
@@ -836,12 +859,12 @@
     <message>
         <location filename="../../app/model/setting_card.py" line="210"/>
         <source>验证码</source>
-        <translation>Verification Code</translation>
+        <translation>Code</translation>
     </message>
     <message>
         <location filename="../../app/model/setting_card.py" line="213"/>
         <source>执行</source>
-        <translation>Execute</translation>
+        <translation>Action</translation>
     </message>
 </context>
 <context>
@@ -854,7 +877,7 @@
     <message>
         <location filename="../../app/proxy_interface.py" line="30"/>
         <source>打开代理工具仓库</source>
-        <translation>Open Project Repository</translation>
+        <translation>Open Proxy Repository</translation>
     </message>
     <message>
         <location filename="../../app/proxy_interface.py" line="32"/>
@@ -866,12 +889,12 @@
     <message>
         <location filename="../../app/proxy_interface.py" line="36"/>
         <source>下载代理工具Fiddler</source>
-        <translation>Download proxy tool Fiddler</translation>
+        <translation>Download Fiddler</translation>
     </message>
     <message>
         <location filename="../../app/proxy_interface.py" line="42"/>
         <source>下载代理工具Mitmdump</source>
-        <translation>Download proxy tool Mitmdump</translation>
+        <translation>Download Mitmdump</translation>
     </message>
     <message>
         <location filename="../../app/proxy_interface.py" line="45"/>
@@ -881,7 +904,7 @@
     <message>
         <location filename="../../app/proxy_interface.py" line="47"/>
         <source>使用Fiddler Scripts代理</source>
-        <translation>Use Fiddler proxy</translation>
+        <translation>Use Fiddler</translation>
     </message>
     <message>
         <location filename="../../app/proxy_interface.py" line="49"/>
@@ -896,7 +919,7 @@
     <message>
         <location filename="../../app/proxy_interface.py" line="53"/>
         <source>使用Mitmdump代理</source>
-        <translation>Use Mitmdump proxy</translation>
+        <translation>Use Mitmdump</translation>
     </message>
     <message>
         <location filename="../../app/proxy_interface.py" line="80"/>
@@ -907,7 +930,7 @@
         <location filename="../../app/proxy_interface.py" line="120"/>
         <location filename="../../app/proxy_interface.py" line="146"/>
         <source>找不到文件，请重新下载！</source>
-        <translation>File not found, please download again!</translation>
+        <translation>File Not Found, Please Download Again!</translation>
     </message>
 </context>
 <context>
@@ -915,7 +938,7 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="1026"/>
         <source>搜索遗器</source>
-        <translation>Search Relics</translation>
+        <translation>Search Relic</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1029"/>
@@ -930,43 +953,43 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="1056"/>
         <source>搜索词条</source>
-        <translation>Search Affixes</translation>
+        <translation>Search Affix</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1059"/>
         <source>主词条</source>
-        <translation>Main Affix</translation>
+        <translation>Main</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1060"/>
         <source>副词条</source>
-        <translation>Sub Affix</translation>
+        <translation>Side</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1084"/>
-        <source>当前主词条：</source>
+        <source>当前主词条:</source>
         <translation>Current Main Affix:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1087"/>
-        <source>当前副词条：</source>
-        <translation>Current Sub Affixes:</translation>
+        <source>当前副词条:</source>
+        <translation>Current Sub Affix:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1108"/>
         <location filename="../../app/lunarcore_command.py" line="1388"/>
         <source>数量</source>
-        <translation>Quantity</translation>
+        <translation>Number</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1116"/>
-        <source>等级：</source>
+        <source>等级:</source>
         <translation>Level:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1118"/>
         <source>请输入生成遗器的等级</source>
-        <translation>Please enter the level of the relic to generate</translation>
+        <translation>Please Enter Level</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1284"/>
@@ -974,7 +997,7 @@
         <location filename="../../app/lunarcore_command.py" line="1305"/>
         <location filename="../../app/lunarcore_command.py" line="1313"/>
         <source>通用</source>
-        <translation>Universal</translation>
+        <translation>Common</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1352"/>
@@ -992,7 +1015,7 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="1368"/>
         <source>适用角色</source>
-        <translation>Applicable Character</translation>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="1379"/>
@@ -1006,7 +1029,7 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="619"/>
         <source>搜索场景</source>
-        <translation>Search Scenes</translation>
+        <translation>Search Scene</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="679"/>
@@ -1024,7 +1047,7 @@
     <message>
         <location filename="../../app/setting_interface.py" line="37"/>
         <source>默认流萤主题色，开拓者你不会改的吧?</source>
-        <translation>Default Lunar Colony theme color</translation>
+        <translation>Firefly Theme Color Mua~~~</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="41"/>
@@ -1034,13 +1057,13 @@
     <message>
         <location filename="../../app/setting_interface.py" line="42"/>
         <source>调整全局缩放</source>
-        <translation>Adjust global scaling</translation>
+        <translation>Adjust Global Scaling</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="44"/>
         <location filename="../../app/setting_interface.py" line="51"/>
         <source>跟随系统设置</source>
-        <translation>Follow system settings</translation>
+        <translation>Follow System</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="48"/>
@@ -1050,58 +1073,58 @@
     <message>
         <location filename="../../app/setting_interface.py" line="49"/>
         <source>设置UI界面显示语言</source>
-        <translation>Set UI display language</translation>
+        <translation>Set UI Display Language</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="53"/>
         <source>检查更新</source>
-        <translation>Check for updates</translation>
+        <translation>Check Update</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="55"/>
         <source>手动检查更新</source>
-        <translation>Check for updates manually</translation>
+        <translation>Check Update Manually</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="56"/>
         <source>当前版本 : </source>
-        <translation>Current version: </translation>
+        <translation>Current Version: </translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="59"/>
         <location filename="../../app/setting_interface.py" line="61"/>
         <source>重启程序</source>
-        <translation>Restart Program</translation>
+        <translation>Restart</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="63"/>
         <source>无奖竞猜，存在即合理</source>
-        <translation>No betting, it&apos;s reasonable </translation>
+        <translation>No Betting, It is Reasonable </translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="67"/>
         <source>命令自动复制</source>
-        <translation>Copy command automatically</translation>
+        <translation>Copy Command Automatically</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="68"/>
         <source>选择命令时，自动复制命令到剪贴板</source>
-        <translation>Copy command to clipboard when selecting command</translation>
+        <translation>Copy Command Automatically When Select</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="73"/>
         <source>启用登录功能</source>
-        <translation>Enable Login Function</translation>
+        <translation>Enable Login</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="74"/>
         <source>使用自定义登陆彩蛋</source>
-        <translation>Use Custom Login Egg</translation>
+        <translation>Enable Login Egg</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="79"/>
         <source>启用流萤语音(外部)</source>
-        <translation>Enable Lunar Voice (External)</translation>
+        <translation>Enable Firefly Voice (External)</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="80"/>
@@ -1111,27 +1134,29 @@
     <message>
         <location filename="../../app/setting_interface.py" line="86"/>
         <source>使用代理端口</source>
-        <translation>Use Proxy Port</translation>
+        <translation>Use Proxy</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="87"/>
         <source>启用代理，在配置文件里更改地址</source>
-        <translation>Use Proxy Port</translation>
+        <translation>Use Custom Proxy Port</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="92"/>
+        <location filename="../../app/setting_interface.py" line="158"/>
+        <location filename="../../app/setting_interface.py" line="267"/>
         <source>代理端口:</source>
-        <translation>Proxy Port: </translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="95"/>
         <source>使用国内镜像</source>
-        <translation>Use China Proxy</translation>
+        <translation>Use China Mirror</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="96"/>
         <source>为Github下载启用国内镜像站链接</source>
-        <translation>Use China Proxy</translation>
+        <translation>Enable China Mirror When Downloading</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="100"/>
@@ -1146,7 +1171,7 @@
     <message>
         <location filename="../../app/setting_interface.py" line="104"/>
         <source>重置部分服务端未关闭的代理</source>
-        <translation>Reset Proxy</translation>
+        <translation>Reset Proxy For Some Servers</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="138"/>
@@ -1171,110 +1196,105 @@
     <message>
         <location filename="../../app/setting_interface.py" line="166"/>
         <source>自动复制功能已开启！</source>
-        <translation>Auto Copy Function is enabled!</translation>
+        <translation>Auto Copy Function Enabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="166"/>
         <source>自动复制功能已关闭！</source>
-        <translation>Auto Copy Function is disabled!</translation>
+        <translation>Auto Copy Function Disabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="167"/>
         <source>登录功能已开启！</source>
-        <translation>Login Function is enabled!</translation>
+        <translation>Login Function Enabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="167"/>
         <source>登录功能已关闭！</source>
-        <translation>Login Function is disabled!</translation>
+        <translation>Login Function Disabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="168"/>
         <source>流萤语音已开启！</source>
-        <translation>Firefly Voice is enabled!</translation>
+        <translation>Firefly Voice Enabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="168"/>
         <source>流萤语音已关闭！</source>
-        <translation>Firefly Voice is disabled!</translation>
+        <translation>Firefly Voice Disabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="169"/>
         <source>代理端口已开启！</source>
-        <translation>Proxy Port is set!</translation>
+        <translation>Custom Proxy Port Set!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="169"/>
         <source>代理端口已关闭！</source>
-        <translation>Proxy Port is reset!</translation>
+        <translation>Proxy Port Reset!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="171"/>
         <source>国内镜像已开启！</source>
-        <translation>China Proxy is enabled!</translation>
+        <translation>China Mirror Enabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="171"/>
         <source>国内镜像已关闭！</source>
-        <translation>China Proxy is disabled!</translation>
+        <translation>China Mirror Disabled!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="221"/>
         <source>代理设置冲突,优先使用国内镜像！</source>
-        <translation>First Use China Proxy</translation>
+        <translation>Config Conflict, First Use China Mirror</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="240"/>
         <source>全局代理已更改！</source>
-        <translation>Global Proxy Port is reset!</translation>
+        <translation>Global Proxy Reset!</translation>
     </message>
     <message>
         <location filename="../../app/setting_interface.py" line="250"/>
         <source>全局代理关闭失败！</source>
-        <translation>Global Proxy Port cannot be empty!</translation>
-    </message>
-    <message>
-        <location filename="../../app/setting_interface.py" line="267"/>
-        <source>代理端口: </source>
-        <translation>Proxy Port: </translation>
+        <translation>Global Proxy Port Reset Failed!</translation>
     </message>
 </context>
 <context>
     <name>Spawn</name>
     <message>
         <location filename="../../app/lunarcore_command.py" line="691"/>
-        <source>数量：</source>
+        <source>数量:</source>
         <translation>Number:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="693"/>
         <source>请输入怪物数量</source>
-        <translation>Enter the number of monsters</translation>
+        <translation>Enter Monster Number</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="696"/>
-        <source>等级：</source>
+        <source>等级:</source>
         <translation>Level:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="698"/>
         <source>请输入怪物等级</source>
-        <translation>Enter the monster level</translation>
+        <translation>Enter Monster Level</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="701"/>
-        <source>半径：</source>
+        <source>半径:</source>
         <translation>Radius:</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="703"/>
         <source>请输入仇恨半径</source>
-        <translation>Enter the hate radius</translation>
+        <translation>Enter Hate Radius</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="707"/>
         <source>搜索怪物</source>
-        <translation>Search Monsters</translation>
+        <translation>Search Monster</translation>
     </message>
     <message>
         <location filename="../../app/lunarcore_command.py" line="792"/>
@@ -1313,7 +1333,7 @@
     <message>
         <location filename="../../app/lunarcore_command.py" line="542"/>
         <source>开拓等级</source>
-        <translation>Lunar Colony Level</translation>
+        <translation>WorldLevel</translation>
     </message>
 </context>
 </TS>

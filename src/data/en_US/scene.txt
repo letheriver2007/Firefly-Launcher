@@ -1,0 +1,163 @@
+10000 : [Train] Parlor Car
+10001 : [Town] Master Control Zone
+10101 : [Town] Administrative District
+10102 : [Town] Boulder Town
+10201 : [Town] Central Starskiff Haven
+10202 : [Town] Exalting Sanctum
+10301 : [Town] Golden Hour
+10305 : [Town] The Reverie (Reality)
+20001 : [Maze] Base Zone
+20002 : [Maze] Storage Zone
+20003 : [Maze] Supply Zone
+20004 : [Maze] Seclusion Zone
+20100 : [Raid] Path Space
+20101 : [Maze] Outlying Snow Plains
+20111 : [Maze] Backwater Pass
+20121 : [Maze] Great Mine
+20122 : [Maze] Rivet Town
+20123 : [Maze] Robot Settlement
+20131 : [Maze] Silvermane Guard Restricted Zone
+20132 : [Maze] Corridor of Fading Echoes
+20133 : [Raid] Everwinter Hill
+20134 : [Maze] Everwinter Hill
+20135 : [Maze] Pillars of Creation
+20136 : [Maze] Old Weapon Testing Ground
+20211 : [Maze] Cloudford
+20212 : [Maze] Stargazer Navalia
+20213 : [Raid] Cloudford
+20214 : [Raid] Parlor Car
+20221 : [Maze] Divination Commission
+20222 : [Maze] Artisanship Commission
+20223 : [Maze] Fyxestroll Garden
+20231 : [Maze] Alchemy Commission
+20232 : [Maze] Scalegorge Waterscape
+20233 : [Maze] Roots of the Arbor
+20311 : [Maze] The Reverie (Dreamscape)
+20312 : [Maze] A Child's Dream
+20313 : [Maze] Dream's Edge
+20321 : [Maze] Clock Studios Theme Park
+20322 : [Maze] Dewlight Pavilion
+20323 : [Maze] Horizon of Existence
+30101 : [Challenge] null
+30102 : [Challenge] null
+30103 : [Challenge] null
+30104 : [Challenge] null
+30105 : [Challenge] null
+30120 : [Raid] null
+30121 : [Challenge] null
+30122 : [Challenge] null
+30201 : [Raid] Cavern of Corrosion
+30301 : [Raid] null
+30401 : [Raid] null
+30500 : [TrialActivity] null
+30501 : [TrialActivity] null
+30502 : [TrialActivity] null
+30521 : [TrialActivity] null
+40000 : [Raid] null
+40002 : [Raid] null
+40003 : [Raid] null
+40101 : [Raid] null
+40111 : [Raid] null
+40121 : [Raid] null
+40122 : [Raid] null
+40123 : [Raid] null
+40131 : [Raid] null
+40211 : [Raid] null
+40212 : [Raid] null
+40221 : [Raid] null
+40222 : [Raid] null
+40231 : [Raid] null
+40232 : [Raid] null
+40233 : [Raid] null
+40312 : [Raid] null
+41000 : [Raid] null
+41007 : [Raid] null
+41008 : [Raid] null
+41009 : [Raid] null
+41010 : [Raid] null
+41011 : [Raid] null
+41012 : [Raid] null
+41221 : [Raid] null
+42221 : [Raid] null
+43001 : [Raid] null
+43002 : [Raid] null
+43003 : [Raid] null
+43004 : [Raid] null
+43101 : [Raid] null
+43102 : [Raid] null
+43103 : [AetherDivide] null
+43104 : [Raid] null
+43201 : [Raid] null
+43202 : [Raid] null
+43203 : [Raid] null
+43204 : [Raid] null
+43205 : [Raid] null
+43206 : [Raid] null
+43207 : [Raid] null
+43208 : [Raid] null
+43209 : [Raid] null
+43210 : [Raid] null
+43211 : [Raid] null
+43212 : [Raid] null
+43213 : [Raid] null
+43214 : [Raid] null
+43215 : [Raid] null
+43216 : [Raid] null
+43217 : [Raid] null
+43218 : [Raid] null
+43301 : [Raid] null
+43302 : [Raid] null
+43303 : [Raid] null
+43304 : [Raid] null
+43305 : [Raid] null
+43306 : [Raid] null
+43307 : [Raid] null
+43310 : [Raid] null
+43312 : [Raid] null
+43313 : [Raid] null
+44001 : [Raid] null
+44201 : [Raid] null
+44202 : [Raid] null
+44301 : [Raid] null
+44302 : [Raid] null
+44303 : [Raid] null
+80000 : [Rogue] ???
+80001 : [Rogue] Simulated Universe
+80112 : [Town] Herta's Office
+80200 : [Rogue] Simulated Universe
+80201 : [Rogue] Simulated Universe
+80202 : [Rogue] Simulated Universe
+80203 : [Rogue] Simulated Universe
+80204 : [Rogue] Simulated Universe
+80205 : [Rogue] Simulated Universe
+80206 : [Rogue] Simulated Universe
+80207 : [Rogue] Simulated Universe
+80208 : [Rogue] Simulated Universe
+80209 : [Rogue] Simulated Universe
+80210 : [Rogue] Simulated Universe
+80211 : [Rogue] Simulated Universe
+80301 : [Rogue] Simulated Universe
+80302 : [Rogue] Simulated Universe
+80303 : [Rogue] Simulated Universe
+80304 : [Rogue] Simulated Universe
+80305 : [Rogue] Simulated Universe
+81001 : [Rogue] Simulated Universe
+81002 : [Rogue] Simulated Universe
+81003 : [Rogue] Simulated Universe
+81004 : [Rogue] Simulated Universe
+81111 : [Rogue] Simulated Universe
+81121 : [Rogue] Simulated Universe
+81122 : [Rogue] Simulated Universe
+81123 : [Rogue] Simulated Universe
+81131 : [Rogue] Simulated Universe
+81132 : [Rogue] Simulated Universe
+81211 : [Rogue] Simulated Universe
+81212 : [Rogue] Simulated Universe
+81221 : [Rogue] Simulated Universe
+81222 : [Rogue] Simulated Universe
+81223 : [Rogue] Simulated Universe
+81231 : [Rogue] Simulated Universe
+81232 : [Rogue] Simulated Universe
+81311 : [Rogue] Simulated Universe
+81312 : [Rogue] Simulated Universe
+81313 : [Rogue] Simulated Universe

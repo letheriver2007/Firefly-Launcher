@@ -155,7 +155,7 @@ class Setting(ScrollArea):
         with open('config/config.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
             port = data['PROXY_PORT']
-        self.proxyPortCard.titleLabel.setText(self.tr(f'代理端口: {port}'))
+        self.proxyPortCard.titleLabel.setText(self.tr('代理端口:')+port)
         if not cfg.proxyStatus.value:
             self.proxyPortCard.setDisabled(True)
         
@@ -166,9 +166,9 @@ class Setting(ScrollArea):
         self.autoCopyCard.checkedChanged.connect(lambda: self.common_changed(cfg.autoCopy.value, self.tr('自动复制功能已开启！'), self.tr('自动复制功能已关闭！')))
         self.useLoginCard.checkedChanged.connect(lambda: self.common_changed(cfg.useLogin.value, self.tr('登录功能已开启！'), self.tr('登录功能已关闭！')))
         self.useAudioCard.checkedChanged.connect(lambda: self.common_changed(cfg.useAudio.value, self.tr('流萤语音已开启！'), self.tr('流萤语音已关闭！')))
-        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,self.tr('代理端口已开启！'),self.tr('代理端口已关闭！',True)))
+        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,self.tr('代理端口已开启！'),self.tr('代理端口已关闭！'),True))
         self.proxyPortCard.set_port.connect(self.handleSetProxyPort)
-        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,self.tr('国内镜像已开启！'),self.tr('国内镜像已关闭！',True)))
+        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,self.tr('国内镜像已开启！'),self.tr('国内镜像已关闭！'),True))
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -264,7 +264,7 @@ class Setting(ScrollArea):
                 data['PROXY_PORT'] = new_port
             with open('config/config.json', 'w', encoding='utf-8') as file:
                 json.dump(data, file, ensure_ascii=False)
-        self.proxyPortCard.titleLabel.setText(self.tr('代理端口: ') + new_port)
+        self.proxyPortCard.titleLabel.setText(self.tr('代理端口:') + new_port)
 
 
 class About(QWidget):

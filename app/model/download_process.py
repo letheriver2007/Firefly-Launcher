@@ -74,11 +74,11 @@ class DownloadCMD(QDialog):
         super().__init__(parent)
         self.parent = parent
         self.palette = self.palette()
-
         self.palette.setColor(QPalette.ColorRole.Window, QColor(0, 0, 0))
         self.setPalette(self.palette)
         self.setFixedSize(960, 512)
         self.setCursor(Qt.CrossCursor)
+        self.setWindowTitle('Firefly-Launcher-Download')
 
         self.commandOutput = PlainTextEdit()
         self.commandOutput.setReadOnly(True)

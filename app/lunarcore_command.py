@@ -472,8 +472,6 @@ class Account(SettingCard):
         self.button_delete = PrimaryPushButton(self.tr('删除'), self)
         self.account_name.setPlaceholderText(self.tr("名称"))
         self.account_uid.setPlaceholderText("UID")
-        self.account_name.setFixedWidth(60)
-        self.account_uid.setFixedWidth(60)
         self.account_uid.setValidator(QIntValidator(self))
         self.hBoxLayout.addWidget(self.account_name, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
@@ -493,7 +491,6 @@ class Kick(SettingCard):
         super().__init__(icon, title, content)
         self.account_uid = LineEdit(self)
         self.account_uid.setPlaceholderText("UID")
-        self.account_uid.setFixedWidth(60)
         self.account_uid.setValidator(QIntValidator(self))
         self.button_kick = PrimaryPushButton(self.tr('使用'), self)
         self.hBoxLayout.addWidget(self.account_uid, 0, Qt.AlignRight)
@@ -509,7 +506,6 @@ class Unstuck(SettingCard):
         super().__init__(icon, title, content)
         self.stucked_uid = LineEdit(self)
         self.stucked_uid.setPlaceholderText("UID")
-        self.stucked_uid.setFixedWidth(60)
         self.stucked_uid.setValidator(QIntValidator(self))
         self.button_unstuck = PrimaryPushButton(self.tr('使用'), self)
         self.hBoxLayout.addWidget(self.stucked_uid, 0, Qt.AlignRight)
@@ -540,7 +536,6 @@ class WorldLevel(SettingCard):
         super().__init__(icon, title, content)
         self.world_level = LineEdit(self)
         self.world_level.setPlaceholderText(self.tr("开拓等级"))
-        self.world_level.setFixedWidth(85)
         validator = QIntValidator(1, 99, self)
         self.world_level.setValidator(validator)
         self.hBoxLayout.addWidget(self.world_level, 0, Qt.AlignRight)
@@ -558,9 +553,6 @@ class Avatar(SettingCard):
         self.avatar_level.setPlaceholderText(self.tr("等级"))
         self.avatar_eidolon.setPlaceholderText(self.tr("星魂"))
         self.avatar_skill.setPlaceholderText(self.tr("行迹"))
-        self.avatar_level.setFixedWidth(60)
-        self.avatar_eidolon.setFixedWidth(60)
-        self.avatar_skill.setFixedWidth(60)
         validator = QIntValidator(1, 99, self)
         self.avatar_level.setValidator(validator)
         self.avatar_eidolon.setValidator(validator)
@@ -666,7 +658,7 @@ class Scene(QWidget):
                 self.scene_table.setRowHidden(row, True)
 
     def handleSceneLoad(self):
-        with open('src/data/scene.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/scene.txt', 'r', encoding='utf-8') as file:
             scene = file.readlines()
         self.scene_table.setRowCount(len(scene))
         for i, line in enumerate(scene):
@@ -688,17 +680,17 @@ class Spawn(QWidget):
         self.__initWidget()
 
     def __initWidget(self):
-        self.monster_num_label = SubtitleLabel(self.tr("数量："), self)
+        self.monster_num_label = SubtitleLabel(self.tr("数量:"), self)
         self.monster_num_edit = LineEdit(self)
         self.monster_num_edit.setPlaceholderText(self.tr("请输入怪物数量"))
         self.monster_num_edit.setValidator(QIntValidator(1, 99, self))
 
-        self.monster_level_label = SubtitleLabel(self.tr("等级："), self)
+        self.monster_level_label = SubtitleLabel(self.tr("等级:"), self)
         self.monster_level_edit = LineEdit(self)
         self.monster_level_edit.setPlaceholderText(self.tr("请输入怪物等级"))
         self.monster_level_edit.setValidator(QIntValidator(1, 99, self))
 
-        self.monster_round_label = SubtitleLabel(self.tr("半径："), self)
+        self.monster_round_label = SubtitleLabel(self.tr("半径:"), self)
         self.monster_round_edit = LineEdit(self)
         self.monster_round_edit.setPlaceholderText(self.tr("请输入仇恨半径"))
         self.monster_round_edit.setValidator(QIntValidator(1, 99, self))
@@ -779,7 +771,7 @@ class Spawn(QWidget):
                 self.spawn_table.setRowHidden(row, True)
 
     def handleMonsterLoad(self):
-        with open('src/data/monster.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/monster.txt', 'r', encoding='utf-8') as file:
             monster = file.readlines()
         self.spawn_table.setRowCount(len(monster))
         for i, line in enumerate(monster):
@@ -842,17 +834,17 @@ class Give(QWidget):
         self.give_button_group.addButton(self.food_button)
         self.give_button_group.addButton(self.head_button)
         
-        self.give_num_label = SubtitleLabel(self.tr("数量："), self)
+        self.give_num_label = SubtitleLabel(self.tr("数量:"), self)
         self.give_num_edit = LineEdit(self)
         self.give_num_edit.setPlaceholderText(self.tr("请输入物品数量"))
         self.give_num_edit.setValidator(QIntValidator(self))
 
-        self.give_level_label = SubtitleLabel(self.tr("等级："), self)
+        self.give_level_label = SubtitleLabel(self.tr("等级:"), self)
         self.give_level_edit = LineEdit(self)
         self.give_level_edit.setPlaceholderText(self.tr("请输入角色/光锥等级"))
         self.give_level_edit.setValidator(QIntValidator(1, 99, self))
 
-        self.give_eidolon_label = SubtitleLabel(self.tr("星魂/叠影："), self)
+        self.give_eidolon_label = SubtitleLabel(self.tr("星魂/叠影:"), self)
         self.give_eidolon_edit = LineEdit(self)
         self.give_eidolon_edit.setPlaceholderText(self.tr("请输入角色星魂/光锥叠影"))
         self.give_eidolon_edit.setValidator(QIntValidator(1, 9, self))
@@ -946,7 +938,7 @@ class Give(QWidget):
         interface[types]()
 
     def handleAvatarLoad(self):
-        with open('src/data/avatar.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/avatar.txt', 'r', encoding='utf-8') as file:
             avatar = file.readlines()
         self.give_table.setRowCount(len(avatar))
         for i, line in enumerate(avatar):
@@ -959,7 +951,7 @@ class Give(QWidget):
         self.give_table.setHorizontalHeaderLabels([self.tr('角色名称'), 'ID'])
 
     def handleLightconeLoad(self):
-        with open('src/data/lightcone.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/lightcone.txt', 'r', encoding='utf-8') as file:
             lightcone = file.readlines()
         self.give_table.setRowCount(len(lightcone))
         for i, line in enumerate(lightcone):
@@ -972,7 +964,7 @@ class Give(QWidget):
         self.give_table.setHorizontalHeaderLabels([self.tr('光锥名称'), 'ID'])
 
     def handleItemLoad(self):
-        with open('src/data/item.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/item.txt', 'r', encoding='utf-8') as file:
             item = file.readlines()
         self.give_table.setRowCount(len(item))
         for i, line in enumerate(item):
@@ -985,7 +977,7 @@ class Give(QWidget):
         self.give_table.setHorizontalHeaderLabels([self.tr('物品名称'), 'ID'])
 
     def handleFoodLoad(self):
-        with open('src/data/food.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/food.txt', 'r', encoding='utf-8') as file:
             food = file.readlines()
         self.give_table.setRowCount(len(food))
         for i, line in enumerate(food):
@@ -998,7 +990,7 @@ class Give(QWidget):
         self.give_table.setHorizontalHeaderLabels([self.tr('食物名称'), 'ID'])
 
     def handleHeadLoad(self):
-        with open('src/data/head.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/head.txt', 'r', encoding='utf-8') as file:
             head = file.readlines()
         self.give_table.setRowCount(len(head))
         for i, line in enumerate(head):
@@ -1081,10 +1073,10 @@ class Relic(QWidget):
         self.entry_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
         # 当前信息
-        self.main_now_label = SubtitleLabel(self.tr("当前主词条："), self)
+        self.main_now_label = SubtitleLabel(self.tr("当前主词条:"), self)
         self.main_now_edit = LineEdit(self)
         self.main_now_edit.setReadOnly(True)
-        self.side_now_label = SubtitleLabel(self.tr("当前副词条："), self)
+        self.side_now_label = SubtitleLabel(self.tr("当前副词条:"), self)
 
         self.now_table = TableWidget(self)
         self.now_table.setColumnCount(2)
@@ -1113,7 +1105,7 @@ class Relic(QWidget):
         self.delete_num_button = PrimaryToolButton(FIF.DELETE)
         self.delete_num_button.setFixedSize(35, 35)
 
-        self.level_label = SubtitleLabel(self.tr("等级："), self)
+        self.level_label = SubtitleLabel(self.tr("等级:"), self)
         self.level_edit = LineEdit(self)
         self.level_edit.setPlaceholderText(self.tr("请输入生成遗器的等级"))
         self.level_edit.setValidator(QIntValidator(1, 99, self))
@@ -1341,7 +1333,7 @@ class Relic(QWidget):
 
     # 读取和加载页面信息相关
     def handleBaseRelicLoad(self):
-        with open('src/data/relic.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/relic.txt', 'r', encoding='utf-8') as file:
             relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
         for i, line in enumerate(relic):
@@ -1352,7 +1344,7 @@ class Relic(QWidget):
         self.relic_table.setHorizontalHeaderLabels([self.tr('遗器名称'), self.tr('部位'), 'ID'])
 
     def handleCustomRelicLoad(self):
-        with open('src/data/myrelic.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/myrelic.txt', 'r', encoding='utf-8') as file:
             relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
         for i, line in enumerate(relic):
@@ -1368,7 +1360,7 @@ class Relic(QWidget):
         self.relic_table.setHorizontalHeaderLabels([self.tr('遗器名称'), self.tr('部位'), self.tr('适用角色'), 'command'])
 
     def handleEntryLoad(self):
-        with open('src/data/entry.txt', 'r', encoding='utf-8') as file:
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/entry.txt', 'r', encoding='utf-8') as file:
             entry = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.entry_table.setRowCount(len(entry))
         for i, line in enumerate(entry):

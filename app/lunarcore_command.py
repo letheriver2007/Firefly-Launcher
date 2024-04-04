@@ -587,7 +587,7 @@ class Clear(SettingCard):
         super().__init__(icon, title, content)
         self.texts=[self.tr('全部'), self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('物品')]
         self.comboBox = ComboBox(self)
-        self.comboBox.setPlaceholderText('选择物品')
+        self.comboBox.setPlaceholderText(self.tr('选择物品'))
         self.comboBox.addItems(self.texts)
         self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)

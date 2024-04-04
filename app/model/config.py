@@ -18,7 +18,7 @@ def get_version_type(version):
 
 class Language(Enum):
     CHINESE_SIMPLIFIED = QLocale(QLocale.Chinese, QLocale.China)
-    CHINESE_TRADITIONAL = QLocale(QLocale.Chinese, QLocale.HongKong)
+    CHINESE_TRADITIONAL = QLocale(QLocale.Chinese, QLocale.Taiwan)
     ENGLISH = QLocale(QLocale.English)
     AUTO = QLocale()
 

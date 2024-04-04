@@ -4,22 +4,22 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../../app/setting_interface.py" line="296"/>
+        <location filename="../../app/setting_interface.py" line="298"/>
         <source>   作者主页</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="297"/>
+        <location filename="../../app/setting_interface.py" line="299"/>
         <source>   Github项目</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="298"/>
+        <location filename="../../app/setting_interface.py" line="300"/>
         <source>   版本发布</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="299"/>
+        <location filename="../../app/setting_interface.py" line="301"/>
         <source>   反馈交流</source>
         <translation type="unfinished"></translation>
     </message>
@@ -45,37 +45,37 @@
 <context>
     <name>Avatar</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="558"/>
+        <location filename="../../app/lunarcore_command.py" line="553"/>
         <source>等级</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="559"/>
+        <location filename="../../app/lunarcore_command.py" line="554"/>
         <source>星魂</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="560"/>
+        <location filename="../../app/lunarcore_command.py" line="555"/>
         <source>行迹</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="569"/>
+        <location filename="../../app/lunarcore_command.py" line="561"/>
         <source>当前</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="569"/>
+        <location filename="../../app/lunarcore_command.py" line="561"/>
         <source>队伍</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="570"/>
+        <location filename="../../app/lunarcore_command.py" line="562"/>
         <source>全部</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="571"/>
+        <location filename="../../app/lunarcore_command.py" line="563"/>
         <source>应用范围</source>
         <translation type="unfinished"></translation>
     </message>
@@ -83,28 +83,33 @@
 <context>
     <name>Clear</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="596"/>
+        <location filename="../../app/lunarcore_command.py" line="588"/>
         <source>全部</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="596"/>
+        <location filename="../../app/lunarcore_command.py" line="588"/>
         <source>遗器</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="596"/>
+        <location filename="../../app/lunarcore_command.py" line="588"/>
         <source>光锥</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="596"/>
+        <location filename="../../app/lunarcore_command.py" line="588"/>
         <source>材料</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="597"/>
+        <location filename="../../app/lunarcore_command.py" line="589"/>
         <source>物品</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/lunarcore_command.py" line="590"/>
+        <source>选择物品</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -170,12 +175,12 @@
 <context>
     <name>Gender</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="527"/>
+        <location filename="../../app/lunarcore_command.py" line="523"/>
         <source>星</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="528"/>
+        <location filename="../../app/lunarcore_command.py" line="524"/>
         <source>穹</source>
         <translation type="unfinished"></translation>
     </message>
@@ -183,87 +188,87 @@
 <context>
     <name>Give</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="805"/>
+        <location filename="../../app/lunarcore_command.py" line="797"/>
         <source>搜索物品</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="821"/>
+        <location filename="../../app/lunarcore_command.py" line="813"/>
         <source>角色</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="823"/>
+        <location filename="../../app/lunarcore_command.py" line="815"/>
         <source>光锥</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="825"/>
+        <location filename="../../app/lunarcore_command.py" line="817"/>
         <source>物品</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="827"/>
+        <location filename="../../app/lunarcore_command.py" line="819"/>
         <source>食物</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="829"/>
+        <location filename="../../app/lunarcore_command.py" line="821"/>
         <source>头像</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="845"/>
+        <location filename="../../app/lunarcore_command.py" line="837"/>
         <source>数量:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="847"/>
+        <location filename="../../app/lunarcore_command.py" line="839"/>
         <source>请输入物品数量</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="850"/>
+        <location filename="../../app/lunarcore_command.py" line="842"/>
         <source>等级:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="852"/>
+        <location filename="../../app/lunarcore_command.py" line="844"/>
         <source>请输入角色/光锥等级</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="855"/>
+        <location filename="../../app/lunarcore_command.py" line="847"/>
         <source>星魂/叠影:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="857"/>
+        <location filename="../../app/lunarcore_command.py" line="849"/>
         <source>请输入角色星魂/光锥叠影</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="959"/>
+        <location filename="../../app/lunarcore_command.py" line="951"/>
         <source>角色名称</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="972"/>
+        <location filename="../../app/lunarcore_command.py" line="964"/>
         <source>光锥名称</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="985"/>
+        <location filename="../../app/lunarcore_command.py" line="977"/>
         <source>物品名称</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="998"/>
+        <location filename="../../app/lunarcore_command.py" line="990"/>
         <source>食物名称</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1011"/>
+        <location filename="../../app/lunarcore_command.py" line="1003"/>
         <source>头像名称</source>
         <translation type="unfinished"></translation>
     </message>
@@ -307,7 +312,7 @@
 <context>
     <name>Kick</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="498"/>
+        <location filename="../../app/lunarcore_command.py" line="495"/>
         <source>使用</source>
         <translation type="unfinished"></translation>
     </message>
@@ -704,72 +709,77 @@
 <context>
     <name>Main</name>
     <message>
-        <location filename="../../app/main_interface.py" line="48"/>
+        <location filename="../../app/main_interface.py" line="49"/>
         <source>主页</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="50"/>
+        <location filename="../../app/main_interface.py" line="51"/>
         <source>启动器</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="52"/>
+        <location filename="../../app/main_interface.py" line="53"/>
         <source>环境</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="54"/>
+        <location filename="../../app/main_interface.py" line="55"/>
         <source>LC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="56"/>
+        <location filename="../../app/main_interface.py" line="57"/>
         <source>代理</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="61"/>
+        <location filename="../../app/main_interface.py" line="62"/>
         <source>主题</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="68"/>
+        <location filename="../../app/main_interface.py" line="69"/>
         <source>设置</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="105"/>
+        <location filename="../../app/main_interface.py" line="118"/>
+        <source>检查字体失败: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/main_interface.py" line="135"/>
         <source>登录成功</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="118"/>
+        <location filename="../../app/main_interface.py" line="148"/>
         <source>密码错误!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="119"/>
+        <location filename="../../app/main_interface.py" line="149"/>
         <source>次数:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="143"/>
+        <location filename="../../app/main_interface.py" line="173"/>
         <source>检测到新版本: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="153"/>
+        <location filename="../../app/main_interface.py" line="183"/>
         <source>当前是最新版本: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="163"/>
+        <location filename="../../app/main_interface.py" line="193"/>
         <source>检测更新失败: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/main_interface.py" line="184"/>
+        <location filename="../../app/main_interface.py" line="214"/>
         <source>未找到语音，请重新下载！</source>
         <translation type="unfinished"></translation>
     </message>
@@ -936,90 +946,90 @@
 <context>
     <name>Relic</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1026"/>
+        <location filename="../../app/lunarcore_command.py" line="1018"/>
         <source>搜索遗器</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1029"/>
+        <location filename="../../app/lunarcore_command.py" line="1021"/>
         <source>基础</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1031"/>
+        <location filename="../../app/lunarcore_command.py" line="1023"/>
         <source>预设</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1056"/>
+        <location filename="../../app/lunarcore_command.py" line="1048"/>
         <source>搜索词条</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1059"/>
+        <location filename="../../app/lunarcore_command.py" line="1051"/>
         <source>主词条</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1060"/>
+        <location filename="../../app/lunarcore_command.py" line="1052"/>
         <source>副词条</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1084"/>
+        <location filename="../../app/lunarcore_command.py" line="1076"/>
         <source>当前主词条:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1087"/>
+        <location filename="../../app/lunarcore_command.py" line="1079"/>
         <source>当前副词条:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1108"/>
-        <location filename="../../app/lunarcore_command.py" line="1388"/>
+        <location filename="../../app/lunarcore_command.py" line="1100"/>
+        <location filename="../../app/lunarcore_command.py" line="1380"/>
         <source>数量</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1116"/>
+        <location filename="../../app/lunarcore_command.py" line="1108"/>
         <source>等级:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1118"/>
+        <location filename="../../app/lunarcore_command.py" line="1110"/>
         <source>请输入生成遗器的等级</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1284"/>
-        <location filename="../../app/lunarcore_command.py" line="1290"/>
+        <location filename="../../app/lunarcore_command.py" line="1276"/>
+        <location filename="../../app/lunarcore_command.py" line="1282"/>
+        <location filename="../../app/lunarcore_command.py" line="1297"/>
         <location filename="../../app/lunarcore_command.py" line="1305"/>
-        <location filename="../../app/lunarcore_command.py" line="1313"/>
         <source>通用</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1352"/>
-        <location filename="../../app/lunarcore_command.py" line="1368"/>
+        <location filename="../../app/lunarcore_command.py" line="1344"/>
+        <location filename="../../app/lunarcore_command.py" line="1360"/>
         <source>遗器名称</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1352"/>
-        <location filename="../../app/lunarcore_command.py" line="1368"/>
-        <location filename="../../app/lunarcore_command.py" line="1379"/>
+        <location filename="../../app/lunarcore_command.py" line="1344"/>
+        <location filename="../../app/lunarcore_command.py" line="1360"/>
+        <location filename="../../app/lunarcore_command.py" line="1371"/>
         <source>部位</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1368"/>
+        <location filename="../../app/lunarcore_command.py" line="1360"/>
         <source>适用角色</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="1379"/>
-        <location filename="../../app/lunarcore_command.py" line="1388"/>
+        <location filename="../../app/lunarcore_command.py" line="1371"/>
+        <location filename="../../app/lunarcore_command.py" line="1380"/>
         <source>词条名称</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1027,12 +1037,12 @@
 <context>
     <name>Scene</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="619"/>
+        <location filename="../../app/lunarcore_command.py" line="611"/>
         <source>搜索场景</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="679"/>
+        <location filename="../../app/lunarcore_command.py" line="671"/>
         <source>场景描述</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1144,7 +1154,7 @@
     <message>
         <location filename="../../app/setting_interface.py" line="92"/>
         <location filename="../../app/setting_interface.py" line="158"/>
-        <location filename="../../app/setting_interface.py" line="267"/>
+        <location filename="../../app/setting_interface.py" line="269"/>
         <source>代理端口:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1194,67 +1204,67 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="166"/>
+        <location filename="../../app/setting_interface.py" line="168"/>
         <source>自动复制功能已开启！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="166"/>
+        <location filename="../../app/setting_interface.py" line="168"/>
         <source>自动复制功能已关闭！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="167"/>
+        <location filename="../../app/setting_interface.py" line="169"/>
         <source>登录功能已开启！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="167"/>
+        <location filename="../../app/setting_interface.py" line="169"/>
         <source>登录功能已关闭！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="168"/>
+        <location filename="../../app/setting_interface.py" line="170"/>
         <source>流萤语音已开启！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="168"/>
+        <location filename="../../app/setting_interface.py" line="170"/>
         <source>流萤语音已关闭！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="169"/>
+        <location filename="../../app/setting_interface.py" line="171"/>
         <source>代理端口已开启！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="169"/>
+        <location filename="../../app/setting_interface.py" line="171"/>
         <source>代理端口已关闭！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="171"/>
+        <location filename="../../app/setting_interface.py" line="173"/>
         <source>国内镜像已开启！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="171"/>
+        <location filename="../../app/setting_interface.py" line="173"/>
         <source>国内镜像已关闭！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="221"/>
+        <location filename="../../app/setting_interface.py" line="223"/>
         <source>代理设置冲突,优先使用国内镜像！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="240"/>
+        <location filename="../../app/setting_interface.py" line="242"/>
         <source>全局代理已更改！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/setting_interface.py" line="250"/>
+        <location filename="../../app/setting_interface.py" line="252"/>
         <source>全局代理关闭失败！</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1262,42 +1272,42 @@
 <context>
     <name>Spawn</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="691"/>
+        <location filename="../../app/lunarcore_command.py" line="683"/>
         <source>数量:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="693"/>
+        <location filename="../../app/lunarcore_command.py" line="685"/>
         <source>请输入怪物数量</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="696"/>
+        <location filename="../../app/lunarcore_command.py" line="688"/>
         <source>等级:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="698"/>
+        <location filename="../../app/lunarcore_command.py" line="690"/>
         <source>请输入怪物等级</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="701"/>
+        <location filename="../../app/lunarcore_command.py" line="693"/>
         <source>半径:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="703"/>
+        <location filename="../../app/lunarcore_command.py" line="695"/>
         <source>请输入仇恨半径</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="707"/>
+        <location filename="../../app/lunarcore_command.py" line="699"/>
         <source>搜索怪物</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="792"/>
+        <location filename="../../app/lunarcore_command.py" line="784"/>
         <source>怪物名称</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1305,7 +1315,7 @@
 <context>
     <name>Unstuck</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="514"/>
+        <location filename="../../app/lunarcore_command.py" line="510"/>
         <source>使用</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1331,7 +1341,7 @@
 <context>
     <name>WorldLevel</name>
     <message>
-        <location filename="../../app/lunarcore_command.py" line="542"/>
+        <location filename="../../app/lunarcore_command.py" line="538"/>
         <source>开拓等级</source>
         <translation type="unfinished"></translation>
     </message>

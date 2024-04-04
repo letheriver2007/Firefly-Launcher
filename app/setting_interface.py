@@ -161,6 +161,8 @@ class Setting(ScrollArea):
         
     def __connectSignalToSlot(self):
         self.themeColorCard.colorChanged.connect(lambda c: setThemeColor(c, lazy=True))
+        self.zoomCard.comboBox.currentIndexChanged.connect(self.restart_application)
+        self.languageCard.comboBox.currentIndexChanged.connect(self.restart_application)
         self.updateOnStartUpCard.clicked.connect(lambda: checkUpdate(self.parent))
         self.restartCard.clicked.connect(self.restart_application)
         self.autoCopyCard.checkedChanged.connect(lambda: self.common_changed(cfg.autoCopy.value, self.tr('自动复制功能已开启！'), self.tr('自动复制功能已关闭！')))

@@ -2,6 +2,7 @@ import os
 import sys
 import glob
 import random
+import winreg
 import hashlib
 import subprocess
 from PySide6.QtWidgets import QApplication
@@ -93,8 +94,37 @@ class Main(MSFluentWindow):
         QApplication.processEvents()
 
     def checkFont(self):
-        font_path = os.path.expandvars('%UserProfile%\AppData\Local\Microsoft\Windows\Fonts\zh-cn.ttf')
-        if not os.path.exists(font_path):
+        isSetupFont = False
+        registry_keys = [
+            (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"),
+            (winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows NT\CurrentVersion\Fonts")
+        ]
+        try:
+            for hkey, sub_key in registry_keys:
+                reg = winreg.ConnectRegistry(None, hkey)
+                reg_key = winreg.OpenKey(reg, sub_key)
+                i = 0
+                while True:
+                    try:
+                        name, data, type = winreg.EnumValue(reg_key, i)
+                        if cfg.APP_FONT.lower() in name.lower():
+                            isSetupFont = True
+                        i += 1
+                    except OSError:
+                        break
+                winreg.CloseKey(reg_key)
+        except Exception as e:
+            InfoBar.error(
+                title=self.tr('检查字体失败: '),
+                content=str(e),
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+
+        if not isSetupFont:
             subprocess.run('cd src/patch/font && start zh-cn.ttf', shell=True)
             sys.exit()
 

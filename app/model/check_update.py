@@ -47,7 +47,7 @@ class UpdateThread(QThread):
         super().__init__()
     
     def run(self):
-        if os.path.exists('firefly-launcher.py'):
+        if not os.path.exists('firefly-launcher.py'):
             latest_version = get_latest_version()
             installed_version = get_json('./config/version.json', 'APP_VERSION')
             if latest_version and installed_version:

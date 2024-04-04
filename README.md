@@ -9,7 +9,10 @@
 ### 警告
 本仓库已开源 , 严禁二次打包发布 , 严禁倒卖 , 违者必究 ！！！
 ### 鸣谢
+#### UI组件库来源
  - [PySide6-Fluent-Widgets](https://github.com/zhiyiYo/PyQt-Fluent-Widgets/tree/PySide6)
+#### 翻译贡献
+ - [哆啦D夢|DuolaD](https://github.com/DuolaD)
 ## 使用
 ### 安装
 #### 方法一(普通)

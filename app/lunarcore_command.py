@@ -76,8 +76,11 @@ class LunarCoreCommand(ScrollArea):
         self.genderCard = Gender(
             self.tr('设置开拓者性别')
         )
-        self.worldLevelCard = WorldLevel(
+        self.trailblazeLevelCard = TrailblazeLevel(
             self.tr('设置开拓等级')
+        )
+        self.equilibriumLevelCard = EquilibriumLevel(
+            self.tr('设置均衡等级')
         )
         self.avatarCard = Avatar(
             self.tr('设置角色属性')
@@ -122,7 +125,8 @@ class LunarCoreCommand(ScrollArea):
         self.ServerInterface.addSettingCard(self.kickCard)
         self.ServerInterface.addSettingCard(self.unstuckCard)
         self.PersonalInterface.addSettingCard(self.genderCard)
-        self.PersonalInterface.addSettingCard(self.worldLevelCard)
+        self.PersonalInterface.addSettingCard(self.trailblazeLevelCard)
+        self.PersonalInterface.addSettingCard(self.equilibriumLevelCard)
         self.PersonalInterface.addSettingCard(self.avatarCard)
         self.PersonalInterface.addSettingCard(self.clearCard)
 
@@ -183,13 +187,15 @@ class LunarCoreCommand(ScrollArea):
 
         self.genderCard.gender_male.connect(lambda: self.buttonClicked.emit('/gender male'))
         self.genderCard.gender_female.connect(lambda: self.buttonClicked.emit('/gender female'))
-        self.worldLevelCard.set_level.connect(self.handleWorldLevelClicked)
+        self.trailblazeLevelCard.set_trailblaze_level.connect(self.handleTrailblazeLevelClicked)
+        self.equilibriumLevelCard.set_equilibrium_level.connect(self.handleEquilibriumLevelClicked)
         self.avatarCard.avatar_set.connect(lambda index: self.handleAvatarClicked(index))
         self.clearCard.clear_clicked.connect(lambda itemid: self.handleClearClicked(itemid))
 
         self.SceneInterface.scene_id_signal.connect(lambda scene_id: self.buttonClicked.emit('/scene '+ scene_id))
-        self.SpawnInterface.monster_id_signal.connect(lambda monster_id: self.handleSpawnClicked(monster_id))
+        self.SpawnInterface.monster_id_signal.connect(lambda monster_id, stage_id: self.handleSpawnClicked(monster_id, stage_id))
         self.GiveInterface.item_id_signal.connect(lambda item_id, types: self.handleGiveClicked(item_id, types))
+        self.GiveInterface.mygive_signal.connect(lambda command: self.buttonClicked.emit(command))
         self.RelicInterface.relic_id_signal.connect(lambda relic_id: self.handleRelicClicked(relic_id))
         self.RelicInterface.custom_relic_signal.connect(lambda command: self.buttonClicked.emit(command))
 
@@ -207,6 +213,7 @@ class LunarCoreCommand(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
+        self.updateText.clear()
     
     def handlebuttonClicked(self, text):
         self.updateText.clear()
@@ -353,10 +360,17 @@ class LunarCoreCommand(ScrollArea):
                 parent=self.parent
             )
     
-    def handleWorldLevelClicked(self):
-        world_level = self.worldLevelCard.world_level.text()
-        if world_level != '':
-            self.buttonClicked.emit('/worldlevel ' + world_level)
+    def handleTrailblazeLevelClicked(self):
+        trailblaze_level = self.trailblazeLevelCard.trailblaze_level.text()
+        if trailblaze_level != '':
+            self.buttonClicked.emit('/level ' + trailblaze_level)
+        else:
+            self.buttonClicked.emit('')
+
+    def handleEquilibriumLevelClicked(self):
+        equilibrium_level = self.equilibriumLevelCard.equilibrium_level.text()
+        if equilibrium_level != '':
+            self.buttonClicked.emit('/worldlevel ' + equilibrium_level)
         else:
             self.buttonClicked.emit('')
     
@@ -379,11 +393,11 @@ class LunarCoreCommand(ScrollArea):
         else:
             self.buttonClicked.emit('')
 
-    def handleSpawnClicked(self, monster_id):
+    def handleSpawnClicked(self, monster_id, stage_id):
         monster_num_edit = self.SpawnInterface.monster_num_edit.text()
         monster_level_edit = self.SpawnInterface.monster_level_edit.text()
         monster_round_edit = self.SpawnInterface.monster_round_edit.text()
-        command = '/spawn ' + monster_id
+        command = '/spawn ' + monster_id + ' ' + stage_id
         if monster_num_edit != '':
             command += ' x' + monster_num_edit
         if monster_level_edit != '':
@@ -397,19 +411,19 @@ class LunarCoreCommand(ScrollArea):
         give_eidolon_edit = self.GiveInterface.give_eidolon_edit.text()
         give_num_edit = self.GiveInterface.give_num_edit.text()
         command = '/give ' + item_id
-        if types == 'avatar':
+        if types == 0:
             if give_level_edit != '':
                 command += ' lv' + give_level_edit
             if give_eidolon_edit != '':
                 command += ' r' + give_eidolon_edit
-        elif types == 'lightcone':
+        elif types == 1:
             if give_num_edit != '':
                 command += ' x' + give_num_edit
             if give_level_edit != '':
                 command += ' lv' + give_level_edit
             if give_eidolon_edit != '':
                 command += ' r' + give_eidolon_edit
-        elif types == 'item' or types == 'food':
+        elif types == 2 or types == 3:
             if give_num_edit != '':
                 command += ' x' + give_num_edit
         self.buttonClicked.emit(command)
@@ -417,7 +431,7 @@ class LunarCoreCommand(ScrollArea):
     def handleRelicClicked(self, relic_id):
         relic_level = self.RelicInterface.level_edit.text()
         main_entry_name = self.RelicInterface.main_now_edit.text()
-        side_entry_name = self.RelicInterface.now_list
+        now_list_nozero = {k: v for k, v in self.RelicInterface.now_list.items() if v > 0}
         entry_table = self.RelicInterface.entry_table
         command = '/give ' + relic_id
 
@@ -427,17 +441,17 @@ class LunarCoreCommand(ScrollArea):
         if main_entry_name != '':
             entry_index = 0
             for i in range(entry_table.rowCount()):
-                if entry_table.item(i, 0).text() == main_entry_name and entry_table.item(i, 1).text() != '通用':
+                if entry_table.item(i, 0).text() == main_entry_name and entry_table.item(i, 1).text() != self.tr('通用'):
                     entry_index = i
                     break
             main_entry = entry_table.item(entry_index, 2).text()
             command += ' s' + main_entry
         
-        for entry_name, entry_num in side_entry_name.items():
+        for entry_name, entry_num in now_list_nozero.items():
             if entry_name != '':
                 entry_index = 0
                 for i in range(entry_table.rowCount()):
-                    if entry_table.item(i, 0).text() == entry_name and entry_table.item(i, 1).text() =='通用':
+                    if entry_table.item(i, 0).text() == entry_name and entry_table.item(i, 1).text() == self.tr('通用'):
                         entry_index = i
                         break
                 side_entry = entry_table.item(entry_index, 2).text()
@@ -530,17 +544,30 @@ class Gender(SettingCard):
         self.button_female.clicked.connect(self.gender_female)
 
 
-class WorldLevel(SettingCard):
-    set_level = Signal()
-    def __init__(self, title, icon=FIF.TAG, content='/worldlevel [world level]'):
+class TrailblazeLevel(SettingCard):
+    set_trailblaze_level = Signal()
+    def __init__(self, title, icon=FIF.TAG, content='/level [trailblaze level]'):
         super().__init__(icon, title, content)
-        self.world_level = LineEdit(self)
-        self.world_level.setPlaceholderText(self.tr("开拓等级"))
+        self.trailblaze_level = LineEdit(self)
+        self.trailblaze_level.setPlaceholderText(self.tr("开拓等级"))
         validator = QIntValidator(1, 99, self)
-        self.world_level.setValidator(validator)
-        self.hBoxLayout.addWidget(self.world_level, 0, Qt.AlignRight)
+        self.trailblaze_level.setValidator(validator)
+        self.hBoxLayout.addWidget(self.trailblaze_level, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.world_level.textChanged.connect(self.set_level)
+        self.trailblaze_level.textChanged.connect(self.set_trailblaze_level)
+
+
+class EquilibriumLevel(SettingCard):
+    set_equilibrium_level = Signal()
+    def __init__(self, title, icon=FIF.TAG, content='/worldlevel [equilibrium level]'):
+        super().__init__(icon, title, content)
+        self.equilibrium_level = LineEdit(self)
+        self.equilibrium_level.setPlaceholderText(self.tr("均衡等级"))
+        validator = QIntValidator(1, 9, self)
+        self.equilibrium_level.setValidator(validator)
+        self.hBoxLayout.addWidget(self.equilibrium_level, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.equilibrium_level.textChanged.connect(self.set_equilibrium_level)
 
 
 class Avatar(SettingCard):
@@ -672,7 +699,7 @@ class Scene(QWidget):
 
 
 class Spawn(QWidget):
-    monster_id_signal = Signal(str)
+    monster_id_signal = Signal(str, str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -696,29 +723,48 @@ class Spawn(QWidget):
         self.monster_round_edit.setValidator(QIntValidator(1, 99, self))
 
         self.monster_search_line = SearchLineEdit(self)
-        self.monster_search_line.setPlaceholderText(self.tr("搜索怪物"))
-        self.monster_search_line.setFixedSize(915, 35)
+        self.monster_search_line.setPlaceholderText(self.tr("搜索显示怪物"))
+        self.monster_search_line.setFixedSize(455, 35)
 
-        self.spawn_table = TableWidget(self)
-        self.spawn_table.setFixedSize(915, 420)
-        self.spawn_table.setColumnCount(2)
+        self.monster_table = TableWidget(self)
+        self.monster_table.setFixedSize(455, 420)
+        self.monster_table.setColumnCount(2)
 
-        self.spawn_table.setBorderVisible(True)
-        self.spawn_table.setBorderRadius(8)
-        self.spawn_table.setWordWrap(False)
-        self.spawn_table.verticalHeader().hide()
-        self.spawn_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.spawn_table.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.spawn_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.monster_table.setBorderVisible(True)
+        self.monster_table.setBorderRadius(8)
+        self.monster_table.setWordWrap(False)
+        self.monster_table.verticalHeader().hide()
+        self.monster_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.monster_table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.monster_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.stage_search_line = SearchLineEdit(self)
+        self.stage_search_line.setPlaceholderText(self.tr("搜索局内怪物"))
+        self.stage_search_line.setFixedSize(455, 35)
+
+        self.stage_table = TableWidget(self)
+        self.stage_table.setFixedSize(455, 420)
+        self.stage_table.setColumnCount(2)
+
+        self.stage_table.setBorderVisible(True)
+        self.stage_table.setBorderRadius(8)
+        self.stage_table.setWordWrap(False)
+        self.stage_table.verticalHeader().hide()
+        self.stage_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.stage_table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.stage_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.__initLayout()
         self.__initInfo()
         self.__connectSignalToSlot()
 
     def __initLayout(self):
-        self.spawn_layout = QVBoxLayout()
-        self.spawn_layout.addWidget(self.monster_search_line)
-        self.spawn_layout.addWidget(self.spawn_table)
+        self.monster_layout = QVBoxLayout()
+        self.monster_layout.addWidget(self.monster_search_line)
+        self.monster_layout.addWidget(self.monster_table)
+        self.stage_layout = QVBoxLayout()
+        self.stage_layout.addWidget(self.stage_search_line)
+        self.stage_layout.addWidget(self.stage_table)
 
         self.set_layout = QVBoxLayout()
         self.set_layout.addSpacing(70)
@@ -736,56 +782,89 @@ class Spawn(QWidget):
         self.set_layout.addStretch(1)
 
         self.main_layout = QHBoxLayout()
-        self.main_layout.addLayout(self.spawn_layout)
+        self.main_layout.addLayout(self.monster_layout)
+        self.main_layout.addSpacing(20)
+        self.main_layout.addLayout(self.stage_layout)
         self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.set_layout)
         self.setLayout(self.main_layout)
 
     def __initInfo(self):
         self.handleMonsterLoad()
+        self.handleStageLoad()
 
     def __connectSignalToSlot(self):
         self.monster_search_line.textChanged.connect(self.handleMonsterSearch)
-        self.spawn_table.cellClicked.connect(self.handleSpawnSignal)
+        self.monster_table.cellClicked.connect(self.handleSpawnSignal)
+        self.stage_search_line.textChanged.connect(self.handleStageSearch)
+        self.stage_table.cellClicked.connect(self.handleSpawnSignal)
 
         self.monster_num_edit.textChanged.connect(self.handleSpawnSignal)
         self.monster_level_edit.textChanged.connect(self.handleSpawnSignal)
         self.monster_round_edit.textChanged.connect(self.handleSpawnSignal)
 
     def handleSpawnSignal(self):
-        selected_items = self.spawn_table.selectedItems()
-        if selected_items:
-            monster_id = selected_items[1].text()
-            self.monster_id_signal.emit(monster_id)
+        selected_monster = self.monster_table.selectedItems()
+        selected_stage = self.stage_table.selectedItems()
+        if selected_monster and selected_stage:
+            monster_id = selected_monster[1].text()
+            stage_id = selected_stage[1].text()
+            self.monster_id_signal.emit(monster_id, stage_id)
 
     def handleMonsterSearch(self):
         keyword = self.monster_search_line.text()
-        for row in range(self.spawn_table.rowCount()):
-            item_1 = self.spawn_table.item(row, 0)
-            item_2 = self.spawn_table.item(row, 1)
+        for row in range(self.monster_table.rowCount()):
+            item_1 = self.monster_table.item(row, 0)
+            item_2 = self.monster_table.item(row, 1)
             iskeyword_1 = item_1.text().lower().find(keyword.lower()) != -1
             iskeyword_2 = item_2.text().lower().find(keyword.lower()) != -1
             if iskeyword_1 or iskeyword_2:
-                self.spawn_table.setRowHidden(row, False)
+                self.monster_table.setRowHidden(row, False)
             else:
-                self.spawn_table.setRowHidden(row, True)
+                self.monster_table.setRowHidden(row, True)
+
+    def handleStageSearch(self):
+        keyword = self.stage_search_line.text()
+        for row in range(self.stage_table.rowCount()):
+            item_1 = self.stage_table.item(row, 0)
+            item_2 = self.stage_table.item(row, 1)
+            iskeyword_1 = item_1.text().lower().find(keyword.lower()) != -1
+            iskeyword_2 = item_2.text().lower().find(keyword.lower()) != -1
+            if iskeyword_1 or iskeyword_2:
+                self.stage_table.setRowHidden(row, False)
+            else:
+                self.stage_table.setRowHidden(row, True)
 
     def handleMonsterLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/monster.txt', 'r', encoding='utf-8') as file:
             monster = file.readlines()
-        self.spawn_table.setRowCount(len(monster))
+        self.monster_table.setRowCount(len(monster))
         for i, line in enumerate(monster):
             line = line.strip()
             parts = line.split(' : ')
             parts[0], parts[1] = parts[1], parts[0]
             monster[i] = ' : '.join(parts)
             for j, part in enumerate(parts):
-                self.spawn_table.setItem(i, j, QTableWidgetItem(part))
-        self.spawn_table.setHorizontalHeaderLabels([self.tr('怪物名称'), 'ID'])
+                self.monster_table.setItem(i, j, QTableWidgetItem(part))
+        self.monster_table.setHorizontalHeaderLabels([self.tr('显示怪物名称'), 'ID'])
+
+    def handleStageLoad(self):
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/stage.txt', 'r', encoding='utf-8') as file:
+            stage = file.readlines()
+        self.stage_table.setRowCount(len(stage))
+        for i, line in enumerate(stage):
+            line = line.strip()
+            parts = line.split(' : ')
+            parts[0], parts[1] = parts[1], parts[0]
+            stage[i] = ' : '.join(parts)
+            for j, part in enumerate(parts):
+                self.stage_table.setItem(i, j, QTableWidgetItem(part))
+        self.stage_table.setHorizontalHeaderLabels([self.tr('局内怪物名称'), 'ID'])
 
 
 class Give(QWidget):
     item_id_signal = Signal(str, str)
+    mygive_signal = Signal(str)
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -793,15 +872,38 @@ class Give(QWidget):
         self.__initWidget()
 
     def __initWidget(self):
+        self.mygive_search_line = SearchLineEdit(self)
+        self.mygive_search_line.setPlaceholderText(self.tr("搜索自定义命令"))
+        self.mygive_search_line.setFixedSize(265, 35)
+
+        self.mygive_table = TableWidget(self)
+        self.mygive_table.setFixedSize(265, 420)
+        self.mygive_table.setColumnCount(2)
+        self.mygive_table.setColumnWidth(0, 263)
+        self.mygive_table.setColumnWidth(1, 0)
+
+        self.mygive_table.setBorderVisible(True)
+        self.mygive_table.setBorderRadius(8)
+        self.mygive_table.setWordWrap(False)
+        self.mygive_table.verticalHeader().hide()
+        self.mygive_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.mygive_table.setSelectionMode(QAbstractItemView.SingleSelection)
+
+        self.mygive_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.mygive_table.setSelectionMode(QAbstractItemView.SingleSelection)
+
         self.give_search_line = SearchLineEdit(self)
         self.give_search_line.setPlaceholderText(self.tr("搜索物品"))
-        self.give_search_line.setFixedSize(915, 35)
+        self.give_search_line.setFixedSize(534, 35)
+        self.give_combobox = ComboBox(self)
+        self.give_combobox.setFixedSize(100, 35)
+        self.give_combobox.addItems([self.tr("角色"), self.tr("光锥"), self.tr("物品"), self.tr("食物"), self.tr("头像")])
 
         self.give_table = TableWidget(self)
-        self.give_table.setFixedSize(915, 420)
+        self.give_table.setFixedSize(645, 420)
         self.give_table.setColumnCount(2)
-        self.give_table.setColumnWidth(0, 613)
-        self.give_table.setColumnWidth(1, 300)
+        self.give_table.setColumnWidth(0, 493)
+        self.give_table.setColumnWidth(1, 150)
 
         self.give_table.setBorderVisible(True)
         self.give_table.setBorderRadius(8)
@@ -810,30 +912,6 @@ class Give(QWidget):
         self.give_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.give_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
-        self.avatar_button = TogglePushButton(self.tr("角色"), self)
-        self.avatar_button.setFixedSize(60, 35)
-        self.lightcone_button = TogglePushButton(self.tr("光锥"), self)
-        self.lightcone_button.setFixedSize(60, 35)
-        self.item_button = TogglePushButton(self.tr("物品"), self)
-        self.item_button.setFixedSize(60, 35)
-        self.food_button = TogglePushButton(self.tr("食物"), self)
-        self.food_button.setFixedSize(60, 35)
-        self.head_button = TogglePushButton(self.tr("头像"), self)
-        self.head_button.setFixedSize(60, 35)
-        self.avatar_button.setObjectName("avatar")
-        self.lightcone_button.setObjectName("lightcone")
-        self.item_button.setObjectName("item")
-        self.food_button.setObjectName("food")
-        self.head_button.setObjectName("head")
-        self.avatar_button.setChecked(True)
-
-        self.give_button_group = QButtonGroup(self)
-        self.give_button_group.addButton(self.avatar_button)
-        self.give_button_group.addButton(self.lightcone_button)
-        self.give_button_group.addButton(self.item_button)
-        self.give_button_group.addButton(self.food_button)
-        self.give_button_group.addButton(self.head_button)
-        
         self.give_num_label = SubtitleLabel(self.tr("数量:"), self)
         self.give_num_edit = LineEdit(self)
         self.give_num_edit.setPlaceholderText(self.tr("请输入物品数量"))
@@ -841,12 +919,12 @@ class Give(QWidget):
 
         self.give_level_label = SubtitleLabel(self.tr("等级:"), self)
         self.give_level_edit = LineEdit(self)
-        self.give_level_edit.setPlaceholderText(self.tr("请输入角色/光锥等级"))
+        self.give_level_edit.setPlaceholderText(self.tr("请输入等级"))
         self.give_level_edit.setValidator(QIntValidator(1, 99, self))
 
         self.give_eidolon_label = SubtitleLabel(self.tr("星魂/叠影:"), self)
         self.give_eidolon_edit = LineEdit(self)
-        self.give_eidolon_edit.setPlaceholderText(self.tr("请输入角色星魂/光锥叠影"))
+        self.give_eidolon_edit.setPlaceholderText(self.tr("请输入星魂/叠影"))
         self.give_eidolon_edit.setValidator(QIntValidator(1, 9, self))
 
         self.__initLayout()
@@ -854,27 +932,20 @@ class Give(QWidget):
         self.__connectSignalToSlot()
     
     def __initLayout(self):
+        self.mygive_layout = QVBoxLayout()
+        self.mygive_layout.addWidget(self.mygive_search_line)
+        self.mygive_layout.addWidget(self.mygive_table)
+
+        self.give_line_layout = QHBoxLayout()
+        self.give_line_layout.addWidget(self.give_search_line)
+        self.give_line_layout.addSpacing(5)
+        self.give_line_layout.addWidget(self.give_combobox)
         self.give_layout = QVBoxLayout()
-        self.give_layout.addWidget(self.give_search_line)
+        self.give_layout.addLayout(self.give_line_layout)
         self.give_layout.addWidget(self.give_table)
 
-        horizontal_layout1 = QHBoxLayout()
-        horizontal_layout1.addWidget(self.avatar_button)
-        horizontal_layout1.addWidget(self.lightcone_button)
-        horizontal_layout1.addWidget(self.item_button)
-        horizontal_layout2 = QHBoxLayout()
-        horizontal_layout2.addWidget(self.food_button)
-        horizontal_layout2.addWidget(self.head_button)
-        horizontal_layout2.addSpacing(70)
-        vertical_layout = QVBoxLayout()
-        vertical_layout.addSpacing(65)
-        vertical_layout.addLayout(horizontal_layout1)
-        vertical_layout.addSpacing(5)
-        vertical_layout.addLayout(horizontal_layout2)
-
         self.set_layout = QVBoxLayout()
-        self.set_layout.addLayout(vertical_layout)
-        self.set_layout.addSpacing(20)
+        self.set_layout.addSpacing(70)
         self.set_layout.addWidget(self.give_num_label)
         self.set_layout.addSpacing(5)
         self.set_layout.addWidget(self.give_num_edit)
@@ -889,23 +960,24 @@ class Give(QWidget):
         self.set_layout.addStretch(1)
 
         self.main_layout = QHBoxLayout()
+        self.main_layout.addLayout(self.mygive_layout)
+        self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.give_layout)
         self.main_layout.addSpacing(20)
         self.main_layout.addLayout(self.set_layout)
         self.setLayout(self.main_layout)
 
     def __initInfo(self):
+        self.handleMyGiveLoad()
         self.handleAvatarLoad()
 
     def __connectSignalToSlot(self):
-        self.give_table.cellClicked.connect(self.handleGiveSignal)
-        self.give_search_line.textChanged.connect(self.handleGiveSearch)
+        self.mygive_search_line.textChanged.connect(self.handleGiveSearch)
+        self.mygive_table.cellClicked.connect(self.handleMyGiveSignal)
 
-        self.avatar_button.clicked.connect(lambda: self.handleGiveTypeChanged("avatar"))
-        self.lightcone_button.clicked.connect(lambda: self.handleGiveTypeChanged("lightcone"))
-        self.item_button.clicked.connect(lambda: self.handleGiveTypeChanged("item"))
-        self.food_button.clicked.connect(lambda: self.handleGiveTypeChanged("food"))
-        self.head_button.clicked.connect(lambda: self.handleGiveTypeChanged("head"))
+        self.give_search_line.textChanged.connect(self.handleGiveSearch)
+        self.give_table.cellClicked.connect(self.handleGiveSignal)
+        self.give_combobox.currentIndexChanged.connect(lambda index: self.handleGiveTypeChanged(index))
 
         self.give_num_edit.textChanged.connect(self.handleGiveSignal)
         self.give_level_edit.textChanged.connect(self.handleGiveSignal)
@@ -913,10 +985,16 @@ class Give(QWidget):
    
     def handleGiveSignal(self):
         selected_items = self.give_table.selectedItems()
-        types = self.give_button_group.checkedButton().objectName()
+        types = self.give_combobox.currentIndex()
         if selected_items:
             item_id = selected_items[1].text()
             self.item_id_signal.emit(item_id, types)
+
+    def handleMyGiveSignal(self):
+        selected_items = self.mygive_table.selectedItems()
+        if selected_items:
+            command = selected_items[1].text()
+            self.mygive_signal.emit(command)
 
     def handleGiveSearch(self):
         keyword = self.give_search_line.text()
@@ -929,14 +1007,35 @@ class Give(QWidget):
                 self.give_table.setRowHidden(row, False)
             else:
                 self.give_table.setRowHidden(row, True)
+    
+    def handleMyGiveSearch(self):
+        keyword = self.mygive_search_line.text()
+        for row in range(self.mygive_table.rowCount()):
+            item_1 = self.mygive_table.item(row, 0)
+            iskeyword_1 = item_1.text().lower().find(keyword.lower()) != -1
+            if iskeyword_1:
+                self.mygive_table.setRowHidden(row, False)
+            else:
+                self.mygive_table.setRowHidden(row, True)
 
-    def handleGiveTypeChanged(self, types):
-        interface = {
-            'avatar': self.handleAvatarLoad, 'lightcone': self.handleLightconeLoad,
-            'item': self.handleItemLoad, 'food': self.handleFoodLoad, 'head': self.handleHeadLoad
-        }
-        interface[types]()
+    def handleGiveTypeChanged(self, index):
+        interface = [
+            self.handleAvatarLoad, self.handleLightconeLoad,
+            self.handleItemLoad, self.handleFoodLoad, self.handleHeadLoad
+        ]
+        interface[index]()
 
+    def handleMyGiveLoad(self):
+        with open(f'src/data/{cfg.get(cfg.language).value.name()}/mygive.txt', 'r', encoding='utf-8') as file:
+            mygive = file.readlines()
+        self.mygive_table.setRowCount(len(mygive))
+        for i, line in enumerate(mygive):
+            line = line.strip()
+            parts = line.split(' : ')
+            for j, part in enumerate(parts):
+                self.mygive_table.setItem(i, j, QTableWidgetItem(part))
+        self.mygive_table.setHorizontalHeaderLabels([self.tr('自定义命令'), 'command'])
+    
     def handleAvatarLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/avatar.txt', 'r', encoding='utf-8') as file:
             avatar = file.readlines()
@@ -1013,7 +1112,7 @@ class Relic(QWidget):
         self.__initWidget()
 
     def __initWidget(self):
-        # 遗物
+        # 遗器
         self.relic_search_line = SearchLineEdit(self)
         self.relic_search_line.setPlaceholderText(self.tr("搜索遗器"))
         self.relic_search_line.setFixedSize(258, 35)
@@ -1090,8 +1189,6 @@ class Relic(QWidget):
         self.now_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.now_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-        self.add_side_button = PrimaryToolButton(FIF.RIGHT_ARROW)
-        self.add_side_button.setFixedSize(35, 35)
         self.add_num_button = PrimaryToolButton(FIF.ADD)
         self.add_num_button.setFixedSize(35, 35)
         self.minus_num_button = PrimaryToolButton(FIF.REMOVE)
@@ -1100,10 +1197,6 @@ class Relic(QWidget):
         self.set_num_edit.setPlaceholderText(self.tr("数量"))
         self.set_num_edit.setFixedSize(55, 35)
         self.set_num_edit.setValidator(QIntValidator(1, 9999, self))
-        self.set_num_button = PrimaryToolButton(FIF.SETTING)
-        self.set_num_button.setFixedSize(35, 35)
-        self.delete_num_button = PrimaryToolButton(FIF.DELETE)
-        self.delete_num_button.setFixedSize(35, 35)
 
         self.level_label = SubtitleLabel(self.tr("等级:"), self)
         self.level_edit = LineEdit(self)
@@ -1147,17 +1240,13 @@ class Relic(QWidget):
         self.now_layout.addSpacing(14)
 
         self.now_tool_layout = QHBoxLayout()
-        self.now_tool_layout.addWidget(self.add_side_button)
-        self.now_tool_layout.addSpacing(67)
+        self.now_tool_layout.addStretch(1)
         self.now_tool_layout.addWidget(self.add_num_button)
         self.now_tool_layout.addSpacing(5)
         self.now_tool_layout.addWidget(self.minus_num_button)
         self.now_tool_layout.addSpacing(5)
         self.now_tool_layout.addWidget(self.set_num_edit)
-        self.now_tool_layout.addSpacing(5)
-        self.now_tool_layout.addWidget(self.set_num_button)
-        self.now_tool_layout.addSpacing(5)
-        self.now_tool_layout.addWidget(self.delete_num_button)
+        self.now_tool_layout.addSpacing(12)
 
         self.now_layout.addLayout(self.now_tool_layout)
         self.now_layout.addSpacing(15)
@@ -1190,17 +1279,12 @@ class Relic(QWidget):
         self.main_entry_button.clicked.connect(self.handleEntryTypeChanged)
         self.side_entry_button.clicked.connect(self.handleEntryTypeChanged)
         self.entry_table.cellClicked.connect(self.handleEntryTableClicked)
+        self.entry_table.cellDoubleClicked.connect(self.handleAddSideClicked)
 
-        # 更新当前信息
-        self.add_side_button.clicked.connect(self.handleAddSideClicked)
-        self.add_side_button.clicked.connect(self.handleRelicSignal)
+        self.now_table.cellDoubleClicked.connect(lambda: self.handleEntryNumChanged('delete'))
         self.add_num_button.clicked.connect(lambda: self.handleEntryNumChanged('add'))
-        self.add_num_button.clicked.connect(self.handleRelicSignal)
         self.minus_num_button.clicked.connect(lambda: self.handleEntryNumChanged('remove'))
-        self.minus_num_button.clicked.connect(self.handleRelicSignal)
-        self.set_num_button.clicked.connect(lambda: self.handleEntryNumChanged('set'))
-        self.delete_num_button.clicked.connect(lambda: self.handleEntryNumChanged('delete'))
-        self.delete_num_button.clicked.connect(self.handleRelicSignal)
+        self.set_num_edit.textChanged.connect(lambda: self.handleEntryNumChanged('set'))
 
         self.main_now_edit.textChanged.connect(self.handleRelicSignal)
         self.level_edit.textChanged.connect(self.handleRelicSignal)
@@ -1288,13 +1372,15 @@ class Relic(QWidget):
         self.handleRelicSignal()
         self.__handleRelatedEntryUpdate()
         if self.base_relic_button.isChecked():
-            self.main_now_edit.setText('')
+            self.main_now_edit.clear()
     
     def handleEntryTableClicked(self):
         selected_entry = self.entry_table.selectedItems()
         selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
         if selected_entry and selected_entry_type != self.tr('通用'):
             self.main_now_edit.setText(selected_entry[0].text())
+            self.side_entry_button.setChecked(True)
+            self.handleEntryTypeChanged()
 
     def handleAddSideClicked(self):
         selected_side_entry = self.side_entry_button.isChecked()
@@ -1305,6 +1391,7 @@ class Relic(QWidget):
             if selected_entry and selected_entry_type == self.tr('通用') and len(self.now_list) < 4 and entry_id not in self.now_list:
                 self.now_list[entry_id] = 1
                 self.handleNowLoad()
+            self.handleRelicSignal()
 
     def handleEntryNumChanged(self, types):
         selected_now = self.now_table.selectedItems()
@@ -1313,23 +1400,20 @@ class Relic(QWidget):
             if types == 'add':
                 self.now_list[entry_name] += 1
             elif types =='remove':
-                if self.now_list[entry_name] > 1:
+                if self.now_list[entry_name] > 0:
                     self.now_list[entry_name] -= 1
-                else:
-                    del self.now_list[entry_name]
             elif types =='set':
-                num = int(self.set_num_edit.text())
-                if num > 0:
-                    self.now_list[entry_name] = num
+                if self.set_num_edit.text() != '' and int(self.set_num_edit.text()) > 0:
+                        self.now_list[entry_name] = int(self.set_num_edit.text())
                 else:
-                    del self.now_list[entry_name]
+                    self.now_list[entry_name] = 0
             elif types == 'delete':
                 del self.now_list[entry_name]
 
-            # 保存行数，在表格更新后仍然选中(支持连续更改)
-            selected_row = self.now_table.currentRow()
+            seleted_row = self.now_table.currentRow()
             self.handleNowLoad()
-            self.now_table.selectRow(selected_row)
+            self.now_table.selectRow(seleted_row)
+            self.handleRelicSignal()
 
     # 读取和加载页面信息相关
     def handleBaseRelicLoad(self):

@@ -1,0 +1,2 @@
+Star Rail Passx1000 : /give 101 x1000
+Star Rail Special Passx1000 : /give 102 x1000

@@ -50,11 +50,17 @@ class LunarCore(ScrollArea):
             self.tr('编译LunarCore')
         )
         self.ConfigInterface = SettingCardGroup(self.scrollWidget)
-        self.CommandDataConfigCard = PrimaryPushSettingCard(
-            self.tr('打开文件夹'),
+        self.GiveDataConfigCard = PrimaryPushSettingCard(
+            self.tr('打开文件'),
             FIF.LABEL,
-            self.tr('命令数据设置'),
-            self.tr('自定义命令数据配置')
+            self.tr('给予命令设置'),
+            self.tr('自定义给予命令配置')
+        )
+        self.RelicDataConfigCard = PrimaryPushSettingCard(
+            self.tr('打开文件'),
+            FIF.LABEL,
+            self.tr('遗器命令设置'),
+            self.tr('自定义遗器命令配置')
         )
         self.OpencommandInterface = SettingCardGroup(self.scrollWidget)
         self.pingCard = PrimaryPushSettingCard(
@@ -92,7 +98,8 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreDownloadCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreResDownloadCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreBuildCard)
-        self.ConfigInterface.addSettingCard(self.CommandDataConfigCard)
+        self.ConfigInterface.addSettingCard(self.GiveDataConfigCard)
+        self.ConfigInterface.addSettingCard(self.RelicDataConfigCard)
         self.OpencommandInterface.addSettingCard(self.pingCard)
         self.OpencommandInterface.addSettingCard(self.sendcodeCard)
         self.OpencommandInterface.addSettingCard(self.vertifycodeCard)
@@ -124,7 +131,8 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('lunarcore'))
         self.LunarCoreResDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('lunarcoreres'))
         self.LunarCoreBuildCard.clicked.connect(self.handleLunarCoreBuild)
-        self.CommandDataConfigCard.clicked.connect(lambda: subprocess.run(['start', '.\\src\\data\\'], shell=True))
+        self.GiveDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\mygive.txt'], shell=True))
+        self.RelicDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'], shell=True))
         self.pingCard.clicked.connect(lambda: self.handleOpencommandClicked('ping'))
         self.sendcodeCard.clicked_sendcode.connect(lambda uid: self.handleOpencommandClicked('sendcode', uid))
         self.vertifycodeCard.clicked_verifycode.connect(lambda code: self.handleOpencommandClicked('vertifycode', code))

@@ -41,7 +41,7 @@ class Config(QConfig):
     proxyStatus = ConfigItem("Proxy", "ProxyStatus", True, BoolValidator())
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", False, BoolValidator())
 
-    APP_NAME = "Firefly Launcher"
+    APP_NAME = "Firefly Launcher(Letheriver2007)"
     APP_VERSION = get_version_type(get_json('./config/version.json', 'APP_VERSION'))
     APP_FONT = "SDK_SC_Web"
 

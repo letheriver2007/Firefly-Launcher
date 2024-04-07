@@ -52,7 +52,7 @@ class Main(MSFluentWindow):
         self.environmentInterface = Environment('EnvironmentInterface', self)
         self.addSubInterface(self.environmentInterface, FIF.DICTIONARY, self.tr('环境'), FIF.DICTIONARY)
         self.lunarcoreInterface = LunarCore('LunarCoreInterface', self)
-        self.addSubInterface(self.lunarcoreInterface, FIF.CAFE, self.tr('LC'), FIF.CAFE)
+        self.addSubInterface(self.lunarcoreInterface, FIF.CAFE, self.tr('LunarCore'), FIF.CAFE)
         self.proxyInterface = Proxy('ProxyInterface', self)
         self.addSubInterface(self.proxyInterface, FIF.CERTIFICATE, self.tr('代理'), FIF.CERTIFICATE)
 

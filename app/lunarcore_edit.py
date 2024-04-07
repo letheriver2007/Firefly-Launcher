@@ -40,6 +40,7 @@ class LunarCoreEdit(ScrollArea):
         # 项绑定到栏目
 
         # 栏绑定界面
+        self.WarpInterface = Warp('WarpInterface', self)
         self.addSubInterface(self.WarpInterface, 'WarpInterface',self.tr('跃迁'), icon=FIF.LABEL)
 
         # 初始化配置界面
@@ -69,3 +70,14 @@ class LunarCoreEdit(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
+
+
+class Warp(QWidget):
+    def __init__(self, text: str, parent=None):
+        super().__init__(parent=parent)
+        self.setObjectName(text)
+
+        self.__initWidget()
+
+    def __initWidget(self):
+        pass

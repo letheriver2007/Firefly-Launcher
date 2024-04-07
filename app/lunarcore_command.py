@@ -1421,7 +1421,10 @@ class Relic(QWidget):
             relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
         for i, line in enumerate(relic):
-            parts = line.split()
+            line = line.strip()
+            parts = line.split(" : ")
+            parts[0], parts[1], parts[2] = parts[1], parts[2], parts[0]
+            relic[i] = ' : '.join(parts)
             self.relic_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
                 self.relic_table.setItem(i, j, QTableWidgetItem(part))
@@ -1432,15 +1435,11 @@ class Relic(QWidget):
             relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
         for i, line in enumerate(relic):
-            parts = line.split()
+            line = line.strip()
+            parts = line.split(' : ')
             self.relic_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
-                if j == 3:
-                    item = ' '.join(parts[3:])
-                    self.relic_table.setItem(i, j, QTableWidgetItem(item))
-                    break
-                else:
-                    self.relic_table.setItem(i, j, QTableWidgetItem(part))
+                self.relic_table.setItem(i, j, QTableWidgetItem(part))
         self.relic_table.setHorizontalHeaderLabels([self.tr('遗器名称'), self.tr('部位'), self.tr('适用角色'), 'command'])
 
     def handleEntryLoad(self):

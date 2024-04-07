@@ -131,7 +131,7 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('lunarcore'))
         self.LunarCoreResDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('lunarcoreres'))
         self.LunarCoreBuildCard.clicked.connect(self.handleLunarCoreBuild)
-        self.GiveDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\mygive.txt'], shell=True))
+        self.GiveDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\mygive.txt'], shell=True))
         self.RelicDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'], shell=True))
         self.pingCard.clicked.connect(lambda: self.handleOpencommandClicked('ping'))
         self.sendcodeCard.clicked_sendcode.connect(lambda uid: self.handleOpencommandClicked('sendcode', uid))

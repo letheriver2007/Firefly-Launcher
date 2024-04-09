@@ -54,6 +54,7 @@ jobs:
           xcopy /s /e /y src\patch\font\ dist\Firefly-Launcher\src\patch\font\
           xcopy /s /e /y src\data\ dist\Firefly-Launcher\src\data\
           xcopy /s /e /y src\translate\ dist\Firefly-Launcher\src\translate\
+          xcopy /s /e /y src\warp\ dist\Firefly-Launcher\src\warp\
           xcopy /s /e /y config\ dist\Firefly-Launcher\config\
       
       - uses: actions/upload-artifact@v4.3.1

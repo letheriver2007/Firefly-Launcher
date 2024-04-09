@@ -24,6 +24,7 @@ xcopy /s /e /y src\patch\gradle\ Firefly-Launcher\src\patch\gradle\
 xcopy /s /e /y src\patch\font\ Firefly-Launcher\src\patch\font\
 xcopy /s /e /y src\data\ Firefly-Launcher\src\data\
 xcopy /s /e /y src\translate\ Firefly-Launcher\src\translate\
+xcopy /s /e /y src\warp\ Firefly-Launcher\src\warp\
 xcopy /s /e /y config\ Firefly-Launcher\config\
 
 rd /s /q dist\

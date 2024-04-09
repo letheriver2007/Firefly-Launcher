@@ -889,9 +889,6 @@ class Give(QWidget):
         self.mygive_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.mygive_table.setSelectionMode(QAbstractItemView.SingleSelection)
 
-        self.mygive_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.mygive_table.setSelectionMode(QAbstractItemView.SingleSelection)
-
         self.give_search_line = SearchLineEdit(self)
         self.give_search_line.setPlaceholderText(self.tr("搜索物品"))
         self.give_search_line.setFixedSize(534, 35)

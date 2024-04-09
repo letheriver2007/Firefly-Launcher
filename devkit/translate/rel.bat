@@ -1,4 +1,0 @@
-"C:\Program Files\Python311\Lib\site-packages\PySide6\lrelease.exe" "c:\Users\Administrator\AppData\Local\GitHubDesktop\projects\Firefly-Launcher\src\translate\zh_CN.ts" -qm "c:\Users\Administrator\AppData\Local\GitHubDesktop\projects\Firefly-Launcher\src\translate\zh_CN.qm"
-"C:\Program Files\Python311\Lib\site-packages\PySide6\lrelease.exe" "c:\Users\Administrator\AppData\Local\GitHubDesktop\projects\Firefly-Launcher\src\translate\zh_TW.ts" -qm "c:\Users\Administrator\AppData\Local\GitHubDesktop\projects\Firefly-Launcher\src\translate\zh_TW.qm"
-"C:\Program Files\Python311\Lib\site-packages\PySide6\lrelease.exe" "c:\Users\Administrator\AppData\Local\GitHubDesktop\projects\Firefly-Launcher\src\translate\en_US.ts" -qm "c:\Users\Administrator\AppData\Local\GitHubDesktop\projects\Firefly-Launcher\src\translate\en_US.qm"
-pause

@@ -11,6 +11,8 @@ Firefly-Launcher/
 
 .idea/
 .vs/
+.vscode/
+.pytest_cache/
 venv/
 
 server/
@@ -19,6 +21,6 @@ temp/
 src/audio/
 
 devkit/data/output/
-devkit/translate
+devkit/translate/
 
 auto.json

@@ -224,8 +224,8 @@ class MessageFiddler(MessageBoxBase):
         super().__init__(parent)
         self.titleLabel = TitleLabel(self.tr('选择需要使用Fiddler Scripts的服务端:    '))
         self.label1 = SubtitleLabel(self.tr('    目前支持的服务端列表:'))
-        self.label2 = BodyLabel(self.tr('        Yuanshen: Hutao-GS'))
-        self.label3 = BodyLabel(self.tr('        StarRail: LunarCore'))
+        self.label2 = BodyLabel('        Yuanshen: Hutao-GS')
+        self.label3 = BodyLabel('        StarRail: LunarCore')
 
         self.viewLayout.addWidget(self.titleLabel)
         self.viewLayout.addWidget(self.label1)

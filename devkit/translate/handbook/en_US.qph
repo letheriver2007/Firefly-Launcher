@@ -1,0 +1,971 @@
+<!DOCTYPE QPH>
+<QPH sourcelanguage="zh_CN" language="en_US">
+<phrase>
+    <source>等级</source>
+    <target>Level</target>
+</phrase>
+<phrase>
+    <source>该目录已存在文件！</source>
+    <target>File Path Exists!</target>
+</phrase>
+<phrase>
+    <source>星</source>
+    <target>Male</target>
+</phrase>
+<phrase>
+    <source>添加</source>
+    <target>Add</target>
+</phrase>
+<phrase>
+    <source>删除</source>
+    <target>Delete</target>
+</phrase>
+<phrase>
+    <source>名称</source>
+    <target>Name</target>
+</phrase>
+<phrase>
+    <source>星魂</source>
+    <target>Eidolon</target>
+</phrase>
+<phrase>
+    <source>行迹</source>
+    <target>Trace</target>
+</phrase>
+<phrase>
+    <source>当前</source>
+    <target>Current</target>
+</phrase>
+<phrase>
+    <source>队伍</source>
+    <target>Team</target>
+</phrase>
+<phrase>
+    <source>应用范围</source>
+    <target>Target</target>
+</phrase>
+<phrase>
+    <source>全部</source>
+    <target>All</target>
+</phrase>
+<phrase>
+    <source>材料</source>
+    <target>Material</target>
+</phrase>
+<phrase>
+    <source>物品</source>
+    <target>Item</target>
+</phrase>
+<phrase>
+    <source>选择物品</source>
+    <target>Select Item</target>
+</phrase>
+<phrase>
+    <source>下载成功！</source>
+    <target>Download Success!</target>
+</phrase>
+<phrase>
+    <source>下载取消！</source>
+    <target>Download Cancelled!</target>
+</phrase>
+<phrase>
+    <source>下载失败！</source>
+    <target>Download Failed!</target>
+</phrase>
+<phrase>
+    <source>打开各环境仓库</source>
+    <target>Open Environment Repositories</target>
+</phrase>
+<phrase>
+    <source>下载Git安装包</source>
+    <target>Download Git Installation Package</target>
+</phrase>
+<phrase>
+    <source>下载Java安装包</source>
+    <target>Download Java Installation Package</target>
+</phrase>
+<phrase>
+    <source>下载MongoDB安装包</source>
+    <target>Download MongoDB Installation Package</target>
+</phrase>
+<phrase>
+    <source>穹</source>
+    <target>Female</target>
+</phrase>
+<phrase>
+    <source>搜索物品</source>
+    <target>Search Items</target>
+</phrase>
+<phrase>
+    <source>角色</source>
+    <target>Avatar</target>
+</phrase>
+<phrase>
+    <source>光锥</source>
+    <target>Lightcone</target>
+</phrase>
+<phrase>
+    <source>食物</source>
+    <target>Food</target>
+</phrase>
+<phrase>
+    <source>头像</source>
+    <target>Head</target>
+</phrase>
+<phrase>
+    <source>请输入角色/光锥等级</source>
+    <target>Enter Level</target>
+</phrase>
+<phrase>
+    <source>星魂/叠影:</source>
+    <target>Eidolon:</target>
+</phrase>
+<phrase>
+    <source>请输入角色星魂/光锥叠影</source>
+    <target>Enter Eidolon</target>
+</phrase>
+<phrase>
+    <source>角色名称</source>
+    <target>Avatar Name</target>
+</phrase>
+<phrase>
+    <source>光锥名称</source>
+    <target>Lightcone Name</target>
+</phrase>
+<phrase>
+    <source>物品名称</source>
+    <target>Item Name</target>
+</phrase>
+<phrase>
+    <source>食物名称</source>
+    <target>Food Name</target>
+</phrase>
+<phrase>
+    <source>头像名称</source>
+    <target>Avatar Name</target>
+</phrase>
+<phrase>
+    <source>服务端已启动！</source>
+    <target>Server Start!</target>
+</phrase>
+<phrase>
+    <source>，请重新下载！</source>
+    <target>, Please Download Again!</target>
+</phrase>
+<phrase>
+    <source>打开Firefly-Launcher相关项目仓库</source>
+    <target>Open Firefly-Launcher Repository</target>
+</phrase>
+<phrase>
+    <source>下载流萤音频文件</source>
+    <target>Download Firefly Audio Files</target>
+</phrase>
+<phrase>
+    <source>打开文件</source>
+    <target>Open File</target>
+</phrase>
+<phrase>
+    <source>启动器设置</source>
+    <target>Launcher Settings</target>
+</phrase>
+<phrase>
+    <source>自定义启动器配置</source>
+    <target>Customize Launcher Config</target>
+</phrase>
+<phrase>
+    <source>配置</source>
+    <target>Config</target>
+</phrase>
+<phrase>
+    <source>端口</source>
+    <target>Port</target>
+</phrase>
+<phrase>
+    <source>打开LunarCore相关仓库</source>
+    <target>Open LunarCore repository</target>
+</phrase>
+<phrase>
+    <source>下载LunarCore</source>
+    <target>Download LunarCore</target>
+</phrase>
+<phrase>
+    <source>下载LunarCore资源文件</source>
+    <target>Download LunarCore Resources</target>
+</phrase>
+<phrase>
+    <source>编译</source>
+    <target>Build</target>
+</phrase>
+<phrase>
+    <source>编译LunarCore</source>
+    <target>Build LunarCore</target>
+</phrase>
+<phrase>
+    <source>打开文件夹</source>
+    <target>Open Folder</target>
+</phrase>
+<phrase>
+    <source>自定义命令数据配置</source>
+    <target>Customize Command Data Resources</target>
+</phrase>
+<phrase>
+    <source>命令数据设置</source>
+    <target>Command Data Settings</target>
+</phrase>
+<phrase>
+    <source>确认插件连接状态</source>
+    <target>Confirm Plugin Connection Status</target>
+</phrase>
+<phrase>
+    <source>发送验证码</source>
+    <target>Send Code</target>
+</phrase>
+<phrase>
+    <source>验证验证码</source>
+    <target>Vertify Code</target>
+</phrase>
+<phrase>
+    <source>命令</source>
+    <target>Command</target>
+</phrase>
+<phrase>
+    <source>编辑器</source>
+    <target>Editor</target>
+</phrase>
+<phrase>
+    <source>远程</source>
+    <target>Remote</target>
+</phrase>
+<phrase>
+    <source>LunarCore已编译！</source>
+    <target>LunarCore Has Been Build!</target>
+</phrase>
+<phrase>
+    <source>LunarCore不存在, 请先下载！</source>
+    <target>LunarCore Not Exist, Download First!</target>
+</phrase>
+<phrase>
+    <source>连接成功！</source>
+    <target>Connection successful!</target>
+</phrase>
+<phrase>
+    <source>连接失败！</source>
+    <target>Connection failed!</target>
+</phrase>
+<phrase>
+    <source>发送成功！</source>
+    <target>Send Successfully!</target>
+</phrase>
+<phrase>
+    <source>发送失败！</source>
+    <target>Send Failed!</target>
+</phrase>
+<phrase>
+    <source>验证成功！</source>
+    <target>Verify Successful!</target>
+</phrase>
+<phrase>
+    <source>验证失败！</source>
+    <target>Verify Failed!</target>
+</phrase>
+<phrase>
+    <source>给予全部</source>
+    <target>Give All</target>
+</phrase>
+<phrase>
+    <source>跳转</source>
+    <target>Jump</target>
+</phrase>
+<phrase>
+    <source>物品快捷给予</source>
+    <target>Item Quick Give</target>
+</phrase>
+<phrase>
+    <source>自定义物品快捷给予跳转</source>
+    <target>Custom Item Quick Give Jump</target>
+</phrase>
+<phrase>
+    <source>秘技点补充</source>
+    <target>Skill Point Refill</target>
+</phrase>
+<phrase>
+    <source>治疗全部队伍角色</source>
+    <target>Heal All Team Avatars</target>
+</phrase>
+<phrase>
+    <source>查看服务端命令帮助</source>
+    <target>View Server Command Help</target>
+</phrase>
+<phrase>
+    <source>重载服务端</source>
+    <target>Reload Server</target>
+</phrase>
+<phrase>
+    <source>添加或删除账号</source>
+    <target>Create or Delete Account</target>
+</phrase>
+<phrase>
+    <source>踢出玩家</source>
+    <target>Kick Player</target>
+</phrase>
+<phrase>
+    <source>解除场景未加载造成的卡死</source>
+    <target>Unstuck Dead Avatars in Unloaded Scenes</target>
+</phrase>
+<phrase>
+    <source>设置开拓者性别</source>
+    <target>Set MainCharacter Gender</target>
+</phrase>
+<phrase>
+    <source>设置开拓等级</source>
+    <target>Set Main WorldLevel</target>
+</phrase>
+<phrase>
+    <source>设置角色属性</source>
+    <target>Set Avatar Attributes</target>
+</phrase>
+<phrase>
+    <source>清空物品</source>
+    <target>Clear Items</target>
+</phrase>
+<phrase>
+    <source>清空</source>
+    <target>Clear</target>
+</phrase>
+<phrase>
+    <source>复制</source>
+    <target>Copy</target>
+</phrase>
+<phrase>
+    <source>快捷</source>
+    <target>Shortcut</target>
+</phrase>
+<phrase>
+    <source>服务端</source>
+    <target>Server</target>
+</phrase>
+<phrase>
+    <source>账号</source>
+    <target>Account</target>
+</phrase>
+<phrase>
+    <source>场景</source>
+    <target>Scene</target>
+</phrase>
+<phrase>
+    <source>生成</source>
+    <target>Spawn</target>
+</phrase>
+<phrase>
+    <source>给予</source>
+    <target>Give</target>
+</phrase>
+<phrase>
+    <source>遗器</source>
+    <target>Relic</target>
+</phrase>
+<phrase>
+    <source>执行完成！</source>
+    <target>Action Completed!</target>
+</phrase>
+<phrase>
+    <source>执行失败！</source>
+    <target>Action Failed!</target>
+</phrase>
+<phrase>
+    <source>请先配置远程执行！</source>
+    <target>Please Config Remote First!</target>
+</phrase>
+<phrase>
+    <source>复制成功！</source>
+    <target>Copy Successfully!</target>
+</phrase>
+<phrase>
+    <source>复制失败！</source>
+    <target>Copy Failed!</target>
+</phrase>
+<phrase>
+    <source>请输入正确的用户名！</source>
+    <target>Please Enter Correct Username!</target>
+</phrase>
+<phrase>
+    <source>请输入正确的UID！</source>
+    <target>Please Enter Correct UID!</target>
+</phrase>
+<phrase>
+    <source>跃迁</source>
+    <target>Warp</target>
+</phrase>
+<phrase>
+    <source>主页</source>
+    <target>Home</target>
+</phrase>
+<phrase>
+    <source>主题</source>
+    <target>Theme</target>
+</phrase>
+<phrase>
+    <source>未找到语音，请重新下载！</source>
+    <target>Voice Not Found, Please Download Again!</target>
+</phrase>
+<phrase>
+    <source>启动器</source>
+    <target>Launcher</target>
+</phrase>
+<phrase>
+    <source>密码错误!</source>
+    <target>Wrong password!</target>
+</phrase>
+<phrase>
+    <source>检查字体失败: </source>
+    <target></target>
+</phrase>
+<phrase>
+    <source>检测更新失败: </source>
+    <target>Failed to Check Updates: </target>
+</phrase>
+<phrase>
+    <source>检测到新版本: </source>
+    <target>New Version Detected: </target>
+</phrase>
+<phrase>
+    <source>环境</source>
+    <target>Environment</target>
+</phrase>
+<phrase>
+    <source>当前是最新版本: </source>
+    <target>Current Version Latest: </target>
+</phrase>
+<phrase>
+    <source>代理</source>
+    <target>Proxy</target>
+</phrase>
+<phrase>
+    <source>次数:</source>
+    <target>Times:</target>
+</phrase>
+<phrase>
+    <source>选择需要使用Fiddler Scripts的服务端:    </source>
+    <target>Select the server that needs to use Fiddler Scripts:    </target>
+</phrase>
+<phrase>
+    <source>    目前支持的服务端列表:</source>
+    <target>    Currently supported server list:</target>
+</phrase>
+<phrase>
+    <source>退出</source>
+    <target>Exit</target>
+</phrase>
+<phrase>
+    <source>请输入TA的英文名</source>
+    <target>Please Enter Her Name</target>
+</phrase>
+<phrase>
+    <source>你的老婆是?    </source>
+    <target>Your Wife is?    </target>
+</phrase>
+<phrase>
+    <source>登录</source>
+    <target>Login</target>
+</phrase>
+<phrase>
+    <source>原版打开</source>
+    <target>Original Open</target>
+</phrase>
+<phrase>
+    <source>脚本打开</source>
+    <target>Script Open</target>
+</phrase>
+<phrase>
+    <source>执行</source>
+    <target>Action</target>
+</phrase>
+<phrase>
+    <source>验证码</source>
+    <target>Code</target>
+</phrase>
+<phrase>
+    <source>找不到文件，请重新下载！</source>
+    <target>File Not Found, Please Download Again!</target>
+</phrase>
+<phrase>
+    <source>项目仓库</source>
+    <target>Project Repository</target>
+</phrase>
+<phrase>
+    <source>下载代理工具Mitmdump</source>
+    <target>Download Mitmdump</target>
+</phrase>
+<phrase>
+    <source>下载代理工具Fiddler</source>
+    <target>Download Fiddler</target>
+</phrase>
+<phrase>
+    <source>下载</source>
+    <target>Download</target>
+</phrase>
+<phrase>
+    <source>使用Mitmdump代理</source>
+    <target>Use Mitmdump</target>
+</phrase>
+<phrase>
+    <source>使用Fiddler Scripts代理</source>
+    <target>Use Fiddler</target>
+</phrase>
+<phrase>
+    <source>打开代理工具仓库</source>
+    <target>Open Proxy Repository</target>
+</phrase>
+<phrase>
+    <source>打开</source>
+    <target>Open</target>
+</phrase>
+<phrase>
+    <source>Fiddler(外部)</source>
+    <target>Fiddler (External)</target>
+</phrase>
+<phrase>
+    <source>Mitmdump(外部)</source>
+    <target>Mitmdump (External)</target>
+</phrase>
+<phrase>
+    <source>主词条</source>
+    <target>Main</target>
+</phrase>
+<phrase>
+    <source>预设</source>
+    <target>Preset</target>
+</phrase>
+<phrase>
+    <source>遗器名称</source>
+    <target>Relic Name</target>
+</phrase>
+<phrase>
+    <source>通用</source>
+    <target>Common</target>
+</phrase>
+<phrase>
+    <source>搜索遗器</source>
+    <target>Search Relic</target>
+</phrase>
+<phrase>
+    <source>搜索词条</source>
+    <target>Search Affix</target>
+</phrase>
+<phrase>
+    <source>数量</source>
+    <target>Number</target>
+</phrase>
+<phrase>
+    <source>适用角色</source>
+    <target>Avatar</target>
+</phrase>
+<phrase>
+    <source>请输入生成遗器的等级</source>
+    <target>Please Enter Level</target>
+</phrase>
+<phrase>
+    <source>基础</source>
+    <target>Basic</target>
+</phrase>
+<phrase>
+    <source>副词条</source>
+    <target>Side</target>
+</phrase>
+<phrase>
+    <source>当前主词条:</source>
+    <target>Current Main Affix:</target>
+</phrase>
+<phrase>
+    <source>当前副词条:</source>
+    <target>Current Side Affix:</target>
+</phrase>
+<phrase>
+    <source>词条名称</source>
+    <target>Affix Name</target>
+</phrase>
+<phrase>
+    <source>部位</source>
+    <target>Part</target>
+</phrase>
+<phrase>
+    <source>搜索场景</source>
+    <target>Search Scene</target>
+</phrase>
+<phrase>
+    <source>场景描述</source>
+    <target>Scene Description</target>
+</phrase>
+<phrase>
+    <source>自动复制功能已开启！</source>
+    <target>Auto Copy Function Enabled!</target>
+</phrase>
+<phrase>
+    <source>自动复制功能已关闭！</source>
+    <target>Auto Copy Function Disabled!</target>
+</phrase>
+<phrase>
+    <source>主题色</source>
+    <target>Theme Color</target>
+</phrase>
+<phrase>
+    <source>重置代理</source>
+    <target>Reset Proxy</target>
+</phrase>
+<phrase>
+    <source>重置部分服务端未关闭的代理</source>
+    <target>Reset Proxy For Some Servers</target>
+</phrase>
+<phrase>
+    <source>重置</source>
+    <target>Reset</target>
+</phrase>
+<phrase>
+    <source>重启程序</source>
+    <target>Restart</target>
+</phrase>
+<phrase>
+    <source>语言</source>
+    <target>Language</target>
+</phrase>
+<phrase>
+    <source>选择命令时，自动复制命令到剪贴板</source>
+    <target>Copy Command Automatically When Select</target>
+</phrase>
+<phrase>
+    <source>为Github下载启用国内镜像站链接</source>
+    <target>Enable China Mirror When Downloading</target>
+</phrase>
+<phrase>
+    <source>手动检查更新</source>
+    <target>Check Update Manually</target>
+</phrase>
+<phrase>
+    <source>使用自定义登陆彩蛋</source>
+    <target>Enable Login Egg</target>
+</phrase>
+<phrase>
+    <source>使用随机流萤语音彩蛋</source>
+    <target>Use Random Lunar Voice Egg</target>
+</phrase>
+<phrase>
+    <source>使用国内镜像</source>
+    <target>Use China Mirror</target>
+</phrase>
+<phrase>
+    <source>使用代理端口</source>
+    <target>Use Proxy</target>
+</phrase>
+<phrase>
+    <source>设置UI界面显示语言</source>
+    <target>Set UI Display Language</target>
+</phrase>
+<phrase>
+    <source>全局代理已更改！</source>
+    <target>Global Proxy Reset!</target>
+</phrase>
+<phrase>
+    <source>全局代理关闭失败！</source>
+    <target>Global Proxy Port Reset Failed!</target>
+</phrase>
+<phrase>
+    <source>启用流萤语音(外部)</source>
+    <target>Enable Firefly Voice (External)</target>
+</phrase>
+<phrase>
+    <source>启用登录功能</source>
+    <target>Enable Login</target>
+</phrase>
+<phrase>
+    <source>启用代理，在配置文件里更改地址</source>
+    <target>Use Custom Proxy Port</target>
+</phrase>
+<phrase>
+    <source>命令自动复制</source>
+    <target>Copy Command Automatically</target>
+</phrase>
+<phrase>
+    <source>流萤语音已开启！</source>
+    <target>Firefly Voice Enabled!</target>
+</phrase>
+<phrase>
+    <source>流萤语音已关闭！</source>
+    <target>Firefly Voice Disabled!</target>
+</phrase>
+<phrase>
+    <source>检查更新</source>
+    <target>Check Update</target>
+</phrase>
+<phrase>
+    <source>国内镜像已开启！</source>
+    <target>China Mirror Enabled!</target>
+</phrase>
+<phrase>
+    <source>国内镜像已关闭！</source>
+    <target>China Mirror Disabled!</target>
+</phrase>
+<phrase>
+    <source>关于</source>
+    <target>About</target>
+</phrase>
+<phrase>
+    <source>功能</source>
+    <target>Features</target>
+</phrase>
+<phrase>
+    <source>跟随系统设置</source>
+    <target>Follow System</target>
+</phrase>
+<phrase>
+    <source>调整全局缩放</source>
+    <target>Adjust Global Scaling</target>
+</phrase>
+<phrase>
+    <source>登录功能已开启！</source>
+    <target>Login Function Enabled!</target>
+</phrase>
+<phrase>
+    <source>登录功能已关闭！</source>
+    <target>Login Function Disabled!</target>
+</phrase>
+<phrase>
+    <source>当前版本 : </source>
+    <target>Current Version: </target>
+</phrase>
+<phrase>
+    <source>代理端口已开启！</source>
+    <target>Custom Proxy Port Set!</target>
+</phrase>
+<phrase>
+    <source>代理端口已关闭！</source>
+    <target>Proxy Port Reset!</target>
+</phrase>
+<phrase>
+    <source>代理端口:</source>
+    <target>Port:</target>
+</phrase>
+<phrase>
+    <source>程序</source>
+    <target>Application</target>
+</phrase>
+<phrase>
+    <source>DPI调整</source>
+    <target>DPI Adjustment</target>
+</phrase>
+<phrase>
+    <source>搜索怪物</source>
+    <target>Search Monster</target>
+</phrase>
+<phrase>
+    <source>数量:</source>
+    <target>Number:</target>
+</phrase>
+<phrase>
+    <source>请输入怪物数量</source>
+    <target>Enter Monster Number</target>
+</phrase>
+<phrase>
+    <source>请输入怪物等级</source>
+    <target>Enter Monster Level</target>
+</phrase>
+<phrase>
+    <source>请输入仇恨半径</source>
+    <target>Enter Hate Radius</target>
+</phrase>
+<phrase>
+    <source>怪物名称</source>
+    <target>Monster Name</target>
+</phrase>
+<phrase>
+    <source>等级:</source>
+    <target>Level:</target>
+</phrase>
+<phrase>
+    <source>半径:</source>
+    <target>Radius:</target>
+</phrase>
+<phrase>
+    <source>使用</source>
+    <target>Use</target>
+</phrase>
+<phrase>
+    <source>网络访问错误</source>
+    <target>Network Access Error</target>
+</phrase>
+<phrase>
+    <source>当前为Dev版本</source>
+    <target>Current is Dev Version</target>
+</phrase>
+<phrase>
+    <source>版本信息错误</source>
+    <target>Version Information Error</target>
+</phrase>
+<phrase>
+    <source>开拓等级</source>
+    <target>Level</target>
+</phrase>
+<phrase>
+    <source>均衡等级</source>
+    <target>World Level</target>
+</phrase>
+<phrase>
+    <source>搜索自定义命令</source>
+    <target>Search Command</target>
+</phrase>
+<phrase>
+    <source>请输入物品数量</source>
+    <target>Enter Number</target>
+</phrase>
+<phrase>
+    <source>请输入等级</source>
+    <target>Enter Level</target>
+</phrase>
+<phrase>
+    <source>请输入星魂/叠影</source>
+    <target>Enter Eidolon</target>
+</phrase>
+<phrase>
+    <source>自定义命令</source>
+    <target>Command</target>
+</phrase>
+<phrase>
+    <source>给予命令设置</source>
+    <target>Give Command Setting</target>
+</phrase>
+<phrase>
+    <source>自定义给予命令配置</source>
+    <target>Config your give commands</target>
+</phrase>
+<phrase>
+    <source>遗器命令设置</source>
+    <target>Relic Command Setting</target>
+</phrase>
+<phrase>
+    <source>自定义遗器命令配置</source>
+    <target>Config your relic commands</target>
+</phrase>
+<phrase>
+    <source>设置均衡等级</source>
+    <target>Set WorldLevel</target>
+</phrase>
+<phrase>
+    <source>搜索显示怪物</source>
+    <target>Display Monster</target>
+</phrase>
+<phrase>
+    <source>搜索局内怪物</source>
+    <target>Battle Monster</target>
+</phrase>
+<phrase>
+    <source>显示怪物名称</source>
+    <target>Display Monster Name</target>
+</phrase>
+<phrase>
+    <source>局内怪物名称</source>
+    <target>Battle Monster Name</target>
+</phrase>
+<phrase>
+    <source>搜索预设卡池</source>
+    <target>Search Banners</target>
+</phrase>
+<phrase>
+    <source>加载配置</source>
+    <target>Load</target>
+</phrase>
+<phrase>
+    <source>保存配置</source>
+    <target>Save</target>
+</phrase>
+<phrase>
+    <source>恢复默认配置</source>
+    <target>To Default</target>
+</phrase>
+<phrase>
+    <source>多物品</source>
+    <target>Many Items</target>
+</phrase>
+<phrase>
+    <source>加载成功!</source>
+    <target>Load Successfully!</target>
+</phrase>
+<phrase>
+    <source>找不到文件, 请重新下载!</source>
+    <target>File Not Found, Please Download Again!</target>
+</phrase>
+<phrase>
+    <source>保存成功!</source>
+    <target>Save Successfully!</target>
+</phrase>
+<phrase>
+    <source>常驻池</source>
+    <target>Normal</target>
+</phrase>
+<phrase>
+    <source>角色池</source>
+    <target>AvatarUP</target>
+</phrase>
+<phrase>
+    <source>武器池</source>
+    <target>WeaponUP</target>
+</phrase>
+<phrase>
+    <source>卡池名称</source>
+    <target>Banner Name</target>
+</phrase>
+<phrase>
+    <source>卡池类型</source>
+    <target>Banner Type</target>
+</phrase>
+<phrase>
+    <source>当前卡池</source>
+    <target>Now Banner</target>
+</phrase>
+<phrase>
+    <source>   作者主页</source>
+    <target>   Author Home</target>
+</phrase>
+<phrase>
+    <source>   反馈交流</source>
+    <target>   Feedback</target>
+</phrase>
+<phrase>
+    <source>   版本发布</source>
+    <target>   Release Version</target>
+</phrase>
+<phrase>
+    <source>   Github项目</source>
+    <target>   Github Project</target>
+</phrase>
+<phrase>
+    <source> 一键启动</source>
+    <target> Play</target>
+</phrase>
+<phrase>
+    <source>找不到服务端</source>
+    <target>Server Not Found</target>
+</phrase>
+<phrase>
+    <source>远程执行配置完成</source>
+    <target>Remote Config Completed</target>
+</phrase>
+<phrase>
+    <source>请继续配置token</source>
+    <target>Please continue set token</target>
+</phrase>
+<phrase>
+    <source>登录成功</source>
+    <target>Login Successfully</target>
+</phrase>
+<phrase>
+    <source>默认流萤主题色，开拓者你不会改的吧?</source>
+    <target>Firefly Theme Color Mua, you won&apos;t change right?</target>
+</phrase>
+<phrase>
+    <source>无奖竞猜，存在即合理</source>
+    <target>No Betting, It is Reasonable</target>
+</phrase>
+<phrase>
+    <source>代理设置冲突,优先使用国内镜像！</source>
+    <target>Config Conflict, First Use China Mirror!</target>
+</phrase>
+</QPH>

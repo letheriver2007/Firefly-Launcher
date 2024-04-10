@@ -12,8 +12,8 @@ class MessageBoxBase(MaskDialogBase):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.buttonGroup = QFrame(self.widget)
-        self.yesButton = PrimaryPushButton(self.tr('OK'), self.buttonGroup)
-        self.cancelButton = QPushButton(self.tr('Cancel'), self.buttonGroup)
+        self.yesButton = PrimaryPushButton(self.tr('登录'), self.buttonGroup)
+        self.cancelButton = QPushButton(self.tr('退出'), self.buttonGroup)
 
         self.vBoxLayout = QVBoxLayout(self.widget)
         self.viewLayout = QVBoxLayout()
@@ -84,9 +84,7 @@ class MessageLogin(MessageBoxBase):
         self.passwordLabel = PasswordLineEdit(self)
         self.passwordLabel.setFixedWidth(300)
         self.passwordLabel.setPlaceholderText(self.tr('请输入TA的英文名'))
-        self.yesButton.setText(self.tr('登录'))
         self.yesButton.clicked.connect(self.emitPassword)
-        self.cancelButton.setText(self.tr('退出'))
         self.cancelButton.clicked.connect(lambda: sys.exit())
 
         self.viewLayout.addWidget(self.titleLabel)

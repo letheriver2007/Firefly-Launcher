@@ -86,10 +86,10 @@ class Warp(QWidget):
     def __initWidget(self):
         self.banner_search_line = SearchLineEdit(self)
         self.banner_search_line.setPlaceholderText(self.tr("搜索预设卡池"))
-        self.banner_search_line.setFixedSize(350, 35)
+        self.banner_search_line.setFixedSize(420, 35)
 
         self.banner_table = TableWidget(self)
-        self.banner_table.setFixedSize(350, 455)
+        self.banner_table.setFixedSize(420, 455)
         self.banner_table.setColumnCount(3)
 
         self.banner_table.setBorderVisible(True)
@@ -101,7 +101,7 @@ class Warp(QWidget):
         self.banner_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.now_table = TableWidget(self)
-        self.now_table.setFixedSize(350, 506)
+        self.now_table.setFixedSize(420, 506)
         self.now_table.setColumnCount(2)
 
         self.now_table.setBorderVisible(True)
@@ -113,11 +113,11 @@ class Warp(QWidget):
         self.now_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.load_button = PrimaryPushButton(FIF.FOLDER_ADD, self.tr('加载配置'), self)
-        self.load_button.setFixedSize(220, 40)
+        self.load_button.setFixedSize(250, 40)
         self.save_button = PrimaryPushButton(FIF.SAVE, self.tr('保存配置'), self)
-        self.save_button.setFixedSize(220, 40)
+        self.save_button.setFixedSize(250, 40)
         self.cancel_button = PrimaryPushButton(FIF.CANCEL, self.tr('恢复默认配置'), self)
-        self.cancel_button.setFixedSize(220, 40)
+        self.cancel_button.setFixedSize(250, 40)
 
         self.__initLayout()
         self.__initInfo()
@@ -201,7 +201,7 @@ class Warp(QWidget):
             self.now_table.setRowCount(len(lcbanner))
             for row, item in enumerate(lcbanner):
                 if len(item['rateUpItems5']) > 1:
-                    rateUpItems5 = self.tr('多物品')
+                    rateUpItems5 = self.tr('常驻池')
                 else:
                     rateUpItems5 = self.config_data[str(item['rateUpItems5'][0])]
                 bannerid = str(item['id'])
@@ -287,14 +287,14 @@ class Warp(QWidget):
             self.banner_table.setItem(row, 1, QTableWidgetItem(gachaType))
             self.banner_table.setItem(row, 2, QTableWidgetItem(bannerid))
             self.banner_table.setRowHeight(row, 39)
-        self.banner_table.setHorizontalHeaderLabels([self.tr('卡池名称'), self.tr('卡池类型'), self.tr('ID')])
+        self.banner_table.setHorizontalHeaderLabels([self.tr('卡池名称'), self.tr('卡池类型'), 'ID'])
 
     def handleNowLoad(self):
-        print(self.now_list)
         self.now_table.clearContents()
         self.now_table.setRowCount(len(self.now_list))
         for row, (key, value) in enumerate(self.now_list.items()):
             self.now_table.setItem(row, 0, QTableWidgetItem(key))
             self.now_table.setItem(row, 1, QTableWidgetItem(str(value)))
             self.now_table.setRowHeight(row, 39)
-        self.now_table.setHorizontalHeaderLabels([self.tr('当前卡池'), self.tr('ID')])
+        self.now_table.setHorizontalHeaderLabels([self.tr('当前卡池'), 'ID'])
+        # 景元ID占用，无法显示两个

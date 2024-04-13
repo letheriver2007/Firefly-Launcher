@@ -11,7 +11,7 @@ from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, 
 from app.model.setting_card import SettingCardGroup, LineEditSettingCard_Port
 from app.model.style_sheet import StyleSheet
 from app.model.check_update import checkUpdate
-from app.model.config import cfg
+from app.model.config import cfg, get_json
 
 
 class Setting(ScrollArea):
@@ -88,7 +88,7 @@ class Setting(ScrollArea):
             configItem=cfg.proxyStatus
         )
         self.proxyPortCard = LineEditSettingCard_Port(
-            self.tr('代理端口:')
+            self.tr('代理端口')
         )
         self.chinaCard = SwitchSettingCard(
             FIF.CALORIES,
@@ -152,10 +152,8 @@ class Setting(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.PersonalInterface.objectName())
     
     def __initInfo(self):
-        with open('config/config.json', 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            port = data['PROXY_PORT']
-        self.proxyPortCard.titleLabel.setText(self.tr('代理端口:')+port)
+        port = get_json('./config/config.json', 'PROXY_PORT')
+        self.proxyPortCard.titleLabel.setText(self.tr('代理端口 (当前: ') + port + ')')
         if not cfg.proxyStatus.value:
             self.proxyPortCard.setDisabled(True)
         
@@ -232,8 +230,9 @@ class Setting(ScrollArea):
     def disable_global_proxy(self):
         try:
             if cfg.proxyStatus.value:
+                port = get_json('./config/config.json', 'PROXY_PORT')
                 subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-                subprocess.run(f'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "127.0.0.1:{cfg.PROXY_PORT}" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                subprocess.run(f'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "127.0.0.1:{port}" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
             else:
                 subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
                 subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
@@ -265,8 +264,8 @@ class Setting(ScrollArea):
                 data = json.load(file)
                 data['PROXY_PORT'] = new_port
             with open('config/config.json', 'w', encoding='utf-8') as file:
-                json.dump(data, file, ensure_ascii=False)
-        self.proxyPortCard.titleLabel.setText(self.tr('代理端口:') + new_port)
+                json.dump(data, file, indent=2, ensure_ascii=False)
+        self.proxyPortCard.titleLabel.setText(self.tr('代理端口 (当前: ') + new_port + ')')
 
 
 class About(QWidget):

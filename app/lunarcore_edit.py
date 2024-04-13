@@ -181,17 +181,36 @@ class Warp(QWidget):
     
     def handleBannerClicked(self):
         selected_banner = self.banner_table.selectedItems()
-        banner_name = selected_banner[0].text()
-        banner_id = selected_banner[2].text()
-        if selected_banner and banner_name not in self.now_list:
-            self.now_list[banner_name] = banner_id
-            self.handleNowLoad()
+        rateUpItems5 = selected_banner[0].text()
+        bannerid = selected_banner[2].text()
+
+        if rateUpItems5 in self.now_list:
+            existing_value = self.now_list[rateUpItems5]
+            if isinstance(existing_value, list) and bannerid not in existing_value:
+                self.now_list[rateUpItems5] += [bannerid]
+            elif existing_value != bannerid:
+                self.now_list[rateUpItems5] = [existing_value, bannerid]
+        else:
+            self.now_list[rateUpItems5] = bannerid
+        self.handleNowLoad()
 
     def handleNowClicked(self):
         selected_now = self.now_table.selectedItems()
-        selected_name = selected_now[0].text()
         if selected_now:
-            del self.now_list[selected_name]
+            selected_id = selected_now[1].text()
+            key_to_modify = None
+            for key, value in self.now_list.items():
+                if isinstance(value, list):
+                    if selected_id in value:
+                        value.remove(selected_id)
+                        if not value:  
+                            key_to_modify = key
+                        break
+                elif selected_id == value:
+                    key_to_modify = key
+                    break
+            if key_to_modify is not None:
+                del self.now_list[key_to_modify]
             self.handleNowLoad()
 
     def handleLoadClicked(self, flag=True):
@@ -205,7 +224,15 @@ class Warp(QWidget):
                 else:
                     rateUpItems5 = self.config_data[str(item['rateUpItems5'][0])]
                 bannerid = str(item['id'])
-                self.now_list[rateUpItems5] = bannerid
+
+                if rateUpItems5 in self.now_list:
+                    existing_value = self.now_list[rateUpItems5]
+                    if isinstance(existing_value, list) and bannerid not in existing_value:
+                        self.now_list[rateUpItems5] += [bannerid]
+                    elif existing_value != bannerid:
+                        self.now_list[rateUpItems5] = [existing_value, bannerid]
+                else:
+                    self.now_list[rateUpItems5] = bannerid
             self.handleNowLoad()
 
             if flag:
@@ -234,7 +261,16 @@ class Warp(QWidget):
         with open('src/warp/Banners.json', 'r', encoding='utf-8') as file:
             all_banners = json.load(file)
 
-        filtered_banners = [banner for banner in all_banners if str(banner['id']) in self.now_list.values()]
+        filtered_banners = []
+        for banner in all_banners:
+            banner_id_str = str(banner['id'])
+            for value in self.now_list.values():
+                if isinstance(value, list) and banner_id_str in value:
+                    filtered_banners.append(banner)
+                    break
+                elif banner_id_str == value:
+                    filtered_banners.append(banner)
+                    break
 
         with open('server/LunarCore/data/Banners.json', 'w', encoding='utf-8') as file:
             json.dump(filtered_banners, file, indent=2, ensure_ascii=False)
@@ -291,10 +327,20 @@ class Warp(QWidget):
 
     def handleNowLoad(self):
         self.now_table.clearContents()
-        self.now_table.setRowCount(len(self.now_list))
-        for row, (key, value) in enumerate(self.now_list.items()):
-            self.now_table.setItem(row, 0, QTableWidgetItem(key))
-            self.now_table.setItem(row, 1, QTableWidgetItem(str(value)))
-            self.now_table.setRowHeight(row, 39)
+        row_count = sum(len(value) if isinstance(value, list) else 1 for value in self.now_list.values())
+        self.now_table.setRowCount(row_count)
+
+        current_row = 0
+        for key, value in self.now_list.items():
+            if isinstance(value, list):
+                for item in value:
+                    self.now_table.setItem(current_row, 0, QTableWidgetItem(key))
+                    self.now_table.setItem(current_row, 1, QTableWidgetItem(str(item)))
+                    self.now_table.setRowHeight(current_row, 39)
+                    current_row += 1
+            else:
+                self.now_table.setItem(current_row, 0, QTableWidgetItem(key))
+                self.now_table.setItem(current_row, 1, QTableWidgetItem(str(value)))
+                self.now_table.setRowHeight(current_row, 39)
+                current_row += 1
         self.now_table.setHorizontalHeaderLabels([self.tr('当前卡池'), 'ID'])
-        # 景元ID占用，无法显示两个

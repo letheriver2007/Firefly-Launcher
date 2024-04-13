@@ -146,13 +146,17 @@ write_to_file(stage_file_path, stage_lines)
 write_to_file(scene_file_path, scene_lines)
 write_to_file(relic_file_path, new_relic_lines)
 
-
 input_entry_path = os.path.join(os.path.dirname(current_file_path), f"default\\entry-{LANGUAGE}.txt")
-input_myrelic_path = os.path.join(os.path.dirname(current_file_path), "default\\myrelic.txt")
-input_mygive_path = os.path.join(os.path.dirname(current_file_path), "default\\mygive.txt")
 output_entry_path = os.path.join(os.path.dirname(current_file_path), "output\\entry.txt")
-output_myrelic_path = os.path.join(os.path.dirname(current_file_path), "output\\myrelic.txt")
-output_mygive_path = os.path.join(os.path.dirname(current_file_path), "output\\mygive.txt")
 shutil.copy(input_entry_path, output_entry_path)
-shutil.copy(input_myrelic_path, output_myrelic_path)
+
+input_mygive_path = os.path.join(os.path.dirname(current_file_path), "default\\mygive.txt")
+output_mygive_path = os.path.join(os.path.dirname(current_file_path), "output\\mygive.txt")
 shutil.copy(input_mygive_path, output_mygive_path)
+
+input_myrelic_path = os.path.join(os.path.dirname(current_file_path), "default\\myrelic.txt")
+output_myrelic_path = os.path.join(os.path.dirname(current_file_path), "output\\myrelic.txt")
+
+with open(input_myrelic_path, "r", encoding="utf-8") as input_file:
+    lines = input_file.readlines()
+    new_myrelic_lines = []

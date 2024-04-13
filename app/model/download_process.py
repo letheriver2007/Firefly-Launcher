@@ -2,74 +2,13 @@ import os
 import time
 import subprocess
 from PySide6.QtGui import QPalette, QColor
-from PySide6.QtWidgets import QDialog, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QDialog, QVBoxLayout
 from PySide6.QtCore import QThread, Signal, Qt
 from qfluentwidgets import InfoBar, InfoBarPosition, PlainTextEdit
 from app.model.config import cfg
 
-def __handleUrlGenerate(types, repo_url, mirror_url, repo_branch=None, mirror_branch=None, is_add=False):
-    if types == 'url':
-        file = os.path.join("temp", repo_url.split('/')[-1])
-        url_cfg = f'curl -o {file} -L '
-        if cfg.chinaStatus.value:
-            return url_cfg + mirror_url
-        elif cfg.proxyStatus.value:
-            url_cfg = f'curl -x http://127.0.0.1:7890 -o {file} -L '
-        return url_cfg + repo_url
-    elif types == 'git':
-        git_cfg = 'git config --global core.longpaths true && git clone --progress '
-        if not is_add:
-            if cfg.chinaStatus.value:
-                return git_cfg + mirror_branch + mirror_url
-            elif cfg.proxyStatus.value:
-                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
-            return git_cfg + repo_branch + repo_url
-        else:
-            if cfg.chinaStatus.value:
-                return ''
-            elif cfg.proxyStatus.value:
-                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
-            return ' && ' + git_cfg + repo_branch + repo_url
 
-def handleDownloadGenerate(name):
-    if name == 'audio':
-        types = 'git'
-        file_path = 'src\\audio'
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_AUDIO, cfg.DOWNLOAD_COMMANDS_AUDIO_MIRROR, '--branch audio ', '--branch audio ')
-    elif name == 'git':
-        types = 'url'
-        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_GIT.split('/')[-1])
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_GIT, cfg.DOWNLOAD_COMMANDS_GIT_MIRROR)
-    elif name == 'java':
-        types = 'url'
-        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_JAVA.split('/')[-1])
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_JAVA, cfg.DOWNLOAD_COMMANDS_JAVA_MIRROR)
-    elif name =='mongodb':
-        types = 'url'
-        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_MONGODB.split('/')[-1])
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MONGODB, cfg.DOWNLOAD_COMMANDS_MONGODB_MIRROR)
-    elif name == 'lunarcore':
-        types = 'git'
-        file_path = 'server\\LunarCore'
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE, cfg.DOWNLOAD_COMMANDS_LUNARCORE_MIRROR, '', '--branch development ')
-    elif name == 'lunarcoreres':
-        types = 'git'
-        file_path = 'server\\LunarCore\\resources'
-        command_1 = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_1, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR, '', '--branch lunarcoreres ')
-        command_2 = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_2, '', '', '', True)
-        command = command_1 + command_2
-    elif name == 'fiddler':
-        types = 'git'
-        file_path = 'tool\\Fiddler'
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_FIDDLER, cfg.DOWNLOAD_COMMANDS_FIDDLER_MIRROR, '--branch fiddler ', '--branch fiddler ')
-    elif name == 'mitmdump':
-        types = 'git'
-        file_path = 'tool\\Mitmdump'
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MITMDUMP, cfg.DOWNLOAD_COMMANDS_MITMDUMP_MIRROR, '--branch mitmdump ', '--branch mitmdump ')
-    return types, command, file_path
-
-
-class DownloadCMD(QDialog):
+class SubDownloadCMD(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
@@ -180,3 +119,65 @@ class CommandRunner(QThread):
             self.command_updated.emit(line.rstrip('\n'))
         self.process.communicate()
         self.download_finished.emit(self.process.returncode, self.check)
+
+
+def __handleUrlGenerate(types, repo_url, mirror_url, repo_branch=None, mirror_branch=None, is_add=False):
+    if types == 'url':
+        file = os.path.join("temp", repo_url.split('/')[-1])
+        url_cfg = f'curl -o {file} -L '
+        if cfg.chinaStatus.value:
+            return url_cfg + mirror_url
+        elif cfg.proxyStatus.value:
+            url_cfg = f'curl -x http://127.0.0.1:7890 -o {file} -L '
+        return url_cfg + repo_url
+    elif types == 'git':
+        git_cfg = 'git config --global core.longpaths true && git clone --progress '
+        if not is_add:
+            if cfg.chinaStatus.value:
+                return git_cfg + mirror_branch + mirror_url
+            elif cfg.proxyStatus.value:
+                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
+            return git_cfg + repo_branch + repo_url
+        else:
+            if cfg.chinaStatus.value:
+                return ''
+            elif cfg.proxyStatus.value:
+                git_cfg = 'git config --global core.longpaths true && git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 clone --progress '
+            return ' && ' + git_cfg + repo_branch + repo_url
+
+def handleDownloadGenerate(name):
+    if name == 'audio':
+        types = 'git'
+        file_path = 'src\\audio'
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_AUDIO, cfg.DOWNLOAD_COMMANDS_AUDIO_MIRROR, '--branch audio ', '--branch audio ')
+    elif name == 'git':
+        types = 'url'
+        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_GIT.split('/')[-1])
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_GIT, cfg.DOWNLOAD_COMMANDS_GIT_MIRROR)
+    elif name == 'java':
+        types = 'url'
+        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_JAVA.split('/')[-1])
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_JAVA, cfg.DOWNLOAD_COMMANDS_JAVA_MIRROR)
+    elif name =='mongodb':
+        types = 'url'
+        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_MONGODB.split('/')[-1])
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MONGODB, cfg.DOWNLOAD_COMMANDS_MONGODB_MIRROR)
+    elif name == 'lunarcore':
+        types = 'git'
+        file_path = 'server\\LunarCore'
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE, cfg.DOWNLOAD_COMMANDS_LUNARCORE_MIRROR, '', '--branch development ')
+    elif name == 'lunarcoreres':
+        types = 'git'
+        file_path = 'server\\LunarCore\\resources'
+        command_1 = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_1, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR, '', '--branch lunarcoreres ')
+        command_2 = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_LUNARCORE_RES_2, '', '', '', True)
+        command = command_1 + command_2
+    elif name == 'fiddler':
+        types = 'git'
+        file_path = 'tool\\Fiddler'
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_FIDDLER, cfg.DOWNLOAD_COMMANDS_FIDDLER_MIRROR, '--branch fiddler ', '--branch fiddler ')
+    elif name == 'mitmdump':
+        types = 'git'
+        file_path = 'tool\\Mitmdump'
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MITMDUMP, cfg.DOWNLOAD_COMMANDS_MITMDUMP_MIRROR, '--branch mitmdump ', '--branch mitmdump ')
+    return types, command, file_path

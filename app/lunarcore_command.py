@@ -1,4 +1,5 @@
 import json
+import urllib.request
 from PySide6.QtWidgets import (QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView, QVBoxLayout,
                                QHBoxLayout, QButtonGroup, QLabel, QStackedWidget, QApplication)
 from PySide6.QtGui import QIntValidator
@@ -8,8 +9,7 @@ from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, Combo
                             Pivot, qrouter, ScrollArea, InfoBar, InfoBarPosition, PrimaryPushSettingCard)
 from qfluentwidgets import FluentIcon as FIF
 from app.model.setting_card import SettingCardGroup, SettingCard
-from app.model.config import cfg
-from app.model.open_command import send_command
+from app.model.config import cfg, get_json
 from app.model.style_sheet import StyleSheet
 
 
@@ -169,7 +169,7 @@ class LunarCoreCommand(ScrollArea):
         self.buttonClicked.connect(self.handlebuttonClicked)
         self.clearButton.clicked.connect(lambda: self.updateText.clear())
         self.copyButton.clicked.connect(lambda: self.copyToClipboard('show'))
-        self.actionButton.clicked.connect(self.handleOpencommandActionCkicked)
+        self.actionButton.clicked.connect(self.handleActionCkicked)
 
         self.accountCard.create_account.connect(lambda: self.handleAccountClicked('create'))
         self.accountCard.delete_account.connect(lambda: self.handleAccountClicked('delete'))
@@ -221,44 +221,96 @@ class LunarCoreCommand(ScrollArea):
         if cfg.autoCopy.value:
             self.copyToClipboard('hide')
     
-    def handleOpencommandActionCkicked(self):
-        with open('config/config.json', 'r') as file:
-            data = json.load(file)
-            token = data['TOKEN']
-        command = self.updateText.text().replace('/', '')
-        if token != '':
-            if self.updateText.text() != '':
-                try:
-                    response = send_command(token, command)
-                    InfoBar.success(
-                        title=self.tr('执行完成！'),
-                        content=response,
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=1000,
-                        parent=self.parent
-                    )
-                except Exception as e:
-                    InfoBar.error(
-                        title=self.tr('执行失败！'),
-                        content=str(e),
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=3000,
-                        parent=self.parent
-                    )
-        else:
+    def handleActionCkicked(self):
+        if not cfg.useRemote.value:
             InfoBar.error(
-                title=self.tr('执行失败！'),
-                content=self.tr('请先配置远程执行！'),
+                title=self.tr('远程执行未启用！'),
+                content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=3000,
                 parent=self.parent
             )
+            return
+
+        uid = get_json('./config/config.json', 'UID')
+        pwd = get_json('./config/config.json', 'PWD')
+
+        if uid != '' and pwd != '' and self.updateText.text() != '':
+            try:
+                status, response = self.handleCommandSend(uid, self.updateText.text(), pwd)
+                if status == 'success':
+                    InfoBar.success(
+                        title=self.tr('执行成功！'),
+                        content='请自行查看执行结果！',
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=1000,
+                        parent=self.parent
+                    )
+                else:
+                    InfoBar.error(
+                        title=self.tr('执行失败！'),
+                        content=str(response),
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=3000,
+                        parent=self.parent
+                    )
+            except Exception as e:
+                InfoBar.error(
+                    title=self.tr('执行失败！'),
+                    content=str(e),
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self.parent
+                )
+        else:
+            InfoBar.error(
+                title=self.tr('执行失败！'),
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self.parent
+            )
+
+    def handleCommandSend(self, uid, command, password):
+        base_url = get_json('./config/config.json', 'SERVER_API')
+        params = {
+            'uid': uid,
+            'command': command,
+            'password': password
+            }
+        url = base_url + '?' + urllib.parse.urlencode(params)
+        req = urllib.request.Request(url, method='GET')
+
+        try:
+            with urllib.request.urlopen(req) as response:
+                response_data = response.read()
+                response_json = json.loads(response_data)
+                if response_json['retcode'] == 200:
+                    return 'success', response_json['message']
+                else:
+                    return 'error', response_json['message']
+
+        except urllib.error.HTTPError as http_err:
+            print(f'网络请求失败, {http_err}')
+            return 'error', http_err
+
+        except urllib.error.URLError as req_err:
+            print(f'请求格式错误, {req_err}')
+            return 'error', req_err
+
+        except Exception as err:
+            print(f'未知错误, {err}')
+            return 'error', err
 
     def copyToClipboard(self, status):
         text = self.updateText.text()

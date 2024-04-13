@@ -6,7 +6,7 @@ from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCardGroup, HyperlinkCard_Launcher
-from app.model.download_process import DownloadCMD
+from app.model.download_process import SubDownloadCMD
 
 
 class Launcher(ScrollArea):
@@ -78,8 +78,8 @@ class Launcher(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.LauncherDownloadInterface.objectName())
 
     def __connectSignalToSlot(self):
-        DownloadCMDSelf = DownloadCMD(self)
-        self.AudioDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('audio'))
+        SubDownloadCMDSelf = SubDownloadCMD(self)
+        self.AudioDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('audio'))
         self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):

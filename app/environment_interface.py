@@ -4,7 +4,7 @@ from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCardGroup, HyperlinkCard_Environment
-from app.model.download_process import DownloadCMD
+from app.model.download_process import SubDownloadCMD
 
 
 class Environment(ScrollArea):
@@ -81,10 +81,10 @@ class Environment(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.EnvironmentDownloadInterface.objectName())
 
     def __connectSignalToSlot(self):
-        DownloadCMDSelf = DownloadCMD(self)
-        self.GitDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('git'))
-        self.JavaDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('java'))
-        self.MongoDBDownloadCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('mongodb'))
+        SubDownloadCMDSelf = SubDownloadCMD(self)
+        self.GitDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('git'))
+        self.JavaDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('java'))
+        self.MongoDBDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mongodb'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)

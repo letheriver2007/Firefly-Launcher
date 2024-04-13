@@ -114,7 +114,7 @@
     </message>
 </context>
 <context>
-    <name>DownloadCMD</name>
+    <name>SubDownloadCMD</name>
     <message>
         <location filename="../../../app/model/download_process.py" line="105"/>
         <source>该目录已存在文件！</source>

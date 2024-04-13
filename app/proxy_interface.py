@@ -6,7 +6,7 @@ from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCardGroup, MessageFiddler, PrimaryPushSettingCard_Fiddler, HyperlinkCard_Tool
-from app.model.download_process import DownloadCMD
+from app.model.download_process import SubDownloadCMD
 
 
 class Proxy(ScrollArea):
@@ -76,8 +76,8 @@ class Proxy(ScrollArea):
         self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
 
         # 栏绑定界面
+        self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface',self.tr('启动'), icon=FIF.PLAY)
         self.addSubInterface(self.ProxyDownloadInterface, 'ToolkitDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
-        self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface',self.tr('代理'), icon=FIF.CERTIFICATE)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -85,14 +85,14 @@ class Proxy(ScrollArea):
         self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.ProxyDownloadInterface)
-        self.pivot.setCurrentItem(self.ProxyDownloadInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.ProxyDownloadInterface.objectName())
+        self.stackedWidget.setCurrentWidget(self.ProxyToolInterface)
+        self.pivot.setCurrentItem(self.ProxyToolInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.ProxyToolInterface.objectName())
 
     def __connectSignalToSlot(self):
-        DownloadCMDSelf = DownloadCMD(self)
-        self.DownloadFiddlerCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('fiddler'))
-        self.DownloadMitmdumpCard.clicked.connect(lambda: DownloadCMDSelf.handleDownloadStarted('mitmdump'))
+        SubDownloadCMDSelf = SubDownloadCMD(self)
+        self.DownloadFiddlerCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('fiddler'))
+        self.DownloadMitmdumpCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mitmdump'))
         self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
         self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
         self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)

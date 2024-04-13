@@ -2,7 +2,7 @@ import os
 import json
 import urllib.request
 from PySide6.QtCore import QThread, Signal
-from app.model.config import cfg
+from app.model.config import cfg, get_json
 
 def get_latest_version():
     if cfg.chinaStatus.value:
@@ -30,11 +30,6 @@ def get_latest_version():
                 return None
     except:
         return None
-
-def get_json(file_path, key):
-    with open(f'{file_path}', 'r') as file:
-        json_data = json.load(file)
-        return json_data[f"{key}"]
 
 def checkUpdate(self):
     self.check_thread = UpdateThread()

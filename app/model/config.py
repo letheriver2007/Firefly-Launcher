@@ -31,6 +31,7 @@ class LanguageSerializer(ConfigSerializer):
 
 
 class Config(QConfig):
+    ############### APP CONFIG ###############
     dpiScale = OptionsConfigItem(
         "Style", "DpiScale", "Auto", OptionsValidator([1, 1.25, 1.5, 1.75, 2, "Auto"]), restart=True)
     language = OptionsConfigItem(
@@ -40,11 +41,13 @@ class Config(QConfig):
     useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())
     proxyStatus = ConfigItem("Proxy", "ProxyStatus", True, BoolValidator())
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", False, BoolValidator())
+    useRemote = ConfigItem("Command", "useRemote", False, BoolValidator())
 
     APP_NAME = "Firefly Launcher(Letheriver2007)"
     APP_VERSION = get_version_type(get_json('./config/version.json', 'APP_VERSION'))
     APP_FONT = "SDK_SC_Web"
-
+    
+    ############### DOWNLOAD CONFIG ###############
     URL_WRITER = "https://github.com/letheriver2007"
     URL_REPO = "https://github.com/letheriver2007/Firefly-Launcher"
     URL_RELEASES = "https://github.com/letheriver2007/Firefly-Launcher/releases"
@@ -72,7 +75,7 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_FIDDLER_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler')
     DOWNLOAD_COMMANDS_MITMDUMP_MIRROR = ('https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump')
 
-    PROXY_PORT = get_json('./config/config.json', 'PROXY_PORT')
+    ############### SERVER CONFIG ###############
     SERVER_NAMES = get_json('./config/config.json', 'SERVER_NAMES')
     SERVER_COMMANDS = get_json('./config/config.json', 'SERVER_COMMANDS')
 

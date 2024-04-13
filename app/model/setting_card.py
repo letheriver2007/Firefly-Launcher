@@ -3,8 +3,9 @@ from PySide6.QtGui import QIcon, QPainter, QColor, QIntValidator
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QLabel, QWidget
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (FluentIconBase, IconWidget, FluentStyleSheet, isDarkTheme, drawIcon, ComboBox, HyperlinkButton,
-                            MessageBoxBase, TitleLabel, SubtitleLabel, BodyLabel, LineEdit, PrimaryPushButton, ExpandLayout)
+from qfluentwidgets import (FluentIconBase, IconWidget, FluentStyleSheet, isDarkTheme, drawIcon,
+                            ComboBox, HyperlinkButton,MessageBoxBase, TitleLabel, SubtitleLabel,
+                             BodyLabel, LineEdit, PrimaryPushButton, ExpandLayout, PasswordLineEdit)
 
 
 class SettingCardGroup(QWidget):
@@ -185,40 +186,6 @@ class PrimaryPushSettingCard_Fiddler(SettingCard):
         self.button_old.clicked.connect(self.clicked_old)
 
 
-class PrimaryPushSettingCard_Sendcode(SettingCard):
-    clicked_sendcode = Signal(int)
-    def __init__(self, title, icon=FIF.SEND, content='Send Code'):
-        super().__init__(icon, title, content)
-        self.lineedit_sendcode = LineEdit(self)
-        self.lineedit_sendcode.setPlaceholderText("UID")
-        self.lineedit_sendcode.setFixedWidth(60)
-        self.lineedit_sendcode.setValidator(QIntValidator(self))
-        self.button_sendcode = PrimaryPushButton(self.tr('执行'), self)
-        self.hBoxLayout.addWidget(self.lineedit_sendcode, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_sendcode, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(16)
-        self.button_sendcode.clicked.connect(lambda: self.clicked_sendcode.emit(int(self.lineedit_sendcode.text())))
-        self.setDisabled(True)
-
-
-class PrimaryPushSettingCard_Verifycode(SettingCard):
-    clicked_verifycode = Signal(int)
-    def __init__(self, title, icon=FIF.FINGERPRINT, content='Vertify Code'):
-        super().__init__(icon, title, content)
-        self.lineedit_verifycode = LineEdit(self)
-        self.lineedit_verifycode.setPlaceholderText(self.tr("验证码"))
-        self.lineedit_verifycode.setFixedWidth(70)
-        self.lineedit_verifycode.setValidator(QIntValidator(1, 9999, self))
-        self.button_verifycode = PrimaryPushButton(self.tr('执行'), self)
-        self.hBoxLayout.addWidget(self.lineedit_verifycode, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_verifycode, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(16)
-        self.button_verifycode.clicked.connect(lambda: self.clicked_verifycode.emit(int(self.lineedit_verifycode.text())))
-        self.setDisabled(True)
-
-
 class MessageFiddler(MessageBoxBase):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -234,3 +201,47 @@ class MessageFiddler(MessageBoxBase):
 
         self.yesButton.setText('Yuanshen')
         self.cancelButton.setText('StarRail')
+
+
+############### Remote Interface ###############
+class PrimaryPushSettingCard_UID(SettingCard):
+    clicked_setuid = Signal(int)
+    def __init__(self, title, content, icon=FIF.SEND):
+        super().__init__(icon, title, content)
+        self.lineedit_setuid = LineEdit(self)
+        self.lineedit_setuid.setPlaceholderText("UID")
+        self.lineedit_setuid.setValidator(QIntValidator(self))
+        self.button_setuid = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_setuid, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_setuid, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_setuid.clicked.connect(lambda: self.clicked_setuid.emit(int(self.lineedit_setuid.text())))
+
+
+class PrimaryPushSettingCard_PWD(SettingCard):
+    clicked_setpwd = Signal(int)
+    def __init__(self, title, content, icon=FIF.FINGERPRINT):
+        super().__init__(icon, title, content)
+        self.lineedit_setpwd = PasswordLineEdit(self)
+        self.lineedit_setpwd.setPlaceholderText(self.tr("密码"))
+        self.button_setpwd = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_setpwd, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_setpwd, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_setpwd.clicked.connect(lambda: self.clicked_setpwd.emit(int(self.lineedit_setpwd.text())))
+
+
+class PrimaryPushSettingCard_API(SettingCard):
+    clicked_setapi = Signal(int)
+    def __init__(self, title, content, icon=FIF.WIFI):
+        super().__init__(icon, title, content)
+        self.lineedit_setapi = LineEdit(self)
+        self.lineedit_setapi.setPlaceholderText(self.tr("API地址"))
+        self.button_setapi = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_setapi, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_setapi, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_setapi.clicked.connect(lambda: self.clicked_setpwd.emit(int(self.clicked_setapi.text())))

@@ -669,10 +669,6 @@
     <target>代理</target>
 </phrase>
 <phrase>
-    <source>代理端口:</source>
-    <target>代理端口:</target>
-</phrase>
-<phrase>
     <source>代理端口已关闭！</source>
     <target>代理端口已關閉！</target>
 </phrase>
@@ -1003,5 +999,101 @@
 <phrase>
     <source>当前卡池</source>
     <target>當前卡池</target>
+</phrase>
+<phrase>
+    <source>启用远程执行</source>
+    <target>啟用遠程執行</target>
+</phrase>
+<phrase>
+    <source>启用远程执行功能, 并接受可能存在的安全风险</source>
+    <target>啟用遠程執行功能，並接受可能存在的安全風險</target>
+</phrase>
+<phrase>
+    <source>补丁</source>
+    <target>補丁</target>
+</phrase>
+<phrase>
+    <source>魔改LunarCore核心, 以支持远程执行</source>
+    <target>魔改LunarCore覈心, 以支持遠程執行</target>
+</phrase>
+<phrase>
+    <source>配置UID</source>
+    <target>配寘UID</target>
+</phrase>
+<phrase>
+    <source>设置默认远程目标玩家的UID</source>
+    <target>配寘UI設定默認遠程目標玩家的UID</target>
+</phrase>
+<phrase>
+    <source>配置密码</source>
+    <target>配寘密碼</target>
+</phrase>
+<phrase>
+    <source>复制config.json中gm_public密码</source>
+    <target>複製config.json中gm_public密碼</target>
+</phrase>
+<phrase>
+    <source>配置服务器API地址</source>
+    <target>配寘服務器API地址</target>
+</phrase>
+<phrase>
+    <source>设置服务器用于远程执行命令的API地址</source>
+    <target>設定服務器用於遠程執行命令的API地址</target>
+</phrase>
+<phrase>
+    <source>配置UID (当前: </source>
+    <target>配寘UID (當前: </target>
+</phrase>
+<phrase>
+    <source>配置密码 (当前: </source>
+    <target>配寘密碼 (當前: </target>
+</phrase>
+<phrase>
+    <source>配置服务器API地址 (当前: </source>
+    <target>配寘服務器API地址 (當前: </target>
+</phrase>
+<phrase>
+    <source>找不到Patch路径, 请勿使用预编译版本!</source>
+    <target>找不到Patch路徑, 請勿使用預編譯版本！</target>
+</phrase>
+<phrase>
+    <source>UID设置成功！</source>
+    <target>UID設定成功！</target>
+</phrase>
+<phrase>
+    <source>密码设置成功！</source>
+    <target>密碼設定成功！</target>
+</phrase>
+<phrase>
+    <source>API地址设置成功！</source>
+    <target>API地址設定成功！</target>
+</phrase>
+<phrase>
+    <source>远程执行未启用！</source>
+    <target>遠程執行未啟用！</target>
+</phrase>
+<phrase>
+    <source>执行成功！</source>
+    <target>執行成功！</target>
+</phrase>
+<phrase>
+    <source>API地址</source>
+    <target>API地址</target>
+</phrase>
+<phrase>
+    <source>密码</source>
+    <target>密碼</target>
+</phrase>
+<phrase>
+    <source>启动</source>
+    <target>啟動</target>
+</phrase>
+<phrase>
+    <source>代理端口</source>
+    <target>代理埠</target>
+</phrase>
+<phrase>
+    <source>代理端口 (当前: </source>
+    <target>代理埠 (當前: </target>
 </phrase>
 </QPH>

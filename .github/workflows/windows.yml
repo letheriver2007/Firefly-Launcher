@@ -48,10 +48,7 @@ jobs:
           move dist\Setup.exe dist\Firefly-Launcher\
           xcopy /s /e /y src\qss\ dist\Firefly-Launcher\src\qss\
           xcopy /s /e /y src\image\ dist\Firefly-Launcher\src\image\
-          xcopy /s /e /y src\patch\starrail\ dist\Firefly-Launcher\src\patch\starrail\
-          xcopy /s /e /y src\patch\yuanshen\  dist\Firefly-Launcher\src\patch\yuanshen\
-          xcopy /s /e /y src\patch\gradle\ dist\Firefly-Launcher\src\patch\gradle\
-          xcopy /s /e /y src\patch\font\ dist\Firefly-Launcher\src\patch\font\
+          xcopy /s /e /y src\patch\ dist\Firefly-Launcher\src\patch\
           xcopy /s /e /y src\data\ dist\Firefly-Launcher\src\data\
           xcopy /s /e /y src\translate\ dist\Firefly-Launcher\src\translate\
           xcopy /s /e /y src\warp\ dist\Firefly-Launcher\src\warp\

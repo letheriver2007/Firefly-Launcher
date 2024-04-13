@@ -1,14 +1,12 @@
 import os
-import json
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
 from app.model.style_sheet import StyleSheet
-from app.model.setting_group import SettingCardGroup
-from app.model.toolkit_message import MessageFiddler, PrimaryPushSettingCard_Fiddler
-from app.model.download_message import HyperlinkCard_Tool, download_check
+from app.model.setting_card import SettingCardGroup, MessageFiddler, PrimaryPushSettingCard_Fiddler, HyperlinkCard_Tool
+from app.model.download_process import SubDownloadCMD
 
 
 class Proxy(ScrollArea):
@@ -27,39 +25,31 @@ class Proxy(ScrollArea):
         # 添加项
         self.ProxyDownloadInterface = SettingCardGroup(self.scrollWidget)
         self.ProxyRepoCard = HyperlinkCard_Tool(
-            'https://www.telerik.com/fiddler#fiddler-classic',
-            'Fiddler',
-            'https://mitmproxy.org/',
-            'Mitmdump',
-            FIF.LINK,
-            '项目仓库',
-            '打开代理工具仓库'
+            self.tr('项目仓库'),
+            self.tr('打开代理工具仓库')
         )
         self.DownloadFiddlerCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
             'Fiddler',
-            '下载代理工具Fiddler'
+            self.tr('下载代理工具Fiddler')
         )
         self.DownloadMitmdumpCard = PrimaryPushSettingCard(
-            '详细信息',
+            self.tr('下载'),
             FIF.DOWNLOAD,
             'Mitmdump',
-            '下载代理工具Mitmdump'
+            self.tr('下载代理工具Mitmdump')
         )
         self.ProxyToolInterface = SettingCardGroup(self.scrollWidget)
         self.FiddlerCard = PrimaryPushSettingCard_Fiddler(
-            '脚本打开',
-            '原版打开',
-            FIF.VPN,
-            'Fiddler(外部)',
-            '使用Fiddler Scripts代理'
+            self.tr('Fiddler(外部)'),
+            self.tr('使用Fiddler Scripts代理')
         )
         self.mitmdumpCard = PrimaryPushSettingCard( 
-            '打开',
+            self.tr('打开'),
             FIF.VPN,
-            'Mitmdump(外部)',
-            '使用Mitmdump代理'
+            self.tr('Mitmdump(外部)'),
+            self.tr('使用Mitmdump代理')
         )
 
         self.__initWidget()
@@ -86,8 +76,8 @@ class Proxy(ScrollArea):
         self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.ProxyDownloadInterface, 'ToolkitDownloadInterface','下载', icon=FIF.DOWNLOAD)
-        self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface','代理', icon=FIF.CERTIFICATE)
+        self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface',self.tr('启动'), icon=FIF.PLAY)
+        self.addSubInterface(self.ProxyDownloadInterface, 'ToolkitDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -95,13 +85,14 @@ class Proxy(ScrollArea):
         self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.ProxyDownloadInterface)
-        self.pivot.setCurrentItem(self.ProxyDownloadInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.ProxyDownloadInterface.objectName())
+        self.stackedWidget.setCurrentWidget(self.ProxyToolInterface)
+        self.pivot.setCurrentItem(self.ProxyToolInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.ProxyToolInterface.objectName())
 
     def __connectSignalToSlot(self):
-        self.DownloadFiddlerCard.clicked.connect(lambda: download_check(self, 'fiddler'))
-        self.DownloadMitmdumpCard.clicked.connect(lambda: download_check(self, 'mitmdump'))
+        SubDownloadCMDSelf = SubDownloadCMD(self)
+        self.DownloadFiddlerCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('fiddler'))
+        self.DownloadMitmdumpCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mitmdump'))
         self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
         self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
         self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)
@@ -126,7 +117,7 @@ class Proxy(ScrollArea):
             subprocess.run(['start', file_path], shell=True)
         else:
             InfoBar.error(
-                title="找不到文件，请重新下载！",
+                title=self.tr("找不到文件，请重新下载！"),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -152,7 +143,7 @@ class Proxy(ScrollArea):
             subprocess.run('cd ./tool/Mitmdump && start /b Proxy.exe', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
         else:
             InfoBar.error(
-                title="找不到文件，请重新下载！",
+                title=self.tr("找不到文件，请重新下载！"),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,

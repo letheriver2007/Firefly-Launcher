@@ -11,11 +11,15 @@ Firefly-Launcher/
 
 .idea/
 .vs/
+.vscode/
+.pytest_cache/
 venv/
 
 server/
 tool/
 temp/
 src/audio/
+
+devkit/data/output/
 
 auto.json

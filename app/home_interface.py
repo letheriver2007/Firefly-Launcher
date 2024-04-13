@@ -3,7 +3,7 @@ import random
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QHBoxLayout, QButtonGroup, QStyleOptionViewItem
 from PySide6.QtCore import Qt, QSize, QModelIndex, QRect, QTimer
-from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QFont, QColor
+from PySide6.QtGui import QPainter, QFont
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import (TogglePushButton, PrimaryPushButton, setCustomStyleSheet, FlowLayout,
                             InfoBar, InfoBarPosition, HorizontalFlipView, FlipImageDelegate)
@@ -54,7 +54,7 @@ class Home(QWidget):
             setCustomStyleSheet(button_server, 'PushButton{border-radius: 12px}', 'PushButton{border-radius: 12px}')
             self.button_group.addButton(button_server)
 
-        self.button_launch = PrimaryPushButton(FIF.PLAY_SOLID, ' 一键启动')
+        self.button_launch = PrimaryPushButton(FIF.PLAY_SOLID, self.tr(' 一键启动'))
         self.button_launch.setFixedSize(200, 65)
         self.button_launch.setIconSize(QSize(20, 20))
         self.button_launch.setFont(QFont(f'{cfg.APP_FONT}', 18))
@@ -107,7 +107,7 @@ class Home(QWidget):
                 command = cfg.SERVER_COMMANDS.get(name, '')
                 subprocess.run(command, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
                 InfoBar.success(
-                    title='服务端已启动！',
+                    title=self.tr('服务端已启动！'),
                     content='',
                     orient=Qt.Horizontal,
                     isClosable=True,
@@ -117,7 +117,7 @@ class Home(QWidget):
                 )
             else:
                 InfoBar.error(
-                    title=f'找不到服务端{name}，请重新下载！',
+                    title=self.tr('找不到服务端')+name+self.tr('，请重新下载！'),
                     content='',
                     orient=Qt.Horizontal,
                     isClosable=True,

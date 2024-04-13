@@ -1,20 +1,24 @@
 # Firefly Launcher
 ## 简介
-本软件是一款基于 Pyside6 和 QFluentWidgets 的服务端启动器GUI 。
+![Firefly-Launcher](https://socialify.git.ci/letheriver2007/Firefly-Launcher/image?description=1&forks=1&issues=1&language=1&name=1&pulls=1&stargazers=1&theme=Light)
 
-![image](https://github.com/letheriver2007/Firefly-Launcher/assets/77842352/8e610c83-32bb-40a9-9388-bf4967a63665)
 ## 计划
 详情请见 [Project](https://github.com/letheriver2007/Firefly-Launcher/projects)
+
 ## 声明
-### 警告
 本仓库已开源 , 严禁二次打包发布 , 严禁倒卖 , 违者必究 ！！！
-### 鸣谢
+
+## 鸣谢
+### UI组件库来源
  - [PySide6-Fluent-Widgets](https://github.com/zhiyiYo/PyQt-Fluent-Widgets/tree/PySide6)
+### 翻译贡献
+ - [哆啦D夢|DuolaD](https://github.com/DuolaD)
+
 ## 使用
 ### 安装
-#### 方法一(普通)
+#### 方法一(推荐)
 从本仓库的 [Release](https://github.com/letheriver2007/Firefly-Launcher/releases) 下载对应操作系统的稳定版本
-#### 方法二(进阶)
+#### 方法二
 从本仓库的 [Actions](https://github.com/letheriver2007/Firefly-Launcher/actions/) 下载对应操作系统的开发版本
-#### 方法三(开发)
+#### 方法三
 克隆本仓库，从源码构建，目前运行build.bat可一键构建(无虚拟环境)

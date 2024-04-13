@@ -7,7 +7,7 @@ import subprocess
 import urllib.request
 
 current_dir = os.getcwd()
-if not os.path.exists(f'{current_dir}\\main.py'):
+if not os.path.exists(f'{current_dir}\\firefly-launcher.py'):
     print('正在配置环境...')
 
     yes = ['yes','Yes','YES','y','Y']
@@ -36,9 +36,9 @@ if not os.path.exists(f'{current_dir}\\main.py'):
         with open(f'{current_dir}\\config\\config.json', 'r') as file:
             port = json.load(file)
             PROXY_PORT = port['PROXY_PORT']
-        print(f'当前版本：{APP_VERSION}')
+        print(f'当前版本:{APP_VERSION}')
         if proxyStatus:
-            print(f'当前代理端口：{PROXY_PORT}')
+            print(f'当前代理端口:{PROXY_PORT}')
     except Exception as e:
         print(f'配置文件损坏:{e}')
         APP_VERSION = 'v0.0.0'
@@ -82,10 +82,10 @@ if not os.path.exists(f'{current_dir}\\main.py'):
                 latest_tag = 'v' + input('请手动输入最新版本号(X.X.X):')
                 break
 
-    print(f'最新版本：{latest_tag}')
+    print(f'最新版本:{latest_tag}')
 
     if latest_tag and latest_tag > APP_VERSION:
-        update = input(f'检测到新版本：{latest_tag}, 是否更新? (' + "\033[32m" + 'y' + "\033[0m" + '/n)')
+        update = input(f'检测到新版本:{latest_tag}, 是否更新? (' + "\033[32m" + 'y' + "\033[0m" + '/n)')
         if update in yes or update == '':
             if chinaStatus == True:
                 command = f'curl -o Firefly-Launcher.zip -L https://gitee.com/letheriver2007/Firefly-Launcher/releases/download/{latest_tag}/Firefly-Launcher.zip'

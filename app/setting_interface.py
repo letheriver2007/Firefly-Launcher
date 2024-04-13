@@ -5,14 +5,13 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStacke
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QDesktopServices, QFont
 from PySide6.QtCore import Qt, QUrl, QSize, QProcess
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton,
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton, OptionsSettingCard,
                             setThemeColor, PrimaryPushSettingCard, TitleLabel, SubtitleLabel, setCustomStyleSheet,
-                            SwitchSettingCard, InfoBar, InfoBarPosition)
-from app.model.setting_message import LineEditSettingCard
-from app.model.config import cfg
+                            SwitchSettingCard, InfoBar, InfoBarPosition, ComboBoxSettingCard)
+from app.model.setting_card import SettingCardGroup, LineEditSettingCard_Port
 from app.model.style_sheet import StyleSheet
-from app.model.setting_group import SettingCardGroup
 from app.model.check_update import checkUpdate
+from app.model.config import cfg, get_json
 
 
 class Setting(ScrollArea):
@@ -33,62 +32,75 @@ class Setting(ScrollArea):
         self.themeColorCard = CustomColorSettingCard(
             cfg.themeColor,
             FIF.PALETTE,
-            '主题色',
-            '默认流萤主题色，开拓者你不会改的吧?'
+            self.tr('主题色'),
+            self.tr('默认流萤主题色，开拓者你不会改的吧?')
+        )
+        self.zoomCard = ComboBoxSettingCard(
+            cfg.dpiScale,
+            FIF.ZOOM,
+            self.tr("DPI调整"),
+            self.tr("调整全局缩放"),
+            texts=["100%", "125%", "150%", "175%", "200%", self.tr("跟随系统设置")]
+        )
+        self.languageCard = ComboBoxSettingCard(
+            cfg.language,
+            FIF.LANGUAGE,
+            self.tr('语言'),
+            self.tr('设置UI界面显示语言'),
+            texts=['简体中文', '繁體中文', 'English', self.tr('跟随系统设置')]
         )
         self.updateOnStartUpCard = PrimaryPushSettingCard(
-            '检查更新',
+            self.tr('检查更新'),
             FIF.UPDATE,
-            '手动检查更新',
-            '当前版本 : '+ cfg.APP_VERSION
+            self.tr('手动检查更新'),
+            self.tr('当前版本 : ')+ cfg.APP_VERSION
         )
         self.restartCard = PrimaryPushSettingCard(
-            '重启程序',
+            self.tr('重启程序'),
             FIF.ROTATE,
-            '重启程序',
-            '无奖竞猜，存在即合理'
+            self.tr('重启程序'),
+            self.tr('无奖竞猜，存在即合理')
         )
         self.FunctionInterface = SettingCardGroup(self.scrollWidget)
         self.autoCopyCard = SwitchSettingCard(
             FIF.COPY,
-            '命令自动复制',
-            '选择命令时，自动复制命令到剪贴板',
+            self.tr('命令自动复制'),
+            self.tr('选择命令时，自动复制命令到剪贴板'),
             configItem=cfg.autoCopy
         )
         self.useLoginCard = SwitchSettingCard(
             FIF.PENCIL_INK,
-            '启用登录功能',
-            '使用自定义登陆彩蛋',
+            self.tr('启用登录功能'),
+            self.tr('使用自定义登陆彩蛋'),
             configItem=cfg.useLogin
         )
         self.useAudioCard = SwitchSettingCard(
             FIF.MUSIC,
-            '启用流萤语音(外部)',
-            '使用随机流萤语音彩蛋',
+            self.tr('启用流萤语音(外部)'),
+            self.tr('使用随机流萤语音彩蛋'),
             configItem=cfg.useAudio
         )
         self.ProxyInterface = SettingCardGroup(self.scrollWidget)
         self.proxyCard = SwitchSettingCard(
             FIF.CERTIFICATE,
-            '使用代理端口',
-            '启用代理，在配置文件里更改地址',
+            self.tr('使用代理端口'),
+            self.tr('启用代理，在配置文件里更改地址'),
             configItem=cfg.proxyStatus
         )
-        self.proxyPortCard = LineEditSettingCard(
-            FIF.SETTING,
-            '代理端口:'
+        self.proxyPortCard = LineEditSettingCard_Port(
+            self.tr('代理端口')
         )
         self.chinaCard = SwitchSettingCard(
             FIF.CALORIES,
-            '使用国内镜像',
-            '为Github下载启用国内镜像站链接',
+            self.tr('使用国内镜像'),
+            self.tr('为Github下载启用国内镜像站链接'),
             configItem=cfg.chinaStatus
         )
         self.noproxyCard = PrimaryPushSettingCard(
-            '重置',
+            self.tr('重置'),
             FIF.POWER_BUTTON,
-            '重置代理',
-            '重置部分服务端未关闭的代理'
+            self.tr('重置代理'),
+            self.tr('重置部分服务端未关闭的代理')
         )
 
         self.__initWidget()
@@ -110,6 +122,8 @@ class Setting(ScrollArea):
     def __initLayout(self):
         # 项绑定到栏目
         self.PersonalInterface.addSettingCard(self.themeColorCard)
+        self.PersonalInterface.addSettingCard(self.zoomCard)
+        self.PersonalInterface.addSettingCard(self.languageCard)
         self.PersonalInterface.addSettingCard(self.updateOnStartUpCard)
         self.PersonalInterface.addSettingCard(self.restartCard)
         self.FunctionInterface.addSettingCard(self.autoCopyCard)
@@ -121,11 +135,11 @@ class Setting(ScrollArea):
         self.ProxyInterface.addSettingCard(self.noproxyCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.PersonalInterface,'PersonalInterface','程序', icon=FIF.SETTING)
-        self.addSubInterface(self.FunctionInterface,'FunctionInterface','功能', icon=FIF.TILES)
-        self.addSubInterface(self.ProxyInterface, 'ProxyInterface','代理', icon=FIF.CERTIFICATE)
+        self.addSubInterface(self.PersonalInterface,'PersonalInterface',self.tr('程序'), icon=FIF.SETTING)
+        self.addSubInterface(self.FunctionInterface,'FunctionInterface',self.tr('功能'), icon=FIF.TILES)
+        self.addSubInterface(self.ProxyInterface, 'ProxyInterface',self.tr('代理'), icon=FIF.CERTIFICATE)
         self.AboutInterface = About('AboutInterface', self)
-        self.addSubInterface(self.AboutInterface, 'AboutInterface','关于', icon=FIF.INFO)
+        self.addSubInterface(self.AboutInterface, 'AboutInterface',self.tr('关于'), icon=FIF.INFO)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -138,23 +152,23 @@ class Setting(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.PersonalInterface.objectName())
     
     def __initInfo(self):
-        with open('config/config.json', 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            port = data['PROXY_PORT']
-        self.proxyPortCard.titleLabel.setText(f'代理端口: {port}')
+        port = get_json('./config/config.json', 'PROXY_PORT')
+        self.proxyPortCard.titleLabel.setText(self.tr('代理端口 (当前: ') + port + ')')
         if not cfg.proxyStatus.value:
             self.proxyPortCard.setDisabled(True)
         
     def __connectSignalToSlot(self):
         self.themeColorCard.colorChanged.connect(lambda c: setThemeColor(c, lazy=True))
+        self.zoomCard.comboBox.currentIndexChanged.connect(self.restart_application)
+        self.languageCard.comboBox.currentIndexChanged.connect(self.restart_application)
         self.updateOnStartUpCard.clicked.connect(lambda: checkUpdate(self.parent))
         self.restartCard.clicked.connect(self.restart_application)
-        self.autoCopyCard.checkedChanged.connect(lambda: self.common_changed(cfg.autoCopy.value, '自动复制功能已开启！', '自动复制功能已关闭！'))
-        self.useLoginCard.checkedChanged.connect(lambda: self.common_changed(cfg.useLogin.value, '登录功能已开启！', '登录功能已关闭！'))
-        self.useAudioCard.checkedChanged.connect(lambda: self.common_changed(cfg.useAudio.value, '流萤语音已开启！', '流萤语音已关闭！'))
-        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,'代理端口已开启！','代理端口已关闭！',True))
+        self.autoCopyCard.checkedChanged.connect(lambda: self.common_changed(cfg.autoCopy.value, self.tr('自动复制功能已开启！'), self.tr('自动复制功能已关闭！')))
+        self.useLoginCard.checkedChanged.connect(lambda: self.common_changed(cfg.useLogin.value, self.tr('登录功能已开启！'), self.tr('登录功能已关闭！')))
+        self.useAudioCard.checkedChanged.connect(lambda: self.common_changed(cfg.useAudio.value, self.tr('流萤语音已开启！'), self.tr('流萤语音已关闭！')))
+        self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,self.tr('代理端口已开启！'),self.tr('代理端口已关闭！'),True))
         self.proxyPortCard.set_port.connect(self.handleSetProxyPort)
-        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,'国内镜像已开启！','国内镜像已关闭！',True))
+        self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,self.tr('国内镜像已开启！'),self.tr('国内镜像已关闭！'),True))
         self.noproxyCard.clicked.connect(self.disable_global_proxy)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -204,7 +218,7 @@ class Setting(ScrollArea):
             self.proxyPortCard.setDisabled(True)
         if isproxy and cfg.chinaStatus.value and cfg.proxyStatus.value:
             InfoBar.warning(
-                title="代理设置冲突,优先使用国内镜像！",
+                title=self.tr("代理设置冲突,优先使用国内镜像！"),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -216,14 +230,15 @@ class Setting(ScrollArea):
     def disable_global_proxy(self):
         try:
             if cfg.proxyStatus.value:
+                port = get_json('./config/config.json', 'PROXY_PORT')
                 subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-                subprocess.run(f'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "127.0.0.1:{cfg.PROXY_PORT}" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                subprocess.run(f'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "127.0.0.1:{port}" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
             else:
                 subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
                 subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
             
             InfoBar.success(
-                title=f'全局代理已更改！',
+                title=self.tr('全局代理已更改！'),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -233,7 +248,7 @@ class Setting(ScrollArea):
             )
         except:
             InfoBar.error(
-                title=f'全局代理关闭失败！',
+                title=self.tr('全局代理关闭失败！'),
                 content="",
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -249,8 +264,8 @@ class Setting(ScrollArea):
                 data = json.load(file)
                 data['PROXY_PORT'] = new_port
             with open('config/config.json', 'w', encoding='utf-8') as file:
-                json.dump(data, file, ensure_ascii=False)
-        self.proxyPortCard.titleLabel.setText(f'代理端口: {new_port}')
+                json.dump(data, file, indent=2, ensure_ascii=False)
+        self.proxyPortCard.titleLabel.setText(self.tr('代理端口 (当前: ') + new_port + ')')
 
 
 class About(QWidget):
@@ -279,10 +294,10 @@ class About(QWidget):
 
         # Github链接
         info_button_layout = QHBoxLayout()
-        link_writer = PushButton(FIF.HOME, '   作者主页')
-        link_repo = PushButton(FIF.GITHUB, '   Github项目')
-        link_releases = PushButton(FIF.MESSAGE, '   版本发布')
-        link_issues = PushButton(FIF.HELP, '   反馈交流')
+        link_writer = PushButton(FIF.HOME, self.tr('   作者主页'))
+        link_repo = PushButton(FIF.GITHUB, self.tr('   Github项目'))
+        link_releases = PushButton(FIF.MESSAGE, self.tr('   版本发布'))
+        link_issues = PushButton(FIF.HELP, self.tr('   反馈交流'))
 
         for link_button_name in ['link_writer', 'link_repo', 'link_releases', 'link_issues']:
             eval(link_button_name).setFixedSize(270, 70)

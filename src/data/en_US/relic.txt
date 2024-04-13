@@ -1,0 +1,100 @@
+61011 : Passerby's Rejuvenated Wooden Hairstick : Head
+61012 : Passerby's Roaming Dragon Bracer : Hand
+61013 : Passerby's Ragged Embroided Coat : Body
+61014 : Passerby's Stygian Hiking Boots : Foot
+61021 : Musketeer's Wild Wheat Felt Hat : Head
+61022 : Musketeer's Coarse Leather Gloves : Hand
+61023 : Musketeer's Wind-Hunting Shawl : Body
+61024 : Musketeer's Rivets Riding Boots : Foot
+61031 : Knight's Forgiving Casque : Head
+61032 : Knight's Silent Oath Ring : Hand
+61033 : Knight's Solemn Breastplate : Body
+61034 : Knight's Iron Boots of Order : Foot
+61041 : Hunter's Artaius Hood : Head
+61042 : Hunter's Lizard Gloves : Hand
+61043 : Hunter's Ice Dragon Cloak : Body
+61044 : Hunter's Soft Elkskin Boots : Foot
+61051 : Champion's Headgear : Head
+61052 : Champion's Heavy Gloves : Hand
+61053 : Champion's Chest Guard : Body
+61054 : Champion's Fleetfoot Boots : Foot
+61061 : Guard's Cast Iron Helmet : Head
+61062 : Guard's Shining Gauntlets : Hand
+61063 : Guard's Uniform of Old : Body
+61064 : Guard's Silver Greaves : Foot
+61071 : Firesmith's Obsidian Goggles : Head
+61072 : Firesmith's Ring of Flame-Mastery : Hand
+61073 : Firesmith's Fireproof Apron : Body
+61074 : Firesmith's Alloy Leg : Foot
+61081 : Genius's Ultraremote Sensing Visor : Head
+61082 : Genius's Frequency Catcher : Hand
+61083 : Genius's Metafield Suit : Body
+61084 : Genius's Gravity Walker : Foot
+61091 : Band's Polarized Sunglasses : Head
+61092 : Band's Touring Bracelet : Hand
+61093 : Band's Leather Jacket With Studs : Body
+61094 : Band's Ankle Boots With Rivets : Foot
+61101 : Eagle's Beaked Helmet : Head
+61102 : Eagle's Soaring Ring : Hand
+61103 : Eagle's Winged Suit Harness : Body
+61104 : Eagle's Quilted Puttees : Foot
+61111 : Thief's Myriad-Faced Mask : Head
+61112 : Thief's Gloves With Prints : Hand
+61113 : Thief's Steel Grappling Hook : Body
+61114 : Thief's Meteor Boots : Foot
+61121 : Wastelander's Breathing Mask : Head
+61122 : Wastelander's Desert Terminal : Hand
+61123 : Wastelander's Friar Robe : Body
+61124 : Wastelander's Powered Greaves : Foot
+61131 : Disciple's Prosthetic Eye : Head
+61132 : Disciple's Ingenium Hand : Hand
+61133 : Disciple's Dewy Feather Garb : Body
+61134 : Disciple's Celestial Silk Sandals : Foot
+61141 : Messenger's Holovisor : Head
+61142 : Messenger's Transformative Arm : Hand
+61143 : Messenger's Secret Satchel : Body
+61144 : Messenger's Par-kool Sneakers : Foot
+61151 : Grand Duke's Crown of Netherflame : Head
+61152 : Grand Duke's Gloves of Fieryfur : Hand
+61153 : Grand Duke's Robe of Grace : Body
+61154 : Grand Duke's Ceremonial Boots : Foot
+61161 : Prisoner's Sealed Muzzle : Head
+61162 : Prisoner's Leadstone Shackles : Hand
+61163 : Prisoner's Repressive Straitjacket : Body
+61164 : Prisoner's Restrictive Fetters : Foot
+61171 : Pioneer's Heatproof Shell : Head
+61172 : Pioneer's Lacuna Compass : Hand
+61173 : Pioneer's Sealed Lead Apron : Body
+61174 : Pioneer's Starfaring Anchor : Foot
+61181 : Watchmaker's Telescoping Lens : Head
+61182 : Watchmaker's Fortuitous Wristwatch : Hand
+61183 : Watchmaker's Illusory Formal Suit : Body
+61184 : Watchmaker's Dream-Concealing Dress Shoes : Foot
+63015 : Herta's Space Station : Sphere
+63016 : Herta's Wandering Trek : Rope
+63025 : The Xianzhou Luofu's Celestial Ark : Sphere
+63026 : The Xianzhou Luofu's Ambrosial Arbor Vines : Rope
+63035 : The IPC's Mega HQ : Sphere
+63036 : The IPC's Trade Route : Rope
+63045 : Belobog's Fortress of Preservation : Sphere
+63046 : Belobog's Iron Defense : Rope
+63055 : Planet Screwllum's Mechanical Sun : Sphere
+63056 : Planet Screwllum's Ring System : Rope
+63065 : Salsotto's Moving City : Sphere
+63066 : Salsotto's Terminator Line : Rope
+63075 : Talia's Nailscrap Town : Sphere
+63076 : Talia's Exposed Electric Wire : Rope
+63085 : Vonwacq's Island of Birth : Sphere
+63086 : Vonwacq's Islandic Coast : Rope
+63095 : Taikiyan Laser Stadium : Sphere
+63096 : Taikiyan's Arclight Race Track : Rope
+63105 : Insumousu's Whalefall Ship : Sphere
+63106 : Insumousu's Frayed Hawser : Rope
+63115 : Glamoth's Iron Cavalry Regiment : Sphere
+63116 : Glamoth's Silent Tombstone : Rope
+63125 : Penacony's Grand Hotel : Sphere
+63126 : Penacony's Dream-Seeking Tracks : Rope
+63135 : Sigonia's Gaiathra Berth : Sphere
+63136 : Sigonia's Knot of Cyclicality : Rope
+63145 : Izumo's Magatsu no Morokami : Sphere
+63146 : Izumo's Blades of Origin and End : Rope

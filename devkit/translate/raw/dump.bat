@@ -1,0 +1,2 @@
+"..\linguist\lupdate.exe"  "..\..\..\app\environment_interface.py" "..\..\..\app\home_interface.py" "..\..\..\app\launcher_interface.py" "..\..\..\app\lunarcore_command.py" "..\..\..\app\lunarcore_edit.py" "..\..\..\app\lunarcore_interface.py" "..\..\..\app\main_interface.py" "..\..\..\app\proxy_interface.py" "..\..\..\app\setting_interface.py" "..\..\..\app\model\check_update.py" "..\..\..\app\model\setting_card.py" "..\..\..\app\model\login_card.py" "..\..\..\app\model\download_process.py" -ts ".\zh_CN.ts"
+pause

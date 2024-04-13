@@ -1,7 +1,7 @@
 {
   "UID": "10001",
-  "PWD": "melon",
-  "SERVER_API": "http://127.0.0.1:443/api/gm",
+  "PWD": "firefly",
+  "SERVER_API": "http://127.0.0.1:443/api/firefly",
   "PROXY_PORT": "7890",
   "SERVER_NAMES": [
     "LunarCore",

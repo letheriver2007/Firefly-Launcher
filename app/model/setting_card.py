@@ -205,8 +205,8 @@ class MessageFiddler(MessageBoxBase):
 
 ############### Remote Interface ###############
 class PrimaryPushSettingCard_UID(SettingCard):
-    clicked_setuid = Signal(int)
-    def __init__(self, title, content, icon=FIF.SEND):
+    clicked_setuid = Signal(str)
+    def __init__(self, title, content, icon=FIF.QUICK_NOTE):
         super().__init__(icon, title, content)
         self.lineedit_setuid = LineEdit(self)
         self.lineedit_setuid.setPlaceholderText("UID")
@@ -216,11 +216,11 @@ class PrimaryPushSettingCard_UID(SettingCard):
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_setuid, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_setuid.clicked.connect(lambda: self.clicked_setuid.emit(int(self.lineedit_setuid.text())))
+        self.button_setuid.clicked.connect(lambda: self.clicked_setuid.emit(self.lineedit_setuid.text()))
 
 
 class PrimaryPushSettingCard_PWD(SettingCard):
-    clicked_setpwd = Signal(int)
+    clicked_setpwd = Signal(str)
     def __init__(self, title, content, icon=FIF.FINGERPRINT):
         super().__init__(icon, title, content)
         self.lineedit_setpwd = PasswordLineEdit(self)
@@ -230,18 +230,19 @@ class PrimaryPushSettingCard_PWD(SettingCard):
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_setpwd, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_setpwd.clicked.connect(lambda: self.clicked_setpwd.emit(int(self.lineedit_setpwd.text())))
+        self.button_setpwd.clicked.connect(lambda: self.clicked_setpwd.emit(self.lineedit_setpwd.text()))
 
 
 class PrimaryPushSettingCard_API(SettingCard):
-    clicked_setapi = Signal(int)
+    clicked_setapi = Signal(str)
     def __init__(self, title, content, icon=FIF.WIFI):
         super().__init__(icon, title, content)
         self.lineedit_setapi = LineEdit(self)
         self.lineedit_setapi.setPlaceholderText(self.tr("API地址"))
+        self.lineedit_setapi.setFixedWidth(300)
         self.button_setapi = PrimaryPushButton(self.tr('设置'), self)
         self.hBoxLayout.addWidget(self.lineedit_setapi, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_setapi, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_setapi.clicked.connect(lambda: self.clicked_setpwd.emit(int(self.clicked_setapi.text())))
+        self.button_setapi.clicked.connect(lambda: self.clicked_setapi.emit(self.lineedit_setapi.text()))

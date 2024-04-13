@@ -70,6 +70,12 @@ class LunarCore(ScrollArea):
             self.tr('启用远程执行功能, 并接受可能存在的安全风险'),
             configItem=cfg.useRemote
         )
+        self.patchCard = PrimaryPushSettingCard(
+            self.tr('补丁'),
+            FIF.ERASE_TOOL,
+            'LunarCore-Patch',
+            self.tr('魔改LunarCore核心, 以支持远程执行')
+        )
         self.setUIDCard = PrimaryPushSettingCard_UID(
             self.tr('配置UID'),
             self.tr('设置默认远程目标玩家的UID')
@@ -108,6 +114,7 @@ class LunarCore(ScrollArea):
         self.ConfigInterface.addSettingCard(self.GiveDataConfigCard)
         self.ConfigInterface.addSettingCard(self.RelicDataConfigCard)
         self.RemoteInterface.addSettingCard(self.useRemoteCard)
+        self.RemoteInterface.addSettingCard(self.patchCard)
         self.RemoteInterface.addSettingCard(self.setUIDCard)
         self.RemoteInterface.addSettingCard(self.setPWDCard)
         self.RemoteInterface.addSettingCard(self.setAPICard)
@@ -151,6 +158,7 @@ class LunarCore(ScrollArea):
         self.GiveDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\mygive.txt'], shell=True))
         self.RelicDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'], shell=True))
         self.useRemoteCard.checkedChanged.connect(self.handleRemoteChanged)
+        self.patchCard.clicked.connect(self.handlePatch)
         self.setUIDCard.clicked_setuid.connect(lambda uid: self.handleRemoteClicked('setuid', uid))
         self.setPWDCard.clicked_setpwd.connect(lambda pwd: self.handleRemoteClicked('setpwd', pwd))
         self.setAPICard.clicked_setapi.connect(lambda api: self.handleRemoteClicked('setapi', api))
@@ -170,19 +178,9 @@ class LunarCore(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
-    def handleLunarCoreBuild(self):
-        if os.path.exists('server\\LunarCore\\LunarCore.jar'):
-            InfoBar.error(
-                title=self.tr("LunarCore已编译！"),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
-            return
-        if not os.path.exists('server\\LunarCore'):
+    def handleLunarCoreBuild(self, patch=False):
+
+        if not patch and not os.path.exists('server\\LunarCore'):
             InfoBar.error(
                 title=self.tr("LunarCore不存在, 请先下载！"),
                 content="",
@@ -193,9 +191,20 @@ class LunarCore(ScrollArea):
                 parent=self
             )
             return
-        if cfg.chinaStatus:
-            subprocess.run('copy /y "src\\patch\\gradle\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
-            'copy /y "src\\patch\\gradle\\build.gradle" "server\\LunarCore\\build.gradle"', shell=True)
+
+        if os.path.exists('server\\LunarCore\\LunarCore.jar'):
+            subprocess.run('del /f /q "server\\LunarCore\\LunarCore.jar"', shell=True)
+
+        if patch == False and cfg.chinaStatus:
+            subprocess.run('copy /y "src\\patch\\gradle\\normal\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
+            'copy /y "src\\patch\\gradle\\normal\\build.gradle" "server\\LunarCore\\build.gradle"', shell=True)
+        elif patch and cfg.chinaStatus:
+            subprocess.run('copy /y "src\\patch\\gradle\\normal\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
+            'copy /y "src\\patch\\gradle\\patch\\build-zh_CN.gradle" "server\\LunarCore\\build.gradle"', shell=True)
+        elif patch and not cfg.chinaStatus:
+            subprocess.run('copy /y "src\\patch\\gradle\\normal\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
+            'copy /y "src\\patch\\gradle\\patch\\build.gradle" "server\\LunarCore\\build.gradle"', shell=True)
+
         process = subprocess.run('start cmd /c "cd server\\LunarCore && gradlew jar && pause"', shell=True)
 
     def handleRemoteChanged(self):
@@ -208,7 +217,31 @@ class LunarCore(ScrollArea):
             self.setPWDCard.setDisabled(True)
             self.setAPICard.setDisabled(True)
     
-    def handleRemoteClicked(self, command, data=None):
+    def handlePatch(self):
+        if not os.path.exists('server\\LunarCore\\src'):
+            InfoBar.error(
+                title=self.tr("找不到Patch路径, 请勿使用预编译版本!"),
+                content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
+            return
+
+        subprocess.run('copy /y "src\\patch\\remote\\Config.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\Config.java" && '
+        'copy /y "src\\patch\\remote\\GameServer.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\game\\GameServer.java" && '
+        'copy /y "src\\patch\\remote\\GMHandler.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\handlers\\GMHandler.java" && '
+        'copy /y "src\\patch\\remote\\HttpServer.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\HttpServer.java" && '
+        'copy /y "src\\patch\\remote\\JsonRequest.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\objects\\JsonRequest.java" && '
+        'copy /y "src\\patch\\remote\\JsonResponse.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\objects\\JsonResponse.java" && '
+        'copy /y "src\\patch\\remote\\Utils.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\util\\Utils.java"', shell=True)
+    
+        self.handleLunarCoreBuild(True)
+
+    
+    def handleRemoteClicked(self, command, data):
         if command =='setuid':
             self.save(data, 'UID')
             InfoBar.success(
@@ -247,6 +280,6 @@ class LunarCore(ScrollArea):
     def save(self, data, types):
         with open('config/config.json', 'r', encoding='utf-8') as file:
             info = json.load(file)
-            info[types] = str(data)
+            info[types] = data
         with open('config/config.json', 'w', encoding='utf-8') as file:
             json.dump(info, file, indent=2, ensure_ascii=False)

@@ -96,12 +96,6 @@ class Setting(ScrollArea):
             self.tr('为Github下载启用国内镜像站链接'),
             configItem=cfg.chinaStatus
         )
-        self.noproxyCard = PrimaryPushSettingCard(
-            self.tr('重置'),
-            FIF.POWER_BUTTON,
-            self.tr('重置代理'),
-            self.tr('重置部分服务端未关闭的代理')
-        )
 
         self.__initWidget()
 
@@ -132,7 +126,6 @@ class Setting(ScrollArea):
         self.ProxyInterface.addSettingCard(self.proxyCard)
         self.ProxyInterface.addSettingCard(self.proxyPortCard)
         self.ProxyInterface.addSettingCard(self.chinaCard)
-        self.ProxyInterface.addSettingCard(self.noproxyCard)
 
         # 栏绑定界面
         self.addSubInterface(self.PersonalInterface,'PersonalInterface',self.tr('程序'), icon=FIF.SETTING)
@@ -169,7 +162,6 @@ class Setting(ScrollArea):
         self.proxyCard.checkedChanged.connect(lambda: self.common_changed(cfg.proxyStatus.value,self.tr('代理端口已开启！'),self.tr('代理端口已关闭！'),True))
         self.proxyPortCard.set_port.connect(self.handleSetProxyPort)
         self.chinaCard.checkedChanged.connect(lambda: self.common_changed(cfg.chinaStatus.value,self.tr('国内镜像已开启！'),self.tr('国内镜像已关闭！'),True))
-        self.noproxyCard.clicked.connect(self.disable_global_proxy)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -224,36 +216,6 @@ class Setting(ScrollArea):
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=1000,
-                parent=self
-            )
-
-    def disable_global_proxy(self):
-        try:
-            if cfg.proxyStatus.value:
-                port = get_json('./config/config.json', 'PROXY_PORT')
-                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-                subprocess.run(f'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "127.0.0.1:{port}" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-            else:
-                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-            
-            InfoBar.success(
-                title=self.tr('全局代理已更改！'),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
-        except:
-            InfoBar.error(
-                title=self.tr('全局代理关闭失败！'),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
                 parent=self
             )
     

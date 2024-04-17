@@ -1,17 +1,18 @@
 import os
 import json
 import subprocess
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition, SwitchSettingCard
 from app.model.style_sheet import StyleSheet
 from app.lunarcore_command import LunarCoreCommand
 from app.lunarcore_edit import LunarCoreEdit
-from app.model.setting_card import (SettingCardGroup, HyperlinkCard_LunarCore, PrimaryPushSettingCard_UID,
-                                    PrimaryPushSettingCard_API, PrimaryPushSettingCard_PWD)
+from app.model.setting_card import (SettingCardGroup, HyperlinkCard_LunarCore, PrimaryPushSettingCard_UID, PrimaryPushSettingCard_API,
+                                    PrimaryPushSettingCard_URL, PrimaryPushSettingCard_KEY, PrimaryPushSettingCard_Verify)
 from app.model.download_process import SubDownloadCMD
-from app.model.config import cfg, get_json
+from app.model.config import cfg, get_json, open_file
+from app.model.remote import handleApply, handleVerify
 
 
 class LunarCore(ScrollArea):
@@ -64,29 +65,33 @@ class LunarCore(ScrollArea):
             self.tr('自定义遗器命令配置')
         )
         self.RemoteInterface = SettingCardGroup(self.scrollWidget)
-        self.useRemoteCard = SwitchSettingCard(
-            FIF.CODE,
-            self.tr('启用远程执行'),
-            self.tr('启用远程执行功能, 并接受可能存在的安全风险'),
-            configItem=cfg.useRemote
-        )
         self.patchCard = PrimaryPushSettingCard(
             self.tr('补丁'),
             FIF.ERASE_TOOL,
             'LunarCore-Patch',
             self.tr('魔改LunarCore核心, 以支持远程执行')
         )
+        self.useRemoteCard = SwitchSettingCard(
+            FIF.CODE,
+            self.tr('启用远程执行'),
+            self.tr('启用远程执行功能, 并接受可能存在的安全风险'),
+            configItem=cfg.useRemote
+        )
+        self.setURLCard = PrimaryPushSettingCard_URL(
+            self.tr('配置服务端地址'),
+            self.tr('设置远程执行服务端地址')
+        )
+        self.setAPICard = PrimaryPushSettingCard_API(
+            self.tr('配置服务端API'),
+            self.tr('设置用于远程执行命令的地址, 适应不兼容服务端')
+        )
         self.setUIDCard = PrimaryPushSettingCard_UID(
             self.tr('配置UID'),
             self.tr('设置默认远程目标玩家的UID')
         )
-        self.setPWDCard = PrimaryPushSettingCard_PWD(
+        self.VerifyCard = PrimaryPushSettingCard_Verify(
             self.tr('配置密码'),
-            self.tr('复制config.json中gm_public密码')
-        )
-        self.setAPICard = PrimaryPushSettingCard_API(
-            self.tr('配置服务器API地址'),
-            self.tr('设置服务器用于远程执行命令的API地址')
+            self.tr('通过验证码验证身份并设置密码')
         )
 
         self.__initWidget()
@@ -113,11 +118,12 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreBuildCard)
         self.ConfigInterface.addSettingCard(self.GiveDataConfigCard)
         self.ConfigInterface.addSettingCard(self.RelicDataConfigCard)
-        self.RemoteInterface.addSettingCard(self.useRemoteCard)
         self.RemoteInterface.addSettingCard(self.patchCard)
-        self.RemoteInterface.addSettingCard(self.setUIDCard)
-        self.RemoteInterface.addSettingCard(self.setPWDCard)
+        self.RemoteInterface.addSettingCard(self.useRemoteCard)
+        self.RemoteInterface.addSettingCard(self.setURLCard)
         self.RemoteInterface.addSettingCard(self.setAPICard)
+        self.RemoteInterface.addSettingCard(self.setUIDCard)
+        self.RemoteInterface.addSettingCard(self.VerifyCard)
 
         # 栏绑定界面
         self.addSubInterface(self.LunarCoreDownloadInterface, 'LunarCoreDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
@@ -140,15 +146,16 @@ class LunarCore(ScrollArea):
     
     def __initInfo(self):
         if not cfg.useRemote.value:
-            self.setUIDCard.setDisabled(True)
-            self.setPWDCard.setDisabled(True)
+            self.setURLCard.setDisabled(True)
             self.setAPICard.setDisabled(True)
-        uid = get_json('./config/config.json', 'UID')
-        pwd = get_json('./config/config.json', 'PWD')
-        api = get_json('./config/config.json', 'SERVER_API')
-        self.setUIDCard.titleLabel.setText(self.tr('配置UID (当前: ') + uid + ')')
-        self.setPWDCard.titleLabel.setText(self.tr('配置密码 (当前: ') + pwd + ')')
-        self.setAPICard.titleLabel.setText(self.tr('配置服务器API地址 (当前: ') + api + ')')
+            self.setUIDCard.setDisabled(True)
+            self.VerifyCard.setDisabled(True)
+        url = get_json('./config/config.json', 'SERVER_URL')
+        self.uid = get_json('./config/config.json', 'UID')
+        key = get_json('./config/config.json', 'KEY')
+        self.setURLCard.titleLabel.setText(self.tr('配置服务端地址 (当前: ') + url + ')')
+        self.setUIDCard.titleLabel.setText(self.tr('配置UID (当前: ') + self.uid + ')')
+        self.VerifyCard.titleLabel.setText(self.tr('配置密码 (当前: ') + key + ')')
     
     def __connectSignalToSlot(self):
         SubDownloadCMDSelf = SubDownloadCMD(self)
@@ -157,11 +164,13 @@ class LunarCore(ScrollArea):
         self.LunarCoreBuildCard.clicked.connect(self.handleLunarCoreBuild)
         self.GiveDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\mygive.txt'], shell=True))
         self.RelicDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'], shell=True))
-        self.useRemoteCard.checkedChanged.connect(self.handleRemoteChanged)
         self.patchCard.clicked.connect(self.handlePatch)
-        self.setUIDCard.clicked_setuid.connect(lambda uid: self.handleRemoteClicked('setuid', uid))
-        self.setPWDCard.clicked_setpwd.connect(lambda pwd: self.handleRemoteClicked('setpwd', pwd))
-        self.setAPICard.clicked_setapi.connect(lambda api: self.handleRemoteClicked('setapi', api))
+        self.useRemoteCard.checkedChanged.connect(self.handleRemoteChanged)
+        self.setURLCard.clicked_seturl.connect(lambda: self.handleRemoteClicked('seturl'))
+        self.setAPICard.clicked_setapi.connect(lambda: self.handleRemoteClicked('setapi'))
+        self.setUIDCard.clicked_setuid.connect(lambda: self.handleRemoteClicked('setuid'))
+        self.VerifyCard.clicked_apply.connect(lambda: self.handleRemoteClicked('apply'))
+        self.VerifyCard.clicked_verify.connect(lambda: self.handleRemoteClicked('verify'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -207,16 +216,6 @@ class LunarCore(ScrollArea):
 
         process = subprocess.run('start cmd /c "cd server\\LunarCore && gradlew jar && pause"', shell=True)
 
-    def handleRemoteChanged(self):
-        if cfg.useRemote.value:
-            self.setUIDCard.setDisabled(False)
-            self.setPWDCard.setDisabled(False)
-            self.setAPICard.setDisabled(False)
-        else:
-            self.setUIDCard.setDisabled(True)
-            self.setPWDCard.setDisabled(True)
-            self.setAPICard.setDisabled(True)
-    
     def handlePatch(self):
         if not os.path.exists('server\\LunarCore\\src'):
             InfoBar.error(
@@ -232,49 +231,140 @@ class LunarCore(ScrollArea):
 
         subprocess.run('copy /y "src\\patch\\remote\\Config.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\Config.java" && '
         'copy /y "src\\patch\\remote\\GameServer.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\game\\GameServer.java" && '
-        'copy /y "src\\patch\\remote\\GMHandler.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\handlers\\GMHandler.java" && '
         'copy /y "src\\patch\\remote\\HttpServer.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\HttpServer.java" && '
+        'copy /y "src\\patch\\remote\\ApplyHandler.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\handlers\\ApplyHandler.java" && '
+        'copy /y "src\\patch\\remote\\CodeHandler.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\handlers\\CodeHandler.java" && '
+        'copy /y "src\\patch\\remote\\PasswordHandler.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\handlers\\PasswordHandler.java" && '
+        'copy /y "src\\patch\\remote\\RemoteHandler.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\handlers\\RemoteHandler.java" && '
+        'copy /y "src\\patch\\remote\\VerifyHandler.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\handlers\\VerifyHandler.java" && '
         'copy /y "src\\patch\\remote\\JsonRequest.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\objects\\JsonRequest.java" && '
         'copy /y "src\\patch\\remote\\JsonResponse.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\http\\objects\\JsonResponse.java" && '
         'copy /y "src\\patch\\remote\\Utils.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\util\\Utils.java"', shell=True)
-    
+        if os.path.exists('server\\LunarCore\\config.json'):
+            subprocess.run('del /f /q "server\\LunarCore\\config.json"', shell=True)
+
         self.handleLunarCoreBuild(True)
 
-    
-    def handleRemoteClicked(self, command, data):
-        if command =='setuid':
-            self.save(data, 'UID')
-            InfoBar.success(
-                title=self.tr("UID设置成功！"),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
-        if command =='setpwd':
-            self.save(data, 'PWD')
-            InfoBar.success(
-                title=self.tr("密码设置成功！"),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+    def handleRemoteChanged(self):
+        if cfg.useRemote.value:
+            self.setURLCard.setDisabled(False)
+            self.setAPICard.setDisabled(False)
+            self.setUIDCard.setDisabled(False)
+            self.VerifyCard.setDisabled(False)
+        else:
+            self.setURLCard.setDisabled(True)
+            self.setAPICard.setDisabled(True)
+            self.setUIDCard.setDisabled(True)
+            self.VerifyCard.setDisabled(True)
+
+    def handleRemoteClicked(self, command):
+        if command =='seturl':
+            tmp_url = self.setURLCard.lineedit_seturl.text()
+            if tmp_url != '':
+                self.save(tmp_url, 'SERVER_URL')
+                InfoBar.success(
+                    title=self.tr("服务端地址设置成功！"),
+                    content='',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                )
+            else:
+                InfoBar.error(
+                    title=self.tr("服务端地址为空！"),
+                    content='',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self
+                )
         if command =='setapi':
-            self.save(data, 'SERVER_API')
-            InfoBar.success(
-                title=self.tr("API地址设置成功！"),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+            open_file(self, 'config/config.json')
+        if command =='setuid':
+            tmp_uid = self.setUIDCard.lineedit_setuid.text()
+            if tmp_uid != '':
+                self.save(tmp_uid, 'UID')
+                InfoBar.success(
+                    title=self.tr("UID设置成功！"),
+                    content='',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                )
+            else:
+                InfoBar.error(
+                    title=self.tr("UID为空！"),
+                    content='',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self
+                )
+        if command =='apply':
+            status, message = handleApply(self.uid)
+            if status == "success":
+                InfoBar.success(
+                    title=self.tr("验证码发送成功！"),
+                    content=self.tr("请在游戏内查收验证码"),
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                )
+            elif status == "error":
+                InfoBar.error(
+                    title=self.tr("验证码发送失败！"),
+                    content=str(message),
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self
+                )
+        if command =='verify':
+            tmp_code = self.VerifyCard.lineedit_code.text()
+            tmp_key = self.VerifyCard.lineedit_key.text()
+            if tmp_code == '' or tmp_key == '':
+                InfoBar.error(
+                    title=self.tr("验证码或密码为空！"),
+                    content='',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self
+                )
+                return
+
+            status, message = handleVerify(self.uid, tmp_code, tmp_key)
+            if status == "success":
+                InfoBar.success(
+                    title=self.tr("密码设置成功！"),
+                    content='',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=1000,
+                    parent=self
+                )
+            elif status == "error":
+                InfoBar.error(
+                    title=self.tr("验证失败！"),
+                    content=str(message),
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self
+                )
+                
         self.__initInfo()
 
     def save(self, data, types):

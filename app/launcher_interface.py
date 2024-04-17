@@ -7,6 +7,7 @@ from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, I
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCardGroup, HyperlinkCard_Launcher
 from app.model.download_process import SubDownloadCMD
+from app.model.config import open_file
 
 
 class Launcher(ScrollArea):
@@ -80,7 +81,7 @@ class Launcher(ScrollArea):
     def __connectSignalToSlot(self):
         SubDownloadCMDSelf = SubDownloadCMD(self)
         self.AudioDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('audio'))
-        self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
+        self.settingConfigCard.clicked.connect(lambda: open_file(self, 'config/config.json'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -96,17 +97,3 @@ class Launcher(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
-
-    def open_file(self, file_path):
-        if os.path.exists(file_path):
-            subprocess.run(['start', file_path], shell=True)
-        else:
-            InfoBar.error(
-                title=self.tr("找不到文件，请重新下载！"),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )

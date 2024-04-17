@@ -9,8 +9,6 @@ import emu.lunarcore.LunarCore;
 import io.javalin.http.Context;
 
 import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;

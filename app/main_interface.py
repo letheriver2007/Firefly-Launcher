@@ -173,9 +173,9 @@ class Main(MSFluentWindow):
                 title=self.tr('检测到新版本: ')+info,
                 content="",
                 orient=Qt.Horizontal,
-                isClosable=True,
+                isClosable=False,
                 position=InfoBarPosition.TOP,
-                duration=3000,
+                duration=-1,
                 parent=self
             )
         elif status == 1:

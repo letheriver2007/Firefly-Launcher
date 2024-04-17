@@ -7,6 +7,7 @@ from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, I
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCardGroup, MessageFiddler, PrimaryPushSettingCard_Fiddler, HyperlinkCard_Tool
 from app.model.download_process import SubDownloadCMD
+from app.model.config import cfg, open_file, get_json
 
 
 class Proxy(ScrollArea):
@@ -51,6 +52,12 @@ class Proxy(ScrollArea):
             self.tr('Mitmdump(外部)'),
             self.tr('使用Mitmdump代理')
         )
+        self.noproxyCard = PrimaryPushSettingCard(
+            self.tr('重置'),
+            FIF.POWER_BUTTON,
+            self.tr('重置代理'),
+            self.tr('重置部分服务端未关闭的代理')
+        )
 
         self.__initWidget()
 
@@ -74,6 +81,7 @@ class Proxy(ScrollArea):
         self.ProxyDownloadInterface.addSettingCard(self.DownloadMitmdumpCard)
         self.ProxyToolInterface.addSettingCard(self.FiddlerCard)
         self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
+        self.ProxyToolInterface.addSettingCard(self.noproxyCard)
 
         # 栏绑定界面
         self.addSubInterface(self.ProxyToolInterface, 'ProxyToolInterface',self.tr('启动'), icon=FIF.PLAY)
@@ -93,9 +101,10 @@ class Proxy(ScrollArea):
         SubDownloadCMDSelf = SubDownloadCMD(self)
         self.DownloadFiddlerCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('fiddler'))
         self.DownloadMitmdumpCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mitmdump'))
-        self.FiddlerCard.clicked_script.connect(lambda: self.proxy_fiddler('script'))
-        self.FiddlerCard.clicked_old.connect(lambda: self.proxy_fiddler('old'))
-        self.mitmdumpCard.clicked.connect(self.proxy_mitmdump)
+        self.FiddlerCard.clicked_script.connect(lambda: self.handleFiddler('script'))
+        self.FiddlerCard.clicked_old.connect(lambda: self.handleFiddler('old'))
+        self.mitmdumpCard.clicked.connect(self.handleMitmdump)
+        self.noproxyCard.clicked.connect(self.handleProxyDisabled)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -112,9 +121,23 @@ class Proxy(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
-    def open_file(self, file_path):
-        if os.path.exists(file_path):
-            subprocess.run(['start', file_path], shell=True)
+    def handleFiddler(self, mode):
+        if mode =='script':
+            w = MessageFiddler(self)
+            if w.exec():
+                subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
+                               'copy /y "src\\patch\\fiddler\\CustomRules-GI.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"', shell=True)
+                open_file(self, 'tool/Fiddler/Fiddler.exe')
+            else:
+                subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
+                               'copy /y "src\\patch\\fiddler\\CustomRules-SR.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"', shell=True)
+                open_file(self, 'tool/Fiddler/Fiddler.exe')
+        elif mode == 'old':
+            open_file(self, 'tool/Fiddler/Fiddler.exe')
+
+    def handleMitmdump(self):
+        if os.path.exists('tool/Mitmdump'):
+            subprocess.run('cd ./tool/Mitmdump && start /b Proxy.exe', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
         else:
             InfoBar.error(
                 title=self.tr("找不到文件，请重新下载！"),
@@ -125,26 +148,30 @@ class Proxy(ScrollArea):
                 duration=3000,
                 parent=self
             )
-    
-    def proxy_fiddler(self, mode):
-        if mode =='script':
-            w = MessageFiddler(self)
-            if w.exec():
-                self.open_file('src/patch/yuanshen/update.exe')
-                self.open_file('tool/Fiddler/Fiddler.exe')
-            else:
-                self.open_file('src/patch/starrail/update.exe')
-                self.open_file('tool/Fiddler/Fiddler.exe')
-        elif mode == 'old':
-            self.open_file('tool/Fiddler/Fiddler.exe')
 
-    def proxy_mitmdump(self):
-        if os.path.exists('tool/Mitmdump'):
-            subprocess.run('cd ./tool/Mitmdump && start /b Proxy.exe', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-        else:
-            InfoBar.error(
-                title=self.tr("找不到文件，请重新下载！"),
+    def handleProxyDisabled(self):
+        try:
+            if cfg.proxyStatus.value:
+                port = get_json('./config/config.json', 'PROXY_PORT')
+                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                subprocess.run(f'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "127.0.0.1:{port}" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+            else:
+                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                subprocess.run('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f', shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+            
+            InfoBar.success(
+                title=self.tr('全局代理已更改！'),
                 content="",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=1000,
+                parent=self
+            )
+        except Exception as e:
+            InfoBar.error(
+                title=self.tr('全局代理关闭失败！'),
+                content=str(e),
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,

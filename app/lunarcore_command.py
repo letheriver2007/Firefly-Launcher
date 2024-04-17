@@ -10,6 +10,7 @@ from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, Combo
 from qfluentwidgets import FluentIcon as FIF
 from app.model.setting_card import SettingCardGroup, SettingCard
 from app.model.config import cfg, get_json
+from app.model.remote import handleCommandSend
 from app.model.style_sheet import StyleSheet
 
 
@@ -235,11 +236,11 @@ class LunarCoreCommand(ScrollArea):
             return
 
         uid = get_json('./config/config.json', 'UID')
-        pwd = get_json('./config/config.json', 'PWD')
+        key = get_json('./config/config.json', 'KEY')
 
-        if uid != '' and pwd != '' and self.updateText.text() != '':
+        if uid != '' and key != '' and self.updateText.text() != '':
             try:
-                status, response = self.handleCommandSend(uid, self.updateText.text(), pwd)
+                status, response = handleCommandSend(uid, key, self.updateText.text())
                 if status == 'success':
                     InfoBar.success(
                         title=self.tr('执行成功！'),
@@ -280,37 +281,6 @@ class LunarCoreCommand(ScrollArea):
                 duration=3000,
                 parent=self.parent
             )
-
-    def handleCommandSend(self, uid, command, password):
-        base_url = get_json('./config/config.json', 'SERVER_API')
-        params = {
-            'uid': uid,
-            'command': command,
-            'password': password
-            }
-        url = base_url + '?' + urllib.parse.urlencode(params)
-        req = urllib.request.Request(url, method='GET')
-
-        try:
-            with urllib.request.urlopen(req) as response:
-                response_data = response.read()
-                response_json = json.loads(response_data)
-                if response_json['retcode'] == 200:
-                    return 'success', response_json['message']
-                else:
-                    return 'error', response_json['message']
-
-        except urllib.error.HTTPError as http_err:
-            print(f'网络请求失败, {http_err}')
-            return 'error', http_err
-
-        except urllib.error.URLError as req_err:
-            print(f'请求格式错误, {req_err}')
-            return 'error', req_err
-
-        except Exception as err:
-            print(f'未知错误, {err}')
-            return 'error', err
 
     def copyToClipboard(self, status):
         text = self.updateText.text()

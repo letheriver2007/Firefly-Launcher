@@ -204,45 +204,82 @@ class MessageFiddler(MessageBoxBase):
 
 
 ############### Remote Interface ###############
+class PrimaryPushSettingCard_URL(SettingCard):
+    clicked_seturl = Signal()
+    def __init__(self, title, content, icon=FIF.WIFI):
+        super().__init__(icon, title, content)
+        self.lineedit_seturl = LineEdit(self)
+        self.lineedit_seturl.setPlaceholderText(self.tr("服务端地址"))
+        self.lineedit_seturl.setFixedWidth(150)
+        self.button_seturl = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_seturl, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_seturl, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_seturl.clicked.connect(self.clicked_seturl)
+
+
+class PrimaryPushSettingCard_API(SettingCard):
+    clicked_setapi = Signal()
+    def __init__(self, title, content, icon=FIF.LABEL):
+        super().__init__(icon, title, content)
+        self.button_seturl = PrimaryPushButton(self.tr('打开文件'), self)
+        self.hBoxLayout.addWidget(self.button_seturl, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_seturl.clicked.connect(self.clicked_setapi)
+
+
 class PrimaryPushSettingCard_UID(SettingCard):
-    clicked_setuid = Signal(str)
+    clicked_setuid = Signal()
     def __init__(self, title, content, icon=FIF.QUICK_NOTE):
         super().__init__(icon, title, content)
         self.lineedit_setuid = LineEdit(self)
         self.lineedit_setuid.setPlaceholderText("UID")
+        self.lineedit_setuid.setFixedWidth(150)
         self.lineedit_setuid.setValidator(QIntValidator(self))
         self.button_setuid = PrimaryPushButton(self.tr('设置'), self)
         self.hBoxLayout.addWidget(self.lineedit_setuid, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_setuid, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_setuid.clicked.connect(lambda: self.clicked_setuid.emit(self.lineedit_setuid.text()))
+        self.button_setuid.clicked.connect(self.clicked_setuid)
 
 
-class PrimaryPushSettingCard_PWD(SettingCard):
-    clicked_setpwd = Signal(str)
+class PrimaryPushSettingCard_Verify(SettingCard):
+    clicked_apply = Signal()
+    clicked_verify = Signal()
     def __init__(self, title, content, icon=FIF.FINGERPRINT):
         super().__init__(icon, title, content)
-        self.lineedit_setpwd = PasswordLineEdit(self)
-        self.lineedit_setpwd.setPlaceholderText(self.tr("密码"))
-        self.button_setpwd = PrimaryPushButton(self.tr('设置'), self)
-        self.hBoxLayout.addWidget(self.lineedit_setpwd, 0, Qt.AlignRight)
+        self.button_apply = PrimaryPushButton(self.tr('发送'), self)
+        self.lineedit_code = LineEdit(self)
+        self.lineedit_code.setPlaceholderText(self.tr("验证码"))
+        self.lineedit_code.setFixedWidth(100)
+        self.lineedit_code.setValidator(QIntValidator(self))
+        self.lineedit_key = PasswordLineEdit(self)
+        self.lineedit_key.setPlaceholderText(self.tr("密码"))
+        self.lineedit_key.setFixedWidth(150)
+        self.button_verify = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_code, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_setpwd, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.button_apply, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_setpwd.clicked.connect(lambda: self.clicked_setpwd.emit(self.lineedit_setpwd.text()))
+        self.hBoxLayout.addWidget(self.lineedit_key, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_verify, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_apply.clicked.connect(self.clicked_apply)
+        self.button_verify.clicked.connect(self.clicked_verify)
 
 
-class PrimaryPushSettingCard_API(SettingCard):
-    clicked_setapi = Signal(str)
-    def __init__(self, title, content, icon=FIF.WIFI):
+class PrimaryPushSettingCard_KEY(SettingCard):
+    clicked_setkey = Signal(str)
+    def __init__(self, title, content, icon=FIF.FINGERPRINT):
         super().__init__(icon, title, content)
-        self.lineedit_setapi = LineEdit(self)
-        self.lineedit_setapi.setPlaceholderText(self.tr("API地址"))
-        self.lineedit_setapi.setFixedWidth(300)
-        self.button_setapi = PrimaryPushButton(self.tr('设置'), self)
-        self.hBoxLayout.addWidget(self.lineedit_setapi, 0, Qt.AlignRight)
+        self.lineedit_setkey = PasswordLineEdit(self)
+        self.lineedit_setkey.setPlaceholderText(self.tr("密码"))
+        self.button_setkey = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_setkey, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_setapi, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.button_setkey, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_setapi.clicked.connect(lambda: self.clicked_setapi.emit(self.lineedit_setapi.text()))
+        self.button_setkey.clicked.connect(lambda: self.clicked_setkey.emit(self.lineedit_setkey.text()))

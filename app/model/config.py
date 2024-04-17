@@ -1,8 +1,33 @@
 import os
 import json
+import subprocess
 from enum import Enum
-from PySide6.QtCore import QLocale
-from qfluentwidgets import qconfig, QConfig, Theme, ConfigItem, BoolValidator, OptionsValidator, OptionsConfigItem, ConfigSerializer
+from PySide6.QtCore import Qt, QLocale
+from qfluentwidgets import (qconfig, QConfig, Theme, ConfigItem, BoolValidator, OptionsValidator,
+                           InfoBar, InfoBarPosition, OptionsConfigItem, ConfigSerializer)
+
+def open_file(self, file_path):
+    if os.path.exists(file_path):
+        subprocess.run(['start', file_path], shell=True)
+        InfoBar.success(
+            title=self.tr("文件已打开！"),
+            content="",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=1000,
+            parent=self
+        )
+    else:
+        InfoBar.error(
+            title=self.tr("找不到文件，请重新下载！"),
+            content="",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=3000,
+            parent=self
+        )
 
 def get_json(file_path, key):
     with open(f'{file_path}', 'r') as file:
@@ -20,14 +45,13 @@ class Language(Enum):
     CHINESE_SIMPLIFIED = QLocale(QLocale.Chinese, QLocale.China)
     CHINESE_TRADITIONAL = QLocale(QLocale.Chinese, QLocale.Taiwan)
     ENGLISH = QLocale(QLocale.English)
-    AUTO = QLocale()
 
 
 class LanguageSerializer(ConfigSerializer):
     def serialize(self, language):
-        return language.value.name() if language != Language.AUTO else "Auto"
+        return language.value.name()
     def deserialize(self, value: str):
-        return Language(QLocale(value)) if value != "Auto" else Language.AUTO
+        return Language(QLocale(value))
 
 
 class Config(QConfig):
@@ -35,7 +59,7 @@ class Config(QConfig):
     dpiScale = OptionsConfigItem(
         "Style", "DpiScale", "Auto", OptionsValidator([1, 1.25, 1.5, 1.75, 2, "Auto"]), restart=True)
     language = OptionsConfigItem(
-        "Style", "Language", Language.AUTO, OptionsValidator(Language), LanguageSerializer(), restart=True)
+        "Style", "Language", Language.ENGLISH, OptionsValidator(Language), LanguageSerializer(), restart=True)
     autoCopy = ConfigItem("Function", "AutoCopy", True, BoolValidator())
     useLogin = ConfigItem("Function", "UseLogin", False, BoolValidator())
     useAudio = ConfigItem("Function", "UseAudio", True, BoolValidator())
@@ -43,7 +67,7 @@ class Config(QConfig):
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", False, BoolValidator())
     useRemote = ConfigItem("Command", "useRemote", False, BoolValidator())
 
-    APP_NAME = "Firefly Launcher(Letheriver2007)"
+    APP_NAME = "Firefly Launcher (Lethe)"
     APP_VERSION = get_version_type(get_json('./config/version.json', 'APP_VERSION'))
     APP_FONT = "SDK_SC_Web"
     

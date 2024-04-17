@@ -1,7 +1,10 @@
 {
   "UID": "10001",
-  "PWD": "firefly",
-  "SERVER_API": "http://127.0.0.1:443/api/firefly",
+  "KEY": "lethe",
+  "SERVER_URL": "127.0.0.1:443",
+  "ROUTE_APPLY": "/api/fireflylauncherlethe/apply",
+  "ROUTE_VERIFY": "/api/fireflylauncherlethe/verify",
+  "ROUTE_REMOTE": "/api/fireflylauncherlethe/remote",
   "PROXY_PORT": "7890",
   "SERVER_NAMES": [
     "LunarCore",

@@ -9,30 +9,28 @@ import io.javalin.http.Handler;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class GMHandler implements Handler {
+public final class RemoteHandler implements Handler {
     @Override
     public void handle(@NotNull Context ctx) throws Exception {
         String ip_address = Utils.getClientIpAddress(ctx);
 
         var set_uid = ctx.queryParam("uid");
-        var set_command = ctx.queryParam("command");
-        var set_password = ctx.queryParam("password");
+        var key = ctx.queryParam("key");
+        var command = ctx.queryParam("command");
 
         if (set_uid == null || set_uid.isEmpty()) {
             ctx.json(new JsonResponse(404, "The player UID was not entered"));
             return;
         }
 
-        if (set_password == null || set_password.isEmpty()) {
+        if (key == null || key.isEmpty()) {
             ctx.json(new JsonResponse(404, "The password was not entered"));
             return;
         }
-        if (set_command == null || set_command.isEmpty()) {
+        if (command == null || command.isEmpty()) {
             ctx.json(new JsonResponse(404, "The command was not entered"));
             return;
         }
-
-
 
         int tmp_uid = 0;
         try {
@@ -42,33 +40,37 @@ public final class GMHandler implements Handler {
             return;
         }
 
-        LunarCore.getLogger().info("Execute commands remotely [" + ip_address + " | Uid " + tmp_uid + " | password: " + set_password+ "]: " + set_command);
+        LunarCore.getLogger().info(ip_address + "execute the command " + command + " remotely to " + tmp_uid);
 
         try {
             Player sender = LunarCore.getGameServer().getOnlinePlayerByUid(tmp_uid);
-            var configHttp = LunarCore.getConfig().getHttpServer();
-            if (sender == null) {
 
-                if (configHttp.getGm_private() != null && configHttp.getGm_private().contains(set_password)) {
+            if (sender != null) {
+                String pwd = PasswordHandler.getPasswordByUid(tmp_uid);
+                String encrypted_key = PasswordHandler.hashWithMD5(key);
+
+                if (pwd != null) {
+                    if (pwd.equals(encrypted_key)){
+                        sender.sendMessage(ip_address + " use execute the command " + command + " remotely to you");
+                        LunarCore.getCommandManager().invoke(sender, command);
+
+                    } else {
+                        ctx.json(new JsonResponse(201, "The key is incorrect"));
+                        return;
+                    }
 
                 } else {
-
-                    ctx.json(new JsonResponse(201, "The player is not online"));
+                    ctx.json(new JsonResponse(201, "The key is not set"));
                     return;
+
                 }
+
             } else {
+                ctx.json(new JsonResponse(201, "The player is not online"));
+                return;
 
-                if (configHttp.getGm_public() != null && configHttp.getGm_public().contains(set_password)) {
-
-                    sender.sendMessage("Someone uses the public key to execute the command");
-                } else {
-
-                    ctx.json(new JsonResponse(403, "The key is not correct"));
-                    return;
-                }
             }
 
-            LunarCore.getCommandManager().invoke(sender, set_command);
         } catch (Exception e) {
             LunarCore.getLogger().info("error", e);
             ctx.json(new JsonResponse(403, "error"));

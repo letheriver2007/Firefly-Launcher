@@ -40,7 +40,7 @@ public final class RemoteHandler implements Handler {
             return;
         }
 
-        LunarCore.getLogger().info(ip_address + "execute the command " + command + " remotely to " + tmp_uid);
+        LunarCore.getLogger().info(ip_address + " execute the command " + command + " remotely to " + tmp_uid);
 
         try {
             Player sender = LunarCore.getGameServer().getOnlinePlayerByUid(tmp_uid);

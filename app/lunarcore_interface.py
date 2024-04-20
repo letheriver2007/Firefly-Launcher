@@ -52,17 +52,23 @@ class LunarCore(ScrollArea):
             self.tr('编译LunarCore')
         )
         self.ConfigInterface = SettingCardGroup(self.scrollWidget)
-        self.GiveDataConfigCard = PrimaryPushSettingCard(
+        self.CommandConfigCard = PrimaryPushSettingCard(
             self.tr('打开文件'),
             FIF.LABEL,
-            self.tr('给予命令设置'),
-            self.tr('自定义给予命令配置')
+            self.tr('自定义命令设置'),
+            self.tr('手动配置自定义命令')
         )
         self.RelicDataConfigCard = PrimaryPushSettingCard(
             self.tr('打开文件'),
             FIF.LABEL,
             self.tr('遗器命令设置'),
             self.tr('自定义遗器命令配置')
+        )
+        self.BannerConfigCard = PrimaryPushSettingCard(
+            self.tr('打开文件'),
+            FIF.LABEL,
+            self.tr('卡池设置'),
+            self.tr('手动LC卡池数据配置')
         )
         self.RemoteInterface = SettingCardGroup(self.scrollWidget)
         self.patchCard = PrimaryPushSettingCard(
@@ -116,8 +122,9 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreDownloadCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreResDownloadCard)
         self.LunarCoreDownloadInterface.addSettingCard(self.LunarCoreBuildCard)
-        self.ConfigInterface.addSettingCard(self.GiveDataConfigCard)
+        self.ConfigInterface.addSettingCard(self.CommandConfigCard)
         self.ConfigInterface.addSettingCard(self.RelicDataConfigCard)
+        self.ConfigInterface.addSettingCard(self.BannerConfigCard)
         self.RemoteInterface.addSettingCard(self.patchCard)
         self.RemoteInterface.addSettingCard(self.useRemoteCard)
         self.RemoteInterface.addSettingCard(self.setURLCard)
@@ -162,8 +169,11 @@ class LunarCore(ScrollArea):
         self.LunarCoreDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('lunarcore'))
         self.LunarCoreResDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('lunarcoreres'))
         self.LunarCoreBuildCard.clicked.connect(self.handleLunarCoreBuild)
-        self.GiveDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\mygive.txt'], shell=True))
-        self.RelicDataConfigCard.clicked.connect(lambda: subprocess.run(['start', f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'], shell=True))
+
+        self.CommandConfigCard.clicked.connect(lambda: open_file(self, f'.\\src\\data\\mycommand.txt'))
+        self.RelicDataConfigCard.clicked.connect(lambda: open_file(self, f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'))
+        self.BannerConfigCard.clicked.connect(lambda: open_file(self, f'.\\server\\LunarCore\\data\\Banners.json'))
+
         self.patchCard.clicked.connect(self.handlePatch)
         self.useRemoteCard.checkedChanged.connect(self.handleRemoteChanged)
         self.setURLCard.clicked_seturl.connect(lambda: self.handleRemoteClicked('seturl'))

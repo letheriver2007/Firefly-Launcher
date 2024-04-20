@@ -150,10 +150,6 @@ input_entry_path = os.path.join(os.path.dirname(current_file_path), f"default\\e
 output_entry_path = os.path.join(os.path.dirname(current_file_path), "output\\entry.txt")
 shutil.copy(input_entry_path, output_entry_path)
 
-input_mygive_path = os.path.join(os.path.dirname(current_file_path), "default\\mygive.txt")
-output_mygive_path = os.path.join(os.path.dirname(current_file_path), "output\\mygive.txt")
-shutil.copy(input_mygive_path, output_mygive_path)
-
 input_myrelic_path = os.path.join(os.path.dirname(current_file_path), "default\\myrelic.txt")
 output_myrelic_path = os.path.join(os.path.dirname(current_file_path), "output\\myrelic.txt")
 

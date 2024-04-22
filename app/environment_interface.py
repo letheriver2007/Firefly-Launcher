@@ -1,14 +1,29 @@
 from PySide6.QtWidgets import QWidget, QLabel, QStackedWidget, QVBoxLayout
 from PySide6.QtCore import Qt
-from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, FluentIcon,
+                            HyperlinkButton, InfoBarPosition, PrimaryPushButton, InfoBarIcon)
 from app.model.style_sheet import StyleSheet
-from app.model.setting_card import SettingCardGroup, HyperlinkCard_Environment
+from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
+from app.setting_interface import Setting
+
+
+class HyperlinkCard_Environment(SettingCard):
+    def __init__(self, title, content=None, icon=FluentIcon.LINK):
+        super().__init__(icon, title, content)
+        self.linkButton_git = HyperlinkButton('https://git-scm.com/download/win', 'Git', self)
+        self.linkButton_jar = HyperlinkButton('https://www.oracle.com/java/technologies/javase-downloads.html', 'Java',
+                                              self)
+        self.linkButton_mongodb = HyperlinkButton('https://www.mongodb.com/try/download/community', 'MongoDB', self)
+        self.hBoxLayout.addWidget(self.linkButton_git, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.linkButton_jar, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.linkButton_mongodb, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
 
 
 class Environment(ScrollArea):
     Nav = Pivot
+
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
@@ -28,19 +43,19 @@ class Environment(ScrollArea):
         )
         self.GitDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
-            FIF.DOWNLOAD,
+            FluentIcon.DOWNLOAD,
             'Git',
             self.tr('下载Git安装包')
         )
         self.JavaDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
-            FIF.DOWNLOAD,
+            FluentIcon.DOWNLOAD,
             'Java',
             self.tr('下载Java安装包')
         )
         self.MongoDBDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
-            FIF.DOWNLOAD,
+            FluentIcon.DOWNLOAD,
             'MongoDB',
             self.tr('下载MongoDB安装包')
         )
@@ -48,14 +63,16 @@ class Environment(ScrollArea):
         self.__initWidget()
 
     def __initWidget(self):
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)     # 水平滚动条关闭
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # 水平滚动条关闭
         self.setViewportMargins(20, 0, 20, 20)
         self.setWidget(self.scrollWidget)
-        self.setWidgetResizable(True)    # 必须设置！！！
-        
+        self.setWidgetResizable(True)  # 必须设置！！！
+
         # 使用qss设置样式
         self.scrollWidget.setObjectName('scrollWidget')
         StyleSheet.SETTING_INTERFACE.apply(self)
+
+        self.restart_button = PrimaryPushButton(self.tr('重启'))
 
         self.__initLayout()
         self.__connectSignalToSlot()
@@ -68,7 +85,8 @@ class Environment(ScrollArea):
         self.EnvironmentDownloadInterface.addSettingCard(self.MongoDBDownloadCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.EnvironmentDownloadInterface, 'EnvironmentDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
+        self.addSubInterface(self.EnvironmentDownloadInterface, 'EnvironmentDownloadInterface', self.tr('下载'),
+                             icon=FluentIcon.DOWNLOAD)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -82,6 +100,8 @@ class Environment(ScrollArea):
 
     def __connectSignalToSlot(self):
         SubDownloadCMDSelf = SubDownloadCMD(self)
+        self.GitDownloadCard.clicked.connect(self.handleRestartInfo)
+        self.restart_button.clicked.connect(Setting.restart_application)
         self.GitDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('git'))
         self.JavaDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('java'))
         self.MongoDBDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mongodb'))
@@ -100,3 +120,17 @@ class Environment(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
+
+    def handleRestartInfo(self):
+        restart_info = InfoBar(
+            icon=InfoBarIcon.WARNING,
+            title=self.tr('重启应用以使用Git命令!'),
+            content='',
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=-1,
+            parent=self
+        )
+        restart_info.addWidget(self.restart_button)
+        restart_info.show()

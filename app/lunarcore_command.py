@@ -1,478 +1,20 @@
 import os
-import json
 import shutil
-import urllib.request
-from PySide6.QtWidgets import (QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView, QVBoxLayout,
-                               QHBoxLayout, QButtonGroup, QLabel, QStackedWidget, QApplication)
+from PySide6.QtWidgets import (QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView,
+                               QVBoxLayout, QHBoxLayout, QButtonGroup)
 from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Signal, Qt
-from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, ComboBox,
-                            TableWidget, SearchLineEdit, SettingCardGroup, SubtitleLabel, PrimaryToolButton, 
-                            Pivot, qrouter, ScrollArea, InfoBar, InfoBarPosition, PrimaryPushSettingCard)
-from qfluentwidgets import FluentIcon as FIF
-from app.model.setting_card import SettingCardGroup, SettingCard
-from app.model.config import cfg, get_json
-from app.model.remote import handleCommandSend
-from app.model.style_sheet import StyleSheet
-
-
-class LunarCoreCommand(ScrollArea):
-    Nav = Pivot
-    command_update = Signal(str)
-    def __init__(self, text: str, parent=None):
-        super().__init__(parent=parent)
-        self.parent = parent
-        self.setObjectName(text)
-        self.scrollWidget = QWidget()
-        self.vBoxLayout = QVBoxLayout(self.scrollWidget)
-
-        # 栏定义
-        self.pivot = self.Nav(self)
-        self.stackedWidget = QStackedWidget(self)
-
-        # 添加项
-        self.ServerInterface = SettingCardGroup(self.scrollWidget)
-        self.helpCard = PrimaryPushSettingCard(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('查看服务端命令帮助'),
-            '/help'
-        )
-        self.reloadCard = PrimaryPushSettingCard(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('重载服务端'),
-            '/reload'
-        )
-        self.accountCard = Account(
-            self.tr('添加或删除账号')
-        )
-        self.kickCard = Kick(
-            self.tr('踢出玩家')
-        )
-        self.unstuckCard = Unstuck(
-            self.tr('解除场景未加载造成的卡死')
-        )
-        self.AccountInterface = SettingCardGroup(self.scrollWidget)
-        self.giveallCard = Giveall(
-            self.tr('给予全部')
-        )
-        self.clearCard = Clear(
-            self.tr('清空物品')
-        )
-        self.worldLevelCard = WorldLevel(
-            self.tr('设置世界等级')
-        )
-        self.refillCard = PrimaryPushSettingCard(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('秘技点补充'),
-            '/refill'
-        )
-        self.healCard = PrimaryPushSettingCard(
-            self.tr('使用'),
-            FIF.TAG,
-            self.tr('治疗全部队伍角色'),
-            '/heal'
-        )
-        self.AvatarInterface = SettingCardGroup(self.scrollWidget)
-        self.avatarCard = Avatar(
-            self.tr('设置角色属性')
-        )
-        self.genderCard = Gender(
-            self.tr('设置开拓者性别')
-        )
-
-        self.__initWidget()
-
-    def __initWidget(self):
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)     # 水平滚动条关闭
-        self.setWidget(self.scrollWidget)
-        self.setWidgetResizable(True)    # 必须设置！！！
-        
-        self.updateText = LineEdit()
-        self.updateText.setFixedSize(740, 35)
-        self.clearButton = PrimaryPushButton(self.tr('清空'))
-        self.saveButton = PrimaryPushButton(self.tr('保存'))
-        self.copyButton = PrimaryPushButton(self.tr('复制'))
-        self.actionButton = PrimaryPushButton(self.tr('执行'))
-        self.clearButton.setFixedSize(80, 35)
-        self.saveButton.setFixedSize(80, 35)
-        self.copyButton.setFixedSize(80, 35)
-        self.actionButton.setFixedSize(80, 35)
-        self.updateContainer = QWidget()
-        
-        # 使用qss设置样式
-        self.scrollWidget.setObjectName('scrollWidget')
-        StyleSheet.SETTING_INTERFACE.apply(self)
-
-        self.__initLayout()
-        self.__connectSignalToSlot()
-
-    def __initLayout(self):
-        # 项绑定到栏目
-        self.ServerInterface.addSettingCard(self.helpCard)
-        self.ServerInterface.addSettingCard(self.reloadCard)
-        self.ServerInterface.addSettingCard(self.accountCard)
-        self.ServerInterface.addSettingCard(self.kickCard)
-        self.ServerInterface.addSettingCard(self.unstuckCard)
-
-        self.AccountInterface.addSettingCard(self.giveallCard)
-        self.AccountInterface.addSettingCard(self.clearCard)
-        self.AccountInterface.addSettingCard(self.worldLevelCard)
-        self.AccountInterface.addSettingCard(self.refillCard)
-        self.AccountInterface.addSettingCard(self.healCard)
-
-        self.AvatarInterface.addSettingCard(self.avatarCard)
-        self.AvatarInterface.addSettingCard(self.genderCard)
-
-        # 栏绑定界面
-        self.addSubInterface(self.ServerInterface, 'ServerInterface',self.tr('服务端'), icon=FIF.COMMAND_PROMPT)
-
-        self.CustomInterface = Custom('CustomInterface', self)
-        self.addSubInterface(self.CustomInterface, 'CustomInterface',self.tr('自定义'), icon=FIF.COMMAND_PROMPT)
-
-        self.addSubInterface(self.AccountInterface, 'AccountInterface',self.tr('账号'), icon=FIF.COMMAND_PROMPT)
-        self.addSubInterface(self.AvatarInterface, 'AvatarInterface',self.tr('角色'), icon=FIF.COMMAND_PROMPT)
-
-        self.SceneInterface = Scene('SceneInterface', self)
-        self.addSubInterface(self.SceneInterface, 'SceneInterface',self.tr('场景'), icon=FIF.COMMAND_PROMPT)
-        self.SpawnInterface = Spawn('SpawnInterface', self)
-        self.addSubInterface(self.SpawnInterface, 'SpawnInterface',self.tr('生成'), icon=FIF.COMMAND_PROMPT)
-        self.GiveInterface = Give('GiveInterface', self)
-        self.addSubInterface(self.GiveInterface, 'GiveInterface',self.tr('给予'), icon=FIF.COMMAND_PROMPT)
-        self.RelicInterface = Relic('RelicInterface', self)
-        self.addSubInterface(self.RelicInterface, 'RelicInterface',self.tr('遗器'), icon=FIF.COMMAND_PROMPT)
-
-        # 初始化配置界面
-        self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
-        self.vBoxLayout.addWidget(self.stackedWidget)
-        self.vBoxLayout.setSpacing(15)
-        self.vBoxLayout.setContentsMargins(0, 0, 10, 0)
-        self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.ServerInterface)
-        self.pivot.setCurrentItem(self.ServerInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.ServerInterface.objectName())
-
-        self.updateLayout = QHBoxLayout(self.updateContainer)
-        self.updateLayout.addWidget(self.updateText, alignment=Qt.AlignCenter)
-        self.updateLayout.addStretch(1)
-        self.updateLayout.addWidget(self.clearButton, alignment=Qt.AlignCenter)
-        self.updateLayout.addSpacing(5)
-        self.updateLayout.addWidget(self.saveButton, alignment=Qt.AlignCenter)
-        self.updateLayout.addSpacing(5)
-        self.updateLayout.addWidget(self.copyButton, alignment=Qt.AlignCenter)
-        self.updateLayout.addSpacing(5)
-        self.updateLayout.addWidget(self.actionButton, alignment=Qt.AlignCenter)
-        self.updateLayout.addSpacing(15)
-        self.vBoxLayout.addWidget(self.updateContainer)
-        
-    def __connectSignalToSlot(self):
-        self.command_update.connect(self.handleCommandUpdate)
-        self.clearButton.clicked.connect(lambda: self.updateText.clear())
-        self.saveButton.clicked.connect(self.handleSaveClicked)
-        self.copyButton.clicked.connect(lambda: self.handleCopyToClipboard('show'))
-        self.actionButton.clicked.connect(self.handleActionCkicked)
-
-        self.helpCard.clicked.connect(lambda: self.command_update.emit('/help'))
-        self.reloadCard.clicked.connect(lambda: self.command_update.emit('/reload'))
-
-        self.accountCard.create_account.connect(lambda: self.handleAccountClicked('create'))
-        self.accountCard.delete_account.connect(lambda: self.handleAccountClicked('delete'))
-        self.kickCard.kick_player.connect(self.handleKickClicked)
-        self.unstuckCard.unstuck_player.connect(self.handleUnstuckClicked)
-
-        self.giveallCard.giveall_clicked.connect(lambda itemid: self.handleGiveallClicked(itemid))
-        self.clearCard.clear_clicked.connect(lambda itemid: self.handleClearClicked(itemid))
-        self.worldLevelCard.set_world_level.connect(lambda index: self.handleWorldLevelClicked(index))
-        self.refillCard.clicked.connect(lambda: self.command_update.emit('/refill'))
-        self.healCard.clicked.connect(lambda: self.command_update.emit('/heal'))
-
-        self.avatarCard.avatar_set.connect(lambda index: self.handleAvatarClicked(index))
-        self.genderCard.gender_male.connect(lambda: self.command_update.emit('/gender male'))
-        self.genderCard.gender_female.connect(lambda: self.command_update.emit('/gender female'))
-
-        self.SceneInterface.scene_id_signal.connect(lambda scene_id: self.command_update.emit('/scene '+ scene_id))
-        self.SpawnInterface.monster_id_signal.connect(lambda monster_id, stage_id: self.handleSpawnClicked(monster_id, stage_id))
-        self.GiveInterface.item_id_signal.connect(lambda item_id, index: self.handleGiveClicked(item_id, index))
-        self.RelicInterface.relic_id_signal.connect(lambda relic_id: self.handleRelicClicked(relic_id))
-        self.RelicInterface.custom_relic_signal.connect(lambda command: self.command_update.emit(command))
-
-    def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
-        widget.setObjectName(objectName)
-        self.stackedWidget.addWidget(widget)
-        self.pivot.addItem(
-            icon=icon,
-            routeKey=objectName,
-            text=text,
-            onClick=lambda: self.stackedWidget.setCurrentWidget(widget)
-        )
-
-    def onCurrentIndexChanged(self, index):
-        widget = self.stackedWidget.widget(index)
-        self.pivot.setCurrentItem(widget.objectName())
-        qrouter.push(self.stackedWidget, widget.objectName())
-        self.updateText.clear()
-    
-    def handleCommandUpdate(self, text):
-        self.updateText.clear()
-        self.updateText.setText(text)
-        if cfg.autoCopy.value:
-            self.handleCopyToClipboard('hide')
-    
-    def handleSaveClicked(self):
-        text = self.updateText.text()
-        current_widget = self.stackedWidget.currentWidget()
-        if text != '' and current_widget != self.CustomInterface:
-            formatted_text = f"自定义命令 : {text}\n"
-            with open('src/data/mycommand.txt', 'a', encoding='utf-8') as file:
-                file.write(formatted_text)
-            InfoBar.success(
-                title=self.tr('保存成功！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self.parent
-            )
-
-            self.CustomInterface.handleMycommandLoad()
-
-    def handleActionCkicked(self):
-        if not cfg.useRemote.value:
-            InfoBar.error(
-                title=self.tr('远程执行未启用！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
-            return
-
-        uid = get_json('./config/config.json', 'UID')
-        key = get_json('./config/config.json', 'KEY')
-
-        if uid != '' and key != '' and self.updateText.text() != '':
-            try:
-                status, response = handleCommandSend(uid, key, self.updateText.text())
-                if status == 'success':
-                    InfoBar.success(
-                        title=self.tr('执行成功！'),
-                        content='请自行查看执行结果！',
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=1000,
-                        parent=self.parent
-                    )
-                else:
-                    InfoBar.error(
-                        title=self.tr('执行失败！'),
-                        content=str(response),
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=3000,
-                        parent=self.parent
-                    )
-            except Exception as e:
-                InfoBar.error(
-                    title=self.tr('执行失败！'),
-                    content=str(e),
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self.parent
-                )
-        else:
-            InfoBar.error(
-                title=self.tr('执行失败！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
-
-    def handleCopyToClipboard(self, status):
-        text = self.updateText.text()
-        app = QApplication.instance()
-        if text != '':
-            clipboard = app.clipboard()
-            clipboard.setText(text)
-            if status == 'show':
-                InfoBar.success(
-                    title=self.tr('复制成功！'),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self.parent
-                )
-    
-    def handleAccountClicked(self, types):
-        account_name = self.accountCard.account_name.text()
-        account_uid = self.accountCard.account_uid.text()
-        if account_name != '':
-            account = f'/account {types} {account_name}'
-            if types == 'create' and account_uid != '':
-                account += ' ' + account_uid
-            self.command_update.emit(account)
-        else:
-            InfoBar.error(
-                title=self.tr('请输入正确的用户名！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
-    
-    def handleKickClicked(self):
-        account_uid = self.kickCard.account_uid.text()
-        if account_uid != '':
-            self.command_update.emit('/kick @' + account_uid)
-        else:
-            InfoBar.error(
-                title=self.tr('请输入正确的UID！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
-
-    def handleUnstuckClicked(self):
-        stucked_uid = self.unstuckCard.stucked_uid.text()
-        if stucked_uid != '' :
-            self.command_update.emit('/unstuck @' + stucked_uid)
-        else:
-            InfoBar.error(
-                title=self.tr('请输入正确的UID！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
-
-    def handleGiveallClicked(self, itemid):
-        types = ['materials', 'avatars', 'materials', 'relics', 'icons']
-        self.command_update.emit('/giveall ' + types[itemid])
-
-    def handleClearClicked(self, itemid):
-        types = ['relics', 'lightcones', 'lightcones', 'all']
-        self.command_update.emit('/clear ' + types[itemid])
-
-    def handleWorldLevelClicked(self, index):
-        world_level = self.worldLevelCard.world_level.text()
-        if world_level != '':
-            if index == 0:
-                self.command_update.emit('/level ' + world_level)
-            elif index == 1:
-                self.command_update.emit('/worldlevel ' + world_level)
-        else:
-            self.command_update.emit('')
-
-    def handleAvatarClicked(self, index):
-        avatar_level = self.avatarCard.avatar_level.text()
-        avatar_eidolon = self.avatarCard.avatar_eidolon.text()
-        avatar_skill = self.avatarCard.avatar_skill.text()
-        types = ['', ' lineup', ' all']
-        command = '/avatar'
-        if index > -1:
-            command += types[index]
-        if avatar_level != '':
-            command += ' lv' + avatar_level
-        if avatar_eidolon != '':
-            command += ' r' + avatar_eidolon
-        if avatar_skill != '':
-            command +=' s' + avatar_skill
-        if command != '/avatar':
-            self.command_update.emit(command)
-        else:
-            self.command_update.emit('')
-
-    def handleSpawnClicked(self, monster_id, stage_id):
-        monster_num_edit = self.SpawnInterface.monster_num_edit.text()
-        monster_level_edit = self.SpawnInterface.monster_level_edit.text()
-        monster_round_edit = self.SpawnInterface.monster_round_edit.text()
-        command = '/spawn ' + monster_id + ' ' + stage_id
-        if monster_num_edit != '':
-            command += ' x' + monster_num_edit
-        if monster_level_edit != '':
-            command += ' lv' + monster_level_edit
-        if monster_round_edit != '':
-            command += ' r' + monster_round_edit
-        self.command_update.emit(command)
-    
-    def handleGiveClicked(self, item_id, index):
-        give_level_edit = self.GiveInterface.give_level_edit.text()
-        give_eidolon_edit = self.GiveInterface.give_eidolon_edit.text()
-        give_num_edit = self.GiveInterface.give_num_edit.text()
-        command = '/give ' + item_id
-        if index == 0:
-            if give_level_edit != '':
-                command += ' lv' + give_level_edit
-            if give_eidolon_edit != '':
-                command += ' r' + give_eidolon_edit
-        elif index == 1:
-            if give_num_edit != '':
-                command += ' x' + give_num_edit
-            if give_level_edit != '':
-                command += ' lv' + give_level_edit
-            if give_eidolon_edit != '':
-                command += ' r' + give_eidolon_edit
-        elif index == 2 or index == 3:
-            if give_num_edit != '':
-                command += ' x' + give_num_edit
-        self.command_update.emit(command)
-    
-    def handleRelicClicked(self, relic_id):
-        relic_level = self.RelicInterface.level_edit.text()
-        main_entry_name = self.RelicInterface.main_now_edit.text()
-        now_list_nozero = {k: v for k, v in self.RelicInterface.now_list.items() if v > 0}
-        entry_table = self.RelicInterface.entry_table
-        command = '/give ' + relic_id
-
-        if relic_level != '':
-            command += ' lv' + relic_level
-
-        if main_entry_name != '':
-            entry_index = 0
-            for i in range(entry_table.rowCount()):
-                if entry_table.item(i, 0).text() == main_entry_name and entry_table.item(i, 1).text() != self.tr('通用'):
-                    entry_index = i
-                    break
-            main_entry = entry_table.item(entry_index, 2).text()
-            command += ' s' + main_entry
-        
-        for entry_name, entry_num in now_list_nozero.items():
-            if entry_name != '':
-                entry_index = 0
-                for i in range(entry_table.rowCount()):
-                    if entry_table.item(i, 0).text() == entry_name and entry_table.item(i, 1).text() == self.tr('通用'):
-                        entry_index = i
-                        break
-                side_entry = entry_table.item(entry_index, 2).text()
-                command += ' ' + side_entry + ':' + str(entry_num)
-
-        self.command_update.emit(command)
+from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, ComboBox, TableWidget, FluentIcon,
+                            SearchLineEdit, SubtitleLabel, PrimaryToolButton, InfoBar, InfoBarPosition)
+from app.model.setting_card import SettingCard
+from app.model.config import cfg
 
 
 class Account(SettingCard):
     create_account = Signal()
     delete_account = Signal()
-    def __init__(self, title, icon=FIF.TAG, content='/account {create | delete} [username]'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/account {create | delete} [username]'):
         super().__init__(icon, title, content)
         self.account_name = LineEdit(self)
         self.account_uid = LineEdit(self)
@@ -495,7 +37,8 @@ class Account(SettingCard):
 
 class Kick(SettingCard):
     kick_player = Signal()
-    def __init__(self, title, icon=FIF.TAG, content='/kick @[player id]'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/kick @[player id]'):
         super().__init__(icon, title, content)
         self.account_uid = LineEdit(self)
         self.account_uid.setPlaceholderText("UID")
@@ -510,13 +53,14 @@ class Kick(SettingCard):
 
 class Unstuck(SettingCard):
     unstuck_player = Signal()
-    def __init__(self, title, icon=FIF.TAG, content='/unstuck @[player id]'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/unstuck @[player id]'):
         super().__init__(icon, title, content)
-        self.stucked_uid = LineEdit(self)
-        self.stucked_uid.setPlaceholderText("UID")
-        self.stucked_uid.setValidator(QIntValidator(self))
+        self.stuck_uid = LineEdit(self)
+        self.stuck_uid.setPlaceholderText("UID")
+        self.stuck_uid.setValidator(QIntValidator(self))
         self.button_unstuck = PrimaryPushButton(self.tr('使用'), self)
-        self.hBoxLayout.addWidget(self.stucked_uid, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.stuck_uid, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_unstuck, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
@@ -573,8 +117,8 @@ class Custom(QWidget):
         self.mycommand_search_line.textChanged.connect(self.handleMycommandSearch)
         self.default_button.clicked.connect(self.handleDefaultClicked)
 
-        self.mycommand_table.cellClicked.connect(lambda : self.handleMycommandClicked('single'))
-        self.mycommand_table.doubleClicked.connect(lambda : self.handleMycommandClicked('double'))
+        self.mycommand_table.cellClicked.connect(lambda: self.handleMycommandClicked('single'))
+        self.mycommand_table.doubleClicked.connect(lambda: self.handleMycommandClicked('double'))
         self.mycommand_table.itemChanged.connect(self.handleNameChanged)
 
     def handleMycommandSearch(self):
@@ -620,24 +164,29 @@ class Custom(QWidget):
                 for i, line in enumerate(mycommand):
                     if i != row:
                         file.write(line)
-    
-    def handleNameChanged(self, item):
+
+    def handleNameChanged(self):
         selected_item = self.mycommand_table.selectedItems()
         if selected_item:
             rows = self.mycommand_table.rowCount()
-            colomn = self.mycommand_table.currentColumn()
-            if colomn == 0 and selected_item[0].text().strip() == '':
+            column = self.mycommand_table.currentColumn()
+            if column == 0 and selected_item[0].text().strip() == '':
                 selected_item[0].setText(self.tr('自定义命令'))
             data = []
-            for row in range(rows):
-                first_col = self.mycommand_table.item(row, 0).text()
-                second_col = self.mycommand_table.item(row, 1).text()
-                data_row = f"{first_col} : {second_col}\n"
-                data.append(data_row)
-            with open('src/data/mycommand.txt', 'w', encoding='utf-8') as file:
-                file.writelines(data)
+            # 临时解决NoneType问题
+            try:
+                for row in range(rows):
+                    first_col = self.mycommand_table.item(row, 0).text()
+                    second_col = self.mycommand_table.item(row, 1).text()
+                    data_row = f"{first_col} : {second_col}\n"
+                    data.append(data_row)
+                with open('src/data/mycommand.txt', 'w', encoding='utf-8') as file:
+                    file.writelines(data)
+            except:
+                pass
 
     def handleMycommandLoad(self):
+        self.mycommand_table.clearFocus()
         if not os.path.exists('src/data/mycommand.txt'):
             shutil.copy('src/data/mycommand-default.txt', 'src/data/mycommand.txt')
 
@@ -654,9 +203,10 @@ class Custom(QWidget):
 
 class Giveall(SettingCard):
     giveall_clicked = Signal(int)
-    def __init__(self, title, icon=FIF.TAG, content='/giveall {materials | avatars | lightcones | relics | icons}'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/giveall {materials | avatars | lightcones | relics | icons}'):
         super().__init__(icon, title, content)
-        self.texts=[self.tr('材料'), self.tr('角色'), self.tr('光锥'), self.tr('遗器'), self.tr('图标')]
+        self.texts = [self.tr('材料'), self.tr('角色'), self.tr('光锥'), self.tr('遗器'), self.tr('图标')]
         self.comboBox = ComboBox(self)
         self.comboBox.setPlaceholderText(self.tr('选择物品'))
         self.comboBox.addItems(self.texts)
@@ -671,9 +221,10 @@ class Giveall(SettingCard):
 
 class Clear(SettingCard):
     clear_clicked = Signal(int)
-    def __init__(self, title, icon=FIF.TAG, content='/clear {relics | lightcones | materials | all}'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/clear {relics | lightcones | materials | all}'):
         super().__init__(icon, title, content)
-        self.texts=[self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('全部')]
+        self.texts = [self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('全部')]
         self.comboBox = ComboBox(self)
         self.comboBox.setPlaceholderText(self.tr('选择物品'))
         self.comboBox.addItems(self.texts)
@@ -688,9 +239,10 @@ class Clear(SettingCard):
 
 class WorldLevel(SettingCard):
     set_world_level = Signal(int)
-    def __init__(self, title, icon=FIF.TAG, content='/level [trailblaze level] || /worldlevel [world level]'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/level [trailblaze level] || /worldlevel [world level]'):
         super().__init__(icon, title, content)
-        self.texts=[self.tr('开拓'), self.tr('均衡')]
+        self.texts = [self.tr('开拓'), self.tr('均衡')]
         self.world_types = ComboBox(self)
         self.world_types.setPlaceholderText(self.tr('类型'))
         self.world_types.addItems(self.texts)
@@ -716,7 +268,8 @@ class WorldLevel(SettingCard):
 
 class Avatar(SettingCard):
     avatar_set = Signal(int)
-    def __init__(self, title, icon=FIF.TAG, content='/avatar [lv(level)] [r(eidolon)] [s(skill level)]'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/avatar [lv(level)] [r(eidolon)] [s(skill level)]'):
         super().__init__(icon, title, content)
         self.avatar_level = LineEdit(self)
         self.avatar_eidolon = LineEdit(self)
@@ -729,7 +282,7 @@ class Avatar(SettingCard):
         self.avatar_eidolon.setValidator(validator)
         self.avatar_skill.setValidator(validator)
 
-        self.texts=[self.tr('当前'), self.tr('队伍'), self.tr('全部')]
+        self.texts = [self.tr('当前'), self.tr('队伍'), self.tr('全部')]
         self.avatar_types = ComboBox(self)
         self.avatar_types.setPlaceholderText(self.tr('应用范围'))
         self.avatar_types.addItems(self.texts)
@@ -747,7 +300,7 @@ class Avatar(SettingCard):
         self.avatar_eidolon.textChanged.connect(lambda: self.onSignalEmit(-1))
         self.avatar_skill.textChanged.connect(lambda: self.onSignalEmit(-1))
         self.avatar_types.currentIndexChanged.connect(lambda index: self.onSignalEmit(index))
-    
+
     def onSignalEmit(self, index: int):
         self.avatar_set.emit(index)
 
@@ -755,7 +308,8 @@ class Avatar(SettingCard):
 class Gender(SettingCard):
     gender_male = Signal()
     gender_female = Signal()
-    def __init__(self, title, icon=FIF.TAG, content='/gender {male | female}'):
+
+    def __init__(self, title, icon=FluentIcon.TAG, content='/gender {male | female}'):
         super().__init__(icon, title, content)
         self.button_male = PrimaryPushButton(self.tr('星'), self)
         self.button_female = PrimaryPushButton(self.tr('穹'), self)
@@ -769,6 +323,7 @@ class Gender(SettingCard):
 
 class Scene(QWidget):
     scene_id_signal = Signal(str)
+
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -809,11 +364,11 @@ class Scene(QWidget):
         self.scene_search_line.textChanged.connect(self.handleSceneSearch)
         self.scene_table.cellClicked.connect(self.handleSceneSignal)
 
-    def handleSceneSignal(self, row, column):
+    def handleSceneSignal(self, row):
         item = self.scene_table.item(row, 1)
         scene_id = item.text()
         self.scene_id_signal.emit(scene_id)
-    
+
     def handleSceneSearch(self):
         keyword = self.scene_search_line.text()
         for row in range(self.scene_table.rowCount()):
@@ -842,6 +397,7 @@ class Scene(QWidget):
 
 class Spawn(QWidget):
     monster_id_signal = Signal(str, str)
+
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -1006,6 +562,7 @@ class Spawn(QWidget):
 
 class Give(QWidget):
     item_id_signal = Signal(str, int)
+
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -1018,7 +575,8 @@ class Give(QWidget):
         self.give_search_line.setFixedSize(804, 35)
         self.give_combobox = ComboBox(self)
         self.give_combobox.setFixedSize(100, 35)
-        self.give_combobox.addItems([self.tr("角色"), self.tr("光锥"), self.tr("物品"), self.tr("食物"), self.tr("头像")])
+        self.give_combobox.addItems(
+            [self.tr("角色"), self.tr("光锥"), self.tr("物品"), self.tr("食物"), self.tr("头像")])
 
         self.give_table = TableWidget(self)
         self.give_table.setFixedSize(915, 420)
@@ -1051,7 +609,7 @@ class Give(QWidget):
         self.__initLayout()
         self.__initInfo()
         self.__connectSignalToSlot()
-    
+
     def __initLayout(self):
         self.give_line_layout = QHBoxLayout()
         self.give_line_layout.addWidget(self.give_search_line)
@@ -1093,7 +651,7 @@ class Give(QWidget):
         self.give_num_edit.textChanged.connect(self.handleGiveSignal)
         self.give_level_edit.textChanged.connect(self.handleGiveSignal)
         self.give_eidolon_edit.textChanged.connect(self.handleGiveSignal)
-   
+
     def handleGiveSignal(self):
         selected_items = self.give_table.selectedItems()
         index = self.give_combobox.currentIndex()
@@ -1189,6 +747,7 @@ class Give(QWidget):
 class Relic(QWidget):
     relic_id_signal = Signal(str)
     custom_relic_signal = Signal(str)
+
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
@@ -1217,7 +776,7 @@ class Relic(QWidget):
         self.relic_table.setColumnWidth(0, 190)
         self.relic_table.setColumnWidth(1, 78)
         self.relic_table.setColumnWidth(2, 135)
-        self.relic_table.setColumnWidth(3, 0) # 隐藏command列
+        self.relic_table.setColumnWidth(3, 0)  # 隐藏command列
 
         self.relic_table.setBorderVisible(True)
         self.relic_table.setBorderRadius(8)
@@ -1273,9 +832,9 @@ class Relic(QWidget):
         self.now_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.now_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-        self.add_num_button = PrimaryToolButton(FIF.ADD)
+        self.add_num_button = PrimaryToolButton(FluentIcon.ADD)
         self.add_num_button.setFixedSize(35, 35)
-        self.minus_num_button = PrimaryToolButton(FIF.REMOVE)
+        self.minus_num_button = PrimaryToolButton(FluentIcon.REMOVE)
         self.minus_num_button.setFixedSize(35, 35)
         self.set_num_edit = LineEdit(self)
         self.set_num_edit.setPlaceholderText(self.tr("数量"))
@@ -1457,7 +1016,7 @@ class Relic(QWidget):
         self.__handleRelatedEntryUpdate()
         if self.base_relic_button.isChecked():
             self.main_now_edit.clear()
-    
+
     def handleEntryTableClicked(self):
         selected_entry = self.entry_table.selectedItems()
         selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
@@ -1472,7 +1031,8 @@ class Relic(QWidget):
             selected_entry = self.entry_table.selectedItems()
             selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
             entry_id = selected_entry[0].text()
-            if selected_entry and selected_entry_type == self.tr('通用') and len(self.now_list) < 4 and entry_id not in self.now_list:
+            if selected_entry and selected_entry_type == self.tr('通用') and len(
+                    self.now_list) < 4 and entry_id not in self.now_list:
                 self.now_list[entry_id] = 1
                 self.handleNowLoad()
             self.handleRelicSignal()
@@ -1483,26 +1043,27 @@ class Relic(QWidget):
             entry_name = selected_now[0].text()
             if types == 'add':
                 self.now_list[entry_name] += 1
-            elif types =='remove':
+            elif types == 'remove':
                 if self.now_list[entry_name] > 0:
                     self.now_list[entry_name] -= 1
-            elif types =='set':
+            elif types == 'set':
                 if self.set_num_edit.text() != '' and int(self.set_num_edit.text()) > 0:
-                        self.now_list[entry_name] = int(self.set_num_edit.text())
+                    self.now_list[entry_name] = int(self.set_num_edit.text())
                 else:
                     self.now_list[entry_name] = 0
             elif types == 'delete':
                 del self.now_list[entry_name]
 
-            seleted_row = self.now_table.currentRow()
+            selected_row = self.now_table.currentRow()
             self.handleNowLoad()
-            self.now_table.selectRow(seleted_row)
+            self.now_table.selectRow(selected_row)
             self.handleRelicSignal()
 
     # 读取和加载页面信息相关
     def handleBaseRelicLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/relic.txt', 'r', encoding='utf-8') as file:
-            relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
+            relic = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
         for i, line in enumerate(relic):
             line = line.strip()
@@ -1516,7 +1077,8 @@ class Relic(QWidget):
 
     def handleCustomRelicLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/myrelic.txt', 'r', encoding='utf-8') as file:
-            relic = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
+            relic = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.relic_table.setRowCount(len(relic))
         for i, line in enumerate(relic):
             line = line.strip()
@@ -1524,11 +1086,13 @@ class Relic(QWidget):
             self.relic_table.setRowHeight(i, 39)
             for j, part in enumerate(parts):
                 self.relic_table.setItem(i, j, QTableWidgetItem(part))
-        self.relic_table.setHorizontalHeaderLabels([self.tr('遗器名称'), self.tr('部位'), self.tr('适用角色'), 'command'])
+        self.relic_table.setHorizontalHeaderLabels(
+            [self.tr('遗器名称'), self.tr('部位'), self.tr('适用角色'), 'command'])
 
     def handleEntryLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/entry.txt', 'r', encoding='utf-8') as file:
-            entry = [line for line in file.readlines() if not (line.strip().startswith("//") or line.strip().startswith("#"))]
+            entry = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.entry_table.setRowCount(len(entry))
         for i, line in enumerate(entry):
             parts = line.split()

@@ -1,78 +1,9 @@
 import json
 import subprocess
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QAbstractItemView, QHeaderView, QHBoxLayout, QButtonGroup, QTableWidgetItem
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QAbstractItemView, QHeaderView, QHBoxLayout, QTableWidgetItem
 from PySide6.QtCore import Qt
-from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import Pivot, qrouter, ScrollArea, SearchLineEdit, TableWidget, TogglePushButton, PrimaryPushButton, InfoBar, InfoBarPosition
-from app.model.style_sheet import StyleSheet
-from app.model.setting_card import SettingCardGroup
+from qfluentwidgets import SearchLineEdit, TableWidget, PrimaryPushButton, InfoBar, InfoBarPosition
 from app.model.config import cfg
-
-
-class LunarCoreEdit(ScrollArea):
-    Nav = Pivot
-    def __init__(self, text: str, parent=None):
-        super().__init__(parent=parent)
-        self.parent = parent
-        self.setObjectName(text)
-        self.scrollWidget = QWidget()
-        self.vBoxLayout = QVBoxLayout(self.scrollWidget)
-
-        # 栏定义
-        self.pivot = self.Nav(self)
-        self.stackedWidget = QStackedWidget(self)
-
-        # 添加项
-        self.WarpInterface = SettingCardGroup(self.scrollWidget)
-
-        self.__initWidget()
-
-    def __initWidget(self):
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)     # 水平滚动条关闭
-        self.setWidget(self.scrollWidget)
-        self.setWidgetResizable(True)    # 必须设置！！！
-
-        # 使用qss设置样式
-        self.scrollWidget.setObjectName('scrollWidget')
-        StyleSheet.SETTING_INTERFACE.apply(self)
-
-        self.__initLayout()
-        self.__connectSignalToSlot()
-
-    def __initLayout(self):
-        # 项绑定到栏目
-
-        # 栏绑定界面
-        self.WarpInterface = Warp('WarpInterface', self)
-        self.addSubInterface(self.WarpInterface, 'WarpInterface',self.tr('跃迁'), icon=FIF.LABEL)
-
-        # 初始化配置界面
-        self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
-        self.vBoxLayout.addWidget(self.stackedWidget)
-        self.vBoxLayout.setSpacing(15)
-        self.vBoxLayout.setContentsMargins(0, 0, 10, 0)
-        self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.WarpInterface)
-        self.pivot.setCurrentItem(self.WarpInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.WarpInterface.objectName())
-
-    def __connectSignalToSlot(self):
-        pass
-
-    def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
-        widget.setObjectName(objectName)
-        self.stackedWidget.addWidget(widget)
-        self.pivot.addItem(
-            icon=icon,
-            routeKey=objectName,
-            text=text,
-            onClick=lambda: self.stackedWidget.setCurrentWidget(widget)
-        )
-
-    def onCurrentIndexChanged(self, index):
-        widget = self.stackedWidget.widget(index)
-        self.pivot.setCurrentItem(widget.objectName())
-        qrouter.push(self.stackedWidget, widget.objectName())
 
 
 class Warp(QWidget):
@@ -173,7 +104,7 @@ class Warp(QWidget):
         now_button_layout.addWidget(self.load_button)
         now_button_layout.addSpacing(10)
         now_button_layout.addWidget(self.save_button)
-        
+
         self.now_layout = QVBoxLayout()
         self.now_layout.addWidget(self.now_table)
         self.now_layout.addSpacing(10)
@@ -184,24 +115,22 @@ class Warp(QWidget):
         self.now_layout.addWidget(self.cancel_button)
         self.now_layout.addStretch(1)
 
+        self.tool_layout = QVBoxLayout()
+        self.tool_layout.addWidget(self.load_button)
+        self.tool_layout.addSpacing(20)
+        self.tool_layout.addWidget(self.save_button)
+        self.tool_layout.addSpacing(20)
+        self.tool_layout.addWidget(self.cancel_button)
+        self.tool_layout.addStretch(1)
 
         self.tool_layout = QVBoxLayout()
         self.tool_layout.addWidget(self.load_button)
-        self.tool_layout.addSpacing(20)
-        self.tool_layout.addWidget(self.save_button)
-        self.tool_layout.addSpacing(20)
-        self.tool_layout.addWidget(self.cancel_button)
-        self.tool_layout.addStretch(1)
-        
-        
-        self.tool_layout = QVBoxLayout()
-        self.tool_layout.addWidget(self.load_button)
         self.tool_layout.addSpacing(10)
         self.tool_layout.addWidget(self.save_button)
         self.tool_layout.addSpacing(10)
         self.tool_layout.addWidget(self.cancel_button)
         self.tool_layout.addStretch(1)
-        
+
         self.main_layout = QHBoxLayout()
         self.main_layout.addLayout(self.banner_layout)
         self.main_layout.addSpacing(20)
@@ -211,8 +140,13 @@ class Warp(QWidget):
         self.setLayout(self.main_layout)
 
     def __initInfo(self):
-        self.now_four_list = {}
+        self.config_data = {}
+        self.config_gachaType = {'Normal': self.tr('常驻池'), 'AvatarUp': self.tr('角色池'),
+                                 'WeaponUp': self.tr('武器池')}
+
         self.now_list = {}
+        self.now_four_list = {}
+
         self.handleConfigLoad()
         self.handleDefaultBannerLoad()
         self.handleAvatarLoad()
@@ -259,7 +193,7 @@ class Warp(QWidget):
                 self.avatar_table.setRowHidden(row, False)
             else:
                 self.avatar_table.setRowHidden(row, True)
-    
+
     def handleBannerClicked(self):
         selected_banner = self.banner_table.selectedItems()
         rateUpItems4 = eval(selected_banner[3].text())
@@ -287,7 +221,7 @@ class Warp(QWidget):
                 self.handleNowLoad()
                 self.now_table.selectRow(selected_row)
                 self.handleFourLoad()
-    
+
     def handleNowClicked(self, types):
         if types == 'single':
             self.handleFourLoad()
@@ -328,7 +262,7 @@ class Warp(QWidget):
             )
             return
 
-        self.now_list = {}
+        self.now_list.clear()
         for row, item in enumerate(lcbanner):
             bannerid = item['id']
             rateUpItems4 = item['rateUpItems4']
@@ -388,8 +322,7 @@ class Warp(QWidget):
         self.handleLoadClicked(False)
 
     def handleConfigLoad(self):
-        self.config_data = {}
-        self.config_gachaType = {'Normal': self.tr('常驻池'), 'AvatarUp': self.tr('角色池'), 'WeaponUp': self.tr('武器池')}
+        self.config_data.clear()
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/avatar.txt', 'r', encoding='utf-8') as file:
             avatar = file.readlines()
         for i, line in enumerate(avatar):
@@ -428,9 +361,9 @@ class Warp(QWidget):
 
     def handleAvatarLoad(self):
         self.avatar_table.setRowCount(len(self.config_data))
-        for row, (id, name) in enumerate(self.config_data.items()):
+        for row, (ids, name) in enumerate(self.config_data.items()):
             self.avatar_table.setItem(row, 0, QTableWidgetItem(name))
-            self.avatar_table.setItem(row, 1, QTableWidgetItem(id))
+            self.avatar_table.setItem(row, 1, QTableWidgetItem(ids))
             self.avatar_table.setRowHeight(row, 39)
         self.avatar_table.setHorizontalHeaderLabels([self.tr('物品名称'), 'ID'])
 

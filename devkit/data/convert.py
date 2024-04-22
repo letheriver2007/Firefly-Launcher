@@ -50,61 +50,63 @@ try:
     with open(input_file_path, "r", encoding="utf-8") as input_file:
         lines = input_file.readlines()
         for line in lines:
-            if line.startswith(("# Avatars")):
+            if line.startswith("# Avatars"):
                 start_flag_avatar = True
-            if line.startswith(("20000 :")):
+            if line.startswith("20000 :"):
                 start_flag_lightcone = True
             if line.startswith(("# Items", "11001 :", config_100000[LANGUAGE], "210001 :")):
                 start_flag_item = True
             if line.startswith((config_400004[LANGUAGE])):
                 start_flag_food = True
-            if line.startswith(("200001 :")):
+            if line.startswith("200001 :"):
                 start_flag_head = True
-            if line.startswith(("# NPC")):
+            if line.startswith("# NPC"):
                 start_flag_monster = True
-            if line.startswith(("# Battle")):
+            if line.startswith("# Battle"):
                 start_flag_stage = True
-            if line.startswith(("# Mazes")):
+            if line.startswith("# Mazes"):
                 start_flag_scene = True
-            if line.startswith(("61011 :")):
+            if line.startswith("61011 :"):
                 start_flag_relic = True
 
             if start_flag_avatar and not line.startswith(("# Avatars", "# Items")):
                 avatar_lines.append(line)
-            elif start_flag_lightcone and not line.startswith(("31011 :")):
+            elif start_flag_lightcone and not line.startswith("31011 :"):
                 lightcone_lines.append(line)
-            elif start_flag_item and not line.startswith(("# Items", config_1001[LANGUAGE], "20000 :", "200001 :", config_400004[LANGUAGE])):
+            elif start_flag_item and not line.startswith(
+                    ("# Items", config_1001[LANGUAGE], "20000 :", "200001 :", config_400004[LANGUAGE])):
                 item_lines.append(line)
-            elif start_flag_food and not line.startswith(("# Props")):
+            elif start_flag_food and not line.startswith("# Props"):
                 food_lines.append(line)
-            elif start_flag_head and not line.startswith(("210001 :")):
+            elif start_flag_head and not line.startswith("210001 :"):
                 head_lines.append(line)
             elif start_flag_monster and not line.startswith(("# NPC", "# Battle")):
                 monster_lines.append(line)
             elif start_flag_stage and not line.startswith(("# Battle", "# Mazes")):
                 stage_lines.append(line)
-            elif start_flag_scene and not line.startswith(("# Mazes")):
+            elif start_flag_scene and not line.startswith("# Mazes"):
                 scene_lines.append(line)
-            elif start_flag_relic and not line.startswith(("71000 :")):
+            elif start_flag_relic and not line.startswith("71000 :"):
                 relic_lines.append(line)
 
-            if start_flag_avatar and line.startswith(("# Items")):
+            if start_flag_avatar and line.startswith("# Items"):
                 start_flag_avatar = False
-            elif start_flag_lightcone and line.startswith(("31011 :")):
+            elif start_flag_lightcone and line.startswith("31011 :"):
                 start_flag_lightcone = False
-            elif start_flag_item and line.startswith((config_1001[LANGUAGE], "20000 :", "200001 :", config_400004[LANGUAGE])):
+            elif start_flag_item and line.startswith(
+                    (config_1001[LANGUAGE], "20000 :", "200001 :", config_400004[LANGUAGE])):
                 start_flag_item = False
-            elif start_flag_food and line.startswith(("# Props")):
+            elif start_flag_food and line.startswith("# Props"):
                 start_flag_food = False
-            elif start_flag_head and line.startswith(("210001 :")):
+            elif start_flag_head and line.startswith("210001 :"):
                 start_flag_head = False
-            elif start_flag_monster and line.startswith(("# Battle")):
+            elif start_flag_monster and line.startswith("# Battle"):
                 start_flag_monster = False
-            elif start_flag_stage and line.startswith(("# Mazes")):
+            elif start_flag_stage and line.startswith("# Mazes"):
                 start_flag_stage = False
-            elif start_flag_scene and line.startswith(("THE END")):
+            elif start_flag_scene and line.startswith("THE END"):
                 start_flag_scene = False
-            elif start_flag_relic and line.startswith(("71000 :")):
+            elif start_flag_relic and line.startswith("71000 :"):
                 start_flag_relic = False
 except FileNotFoundError:
     input("文件不存在, 请确认文件名是否正确.")
@@ -125,6 +127,7 @@ for line in relic_lines:
     new_line = f"{line.strip()} : {config}\n"
     new_relic_lines.append(new_line)
 
+
 def write_to_file(file_path, lines):
     lines = list(filter(lambda x: x.strip(), lines))
     with open(file_path, "w", encoding="utf-8") as output_file:
@@ -135,6 +138,7 @@ def write_to_file(file_path, lines):
         file.seek(0)
         file.write(content)
         file.truncate()
+
 
 write_to_file(avatar_file_path, avatar_lines)
 write_to_file(lightcone_file_path, lightcone_lines)

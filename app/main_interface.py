@@ -1,3 +1,4 @@
+import os
 import sys
 import glob
 import random
@@ -8,7 +9,7 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt, QSize, QUrl
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
-from qfluentwidgets import (MSFluentWindow, NavigationItemPosition, setTheme, Theme, InfoBar,
+from qfluentwidgets import (MSFluentWindow, NavigationItemPosition, setTheme, Theme, InfoBar, PrimaryPushButton,
                             InfoBarPosition, SplashScreen, HyperlinkButton, InfoBarIcon, FluentIcon)
 from app.home_interface import Home
 from app.launcher_interface import Launcher
@@ -16,7 +17,7 @@ from app.environment_interface import Environment
 from app.lunarcore_interface import LunarCore
 from app.proxy_interface import Proxy
 from app.setting_interface import Setting
-from app.model.config import cfg
+from app.model.config import cfg, Info
 from app.model.check_update import checkUpdate
 from app.model.login_card import MessageLogin
 
@@ -114,15 +115,7 @@ class Main(MSFluentWindow):
                         break
                 winreg.CloseKey(reg_key)
         except Exception as e:
-            InfoBar.error(
-                title=self.tr('检查字体失败: '),
-                content=str(e),
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
+            Info(self, 'E', 3000, self.tr('检查字体失败: '), str(e))
 
         if not isSetupFont:
             subprocess.run('cd src/patch/font && start zh-cn.ttf', shell=True)
@@ -131,31 +124,15 @@ class Main(MSFluentWindow):
     def handleLogin(self, password):
         md5_hash = hashlib.md5(password.encode()).hexdigest()[8:24].upper()
         if md5_hash == 'EE1FC4FB7AD2BE1C':
-            InfoBar.success(
-                title=self.tr('登录成功'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+            Info(self, 'S', 1000, self.tr('登录成功!'))
             if cfg.useAudio.value:
-                self.mediaPlay('success')
+                self.handleMideaPlay('success')
             self.w.close()
         else:
-            InfoBar.error(
-                title=self.tr('密码错误!'),
-                content=self.tr('次数: ') + self.incorrect_count,
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
+            Info(self, 'E', 3000, self.tr('密码错误!'), self.tr('次数: ') + self.incorrect_count)
             self.incorrect_count += 1
             if cfg.useAudio.value:
-                self.mediaPlay('error')
+                self.handleMideaPlay('error')
 
     def handleThemeChanged(self):
         if cfg.themeMode.value == Theme.DARK:
@@ -169,7 +146,6 @@ class Main(MSFluentWindow):
 
     def handleUpdate(self, status, info):
         if status == 2:
-            self.update_button = HyperlinkButton(cfg.URL_LATEST, self.tr('前往下载'))
             update_info = InfoBar(
                 icon=InfoBarIcon.WARNING,
                 title=self.tr('检测到新版本: ') + info,
@@ -180,31 +156,16 @@ class Main(MSFluentWindow):
                 duration=-1,
                 parent=self
             )
-            update_info.addWidget(self.update_button)
+            update_button = HyperlinkButton(cfg.URL_LATEST, self.tr('前往下载'))
+            update_info.addWidget(update_button)
             update_info.show()
         elif status == 1:
-            InfoBar.success(
-                title=self.tr('当前是最新版本: ') + info,
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+            Info(self, 'S', 1000, self.tr('当前是最新版本: ') + info)
         elif status == 0:
-            InfoBar.error(
-                title=self.tr('检测更新失败: ') + info,
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
+            Info(self, 'E', 3000, self.tr('检测更新失败: ') + info)
 
     def handleMideaPlay(self, status):
-        try:
+        if os.path.exists('src/audio'):
             self.player = QMediaPlayer()
             self.audioOutput = QAudioOutput()
             self.player.setAudioOutput(self.audioOutput)
@@ -213,13 +174,18 @@ class Main(MSFluentWindow):
             audio_play = QUrl.fromLocalFile(random.choice(audio_list))
             self.player.setSource(audio_play)
             self.player.play()
-        except Exception as e:
-            InfoBar.error(
-                title=self.tr('未找到语音, 请重新下载!'),
-                content=str(e),
+        else:
+            file_error = InfoBar(
+                icon=InfoBarIcon.ERROR,
+                title=self.tr('未找到语音!'),
+                content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=3000,
                 parent=self
             )
+            file_error_button = PrimaryPushButton(self.tr('前往下载'))
+            file_error_button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+            file_error.addWidget(file_error_button)
+            file_error.show()

@@ -4,14 +4,14 @@ import subprocess
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QApplication
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, HyperlinkButton,
-                            InfoBarPosition, SwitchSettingCard, LineEdit, PrimaryPushButton, FluentIcon)
+                            InfoBarPosition, SwitchSettingCard, LineEdit, PrimaryPushButton, FluentIcon, InfoBarIcon)
 from app.model.style_sheet import StyleSheet
 from app.lunarcore_command import Account, Kick, Unstuck, Custom, Giveall, Clear, WorldLevel, Avatar, Gender, Scene, \
     Spawn, Give, Relic
 from app.lunarcore_edit import Warp
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
-from app.model.config import cfg, get_json, open_file, save_json
+from app.model.config import cfg, get_json, open_file, save_json, Info
 from app.model.remote import (handleApply, handleVerify, PrimaryPushSettingCard_UID, PrimaryPushSettingCard_API,
                               PrimaryPushSettingCard_URL, PrimaryPushSettingCard_Verify)
 
@@ -191,7 +191,7 @@ class LunarCore(ScrollArea):
         self.CommandConfigCard.clicked.connect(lambda: open_file(self, f'.\\src\\data\\mycommand.txt'))
         self.RelicDataConfigCard.clicked.connect(
             lambda: open_file(self, f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'))
-        self.BannerConfigCard.clicked.connect(lambda: open_file(self, f'.\\server\\LunarCore\\data\\Banners.json'))
+        self.BannerConfigCard.clicked.connect(self.handleOpenLCBanner)
 
         self.patchCard.clicked.connect(self.handlePatch)
         self.useRemoteCard.checkedChanged.connect(self.handleRemoteChanged)
@@ -216,18 +216,29 @@ class LunarCore(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
-    def handleLunarCoreBuild(self, patch=False):
-
-        if not patch and not os.path.exists('server\\LunarCore'):
-            InfoBar.error(
-                title=self.tr("LunarCore不存在, 请先下载！"),
-                content="",
+    def handleOpenLCBanner(self):
+        if os.path.exists(f'.\\server\\LunarCore\\data\\Banners.json'):
+            subprocess.run(['start', f'.\\server\\LunarCore\\data\\Banners.json'], shell=True)
+            Info(self, "S", 1000, self.tr("文件已打开！"))
+        else:
+            file_error = InfoBar(
+                icon=InfoBarIcon.ERROR,
+                title=self.tr('找不到文件!'),
+                content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
-                duration=1000,
+                duration=3000,
                 parent=self
             )
+            file_error_button = PrimaryPushButton(self.tr('前往下载'))
+            file_error_button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+            file_error.addWidget(file_error_button)
+            file_error.show()
+    
+    def handleLunarCoreBuild(self, patch=False):
+        if not patch and not os.path.exists('server\\LunarCore'):
+            Info(self, 'E', 3000, self.tr('找不到服务端LunarCore!'))
             return
 
         if os.path.exists('server\\LunarCore\\LunarCore.jar'):
@@ -250,15 +261,7 @@ class LunarCore(ScrollArea):
 
     def handlePatch(self):
         if not os.path.exists('server\\LunarCore\\src'):
-            InfoBar.error(
-                title=self.tr("找不到Patch路径, 请勿使用预编译版本!"),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+            Info(self, 'E', 3000, self.tr('找不到Patch路径, 请勿使用预编译版本!'))
             return
 
         subprocess.run(
@@ -296,108 +299,36 @@ class LunarCore(ScrollArea):
             tmp_url = self.setURLCard.lineedit_seturl.text()
             if tmp_url != '':
                 save_json(tmp_url, 'SERVER_URL')
-                InfoBar.success(
-                    title=self.tr("服务端地址设置成功！"),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
+                Info(self, 'S', 1000, self.tr('服务端地址设置成功!'))
             else:
-                InfoBar.error(
-                    title=self.tr("服务端地址为空！"),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self
-                )
+                Info(self, 'E', 3000, self.tr('服务端地址为空!'))
         if command == 'setapi':
             open_file(self, 'config/config.json')
         if command == 'setuid':
             tmp_uid = self.setUIDCard.lineedit_setuid.text()
             if tmp_uid != '':
                 save_json(tmp_uid, 'UID')
-                InfoBar.success(
-                    title=self.tr("UID设置成功！"),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
+                Info(self, 'S', 1000, self.tr('UID设置成功!'))
             else:
-                InfoBar.error(
-                    title=self.tr("UID为空！"),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self
-                )
+                Info(self, 'E', 3000, self.tr('UID为空!'))
         if command == 'apply':
             status, message = handleApply(self.uid)
             if status == "success":
-                InfoBar.success(
-                    title=self.tr("验证码发送成功！"),
-                    content=self.tr("请在游戏内查收验证码"),
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
+                Info(self, 'S', 1000, self.tr('验证码发送成功!'), self.tr("请在游戏内查收验证码!"))
             elif status == "error":
-                InfoBar.error(
-                    title=self.tr("验证码发送失败！"),
-                    content=str(message),
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self
-                )
+                Info(self, 'E', 3000, self.tr('验证码发送失败!'), str(message))
         if command == 'verify':
             tmp_code = self.VerifyCard.lineedit_code.text()
             tmp_key = self.VerifyCard.lineedit_key.text()
             if tmp_code == '' or tmp_key == '':
-                InfoBar.error(
-                    title=self.tr("验证码或密码为空！"),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self
-                )
+                Info(self, 'E', 3000, self.tr('验证码或密码为空!'))
                 return
 
             status, message = handleVerify(self.uid, tmp_code, tmp_key)
             if status == "success":
-                InfoBar.success(
-                    title=self.tr("密码设置成功！"),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
+                Info(self, 'S', 1000, self.tr('密码设置成功!'))
             elif status == "error":
-                InfoBar.error(
-                    title=self.tr("验证失败！"),
-                    content=str(message),
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self
-                )
+                Info(self, 'E', 3000, self.tr('验证码或密码错误!'), str(message))
 
         self.__initInfo()
 
@@ -615,22 +546,16 @@ class LunarCoreCommand(ScrollArea):
             formatted_text = f"自定义命令 : {text}\n"
             with open('src/data/mycommand.txt', 'a', encoding='utf-8') as file:
                 file.write(formatted_text)
-            InfoBar.success(
-                title=self.tr('保存成功！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self.parent
-            )
+            
+            Info(self.parent, 'S', 1000, self.tr('保存成功!'))
 
             self.CustomInterface.handleMycommandLoad()
 
     def handleActionClicked(self):
         if not cfg.useRemote.value:
-            InfoBar.error(
-                title=self.tr('远程执行未启用！'),
+            remote_error = InfoBar(
+                icon=InfoBarIcon.ERROR,
+                title=self.tr('远程执行未启用!'),
                 content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
@@ -638,6 +563,10 @@ class LunarCoreCommand(ScrollArea):
                 duration=3000,
                 parent=self.parent
             )
+            remote_error_button = PrimaryPushButton(self.tr('前往开启'))
+            remote_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(2))
+            remote_error.addWidget(remote_error_button)
+            remote_error.show()
             return
 
         uid = get_json('./config/config.json', 'UID')
@@ -647,45 +576,13 @@ class LunarCoreCommand(ScrollArea):
             try:
                 status, response = handleCommandSend(uid, key, self.updateText.text())
                 if status == 'success':
-                    InfoBar.success(
-                        title=self.tr('执行成功！'),
-                        content='请自行查看执行结果！',
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=1000,
-                        parent=self.parent
-                    )
+                    Info(self.parent, 'S', 1000, self.tr('执行成功!'), self.tr('请自行查看执行结果!'))
                 else:
-                    InfoBar.error(
-                        title=self.tr('执行失败！'),
-                        content=str(response),
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.TOP,
-                        duration=3000,
-                        parent=self.parent
-                    )
+                    Info(self.parent, 'E', 3000, self.tr('执行失败!'), str(response))
             except Exception as e:
-                InfoBar.error(
-                    title=self.tr('执行失败！'),
-                    content=str(e),
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self.parent
-                )
+                Info(self.parent, 'E', 3000, self.tr('执行失败!'), str(e))
         else:
-            InfoBar.error(
-                title=self.tr('执行失败！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            Info(self.parent, 'E', 3000, self.tr('执行失败!'))
 
     def handleCopyToClipboard(self, status):
         text = self.updateText.text()
@@ -694,15 +591,7 @@ class LunarCoreCommand(ScrollArea):
             clipboard = app.clipboard()
             clipboard.setText(text)
             if status == 'show':
-                InfoBar.success(
-                    title=self.tr('复制成功！'),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self.parent
-                )
+                Info(self.parent, 'S', 1000, self.tr('已复制到剪贴板!'))
 
     def handleAccountClicked(self, types):
         account_name = self.accountCard.account_name.text()
@@ -713,45 +602,21 @@ class LunarCoreCommand(ScrollArea):
                 account += ' ' + account_uid
             self.command_update.emit(account)
         else:
-            InfoBar.error(
-                title=self.tr('请输入正确的用户名！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            Info(self.parent, 'E', 3000, self.tr('请输入正确的用户名!'))
 
     def handleKickClicked(self):
         account_uid = self.kickCard.account_uid.text()
         if account_uid != '':
             self.command_update.emit('/kick @' + account_uid)
         else:
-            InfoBar.error(
-                title=self.tr('请输入正确的UID！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            Info(self.parent, 'E', 3000, self.tr('请输入正确的UID!'))
 
     def handleUnstuckClicked(self):
         stuck_uid = self.unstuckCard.stuck_uid.text()
         if stuck_uid != '':
             self.command_update.emit('/unstuck @' + stuck_uid)
         else:
-            InfoBar.error(
-                title=self.tr('请输入正确的UID！'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            Info(self.parent, 'E', 3000, self.tr('请输入正确的UID!'))
 
     def handleGiveallClicked(self, itemid):
         types = ['materials', 'avatars', 'materials', 'relics', 'icons']

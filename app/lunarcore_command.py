@@ -4,10 +4,10 @@ from PySide6.QtWidgets import (QWidget, QTableWidgetItem, QHeaderView, QAbstract
                                QVBoxLayout, QHBoxLayout, QButtonGroup)
 from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Signal, Qt
-from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, ComboBox, TableWidget, FluentIcon,
-                            SearchLineEdit, SubtitleLabel, PrimaryToolButton, InfoBar, InfoBarPosition)
+from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, ComboBox, FluentIcon,
+                            TableWidget, SearchLineEdit, SubtitleLabel, PrimaryToolButton)
 from app.model.setting_card import SettingCard
-from app.model.config import cfg
+from app.model.config import cfg, Info
 
 
 class Account(SettingCard):
@@ -135,16 +135,7 @@ class Custom(QWidget):
 
     def handleDefaultClicked(self):
         shutil.copy('src/data/mycommand-default.txt', 'src/data/mycommand.txt')
-        InfoBar.success(
-            title=self.tr('恢复默认成功！'),
-            content='',
-            orient=Qt.Horizontal,
-            isClosable=True,
-            position=InfoBarPosition.TOP,
-            duration=1000,
-            parent=self.parent
-        )
-
+        Info(self.parent, 'S', 1000, self.tr('恢复默认成功！'))
         self.handleMycommandLoad()
 
     def handleMycommandClicked(self, types):

@@ -1,9 +1,10 @@
+import os
 import json
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QAbstractItemView, QHeaderView, QHBoxLayout, QTableWidgetItem
 from PySide6.QtCore import Qt
-from qfluentwidgets import SearchLineEdit, TableWidget, PrimaryPushButton, InfoBar, InfoBarPosition
-from app.model.config import cfg
+from qfluentwidgets import SearchLineEdit, TableWidget, PrimaryPushButton, InfoBar, InfoBarPosition, InfoBarIcon
+from app.model.config import cfg, Info
 
 
 class Warp(QWidget):
@@ -143,7 +144,6 @@ class Warp(QWidget):
         self.config_data = {}
         self.config_gachaType = {'Normal': self.tr('常驻池'), 'AvatarUp': self.tr('角色池'),
                                  'WeaponUp': self.tr('武器池')}
-
         self.now_list = {}
         self.now_four_list = {}
 
@@ -152,6 +152,7 @@ class Warp(QWidget):
         self.handleAvatarLoad()
         self.handleNowLoad()
         self.handleFourLoad()
+        self.handleEditDisabled()
 
     def __connectSignalToSlot(self):
         self.banner_search_line.textChanged.connect(self.handleBannerSearch)
@@ -168,6 +169,30 @@ class Warp(QWidget):
         self.save_button.clicked.connect(self.handleSaveClicked)
         self.cancel_button.clicked.connect(self.handleCancelClicked)
 
+    def handleEditDisabled(self):
+        if not os.path.exists(f'.\\server\\LunarCore\\data\\Banners.json'):
+            layouts = [self.banner_layout, self.avatar_layout, self.now_layout, self.tool_layout]
+            for layout in layouts:
+                for i in range(layout.count()):
+                    widget = layout.itemAt(i).widget()
+                    if widget is not None:
+                        widget.setDisabled(True)
+
+            file_error = InfoBar(
+                icon=InfoBarIcon.ERROR,
+                title=self.tr('找不到文件!'),
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self.parent
+            )
+            file_error_button = PrimaryPushButton(self.tr('前往下载'))
+            file_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(0))
+            file_error.addWidget(file_error_button)
+            file_error.show()
+    
     def handleBannerSearch(self):
         keyword = self.banner_search_line.text()
         for row in range(self.banner_table.rowCount()):
@@ -251,15 +276,7 @@ class Warp(QWidget):
             with open('server/LunarCore/data/Banners.json', 'r', encoding='utf-8') as file:
                 lcbanner = json.load(file)
         except FileNotFoundError:
-            InfoBar.error(
-                title=self.tr('找不到文件, 请重新下载!'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            Info(self.parent, 'E', 1000, self.tr('找不到文件!'))
             return
 
         self.now_list.clear()
@@ -280,15 +297,7 @@ class Warp(QWidget):
         self.handleNowLoad()
 
         if flag:
-            InfoBar.success(
-                title=self.tr('加载成功!'),
-                content='',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            Info(self.parent, 'S', 1000, self.tr('加载成功!'))
 
     def handleSaveClicked(self):
         with open('src/warp/Banners.json', 'r', encoding='utf-8') as file:
@@ -307,15 +316,7 @@ class Warp(QWidget):
         with open('server/LunarCore/data/Banners.json', 'w', encoding='utf-8') as file:
             json.dump(now_banners, file, indent=2, ensure_ascii=False)
 
-        InfoBar.success(
-            title=self.tr('保存成功!'),
-            content='',
-            orient=Qt.Horizontal,
-            isClosable=True,
-            position=InfoBarPosition.TOP,
-            duration=3000,
-            parent=self.parent
-        )
+        Info(self.parent, 'S', 1000, self.tr('保存成功!'))
 
     def handleCancelClicked(self):
         subprocess.run('copy src\\warp\\Banners.json server\\LunarCore\\data\\Banners.json', shell=True)

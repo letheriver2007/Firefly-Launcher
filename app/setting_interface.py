@@ -3,13 +3,13 @@ import json
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QStackedWidget
 from PySide6.QtGui import QPixmap, QPainter, QPainterPath, QDesktopServices, QFont, QIntValidator
 from PySide6.QtCore import Qt, QUrl, QSize, QProcess, Signal
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton, setThemeColor,
-                            PrimaryPushSettingCard, setCustomStyleSheet, SwitchSettingCard, InfoBar,
-                            InfoBarPosition, ComboBoxSettingCard, LineEdit, PrimaryPushButton, FluentIcon)
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, CustomColorSettingCard, PushButton,
+                            PrimaryPushSettingCard, setCustomStyleSheet, SwitchSettingCard,
+                            ComboBoxSettingCard, LineEdit, PrimaryPushButton, FluentIcon, setThemeColor)
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.style_sheet import StyleSheet
 from app.model.check_update import checkUpdate
-from app.model.config import cfg, get_json
+from app.model.config import cfg, get_json, Info
 
 
 class LineEditSettingCard_Port(SettingCard):
@@ -93,7 +93,7 @@ class Setting(ScrollArea):
         )
         self.useAudioCard = SwitchSettingCard(
             FluentIcon.MUSIC,
-            self.tr('启用流萤语音(外部)'),
+            self.tr('启用流萤语音'),
             self.tr('使用随机流萤语音彩蛋'),
             configItem=cfg.useAudio
         )
@@ -164,8 +164,7 @@ class Setting(ScrollArea):
     def __initInfo(self):
         port = get_json('./config/config.json', 'PROXY_PORT')
         self.proxyPortCard.titleLabel.setText(self.tr('代理端口 (当前: ') + port + ')')
-        if not cfg.proxyStatus.value:
-            self.proxyPortCard.setDisabled(True)
+        self.proxyPortCard.setDisabled(not cfg.proxyStatus.value)
 
     def __connectSignalToSlot(self):
         self.themeColorCard.colorChanged.connect(lambda c: setThemeColor(c, lazy=True))
@@ -173,20 +172,19 @@ class Setting(ScrollArea):
         self.languageCard.comboBox.currentIndexChanged.connect(self.restart_application)
         self.updateOnStartUpCard.clicked.connect(lambda: checkUpdate(self.parent))
         self.restartCard.clicked.connect(self.restart_application)
+
         self.autoCopyCard.checkedChanged.connect(
-            lambda: self.common_changed(cfg.autoCopy.value, self.tr('自动复制功能已开启！'),
-                                        self.tr('自动复制功能已关闭！')))
+            lambda: self.handleChoiceChanged(cfg.autoCopy.value, self.tr('自动复制已开启!'), self.tr('自动复制已关闭!')))
         self.useLoginCard.checkedChanged.connect(
-            lambda: self.common_changed(cfg.useLogin.value, self.tr('登录功能已开启！'), self.tr('登录功能已关闭！')))
+            lambda: self.handleChoiceChanged(cfg.useLogin.value, self.tr('登录功能已开启!'), self.tr('登录功能已关闭!')))
         self.useAudioCard.checkedChanged.connect(
-            lambda: self.common_changed(cfg.useAudio.value, self.tr('流萤语音已开启！'), self.tr('流萤语音已关闭！')))
+            lambda: self.handleChoiceChanged(cfg.useAudio.value, self.tr('流萤语音已开启!'), self.tr('流萤语音已关闭!')))
+
         self.proxyCard.checkedChanged.connect(
-            lambda: self.common_changed(cfg.proxyStatus.value, self.tr('代理端口已开启！'), self.tr('代理端口已关闭！'),
-                                        True))
-        self.proxyPortCard.set_port.connect(self.handleSetProxyPort)
+            lambda: self.handleProxyChanged(cfg.proxyStatus.value, self.tr('代理端口已开启!'), self.tr('代理端口已关闭!')))
         self.chinaCard.checkedChanged.connect(
-            lambda: self.common_changed(cfg.chinaStatus.value, self.tr('国内镜像已开启！'), self.tr('国内镜像已关闭！'),
-                                        True))
+            lambda: self.handleProxyChanged(cfg.chinaStatus.value, self.tr('国内镜像已开启!'), self.tr('国内镜像已关闭!')))
+        self.proxyPortCard.set_port.connect(self.handleSetProxyPort)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -208,41 +206,22 @@ class Setting(ScrollArea):
         current_process.startDetached(sys.executable, sys.argv)
         sys.exit()
 
-    def common_changed(self, status, title_true, title_false, proxy=False):
+    def handleChoiceChanged(self, status, title_true, title_false):
         if status:
-            InfoBar.success(
-                title=title_true,
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+            Info(self, 'S', 1000, title_true)
         else:
-            InfoBar.success(
-                title=title_false,
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
-        if cfg.proxyStatus.value:
-            self.proxyPortCard.setDisabled(False)
+            Info(self, 'S', 1000, title_false)
+
+    def handleProxyChanged(self, status, title_true, title_false):
+        if status:
+            Info(self, 'S', 1000, title_true)
         else:
-            self.proxyPortCard.setDisabled(True)
-        if proxy and cfg.chinaStatus.value and cfg.proxyStatus.value:
-            InfoBar.warning(
-                title=self.tr("代理设置冲突,优先使用国内镜像!"),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+            Info(self, 'S', 1000, title_false)
+
+        if cfg.chinaStatus.value and cfg.proxyStatus.value:
+            Info(self, 'W', 3000, self.tr("代理设置冲突,优先使用国内镜像!"))
+
+        self.__initInfo()
 
     def handleSetProxyPort(self):
         new_port = self.proxyPortCard.port_edit.text()
@@ -252,7 +231,8 @@ class Setting(ScrollArea):
                 data['PROXY_PORT'] = new_port
             with open('config/config.json', 'w', encoding='utf-8') as file:
                 json.dump(data, file, indent=2, ensure_ascii=False)
-        self.proxyPortCard.titleLabel.setText(self.tr('代理端口 (当前: ') + new_port + ')')
+        
+        self.__initInfo()
 
 
 class About_Background(QWidget):

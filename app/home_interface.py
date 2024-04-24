@@ -4,9 +4,9 @@ import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QStyleOptionViewItem
 from PySide6.QtCore import Qt, QSize, QModelIndex, QRect, QTimer
 from PySide6.QtGui import QPainter, QFont
-from qfluentwidgets import (TogglePushButton, PrimaryPushButton, setCustomStyleSheet, FlowLayout,
-                            InfoBar, InfoBarPosition, HorizontalFlipView, FlipImageDelegate, FluentIcon)
-from app.model.config import cfg
+from qfluentwidgets import (TogglePushButton, PrimaryPushButton, setCustomStyleSheet, InfoBarPosition,
+                            InfoBarIcon, InfoBar, FlowLayout,HorizontalFlipView, FlipImageDelegate, FluentIcon)
+from app.model.config import cfg, Info
 
 
 class CustomFlipItemDelegate(FlipImageDelegate):
@@ -28,6 +28,7 @@ class Home(QWidget):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.setObjectName(text)
+        self.parent = parent
 
         self.__initWidgets()
 
@@ -54,7 +55,7 @@ class Home(QWidget):
         self.button_launch.setIconSize(QSize(20, 20))
         self.button_launch.setFont(QFont(f'{cfg.APP_FONT}', 18))
         setCustomStyleSheet(self.button_launch, 'PushButton{border-radius: 12px}', 'PushButton{border-radius: 12px}')
-
+        
         self.__initLayout()
         self.__connectSignalToSlot()
 
@@ -100,18 +101,11 @@ class Home(QWidget):
             if os.path.exists(f'./server/{name}'):
                 command = cfg.SERVER_COMMANDS.get(name, '')
                 subprocess.run(command, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-                InfoBar.success(
-                    title=self.tr('服务端已启动!'),
-                    content='',
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=1000,
-                    parent=self
-                )
+                Info(self, 'S', 1000, self.tr('服务端已启动!'))
             else:
-                InfoBar.error(
-                    title=self.tr('找不到服务端') + name + self.tr(', 请重新下载!'),
+                server_error = InfoBar(
+                    icon=InfoBarIcon.ERROR,
+                    title=self.tr('找不到服务端') + name + '!',
                     content='',
                     orient=Qt.Horizontal,
                     isClosable=True,
@@ -119,3 +113,7 @@ class Home(QWidget):
                     duration=3000,
                     parent=self
                 )
+                server_error_button = PrimaryPushButton(self.tr('前往下载'))
+                server_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(3))
+                server_error.addWidget(server_error_button)
+                server_error.show()

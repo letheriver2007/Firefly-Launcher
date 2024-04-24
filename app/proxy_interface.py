@@ -1,23 +1,14 @@
 import os
 import subprocess
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout
 from PySide6.QtCore import Qt, Signal
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, TitleLabel, SubtitleLabel,
-                            BodyLabel, InfoBarPosition, HyperlinkButton, PrimaryPushButton, MessageBoxBase, FluentIcon)
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, PopupTeachingTip, InfoBarPosition,
+                            TitleLabel, SubtitleLabel, BodyLabel, HyperlinkButton, PrimaryPushButton, InfoBar,
+                            MessageBoxBase, FluentIcon, FlyoutViewBase, TeachingTipTailPosition, InfoBarIcon, HyperlinkCard)
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
-from app.model.config import cfg, open_file, get_json
-
-
-class HyperlinkCard_Tool(SettingCard):
-    def __init__(self, title, content=None, icon=FluentIcon.LINK):
-        super().__init__(icon, title, content)
-        self.linkButton_fiddler = HyperlinkButton('https://www.telerik.com/fiddler#fiddler-classic', 'Fiddler', self)
-        self.linkButton_mitmdump = HyperlinkButton('https://mitmproxy.org/', 'Mitmdump', self)
-        self.hBoxLayout.addWidget(self.linkButton_fiddler, 0, Qt.AlignRight)
-        self.hBoxLayout.addWidget(self.linkButton_mitmdump, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(16)
+from app.model.config import cfg, get_json, Info
 
 
 class PrimaryPushSettingCard_Fiddler(SettingCard):
@@ -36,21 +27,44 @@ class PrimaryPushSettingCard_Fiddler(SettingCard):
         self.button_old.clicked.connect(self.clicked_old)
 
 
-class MessageFiddler(MessageBoxBase):
+class CustomFlyoutView_Fiddler(FlyoutViewBase):
     def __init__(self, parent=None):
-        super().__init__(parent)
-        self.titleLabel = TitleLabel(self.tr('选择需要使用Fiddler Scripts的服务端:    '))
-        self.label1 = SubtitleLabel(self.tr('    目前支持的服务端列表:'))
-        self.label2 = BodyLabel('        Yuanshen: Hutao-GS')
-        self.label3 = BodyLabel('        StarRail: LunarCore')
+        super().__init__(parent=parent)
+        self.parent = parent
 
-        self.viewLayout.addWidget(self.titleLabel)
-        self.viewLayout.addWidget(self.label1)
-        self.viewLayout.addWidget(self.label2)
-        self.viewLayout.addWidget(self.label3)
+        self.gc_button = PrimaryPushButton('Grasscutter')
+        self.ht_button = PrimaryPushButton('Hutao-GS')
+        self.lc_button = PrimaryPushButton('LunarCore')
+        self.gc_button.setFixedWidth(120)
+        self.ht_button.setFixedWidth(120)
+        self.lc_button.setFixedWidth(120)
 
-        self.yesButton.setText('Yuanshen')
-        self.cancelButton.setText('StarRail')
+        self.hBoxLayout = QHBoxLayout(self)
+        self.hBoxLayout.setSpacing(12)
+        self.hBoxLayout.setContentsMargins(20, 16, 20, 16)
+        self.hBoxLayout.addWidget(self.gc_button)
+        self.hBoxLayout.addWidget(self.ht_button)
+        self.hBoxLayout.addWidget(self.lc_button)
+
+        self.gc_button.clicked.connect(lambda: self.handleFilddlerButton('gc'))
+        self.ht_button.clicked.connect(lambda: self.handleFilddlerButton('ht'))
+        self.lc_button.clicked.connect(lambda: self.handleFilddlerButton('lc'))
+
+    def handleFilddlerButton(self, mode):
+        status = Proxy.handleFiddlerOpen(self.parent)
+        if status:
+            if mode =='gc':
+                subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
+                                'copy /y "src\\patch\\fiddler\\CustomRules-GC.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
+                                shell=True)
+            elif mode == 'ht':
+                subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
+                                'copy /y "src\\patch\\fiddler\\CustomRules-HT.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
+                                shell=True)
+            elif mode == 'lc':
+                subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
+                                'copy /y "src\\patch\\fiddler\\CustomRules-LC.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
+                                shell=True)
 
 
 class Proxy(ScrollArea):
@@ -69,7 +83,10 @@ class Proxy(ScrollArea):
 
         # 添加项
         self.ProxyDownloadInterface = SettingCardGroup(self.scrollWidget)
-        self.ProxyRepoCard = HyperlinkCard_Tool(
+        self.ProxyRepoCard = HyperlinkCard(
+            'https://www.telerik.com/fiddler#fiddler-classic',
+            'Fiddler',
+            FluentIcon.LINK,
             self.tr('项目仓库'),
             self.tr('打开代理工具仓库')
         )
@@ -79,22 +96,10 @@ class Proxy(ScrollArea):
             'Fiddler',
             self.tr('下载代理工具Fiddler')
         )
-        self.DownloadMitmdumpCard = PrimaryPushSettingCard(
-            self.tr('下载'),
-            FluentIcon.DOWNLOAD,
-            'Mitmdump',
-            self.tr('下载代理工具Mitmdump')
-        )
         self.ProxyToolInterface = SettingCardGroup(self.scrollWidget)
         self.FiddlerCard = PrimaryPushSettingCard_Fiddler(
-            self.tr('Fiddler(外部)'),
+            self.tr('Fiddler'),
             self.tr('使用Fiddler Scripts代理')
-        )
-        self.mitmdumpCard = PrimaryPushSettingCard(
-            self.tr('打开'),
-            FluentIcon.VPN,
-            self.tr('Mitmdump(外部)'),
-            self.tr('使用Mitmdump代理')
         )
         self.noproxyCard = PrimaryPushSettingCard(
             self.tr('重置'),
@@ -122,9 +127,7 @@ class Proxy(ScrollArea):
         # 项绑定到栏目
         self.ProxyDownloadInterface.addSettingCard(self.ProxyRepoCard)
         self.ProxyDownloadInterface.addSettingCard(self.DownloadFiddlerCard)
-        self.ProxyDownloadInterface.addSettingCard(self.DownloadMitmdumpCard)
         self.ProxyToolInterface.addSettingCard(self.FiddlerCard)
-        self.ProxyToolInterface.addSettingCard(self.mitmdumpCard)
         self.ProxyToolInterface.addSettingCard(self.noproxyCard)
 
         # 栏绑定界面
@@ -145,10 +148,8 @@ class Proxy(ScrollArea):
     def __connectSignalToSlot(self):
         SubDownloadCMDSelf = SubDownloadCMD(self)
         self.DownloadFiddlerCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('fiddler'))
-        self.DownloadMitmdumpCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mitmdump'))
-        self.FiddlerCard.clicked_script.connect(lambda: self.handleFiddler('script'))
-        self.FiddlerCard.clicked_old.connect(lambda: self.handleFiddler('old'))
-        self.mitmdumpCard.clicked.connect(self.handleMitmdump)
+        self.FiddlerCard.clicked_script.connect(self.handleFiddlerTip)
+        self.FiddlerCard.clicked_old.connect(self.handleFiddlerOpen)
         self.noproxyCard.clicked.connect(self.handleProxyDisabled)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -166,36 +167,36 @@ class Proxy(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
-    def handleFiddler(self, mode):
-        if mode == 'script':
-            w = MessageFiddler(self)
-            if w.exec():
-                subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
-                               'copy /y "src\\patch\\fiddler\\CustomRules-GI.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
-                               shell=True)
-                open_file(self, 'tool/Fiddler/Fiddler.exe')
-            else:
-                subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
-                               'copy /y "src\\patch\\fiddler\\CustomRules-SR.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
-                               shell=True)
-                open_file(self, 'tool/Fiddler/Fiddler.exe')
-        elif mode == 'old':
-            open_file(self, 'tool/Fiddler/Fiddler.exe')
-
-    def handleMitmdump(self):
-        if os.path.exists('tool/Mitmdump'):
-            subprocess.run('cd ./tool/Mitmdump && start /b Proxy.exe', shell=True,
-                           creationflags=subprocess.CREATE_NO_WINDOW)
+    def handleFiddlerOpen(self):
+        if os.path.exists('tool/Fiddler/Fiddler.exe'):
+            subprocess.run(['start', 'tool/Fiddler/Fiddler.exe'], shell=True)
+            Info(self, "S", 1000, self.tr("文件已打开!"))
+            return True
         else:
-            InfoBar.error(
-                title=self.tr("找不到文件，请重新下载！"),
-                content="",
+            file_error = InfoBar(
+                icon=InfoBarIcon.ERROR,
+                title=self.tr('找不到文件!'),
+                content='',
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
                 duration=3000,
                 parent=self
             )
+            file_error_button = PrimaryPushButton(self.tr('前往下载'))
+            file_error_button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+            file_error.addWidget(file_error_button)
+            file_error.show()
+            return False
+
+    def handleFiddlerTip(self):
+        PopupTeachingTip.make(
+            target=self.FiddlerCard.button_script,
+            view=CustomFlyoutView_Fiddler(parent=self),
+            tailPosition=TeachingTipTailPosition.RIGHT,
+            duration=-1,
+            parent=self
+        )
 
     def handleProxyDisabled(self):
         try:
@@ -214,23 +215,6 @@ class Proxy(ScrollArea):
                 subprocess.run(
                     'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /d "" /f',
                     shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-
-            InfoBar.success(
-                title=self.tr('全局代理已更改！'),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=1000,
-                parent=self
-            )
+            Info(self, 'S', 1000, self.tr("全局代理已更改！"))
         except Exception as e:
-            InfoBar.error(
-                title=self.tr('全局代理关闭失败！'),
-                content=str(e),
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )
+            Info(self, 'E', 3000, self.tr("全局代理关闭失败！"), str(e))

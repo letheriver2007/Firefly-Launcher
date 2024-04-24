@@ -4,8 +4,8 @@ import subprocess
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtWidgets import QWidget, QDialog, QVBoxLayout
 from PySide6.QtCore import QThread, Signal, Qt
-from qfluentwidgets import InfoBar, InfoBarPosition, PlainTextEdit
-from app.model.config import cfg
+from qfluentwidgets import PlainTextEdit
+from app.model.config import cfg, Info
 
 
 class SubDownloadCMD(QDialog):
@@ -41,15 +41,7 @@ class SubDownloadCMD(QDialog):
             if self.exec_() == 0:
                 self.runner.download_finished.emit(-1, file_path)
         else:
-            InfoBar.error(
-                title=self.tr('该目录已存在文件！'),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self.parent
-            )
+            Info(self.parent, 'E', 3000, self.tr('该目录已存在文件！'))
             subprocess.Popen('start ' + file_path, shell=True)
 
     def handleTextUpdate(self, text):
@@ -57,40 +49,16 @@ class SubDownloadCMD(QDialog):
 
     def handleDownloadFinished(self, returncode, file_path):
         if returncode == 0:
-            InfoBar.success(
-                title=self.tr('下载成功！'),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=2000,
-                parent=self.parent
-            )
+            Info(self.parent, 'S', 2000, self.tr('下载成功！'))
             self.success = True
             self.commandOutput.clear()
             self.close()
             subprocess.Popen('start ' + file_path, shell=True)
         if not self.success:
             if returncode == -1:
-                InfoBar.error(
-                    title=self.tr('下载取消！'),
-                    content="",
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self.parent
-                )
+                Info(self.parent, 'E', 3000, self.tr('下载取消！'))
             else:
-                InfoBar.error(
-                    title=self.tr('下载失败！'),
-                    content=str(returncode),
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.TOP,
-                    duration=3000,
-                    parent=self.parent
-                )
+                Info(self.parent, 'E', 3000, self.tr('下载失败！'))
         self.runner.process.kill()
         self.runner.terminate()
         output = subprocess.check_output('tasklist', shell=True)
@@ -184,9 +152,4 @@ def handleDownloadGenerate(name):
         file_path = 'tool\\Fiddler'
         command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_FIDDLER, cfg.DOWNLOAD_COMMANDS_FIDDLER_MIRROR,
                                       '--branch fiddler ', '--branch fiddler ')
-    elif name == 'mitmdump':
-        types = 'git'
-        file_path = 'tool\\Mitmdump'
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MITMDUMP, cfg.DOWNLOAD_COMMANDS_MITMDUMP_MIRROR,
-                                      '--branch mitmdump ', '--branch mitmdump ')
     return types, command, file_path

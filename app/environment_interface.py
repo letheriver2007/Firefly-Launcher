@@ -72,8 +72,6 @@ class Environment(ScrollArea):
         self.scrollWidget.setObjectName('scrollWidget')
         StyleSheet.SETTING_INTERFACE.apply(self)
 
-        self.restart_button = PrimaryPushButton(self.tr('重启'))
-
         self.__initLayout()
         self.__connectSignalToSlot()
 
@@ -101,7 +99,6 @@ class Environment(ScrollArea):
     def __connectSignalToSlot(self):
         SubDownloadCMDSelf = SubDownloadCMD(self)
         self.GitDownloadCard.clicked.connect(self.handleRestartInfo)
-        self.restart_button.clicked.connect(Setting.restart_application)
         self.GitDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('git'))
         self.JavaDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('java'))
         self.MongoDBDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mongodb'))
@@ -132,5 +129,7 @@ class Environment(ScrollArea):
             duration=-1,
             parent=self
         )
-        restart_info.addWidget(self.restart_button)
+        restart_button = PrimaryPushButton(self.tr('重启'))
+        restart_button.clicked.connect(Setting.restart_application)
+        restart_info.addWidget(restart_button)
         restart_info.show()

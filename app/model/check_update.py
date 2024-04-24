@@ -29,9 +29,9 @@ def get_latest_version():
                 latest_tag = release_info['tag_name']
                 return latest_tag
             else:
-                return None
+                return
     except:
-        return None
+        return
 
 
 def checkUpdate(self):

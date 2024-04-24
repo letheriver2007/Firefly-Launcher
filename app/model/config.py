@@ -6,30 +6,44 @@ from PySide6.QtCore import Qt, QLocale
 from qfluentwidgets import (qconfig, QConfig, Theme, ConfigItem, BoolValidator, OptionsValidator,
                             InfoBar, InfoBarPosition, OptionsConfigItem, ConfigSerializer)
 
+def Info(self, types, time, title, content=''):
+    if types == "S":
+        InfoBar.success(
+            title=title,
+            content=content,
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=time,
+            parent=self
+        )
+    elif types == "E":
+        InfoBar.error(
+            title=title,
+            content=content,
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=time,
+            parent=self
+        )
+    elif types == "W":
+        InfoBar.warning(
+            title=title,
+            content=content,
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=time,
+            parent=self
+        )
 
 def open_file(self, file_path):
     if os.path.exists(file_path):
         subprocess.run(['start', file_path], shell=True)
-        InfoBar.success(
-            title=self.tr("文件已打开！"),
-            content="",
-            orient=Qt.Horizontal,
-            isClosable=True,
-            position=InfoBarPosition.TOP,
-            duration=1000,
-            parent=self
-        )
+        Info(self, "S", 1000, self.tr("文件已打开!"))
     else:
-        InfoBar.error(
-            title=self.tr("找不到文件，请重新下载！"),
-            content="",
-            orient=Qt.Horizontal,
-            isClosable=True,
-            position=InfoBarPosition.TOP,
-            duration=3000,
-            parent=self
-        )
-
+        Info(self, "E", 3000, self.tr("找不到文件, 请重新下载!"))
 
 def get_json(file_path, key):
     with open(f'{file_path}', 'r') as file:
@@ -103,7 +117,6 @@ class Config(QConfig):
         'xcopy /s /e /y "server/LunarCore/resources/Config/Config/Config/LevelOutput" "server/LunarCore/resources/Config/LevelOutput" && '
         'rmdir /s /q "server/LunarCore/resources/Config/Config"')
     DOWNLOAD_COMMANDS_FIDDLER = 'https://github.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler'
-    DOWNLOAD_COMMANDS_MITMDUMP = 'https://github.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump'
 
     DOWNLOAD_COMMANDS_AUDIO_MIRROR = 'https://gitee.com/letheriver2007/Firefly-Launcher-Res.git src/audio'
     DOWNLOAD_COMMANDS_GIT_MIRROR = (
@@ -114,7 +127,6 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR = (
         'https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git server/LunarCore/resources')
     DOWNLOAD_COMMANDS_FIDDLER_MIRROR = 'https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler'
-    DOWNLOAD_COMMANDS_MITMDUMP_MIRROR = 'https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/mitmdump'
 
     ############### SERVER CONFIG ###############
     SERVER_NAMES = get_json('./config/config.json', 'SERVER_NAMES')

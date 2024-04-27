@@ -271,7 +271,7 @@ class Warp(QWidget):
                 self.now_table.selectRow(selected_row)
                 self.handleFourLoad()
 
-    def handleLoadClicked(self, flag=True):
+    def handleLoadClicked(self, iscancel=False):
         try:
             with open('server/LunarCore/data/Banners.json', 'r', encoding='utf-8') as file:
                 lcbanner = json.load(file)
@@ -296,8 +296,10 @@ class Warp(QWidget):
 
         self.handleNowLoad()
 
-        if flag:
+        if not iscancel:
             Info(self.parent, 'S', 1000, self.tr('加载成功!'))
+        else:
+            Info(self.parent, 'S', 1000, self.tr('恢复默认配置成功!'))
 
     def handleSaveClicked(self):
         with open('src/warp/Banners.json', 'r', encoding='utf-8') as file:
@@ -320,12 +322,13 @@ class Warp(QWidget):
 
     def handleCancelClicked(self):
         subprocess.run('copy src\\warp\\Banners.json server\\LunarCore\\data\\Banners.json', shell=True)
-        self.handleLoadClicked(False)
+        self.handleLoadClicked(True)
 
     def handleConfigLoad(self):
         self.config_data.clear()
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/avatar.txt', 'r', encoding='utf-8') as file:
-            avatar = file.readlines()
+            avatar = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         for i, line in enumerate(avatar):
             line = line.strip()
             parts = line.split(' : ')

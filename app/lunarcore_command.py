@@ -374,7 +374,8 @@ class Scene(QWidget):
 
     def handleSceneLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/scene.txt', 'r', encoding='utf-8') as file:
-            scene = file.readlines()
+            scene = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.scene_table.setRowCount(len(scene))
         for i, line in enumerate(scene):
             line = line.strip()
@@ -526,7 +527,8 @@ class Spawn(QWidget):
 
     def handleMonsterLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/monster.txt', 'r', encoding='utf-8') as file:
-            monster = file.readlines()
+            monster = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.monster_table.setRowCount(len(monster))
         for i, line in enumerate(monster):
             line = line.strip()
@@ -539,7 +541,8 @@ class Spawn(QWidget):
 
     def handleStageLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/stage.txt', 'r', encoding='utf-8') as file:
-            stage = file.readlines()
+            stage = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.stage_table.setRowCount(len(stage))
         for i, line in enumerate(stage):
             line = line.strip()
@@ -671,7 +674,8 @@ class Give(QWidget):
 
     def handleAvatarLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/avatar.txt', 'r', encoding='utf-8') as file:
-            avatar = file.readlines()
+            avatar = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(avatar))
         for i, line in enumerate(avatar):
             line = line.strip()
@@ -684,7 +688,8 @@ class Give(QWidget):
 
     def handleLightconeLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/lightcone.txt', 'r', encoding='utf-8') as file:
-            lightcone = file.readlines()
+            lightcone = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(lightcone))
         for i, line in enumerate(lightcone):
             line = line.strip()
@@ -697,7 +702,8 @@ class Give(QWidget):
 
     def handleItemLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/item.txt', 'r', encoding='utf-8') as file:
-            item = file.readlines()
+            item = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(item))
         for i, line in enumerate(item):
             line = line.strip()
@@ -710,7 +716,8 @@ class Give(QWidget):
 
     def handleFoodLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/food.txt', 'r', encoding='utf-8') as file:
-            food = file.readlines()
+            food = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(food))
         for i, line in enumerate(food):
             line = line.strip()
@@ -723,7 +730,8 @@ class Give(QWidget):
 
     def handleHeadLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/head.txt', 'r', encoding='utf-8') as file:
-            head = file.readlines()
+            head = [line for line in file.readlines() if
+                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(head))
         for i, line in enumerate(head):
             line = line.strip()

@@ -55,7 +55,7 @@ class Setting(ScrollArea):
         self.zoomCard = ComboBoxSettingCard(
             cfg.dpiScale,
             FluentIcon.ZOOM,
-            self.tr("DPI调整"),
+            "DPI",
             self.tr("调整全局缩放"),
             texts=["100%", "125%", "150%", "175%", "200%", self.tr("跟随系统设置")]
         )
@@ -63,7 +63,7 @@ class Setting(ScrollArea):
             cfg.language,
             FluentIcon.LANGUAGE,
             self.tr('语言'),
-            self.tr('设置UI界面显示语言'),
+            self.tr('界面显示语言'),
             texts=['简体中文', '繁體中文', 'English', self.tr('跟随系统设置')]
         )
         self.updateOnStartUpCard = PrimaryPushSettingCard(
@@ -267,7 +267,7 @@ class About(QWidget):
         self.about_image.setFixedSize(1100, 500)
 
         self.link_writer = PushButton(FluentIcon.HOME, self.tr('   作者主页'))
-        self.link_repo = PushButton(FluentIcon.GITHUB, self.tr('   Github项目'))
+        self.link_repo = PushButton(FluentIcon.GITHUB, self.tr('   项目仓库'))
         self.link_releases = PushButton(FluentIcon.MESSAGE, self.tr('   版本发布'))
         self.link_issues = PushButton(FluentIcon.HELP, self.tr('   反馈交流'))
 

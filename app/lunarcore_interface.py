@@ -12,8 +12,8 @@ from app.lunarcore_edit import Warp
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
 from app.model.config import cfg, get_json, open_file, save_json, Info
-from app.model.remote import (handleApply, handleVerify, PrimaryPushSettingCard_UID, PrimaryPushSettingCard_API,
-                              PrimaryPushSettingCard_URL, PrimaryPushSettingCard_Verify)
+from app.model.remote import (handleApply, handleVerify, handleCommandSend, PrimaryPushSettingCard_UID,
+                              PrimaryPushSettingCard_API, PrimaryPushSettingCard_URL, PrimaryPushSettingCard_Verify)
 
 
 class HyperlinkCard_LunarCore(SettingCard):

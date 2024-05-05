@@ -11,9 +11,6 @@ pip install PySide6==6.4.2 -i https://pypi.tuna.tsinghua.edu.cn/simple/
 pip install PySideSix-Frameless-Window>=0.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple/
 pip install pyinstaller -i https://pypi.tuna.tsinghua.edu.cn/simple/
 
-pyinstaller -i ./src/image/setup.ico ./setup.py -n Setup --onefile
-xcopy /s /e /y dist\ Firefly-Launcher\
-
 pyinstaller -w -i ./src/image/icon.ico ./firefly-launcher.py -n Firefly-Launcher
 xcopy /s /e /y dist\Firefly-Launcher\ Firefly-Launcher\
 xcopy /s /e /y src\qss\ Firefly-Launcher\src\qss\
@@ -27,7 +24,6 @@ xcopy /s /e /y config\ Firefly-Launcher\config\
 rd /s /q dist\
 rd /s /q build\
 del /f /q 0.3.1
-del /f /q Setup.spec
 del /f /q Firefly-Launcher.spec
 rd /s /q __pycache__\
 rd /s /q app\__pycache__\

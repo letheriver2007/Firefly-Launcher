@@ -461,16 +461,16 @@
     <target>檢查字體失敗: </target>
 </phrase>
 <phrase>
-    <source>登录成功</source>
-    <target>登錄成功</target>
+    <source>登录成功!</source>
+    <target>登錄成功!</target>
 </phrase>
 <phrase>
     <source>密码错误!</source>
     <target>密碼錯誤!</target>
 </phrase>
 <phrase>
-    <source>次数:</source>
-    <target>次數:</target>
+    <source>次数: </source>
+    <target>次數: </target>
 </phrase>
 <phrase>
     <source>检测到新版本: </source>
@@ -543,14 +543,6 @@
 <phrase>
     <source>执行</source>
     <target>執行</target>
-</phrase>
-<phrase>
-    <source>Fiddler(外部)</source>
-    <target>Fiddler(外部)</target>
-</phrase>
-<phrase>
-    <source>Mitmdump(外部)</source>
-    <target>Mitmdump(外部)</target>
 </phrase>
 <phrase>
     <source>打开</source>
@@ -1095,5 +1087,381 @@
 <phrase>
     <source>代理端口 (当前: </source>
     <target>代理埠 (當前: </target>
+</phrase>
+<phrase>
+    <source>恢复默认</source>
+    <target>恢復默認</target>
+</phrase>
+<phrase>
+    <source>恢复默认成功！</source>
+    <target>恢復默認成功！</target>
+</phrase>
+<phrase>
+    <source>LC Handbook修改</source>
+    <target>LC Handbook修改</target>
+</phrase>
+<phrase>
+    <source>根据格式修改Handbook资源</source>
+    <target>根據格式修改Handbook資源</target>
+</phrase>
+<phrase>
+    <source>资源格式转换</source>
+    <target>資源格式轉換</target>
+</phrase>
+<phrase>
+    <source>将LC Handbook转换为Firefly-Launcher格式</source>
+    <target>將LC Handbook轉換為Firefly-Launcher格式</target>
+</phrase>
+<phrase>
+    <source>获取</source>
+    <target>獲取</target>
+</phrase>
+<phrase>
+    <source>获取源文本</source>
+    <target>獲取源文字</target>
+</phrase>
+<phrase>
+    <source>获取代码中未翻译的文本</source>
+    <target>獲取程式碼中未翻譯的文字</target>
+</phrase>
+<phrase>
+    <source>翻译工作</source>
+    <target>翻譯工作</target>
+</phrase>
+<phrase>
+    <source>建议使用QT Linguist工具进行翻译</source>
+    <target>建議使用QT Linguist工具進行翻譯</target>
+</phrase>
+<phrase>
+    <source>资源</source>
+    <target>資源</target>
+</phrase>
+<phrase>
+    <source>翻译</source>
+    <target>翻譯</target>
+</phrase>
+<phrase>
+    <source>转换成功!</source>
+    <target>轉換成功!</target>
+</phrase>
+<phrase>
+    <source>清空成功!</source>
+    <target>清空成功!</target>
+</phrase>
+<phrase>
+    <source>获取成功!</source>
+    <target>獲取成功!</target>
+</phrase>
+<phrase>
+    <source>发布成功!</source>
+    <target>發佈成功!</target>
+</phrase>
+<phrase>
+    <source>打开便携版MongoDB数据库</source>
+    <target>打開便攜版MongoDB資料庫</target>
+</phrase>
+<phrase>
+    <source>下载MongoDB数据库</source>
+    <target>下載MongoDB資料庫</target>
+</phrase>
+<phrase>
+    <source>找不到数据库!</source>
+    <target>找不到資料庫!</target>
+</phrase>
+<phrase>
+    <source>数据库已开始运行!</source>
+    <target>資料庫已開始運行!</target>
+</phrase>
+<phrase>
+    <source>前往下载</source>
+    <target>前往下載</target>
+</phrase>
+<phrase>
+    <source>重启应用以使用Git命令!</source>
+    <target>重啓應用以使用Git命令!</target>
+</phrase>
+<phrase>
+    <source>重启</source>
+    <target>重啓</target>
+</phrase>
+<phrase>
+    <source>转换</source>
+    <target>轉換</target>
+</phrase>
+<phrase>
+    <source>打开输出文件夹</source>
+    <target>打開輸出資料夾</target>
+</phrase>
+<phrase>
+    <source>删除输出文件</source>
+    <target>删除輸出檔案</target>
+</phrase>
+<phrase>
+    <source>导出源文本</source>
+    <target>匯出源文字</target>
+</phrase>
+<phrase>
+    <source>导出</source>
+    <target>匯出</target>
+</phrase>
+<phrase>
+    <source>发布翻译文件</source>
+    <target>發佈翻譯檔案</target>
+</phrase>
+<phrase>
+    <source>发布</source>
+    <target>發佈</target>
+</phrase>
+<phrase>
+    <source>图标</source>
+    <target>圖標</target>
+</phrase>
+<phrase>
+    <source>服务端已启动!</source>
+    <target>服務端已啟動!</target>
+</phrase>
+<phrase>
+    <source>自定义命令设置</source>
+    <target>自定義命令設定</target>
+</phrase>
+<phrase>
+    <source>手动配置自定义命令</source>
+    <target>手動配寘自定義命令</target>
+</phrase>
+<phrase>
+    <source>卡池设置</source>
+    <target>卡池設定</target>
+</phrase>
+<phrase>
+    <source>手动LC卡池数据配置</source>
+    <target>手動LC卡池數據配寘</target>
+</phrase>
+<phrase>
+    <source>配置服务端地址</source>
+    <target>配寘服務端地址</target>
+</phrase>
+<phrase>
+    <source>设置远程执行服务端地址</source>
+    <target>設定遠程執行服務端地址</target>
+</phrase>
+<phrase>
+    <source>配置服务端API</source>
+    <target>配寘服務端API</target>
+</phrase>
+<phrase>
+    <source>设置用于远程执行命令的地址, 适应不兼容服务端</source>
+    <target>設定用於遠程執行命令的地址, 適應不相容服務端</target>
+</phrase>
+<phrase>
+    <source>通过验证码验证身份并设置密码</source>
+    <target>通過驗證碼驗證身份並設置密碼</target>
+</phrase>
+<phrase>
+    <source>配置服务端地址 (当前: </source>
+    <target>配寘服務端地址 (當前: </target>
+</phrase>
+<phrase>
+    <source>文件已打开！</source>
+    <target>檔案已打開！</target>
+</phrase>
+<phrase>
+    <source>找不到文件!</source>
+    <target>找不到檔案!</target>
+</phrase>
+<phrase>
+    <source>找不到服务端LunarCore!</source>
+    <target>找不到服務端LunarCore!</target>
+</phrase>
+<phrase>
+    <source>服务端地址设置成功!</source>
+    <target>服務端地址設定成功!</target>
+</phrase>
+<phrase>
+    <source>服务端地址为空!</source>
+    <target>服務端地址為空!</target>
+</phrase>
+<phrase>
+    <source>UID设置成功!</source>
+    <target>UID設定成功!</target>
+</phrase>
+<phrase>
+    <source>UID为空!</source>
+    <target>UID為空!</target>
+</phrase>
+<phrase>
+    <source>请在游戏内查收验证码!</source>
+    <target>請在遊戲內查收驗證碼!</target>
+</phrase>
+<phrase>
+    <source>验证码发送成功!</source>
+    <target>驗證碼發送成功!</target>
+</phrase>
+<phrase>
+    <source>验证码发送失败!</source>
+    <target>驗證碼發送失敗!</target>
+</phrase>
+<phrase>
+    <source>密码设置成功!</source>
+    <target>密碼設定成功!</target>
+</phrase>
+<phrase>
+    <source>验证码或密码为空!</source>
+    <target>驗證碼或密碼為空!</target>
+</phrase>
+<phrase>
+    <source>验证码或密码错误!</source>
+    <target>驗證碼或密碼錯誤!</target>
+</phrase>
+<phrase>
+    <source>设置世界等级</source>
+    <target>設定世界等級</target>
+</phrase>
+<phrase>
+    <source>保存</source>
+    <target>保存</target>
+</phrase>
+<phrase>
+    <source>自定义</source>
+    <target>自定義</target>
+</phrase>
+<phrase>
+    <source>远程执行未启用!</source>
+    <target>遠程執行未啟用!</target>
+</phrase>
+<phrase>
+    <source>前往开启</source>
+    <target>前往開啟</target>
+</phrase>
+<phrase>
+    <source>执行成功!</source>
+    <target>執行成功!</target>
+</phrase>
+<phrase>
+    <source>请自行查看执行结果!</source>
+    <target>請自行查看執行結果!</target>
+</phrase>
+<phrase>
+    <source>执行失败!</source>
+    <target>執行失敗!</target>
+</phrase>
+<phrase>
+    <source>已复制到剪贴板!</source>
+    <target>已複製到剪貼板!</target>
+</phrase>
+<phrase>
+    <source>请输入正确的用户名!</source>
+    <target>請輸入正確的用戶名!</target>
+</phrase>
+<phrase>
+    <source>请输入正确的UID!</source>
+    <target>請輸入正確的UID!</target>
+</phrase>
+<phrase>
+    <source>未找到语音!</source>
+    <target>未找到語音!</target>
+</phrase>
+<phrase>
+    <source>备份</source>
+    <target>備份</target>
+</phrase>
+<phrase>
+    <source>安装包</source>
+    <target>安裝包</target>
+</phrase>
+<phrase>
+    <source>便携版</source>
+    <target>便攜版</target>
+</phrase>
+<phrase>
+    <source>文件已打开!</source>
+    <target>檔案已打開!</target>
+</phrase>
+<phrase>
+    <source>备份成功!</source>
+    <target>備份成功!</target>
+</phrase>
+<phrase>
+    <source>界面显示语言</source>
+    <target>介面顯示語言</target>
+</phrase>
+<phrase>
+    <source>启用流萤语音</source>
+    <target>啟用流螢語音</target>
+</phrase>
+<phrase>
+    <source>自动复制已开启!</source>
+    <target>自動複製已開啟!</target>
+</phrase>
+<phrase>
+    <source>自动复制已关闭!</source>
+    <target>自動複製已關閉!</target>
+</phrase>
+<phrase>
+    <source>登录功能已开启!</source>
+    <target>登入功能已開啟!</target>
+</phrase>
+<phrase>
+    <source>登录功能已关闭!</source>
+    <target>登入功能已關閉!</target>
+</phrase>
+<phrase>
+    <source>流萤语音已开启!</source>
+    <target>流螢語音已開啟!</target>
+</phrase>
+<phrase>
+    <source>流萤语音已关闭!</source>
+    <target>流螢語音已關閉!</target>
+</phrase>
+<phrase>
+    <source>代理端口已开启!</source>
+    <target>代理埠已開啟!</target>
+</phrase>
+<phrase>
+    <source>代理端口已关闭!</source>
+    <target>代理埠已關閉!</target>
+</phrase>
+<phrase>
+    <source>国内镜像已开启!</source>
+    <target>國內鏡像已開啟!</target>
+</phrase>
+<phrase>
+    <source>国内镜像已关闭!</source>
+    <target>國內鏡像已關閉!</target>
+</phrase>
+<phrase>
+    <source>代理设置冲突,优先使用国内镜像!</source>
+    <target>國內鏡像已關閉代理設定衝突,優先使用國內鏡像!</target>
+</phrase>
+<phrase>
+    <source>恢复默认配置成功!</source>
+    <target>恢復默認配寘成功!</target>
+</phrase>
+<phrase>
+    <source>当前角色</source>
+    <target>當前角色</target>
+</phrase>
+<phrase>
+    <source>开拓</source>
+    <target>開拓</target>
+</phrase>
+<phrase>
+    <source>均衡</source>
+    <target>均衡</target>
+</phrase>
+<phrase>
+    <source>类型</source>
+    <target>類型</target>
+</phrase>
+<phrase>
+    <source>世界等级</source>
+    <target>世界等級</target>
+</phrase>
+<phrase>
+    <source>服务端地址</source>
+    <target>服務端地址</target>
+</phrase>
+<phrase>
+    <source>发送</source>
+    <target>發送</target>
 </phrase>
 </QPH>

@@ -1,16 +1,27 @@
-import os
-import subprocess
 from PySide6.QtWidgets import QWidget, QLabel, QStackedWidget, QVBoxLayout
 from PySide6.QtCore import Qt
-from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, InfoBarPosition
+from qfluentwidgets import Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, HyperlinkButton, FluentIcon
 from app.model.style_sheet import StyleSheet
-from app.model.setting_card import SettingCardGroup, HyperlinkCard_Launcher
+from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
+from app.model.config import open_file
+
+
+class HyperlinkCard_Launcher(SettingCard):
+    def __init__(self, title, content=None, icon=FluentIcon.LINK):
+        super().__init__(icon, title, content)
+        self.linkButton_launcher = HyperlinkButton('https://github.com/letheriver2007/Firefly-Launcher',
+                                                   'Firefly-Launcher', self)
+        self.linkButton_audio = HyperlinkButton('https://github.com/letheriver2007/Firefly-Launcher-Res',
+                                                'Firefly-Launcher-Res', self)
+        self.hBoxLayout.addWidget(self.linkButton_launcher, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.linkButton_audio, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
 
 
 class Launcher(ScrollArea):
     Nav = Pivot
+
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
@@ -30,14 +41,14 @@ class Launcher(ScrollArea):
         )
         self.AudioDownloadCard = PrimaryPushSettingCard(
             self.tr('下载'),
-            FIF.DOWNLOAD,
+            FluentIcon.DOWNLOAD,
             'Firefly-Launcher-Audio',
             self.tr('下载流萤音频文件')
         )
         self.ConfigInterface = SettingCardGroup(self.scrollWidget)
         self.settingConfigCard = PrimaryPushSettingCard(
             self.tr('打开文件'),
-            FIF.LABEL,
+            FluentIcon.LABEL,
             self.tr('启动器设置'),
             self.tr('自定义启动器配置')
         )
@@ -45,11 +56,11 @@ class Launcher(ScrollArea):
         self.__initWidget()
 
     def __initWidget(self):
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)     # 水平滚动条关闭
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # 水平滚动条关闭
         self.setViewportMargins(20, 0, 20, 20)
         self.setWidget(self.scrollWidget)
-        self.setWidgetResizable(True)    # 必须设置！！！
-        
+        self.setWidgetResizable(True)  # 必须设置！！！
+
         # 使用qss设置样式
         self.scrollWidget.setObjectName('scrollWidget')
         StyleSheet.SETTING_INTERFACE.apply(self)
@@ -64,8 +75,9 @@ class Launcher(ScrollArea):
         self.ConfigInterface.addSettingCard(self.settingConfigCard)
 
         # 栏绑定界面
-        self.addSubInterface(self.LauncherDownloadInterface, 'LauncherDownloadInterface',self.tr('下载'), icon=FIF.DOWNLOAD)
-        self.addSubInterface(self.ConfigInterface,'configInterface',self.tr('配置'), icon=FIF.EDIT)
+        self.addSubInterface(self.LauncherDownloadInterface, 'LauncherDownloadInterface', self.tr('下载'),
+                             icon=FluentIcon.DOWNLOAD)
+        self.addSubInterface(self.ConfigInterface, 'configInterface', self.tr('配置'), icon=FluentIcon.EDIT)
 
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
@@ -80,7 +92,7 @@ class Launcher(ScrollArea):
     def __connectSignalToSlot(self):
         SubDownloadCMDSelf = SubDownloadCMD(self)
         self.AudioDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('audio'))
-        self.settingConfigCard.clicked.connect(lambda: self.open_file('config/config.json'))
+        self.settingConfigCard.clicked.connect(lambda: open_file(self, 'config/config.json'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -96,17 +108,3 @@ class Launcher(ScrollArea):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
-
-    def open_file(self, file_path):
-        if os.path.exists(file_path):
-            subprocess.run(['start', file_path], shell=True)
-        else:
-            InfoBar.error(
-                title=self.tr("找不到文件，请重新下载！"),
-                content="",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=3000,
-                parent=self
-            )

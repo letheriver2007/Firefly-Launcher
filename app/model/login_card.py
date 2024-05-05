@@ -9,6 +9,7 @@ from qfluentwidgets.components.dialog_box.mask_dialog_base import MaskDialogBase
 class MessageBoxBase(MaskDialogBase):
     accepted = Signal()
     rejected = Signal()
+
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.buttonGroup = QFrame(self.widget)
@@ -78,6 +79,7 @@ class MessageBoxBase(MaskDialogBase):
 
 class MessageLogin(MessageBoxBase):
     passwordEntered = Signal(str)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.titleLabel = TitleLabel(self.tr('你的老婆是?    '))
@@ -90,6 +92,6 @@ class MessageLogin(MessageBoxBase):
         self.viewLayout.addWidget(self.titleLabel)
         self.viewLayout.addWidget(self.passwordLabel)
 
-    def emitPassword(self, password):
+    def emitPassword(self):
         password = self.passwordLabel.text()
         self.passwordEntered.emit(password)

@@ -43,9 +43,7 @@ jobs:
           msvcArch: ${{ matrix.msvc_arch }}          
         shell: pwsh
         run: |
-          pyinstaller -i ./src/image/setup.ico ./setup.py -n Setup --onefile
           pyinstaller -w -i ./src/image/icon.ico ./firefly-launcher.py -n Firefly-Launcher
-          move dist\Setup.exe dist\Firefly-Launcher\
           xcopy /s /e /y src\qss\ dist\Firefly-Launcher\src\qss\
           xcopy /s /e /y src\image\ dist\Firefly-Launcher\src\image\
           xcopy /s /e /y src\patch\ dist\Firefly-Launcher\src\patch\

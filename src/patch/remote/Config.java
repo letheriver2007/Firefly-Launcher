@@ -86,9 +86,6 @@ public class Config {
     public static class HttpServerConfig extends ServerConfig {
         public boolean useSSL = false;
         public long regionListRefresh = 60_000; // Time in milliseconds to wait before refreshing region list cache again
-        public String gm_private = "firefly";
-        public String gm_public = "firefly";
-
 
         public HttpServerConfig(int port) {
             super(port);
@@ -133,7 +130,7 @@ public class Config {
         public int staminaReserveRecoveryRate = 18 * 60;
         public int startTrailblazerLevel = 1; // Starting trailblazer level for new players
         public boolean autoUpgradeWorldLevel = true; // Automatically upgrades world level when the player reaches a certain TB level
-        public String language = "EN";
+        public String language = "CHS";
         public Set<String> defaultPermissions = Set.of("*");
         
         public ServerProfile serverFriendInfo = new ServerProfile();
@@ -159,7 +156,7 @@ public class Config {
     
     @Getter
     public static class ServerProfile {
-        public String name = "Server";
+        public String name = "Firefly-Launcher-Lethe";
         public String signature = "Type /help for a list of commands";
         public int level = 1;
         public int headIcon = 201001;
@@ -176,15 +173,13 @@ public class Config {
         public List<ItemParam> attachments;
         
         public WelcomeMail() {
-            this.title = "Welcome to a LunarCore server (Firefly-Launcher)";
+            this.title = "Welcome to a LunarCore server (With Firefly-Launcher-Lethe)";
             this.sender = "Firefly";
             this.content = "Welcome to Lunar Core! Check out our <a type=OpenURL1 href=https://discord.gg/cfPKJ6N5hw>Discord</a> and <a type=OpenURL1 href=https://github.com/Melledy/LunarCore>Github</a> for more information about the server.";
             this.attachments = List.of(
                 new ItemParam(2, 1000000),
                 new ItemParam(101, 100),
-                new ItemParam(102, 100),
-                new ItemParam(1001, 1),
-                new ItemParam(1002, 1)
+                new ItemParam(102, 100)
             );
         }
     }

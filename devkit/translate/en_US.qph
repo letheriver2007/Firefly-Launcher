@@ -441,8 +441,8 @@
     <target>Proxy</target>
 </phrase>
 <phrase>
-    <source>次数:</source>
-    <target>Times:</target>
+    <source>次数: </source>
+    <target>Times: </target>
 </phrase>
 <phrase>
     <source>选择需要使用Fiddler Scripts的服务端:    </source>
@@ -519,14 +519,6 @@
 <phrase>
     <source>打开</source>
     <target>Open</target>
-</phrase>
-<phrase>
-    <source>Fiddler(外部)</source>
-    <target>Fiddler (External)</target>
-</phrase>
-<phrase>
-    <source>Mitmdump(外部)</source>
-    <target>Mitmdump (External)</target>
 </phrase>
 <phrase>
     <source>主词条</source>
@@ -721,24 +713,8 @@
     <target>Adjust Global Scaling</target>
 </phrase>
 <phrase>
-    <source>登录功能已开启！</source>
-    <target>Login Function Enabled!</target>
-</phrase>
-<phrase>
-    <source>登录功能已关闭！</source>
-    <target>Login Function Disabled!</target>
-</phrase>
-<phrase>
     <source>当前版本 : </source>
     <target>Current Version: </target>
-</phrase>
-<phrase>
-    <source>代理端口已开启！</source>
-    <target>Custom Proxy Port Set!</target>
-</phrase>
-<phrase>
-    <source>代理端口已关闭！</source>
-    <target>Proxy Port Reset!</target>
 </phrase>
 <phrase>
     <source>代理端口:</source>
@@ -747,10 +723,6 @@
 <phrase>
     <source>程序</source>
     <target>Application</target>
-</phrase>
-<phrase>
-    <source>DPI调整</source>
-    <target>DPI Adjustment</target>
 </phrase>
 <phrase>
     <source>搜索怪物</source>
@@ -894,7 +866,7 @@
 </phrase>
 <phrase>
     <source>保存成功!</source>
-    <target>Save Successfully!</target>
+    <target>Save successfully!</target>
 </phrase>
 <phrase>
     <source>常驻池</source>
@@ -933,10 +905,6 @@
     <target>   Release Version</target>
 </phrase>
 <phrase>
-    <source>   Github项目</source>
-    <target>   Github Project</target>
-</phrase>
-<phrase>
     <source> 一键启动</source>
     <target> Play</target>
 </phrase>
@@ -953,8 +921,8 @@
     <target>Please continue set token</target>
 </phrase>
 <phrase>
-    <source>登录成功</source>
-    <target>Login Successfully</target>
+    <source>登录成功!</source>
+    <target>Login Successfully!</target>
 </phrase>
 <phrase>
     <source>默认流萤主题色，开拓者你不会改的吧?</source>
@@ -963,10 +931,6 @@
 <phrase>
     <source>无奖竞猜，存在即合理</source>
     <target>No Betting, It is Reasonable</target>
-</phrase>
-<phrase>
-    <source>代理设置冲突,优先使用国内镜像！</source>
-    <target>Config Conflict, First Use China Mirror!</target>
 </phrase>
 <phrase>
     <source>启用远程执行</source>
@@ -1001,10 +965,6 @@
     <target>Copy gm_public value in config.json</target>
 </phrase>
 <phrase>
-    <source>配置服务器API地址</source>
-    <target>Config Server API Url</target>
-</phrase>
-<phrase>
     <source>设置服务器用于远程执行命令的API地址</source>
     <target>Config API url for remote command</target>
 </phrase>
@@ -1017,24 +977,12 @@
     <target>Config Password (Now: </target>
 </phrase>
 <phrase>
-    <source>配置服务器API地址 (当前: </source>
-    <target>Config Server API (Now: </target>
-</phrase>
-<phrase>
     <source>找不到Patch路径, 请勿使用预编译版本!</source>
     <target>Cannot find patch path, don&apos;t use release ver!</target>
 </phrase>
 <phrase>
-    <source>UID设置成功！</source>
-    <target>Config UID successfully!</target>
-</phrase>
-<phrase>
     <source>密码设置成功！</source>
     <target>Config Password successfully!</target>
-</phrase>
-<phrase>
-    <source>API地址设置成功！</source>
-    <target>Config Server API successfully!</target>
 </phrase>
 <phrase>
     <source>远程执行未启用！</source>
@@ -1043,10 +991,6 @@
 <phrase>
     <source>执行成功！</source>
     <target>Action Successfully!</target>
-</phrase>
-<phrase>
-    <source>API地址</source>
-    <target>Server API</target>
 </phrase>
 <phrase>
     <source>密码</source>
@@ -1063,5 +1007,385 @@
 <phrase>
     <source>代理端口 (当前: </source>
     <target>Proxy Port (Now: </target>
+</phrase>
+<phrase>
+    <source>恢复默认</source>
+    <target>Default</target>
+</phrase>
+<phrase>
+    <source>恢复默认成功！</source>
+    <target>Back to default successfully!</target>
+</phrase>
+<phrase>
+    <source>LC Handbook修改</source>
+    <target>LC Handbook Edit</target>
+</phrase>
+<phrase>
+    <source>根据格式修改Handbook资源</source>
+    <target>Modify handbook resourceaccording to the format</target>
+</phrase>
+<phrase>
+    <source>资源格式转换</source>
+    <target>Convert Resource</target>
+</phrase>
+<phrase>
+    <source>将LC Handbook转换为Firefly-Launcher格式</source>
+    <target>Convert LC Handbook to Firefly Launcher format</target>
+</phrase>
+<phrase>
+    <source>获取</source>
+    <target>Dump</target>
+</phrase>
+<phrase>
+    <source>获取源文本</source>
+    <target>Dump Raw Code Text</target>
+</phrase>
+<phrase>
+    <source>获取代码中未翻译的文本</source>
+    <target>Dump untranslated text from the code</target>
+</phrase>
+<phrase>
+    <source>翻译工作</source>
+    <target>Translation Workspace</target>
+</phrase>
+<phrase>
+    <source>建议使用QT Linguist工具进行翻译</source>
+    <target>Suggest using QT Linguist tool for translation</target>
+</phrase>
+<phrase>
+    <source>资源</source>
+    <target>Resource</target>
+</phrase>
+<phrase>
+    <source>翻译</source>
+    <target>Translate</target>
+</phrase>
+<phrase>
+    <source>转换成功!</source>
+    <target>Convert successfully!</target>
+</phrase>
+<phrase>
+    <source>清空成功!</source>
+    <target>Clear successfully!</target>
+</phrase>
+<phrase>
+    <source>获取成功!</source>
+    <target>Dump successfully!</target>
+</phrase>
+<phrase>
+    <source>发布成功!</source>
+    <target>Publish successfully!</target>
+</phrase>
+<phrase>
+    <source>打开便携版MongoDB数据库</source>
+    <target>Open the portable version of MongoDB database</target>
+</phrase>
+<phrase>
+    <source>下载MongoDB数据库</source>
+    <target>Download MongoDB Database</target>
+</phrase>
+<phrase>
+    <source>数据库已开始运行!</source>
+    <target>The database has started running!</target>
+</phrase>
+<phrase>
+    <source>找不到数据库!</source>
+    <target>Database not found!</target>
+</phrase>
+<phrase>
+    <source>前往下载</source>
+    <target>Download</target>
+</phrase>
+<phrase>
+    <source>重启应用以使用Git命令!</source>
+    <target>Restart the application to use the Git command!</target>
+</phrase>
+<phrase>
+    <source>重启</source>
+    <target>Restart</target>
+</phrase>
+<phrase>
+    <source>资源格式转换</source>
+    <target>Convert Resource</target>
+</phrase>
+<phrase>
+    <source>转换</source>
+    <target>Convert</target>
+</phrase>
+<phrase>
+    <source>打开输出文件夹</source>
+    <target>Open Output Folder</target>
+</phrase>
+<phrase>
+    <source>删除输出文件</source>
+    <target>Delete Output Files</target>
+</phrase>
+<phrase>
+    <source>导出源文本</source>
+    <target>Dump Raw Code Text</target>
+</phrase>
+<phrase>
+    <source>导出</source>
+    <target>Dump</target>
+</phrase>
+<phrase>
+    <source>发布翻译文件</source>
+    <target>Publish Translated Files</target>
+</phrase>
+<phrase>
+    <source>发布</source>
+    <target>Publish</target>
+</phrase>
+<phrase>
+    <source>图标</source>
+    <target>Icon</target>
+</phrase>
+<phrase>
+    <source>自定义命令设置</source>
+    <target>Config MyCommand</target>
+</phrase>
+<phrase>
+    <source>手动配置自定义命令</source>
+    <target>Config mycommand by hand</target>
+</phrase>
+<phrase>
+    <source>卡池设置</source>
+    <target>Warp Setting</target>
+</phrase>
+<phrase>
+    <source>手动LC卡池数据配置</source>
+    <target>Config LC warp by hand</target>
+</phrase>
+<phrase>
+    <source>配置服务端地址</source>
+    <target>Config Server Url</target>
+</phrase>
+<phrase>
+    <source>设置远程执行服务端地址</source>
+    <target>Set server url for remote command execution</target>
+</phrase>
+<phrase>
+    <source>配置服务端API</source>
+    <target>Config API Url</target>
+</phrase>
+<phrase>
+    <source>设置用于远程执行命令的地址, 适应不兼容服务端</source>
+    <target>Set url for remote command execution to adapt unsupported servers</target>
+</phrase>
+<phrase>
+    <source>通过验证码验证身份并设置密码</source>
+    <target>Verify identity and set password through verification code</target>
+</phrase>
+<phrase>
+    <source>配置服务端地址 (当前: </source>
+    <target>Config Server Url (Now: </target>
+</phrase>
+<phrase>
+    <source>文件已打开！</source>
+    <target>File Opened!</target>
+</phrase>
+<phrase>
+    <source>找不到文件!</source>
+    <target>File Not Found!</target>
+</phrase>
+<phrase>
+    <source>找不到服务端LunarCore!</source>
+    <target>Unable to find the server LunarCore!</target>
+</phrase>
+<phrase>
+    <source>服务端地址设置成功!</source>
+    <target>Config server url successfully!</target>
+</phrase>
+<phrase>
+    <source>服务端地址为空!</source>
+    <target>Server url empty!</target>
+</phrase>
+<phrase>
+    <source>UID设置成功!</source>
+    <target>Config UID successfully!</target>
+</phrase>
+<phrase>
+    <source>UID为空!</source>
+    <target>UID empty!</target>
+</phrase>
+<phrase>
+    <source>验证码发送成功!</source>
+    <target>Sent vertification code successfully!</target>
+</phrase>
+<phrase>
+    <source>请在游戏内查收验证码!</source>
+    <target>Please check the verification code in the game!</target>
+</phrase>
+<phrase>
+    <source>验证码发送失败!</source>
+    <target>Failed to send vertification code!</target>
+</phrase>
+<phrase>
+    <source>验证码或密码为空!</source>
+    <target>Code or Passwoed empty!</target>
+</phrase>
+<phrase>
+    <source>密码设置成功!</source>
+    <target>Config password successfully!</target>
+</phrase>
+<phrase>
+    <source>验证码或密码错误!</source>
+    <target>Code or Passwoed wrong!</target>
+</phrase>
+<phrase>
+    <source>设置世界等级</source>
+    <target>Set WorldLevel</target>
+</phrase>
+<phrase>
+    <source>保存</source>
+    <target>Save</target>
+</phrase>
+<phrase>
+    <source>自定义</source>
+    <target>Custom</target>
+</phrase>
+<phrase>
+    <source>远程执行未启用!</source>
+    <target>Remote execution disabled!</target>
+</phrase>
+<phrase>
+    <source>前往开启</source>
+    <target>Enable</target>
+</phrase>
+<phrase>
+    <source>执行成功!</source>
+    <target>Execution successfully!</target>
+</phrase>
+<phrase>
+    <source>请自行查看执行结果!</source>
+    <target>Please check the results yourself!</target>
+</phrase>
+<phrase>
+    <source>执行失败!</source>
+    <target>Failed to execution!</target>
+</phrase>
+<phrase>
+    <source>已复制到剪贴板!</source>
+    <target>Copied to clipboard!</target>
+</phrase>
+<phrase>
+    <source>请输入正确的用户名!</source>
+    <target>Please enter correct username!</target>
+</phrase>
+<phrase>
+    <source>请输入正确的UID!</source>
+    <target>Please enter correct UID!</target>
+</phrase>
+<phrase>
+    <source>未找到语音!</source>
+    <target>Audio not found!</target>
+</phrase>
+<phrase>
+    <source>备份</source>
+    <target>Backup</target>
+</phrase>
+<phrase>
+    <source>安装包</source>
+    <target>Installer</target>
+</phrase>
+<phrase>
+    <source>便携版</source>
+    <target>Portable</target>
+</phrase>
+<phrase>
+    <source>文件已打开!</source>
+    <target>File Opened!</target>
+</phrase>
+<phrase>
+    <source>备份成功!</source>
+    <target>Backup successfully!</target>
+</phrase>
+<phrase>
+    <source>界面显示语言</source>
+    <target>Interface display language</target>
+</phrase>
+<phrase>
+    <source>启用流萤语音</source>
+    <target>Enable Firefly Audio</target>
+</phrase>
+<phrase>
+    <source>自动复制已开启!</source>
+    <target>Auto copy enabled!</target>
+</phrase>
+<phrase>
+    <source>自动复制已关闭!</source>
+    <target>Auto copy disabled!</target>
+</phrase>
+<phrase>
+    <source>登录功能已开启!</source>
+    <target>Login enabled!</target>
+</phrase>
+<phrase>
+    <source>登录功能已关闭!</source>
+    <target>Login disabled!</target>
+</phrase>
+<phrase>
+    <source>流萤语音已开启!</source>
+    <target>Firefly audio enabled!</target>
+</phrase>
+<phrase>
+    <source>流萤语音已关闭!</source>
+    <target>Firefly audio disabled!</target>
+</phrase>
+<phrase>
+    <source>代理端口已开启!</source>
+    <target>Proxy enabled!</target>
+</phrase>
+<phrase>
+    <source>代理端口已关闭!</source>
+    <target>Proxy disabled!</target>
+</phrase>
+<phrase>
+    <source>国内镜像已开启!</source>
+    <target>Chinese mirror enabled!</target>
+</phrase>
+<phrase>
+    <source>国内镜像已关闭!</source>
+    <target>Chinese mirror disabled!</target>
+</phrase>
+<phrase>
+    <source>代理设置冲突,优先使用国内镜像!</source>
+    <target>Proxy settings conflict, prioritize using domestic images!</target>
+</phrase>
+<phrase>
+    <source>恢复默认配置成功!</source>
+    <target>Backup default successfully!</target>
+</phrase>
+<phrase>
+    <source>当前角色</source>
+    <target>Current Avatar</target>
+</phrase>
+<phrase>
+    <source>开拓</source>
+    <target>Trailblaze</target>
+</phrase>
+<phrase>
+    <source>均衡</source>
+    <target>World</target>
+</phrase>
+<phrase>
+    <source>类型</source>
+    <target>Types</target>
+</phrase>
+<phrase>
+    <source>世界等级</source>
+    <target>Worldlevel</target>
+</phrase>
+<phrase>
+    <source>服务端已启动!</source>
+    <target>Server Started!</target>
+</phrase>
+<phrase>
+    <source>服务端地址</source>
+    <target>Server Url</target>
+</phrase>
+<phrase>
+    <source>发送</source>
+    <target>Send</target>
 </phrase>
 </QPH>

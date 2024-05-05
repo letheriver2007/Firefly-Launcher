@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt, QLocale
 from qfluentwidgets import (qconfig, QConfig, Theme, ConfigItem, BoolValidator, OptionsValidator,
                             InfoBar, InfoBarPosition, OptionsConfigItem, ConfigSerializer)
 
+
 def Info(self, types, time, title, content=''):
     if types == "S":
         InfoBar.success(
@@ -38,12 +39,14 @@ def Info(self, types, time, title, content=''):
             parent=self
         )
 
+
 def open_file(self, file_path):
     if os.path.exists(file_path):
         os.startfile(file_path)
         Info(self, "S", 1000, self.tr("文件已打开!"))
     else:
         Info(self, "E", 3000, self.tr("找不到文件!"))
+
 
 def get_json(file_path, key):
     with open(f'{file_path}', 'r') as file:

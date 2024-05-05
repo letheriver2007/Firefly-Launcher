@@ -2,7 +2,8 @@ import os
 import re
 import shutil
 
-def handleResDevide():
+
+def handleResDivide():
     avatar_file_path = os.path.join(os.path.dirname(current_file_path), "output\\avatar.txt")
     lightcone_file_path = os.path.join(os.path.dirname(current_file_path), "output\\lightcone.txt")
     item_file_path = os.path.join(os.path.dirname(current_file_path), "output\\item.txt")
@@ -109,6 +110,7 @@ def handleResDevide():
     handleResSave(scene_file_path, scene_lines)
     handleResSave(relic_file_path, new_relic_lines)
 
+
 def handleResSave(file_path, lines):
     lines = list(filter(lambda x: x.strip(), lines))
     with open(file_path, "w", encoding="utf-8") as output_file:
@@ -123,6 +125,7 @@ def handleResSave(file_path, lines):
     input_entry_path = os.path.join(os.path.dirname(current_file_path), f"data\\entry-{LANGUAGE}.txt")
     output_entry_path = os.path.join(os.path.dirname(current_file_path), "output\\entry.txt")
     shutil.copy(input_entry_path, output_entry_path)
+
 
 def handleConfigLoad():
     flag_avatar = flag_relic = False
@@ -152,11 +155,11 @@ def handleConfigLoad():
 
     with open(f'{current_file_path}/../output/avatar.txt', 'r', encoding='utf-8') as file:
         avatar = [line for line in file.readlines() if
-                    not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                  not (line.strip().startswith("//") or line.strip().startswith("#"))]
 
     with open(f'{current_file_path}/../output/relic.txt', 'r', encoding='utf-8') as file:
         relic = [line for line in file.readlines() if
-                    not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                 not (line.strip().startswith("//") or line.strip().startswith("#"))]
 
     for line in avatar_lines:
         line = line.strip()
@@ -192,12 +195,14 @@ def handleMyRelicTranslate():
         if not status:
             return
 
-        config_part = {'头部': 'Head', '手部': 'Hand', '躯干': 'Body', '脚部': 'Foot', '位面球': 'Sphere', '连接绳': 'Rope'}
-        config_discribe_break = {'CHS': '击破', 'EN': 'Break', 'CHT': '擊破'}
-        config_discribe_speed = {'CHS': '高速', 'EN': 'HSpeed', 'CHT': '高速'}
-        config_discribe_heal = {'CHS': '坦克', 'EN': 'Tank', 'CHT': '坦克'}
+        config_part = {'头部': 'Head', '手部': 'Hand', '躯干': 'Body', '脚部': 'Foot', '位面球': 'Sphere',
+                       '连接绳': 'Rope'}
+        config_describe_break = {'CHS': '击破', 'EN': 'Break', 'CHT': '擊破'}
+        config_describe_speed = {'CHS': '高速', 'EN': 'HSpeed', 'CHT': '高速'}
+        config_describe_heal = {'CHS': '坦克', 'EN': 'Tank', 'CHT': '坦克'}
 
-        with open(input_myrelic_path, 'r', encoding='utf-8') as infile, open(output_myrelic_path, 'w', encoding='utf-8') as outfile:
+        with open(input_myrelic_path, 'r', encoding='utf-8') as infile, open(output_myrelic_path, 'w',
+                                                                             encoding='utf-8') as outfile:
             for line in infile:
                 line = line.strip()
                 parts = line.split(' : ')
@@ -212,12 +217,12 @@ def handleMyRelicTranslate():
                 if '(' in parts[2]:
                     avatar, describe = parts[2].split('(', 1)
                     describe = describe.strip(')')
-                    if describe in config_discribe_break['CHS']:
-                        describe = config_discribe_break[LANGUAGE]
-                    elif describe in config_discribe_speed['CHS']:
-                        describe = config_discribe_speed[LANGUAGE]
-                    elif describe in config_discribe_heal['CHS']:
-                        describe = config_discribe_heal[LANGUAGE]
+                    if describe in config_describe_break['CHS']:
+                        describe = config_describe_break[LANGUAGE]
+                    elif describe in config_describe_speed['CHS']:
+                        describe = config_describe_speed[LANGUAGE]
+                    elif describe in config_describe_heal['CHS']:
+                        describe = config_describe_heal[LANGUAGE]
                 else:
                     avatar = parts[2]
                     describe = ''
@@ -233,10 +238,10 @@ def handleMyRelicTranslate():
                 outfile.write(' : '.join(parts) + '\n')
 
 
+# noinspection PyGlobalUndefined
 def handleResConvert(FILENAME):
     global input_file_path, output_folder_path, current_file_path, VERSION, LANGUAGE
-    global  food_file_path, head_file_path, monster_file_path, stage_file_path, scene_file_path, relic_file_path
-    global  config_know_data, config_target_data
+    global config_know_data, config_target_data
 
     VERSION = FILENAME.split('-')[0]
     LANGUAGE = FILENAME.split('-')[1]
@@ -248,7 +253,7 @@ def handleResConvert(FILENAME):
     if not os.path.exists(output_folder_path):
         os.makedirs(output_folder_path)
 
-    handleResDevide()
+    handleResDivide()
 
     config_know_data = {}
     config_target_data = {}

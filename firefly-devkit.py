@@ -1,33 +1,37 @@
 import os
-import re
 import sys
 import subprocess
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QMainWindow, QApplication
-from PySide6.QtCore import Qt, Signal
-from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, PopupTeachingTip, InfoBarPosition,
-                            TitleLabel, SubtitleLabel, BodyLabel, HyperlinkButton, PrimaryPushButton, InfoBar,
-                            MessageBoxBase, FluentIcon, FlyoutViewBase, TeachingTipTailPosition, InfoBarIcon,
-                            HyperlinkCard, BodyLabel, ExpandGroupSettingCard, ComboBox, PrimaryToolButton)
+from PySide6.QtGui import QIcon, QColor
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QApplication
+from PySide6.QtCore import Qt, Signal, QTranslator
+from qframelesswindow import FramelessWindow, StandardTitleBar
+from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, Theme,
+                            TitleLabel, BodyLabel, PrimaryPushButton, FluentIcon, setTheme,
+                            ExpandGroupSettingCard, ComboBox, PrimaryToolButton, FluentTranslator)
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCard, SettingCardGroup
-from app.model.config import open_file, Info
+from app.model.config import open_file, Info, cfg
 from devkit.convert import handleResConvert
 
-class Main(ScrollArea):
+
+class Main(FramelessWindow):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
+        setTheme(Theme.LIGHT)
+        self.setTitleBar(StandardTitleBar(self))
+
         self.resize(1208, 688)
         self.setWindowTitle('FireFly Devkit (Lethe)')
         self.setWindowIcon(QIcon('./src/image/icon.ico'))
-        self.setStyleSheet("background-color: #f9f9f9;")
 
         self.DevkitInterface = Devkit("Devkit Interface", self)
 
         self.mainLayout = QHBoxLayout(self)
-        self.mainLayout.setContentsMargins(0, 0, 0, 0)
+        self.mainLayout.setContentsMargins(0, 25, 0, 0)
         self.mainLayout.addWidget(self.DevkitInterface)
         self.setLayout(self.mainLayout)
+
+        self.titleBar.raise_()
 
 
 class ExpandGroupSettingCard_Convert(ExpandGroupSettingCard):
@@ -43,7 +47,7 @@ class ExpandGroupSettingCard_Convert(ExpandGroupSettingCard):
     def __initWidget(self):
         self.label_convert = BodyLabel(self.tr('资源格式转换'))
         self.combobox_handbook = ComboBox()
-        self.botton_refresh = PrimaryToolButton(FluentIcon.ROTATE, self)
+        self.button_refresh = PrimaryToolButton(FluentIcon.ROTATE, self)
         self.button_convert = PrimaryPushButton(self.tr('转换'), self)
 
         self.label_open = BodyLabel(self.tr('打开输出文件夹'))
@@ -58,7 +62,7 @@ class ExpandGroupSettingCard_Convert(ExpandGroupSettingCard):
 
     def __initInfo(self):
         self.handleHandbookLoad()
-    
+
     def __initLayout(self):
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
         self.viewLayout.setSpacing(0)
@@ -100,7 +104,7 @@ class ExpandGroupSettingCard_Convert(ExpandGroupSettingCard):
         self.button_convert.clicked.connect(self.convert)
         self.button_open.clicked.connect(self.convert_open)
         self.button_delete.clicked.connect(self.convert_clear)
-    
+
     def handleHandbookLoad(self):
         self.combobox_handbook.clear()
         filenames_no_ext = [os.path.splitext(filename)[0] for filename in os.listdir('.\\devkit\\handbook')]
@@ -125,7 +129,7 @@ class ExpandGroupSettingCard_Translate(ExpandGroupSettingCard):
         self.button_translate = PrimaryPushButton(self.tr('打开'), self)
 
         self.combobox_publish = ComboBox()
-        self.botton_refresh = PrimaryToolButton(FluentIcon.ROTATE, self)
+        self.button_refresh = PrimaryToolButton(FluentIcon.ROTATE, self)
         self.label_publish = BodyLabel(self.tr('发布翻译文件'))
         self.button_publish = PrimaryPushButton(self.tr('发布'), self)
 
@@ -135,7 +139,7 @@ class ExpandGroupSettingCard_Translate(ExpandGroupSettingCard):
 
     def __initInfo(self):
         self.handlePublishLoad()
-    
+
     def __initLayout(self):
         self.viewLayout.setContentsMargins(0, 0, 0, 0)
         self.viewLayout.setSpacing(0)
@@ -147,7 +151,6 @@ class ExpandGroupSettingCard_Translate(ExpandGroupSettingCard):
         self.dump_layout.addWidget(self.label_dump)
         self.dump_layout.addStretch(1)
         self.dump_layout.addWidget(self.button_dump)
-
 
         self.translate_widget = QWidget()
         self.translate_widget.setFixedHeight(60)
@@ -178,7 +181,7 @@ class ExpandGroupSettingCard_Translate(ExpandGroupSettingCard):
         self.button_dump.clicked.connect(self.translate_dump)
         self.button_translate.clicked.connect(self.translate_open)
         self.button_publish.clicked.connect(self.translate_publish)
-    
+
     def handlePublishLoad(self):
         self.combobox_publish.clear()
         ts_filenames = [filename for filename in os.listdir('.\\devkit\\translate\\') if filename.endswith('.ts')]
@@ -315,7 +318,7 @@ class Devkit(ScrollArea):
             subprocess.run(command, shell=True)
 
             Info(self, 'S', 1000, self.tr('获取成功!'))
-        
+
         elif mode == 'publish':
             current_file = self.translateCard.combobox_publish.currentText()
             command = (
@@ -328,9 +331,23 @@ class Devkit(ScrollArea):
 
             Info(self, 'S', 1000, self.tr('发布成功!'))
 
+
 if __name__ == '__main__':
+    if cfg.get(cfg.dpiScale) != "Auto":
+        os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "0"
+        os.environ["QT_SCALE_FACTOR"] = str(cfg.get(cfg.dpiScale))
+
     app = QApplication(sys.argv)
     app.setAttribute(Qt.AA_DontCreateNativeWidgetSiblings)
+
+    locale = cfg.get(cfg.language).value
+    translator = FluentTranslator(locale)
+    localTranslator = QTranslator()
+    localTranslator.load(f"src\\translate\\{locale.name()}.qm")
+
+    app.installTranslator(translator)
+    app.installTranslator(localTranslator)
+
     window = Main()
     window.show()
     sys.exit(app.exec())

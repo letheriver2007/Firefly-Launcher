@@ -195,7 +195,8 @@ class Custom(QWidget):
 class Giveall(SettingCard):
     giveall_clicked = Signal(int)
 
-    def __init__(self, title, icon=FluentIcon.TAG, content='/giveall {materials | avatars | lightcones | relics | icons}'):
+    def __init__(self, title, icon=FluentIcon.TAG,
+                 content='/giveall {materials | avatars | lightcones | relics | icons}'):
         super().__init__(icon, title, content)
         self.texts = [self.tr('材料'), self.tr('角色'), self.tr('光锥'), self.tr('遗器'), self.tr('图标')]
         self.comboBox = ComboBox(self)
@@ -528,7 +529,7 @@ class Spawn(QWidget):
     def handleMonsterLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/monster.txt', 'r', encoding='utf-8') as file:
             monster = [line for line in file.readlines() if
-                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                       not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.monster_table.setRowCount(len(monster))
         for i, line in enumerate(monster):
             line = line.strip()
@@ -675,7 +676,7 @@ class Give(QWidget):
     def handleAvatarLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/avatar.txt', 'r', encoding='utf-8') as file:
             avatar = [line for line in file.readlines() if
-                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                      not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(avatar))
         for i, line in enumerate(avatar):
             line = line.strip()
@@ -689,7 +690,7 @@ class Give(QWidget):
     def handleLightconeLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/lightcone.txt', 'r', encoding='utf-8') as file:
             lightcone = [line for line in file.readlines() if
-                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                         not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(lightcone))
         for i, line in enumerate(lightcone):
             line = line.strip()
@@ -703,7 +704,7 @@ class Give(QWidget):
     def handleItemLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/item.txt', 'r', encoding='utf-8') as file:
             item = [line for line in file.readlines() if
-                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                    not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(item))
         for i, line in enumerate(item):
             line = line.strip()
@@ -717,7 +718,7 @@ class Give(QWidget):
     def handleFoodLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/food.txt', 'r', encoding='utf-8') as file:
             food = [line for line in file.readlines() if
-                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                    not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(food))
         for i, line in enumerate(food):
             line = line.strip()
@@ -731,7 +732,7 @@ class Give(QWidget):
     def handleHeadLoad(self):
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/head.txt', 'r', encoding='utf-8') as file:
             head = [line for line in file.readlines() if
-                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                    not (line.strip().startswith("//") or line.strip().startswith("#"))]
         self.give_table.setRowCount(len(head))
         for i, line in enumerate(head):
             line = line.strip()

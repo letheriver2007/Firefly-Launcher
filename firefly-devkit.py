@@ -74,7 +74,7 @@ class ExpandGroupSettingCard_Convert(ExpandGroupSettingCard):
         self.convert_layout.addWidget(self.label_convert)
         self.convert_layout.addStretch(1)
         self.convert_layout.addWidget(self.combobox_handbook)
-        self.convert_layout.addWidget(self.botton_refresh)
+        self.convert_layout.addWidget(self.button_refresh)
         self.convert_layout.addSpacing(10)
         self.convert_layout.addWidget(self.button_convert)
 
@@ -99,7 +99,7 @@ class ExpandGroupSettingCard_Convert(ExpandGroupSettingCard):
         self.addGroupWidget(self.delete_widget)
 
     def __connectSignalToSlot(self):
-        self.botton_refresh.clicked.connect(self.__initInfo)
+        self.button_refresh.clicked.connect(self.__initInfo)
 
         self.button_convert.clicked.connect(self.convert)
         self.button_open.clicked.connect(self.convert_open)
@@ -167,7 +167,7 @@ class ExpandGroupSettingCard_Translate(ExpandGroupSettingCard):
         self.publish_layout.addWidget(self.label_publish)
         self.publish_layout.addStretch(1)
         self.publish_layout.addWidget(self.combobox_publish)
-        self.publish_layout.addWidget(self.botton_refresh)
+        self.publish_layout.addWidget(self.button_refresh)
         self.publish_layout.addSpacing(10)
         self.publish_layout.addWidget(self.button_publish)
 
@@ -176,7 +176,7 @@ class ExpandGroupSettingCard_Translate(ExpandGroupSettingCard):
         self.addGroupWidget(self.publish_widget)
 
     def __connectSignalToSlot(self):
-        self.botton_refresh.clicked.connect(self.__initInfo)
+        self.button_refresh.clicked.connect(self.__initInfo)
 
         self.button_dump.clicked.connect(self.translate_dump)
         self.button_translate.clicked.connect(self.translate_open)

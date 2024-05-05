@@ -2,9 +2,11 @@ import os
 import json
 import subprocess
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QApplication
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, HyperlinkButton,
-                            InfoBarPosition, SwitchSettingCard, LineEdit, PrimaryPushButton, FluentIcon, InfoBarIcon)
+                            InfoBarPosition, SwitchSettingCard, LineEdit, PrimaryPushButton, FluentIcon,
+                            PasswordLineEdit, InfoBarIcon)
 from app.model.style_sheet import StyleSheet
 from app.lunarcore_command import (Account, Kick, Unstuck, Custom, Giveall, Clear, WorldLevel,
                                    Avatar, Gender, Scene, Spawn, Give, Relic)
@@ -12,8 +14,7 @@ from app.lunarcore_edit import Warp
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
 from app.model.config import cfg, get_json, open_file, save_json, Info
-from app.model.remote import (handleApply, handleVerify, handleCommandSend, PrimaryPushSettingCard_UID,
-                              PrimaryPushSettingCard_API, PrimaryPushSettingCard_URL, PrimaryPushSettingCard_Verify)
+from app.model.remote import handleApply, handleVerify, handleCommandSend
 
 
 class HyperlinkCard_LunarCore(SettingCard):
@@ -27,6 +28,77 @@ class HyperlinkCard_LunarCore(SettingCard):
         self.hBoxLayout.addWidget(self.linkButton_res1, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.linkButton_res2, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
+
+
+class PrimaryPushSettingCard_URL(SettingCard):
+    clicked_seturl = Signal()
+
+    def __init__(self, title, content, icon=FluentIcon.WIFI):
+        super().__init__(icon, title, content)
+        self.lineedit_seturl = LineEdit(self)
+        self.lineedit_seturl.setPlaceholderText(self.tr("服务端地址"))
+        self.lineedit_seturl.setFixedWidth(150)
+        self.button_seturl = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_seturl, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_seturl, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_seturl.clicked.connect(self.clicked_seturl)
+
+
+class PrimaryPushSettingCard_API(SettingCard):
+    clicked_setapi = Signal()
+
+    def __init__(self, title, content, icon=FluentIcon.LABEL):
+        super().__init__(icon, title, content)
+        self.button_seturl = PrimaryPushButton(self.tr('打开文件'), self)
+        self.hBoxLayout.addWidget(self.button_seturl, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_seturl.clicked.connect(self.clicked_setapi)
+
+
+class PrimaryPushSettingCard_UID(SettingCard):
+    clicked_setuid = Signal()
+
+    def __init__(self, title, content, icon=FluentIcon.QUICK_NOTE):
+        super().__init__(icon, title, content)
+        self.lineedit_setuid = LineEdit(self)
+        self.lineedit_setuid.setPlaceholderText("UID")
+        self.lineedit_setuid.setFixedWidth(150)
+        self.lineedit_setuid.setValidator(QIntValidator(self))
+        self.button_setuid = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_setuid, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_setuid, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_setuid.clicked.connect(self.clicked_setuid)
+
+
+class PrimaryPushSettingCard_Verify(SettingCard):
+    clicked_apply = Signal()
+    clicked_verify = Signal()
+
+    def __init__(self, title, content, icon=FluentIcon.FINGERPRINT):
+        super().__init__(icon, title, content)
+        self.button_apply = PrimaryPushButton(self.tr('发送'), self)
+        self.lineedit_code = LineEdit(self)
+        self.lineedit_code.setPlaceholderText(self.tr("验证码"))
+        self.lineedit_code.setFixedWidth(100)
+        self.lineedit_code.setValidator(QIntValidator(self))
+        self.lineedit_key = PasswordLineEdit(self)
+        self.lineedit_key.setPlaceholderText(self.tr("密码"))
+        self.lineedit_key.setFixedWidth(150)
+        self.button_verify = PrimaryPushButton(self.tr('设置'), self)
+        self.hBoxLayout.addWidget(self.lineedit_code, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_apply, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.hBoxLayout.addWidget(self.lineedit_key, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_verify, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_apply.clicked.connect(self.clicked_apply)
+        self.button_verify.clicked.connect(self.clicked_verify)
 
 
 class LunarCore(ScrollArea):

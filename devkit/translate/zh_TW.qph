@@ -1456,4 +1456,12 @@
     <source>世界等级</source>
     <target>世界等級</target>
 </phrase>
+<phrase>
+    <source>服务端地址</source>
+    <target>服務端地址</target>
+</phrase>
+<phrase>
+    <source>发送</source>
+    <target>發送</target>
+</phrase>
 </QPH>

@@ -1380,4 +1380,12 @@
     <source>服务端已启动!</source>
     <target>Server Started!</target>
 </phrase>
+<phrase>
+    <source>服务端地址</source>
+    <target>Server Url</target>
+</phrase>
+<phrase>
+    <source>发送</source>
+    <target>Send</target>
+</phrase>
 </QPH>

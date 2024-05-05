@@ -92,6 +92,6 @@ class MessageLogin(MessageBoxBase):
         self.viewLayout.addWidget(self.titleLabel)
         self.viewLayout.addWidget(self.passwordLabel)
 
-    def emitPassword(self, password):
+    def emitPassword(self):
         password = self.passwordLabel.text()
         self.passwordEntered.emit(password)

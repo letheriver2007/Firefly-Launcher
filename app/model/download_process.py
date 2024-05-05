@@ -131,10 +131,16 @@ def handleDownloadGenerate(name):
         types = 'url'
         file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_JAVA.split('/')[-1])
         command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_JAVA, cfg.DOWNLOAD_COMMANDS_JAVA_MIRROR)
-    elif name == 'mongodb':
+    elif name == 'mongodb_installer':
         types = 'url'
-        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_MONGODB.split('/')[-1])
-        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MONGODB, cfg.DOWNLOAD_COMMANDS_MONGODB_MIRROR)
+        file_path = os.path.join("temp", cfg.DOWNLOAD_COMMANDS_MONGODB_INSTALLER.split('/')[-1])
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MONGODB_INSTALLER, cfg.DOWNLOAD_COMMANDS_MONGODB_INSTALLER_MIRROR)
+    elif name == 'mongodb_portable':
+        types = 'git'
+        file_path = 'tool\\mongodb'
+        command = __handleUrlGenerate(types, cfg.DOWNLOAD_COMMANDS_MONGODB_PORTABLE, cfg.DOWNLOAD_COMMANDS_MONGODB_PORTABLE_MIRROR,
+                                      '--branch mongodb ', '--branch mongodb ')
+        print(command)
     elif name == 'lunarcore':
         types = 'git'
         file_path = 'server\\LunarCore'

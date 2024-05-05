@@ -1,10 +1,12 @@
 import os
+import time
 import subprocess
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout
 from PySide6.QtCore import Qt, Signal
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, PopupTeachingTip, InfoBarPosition,
                             TitleLabel, SubtitleLabel, BodyLabel, HyperlinkButton, PrimaryPushButton, InfoBar,
-                            MessageBoxBase, FluentIcon, FlyoutViewBase, TeachingTipTailPosition, InfoBarIcon, HyperlinkCard)
+                            MessageBoxBase, FluentIcon, FlyoutViewBase, TeachingTipTailPosition, InfoBarIcon,
+                            HyperlinkCard)
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
@@ -14,17 +16,22 @@ from app.model.config import cfg, get_json, Info
 class PrimaryPushSettingCard_Fiddler(SettingCard):
     clicked_script = Signal()
     clicked_old = Signal()
+    clicked_backup = Signal()
 
     def __init__(self, title, content=None, icon=FluentIcon.VPN):
         super().__init__(icon, title, content)
         self.button_script = PrimaryPushButton(self.tr('脚本打开'), self)
         self.button_old = PrimaryPushButton(self.tr('原版打开'), self)
+        self.button_backup = PrimaryPushButton(self.tr('备份'), self)
         self.hBoxLayout.addWidget(self.button_script, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
         self.hBoxLayout.addWidget(self.button_old, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_backup, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
         self.button_script.clicked.connect(self.clicked_script)
         self.button_old.clicked.connect(self.clicked_old)
+        self.button_backup.clicked.connect(self.clicked_backup)
 
 
 class CustomFlyoutView_Fiddler(FlyoutViewBase):
@@ -46,25 +53,25 @@ class CustomFlyoutView_Fiddler(FlyoutViewBase):
         self.hBoxLayout.addWidget(self.ht_button)
         self.hBoxLayout.addWidget(self.lc_button)
 
-        self.gc_button.clicked.connect(lambda: self.handleFilddlerButton('gc'))
-        self.ht_button.clicked.connect(lambda: self.handleFilddlerButton('ht'))
-        self.lc_button.clicked.connect(lambda: self.handleFilddlerButton('lc'))
+        self.gc_button.clicked.connect(lambda: self.handleFiddlerButton('gc'))
+        self.ht_button.clicked.connect(lambda: self.handleFiddlerButton('ht'))
+        self.lc_button.clicked.connect(lambda: self.handleFiddlerButton('lc'))
 
-    def handleFilddlerButton(self, mode):
+    def handleFiddlerButton(self, mode):
         status = Proxy.handleFiddlerOpen(self.parent)
         if status:
-            if mode =='gc':
+            if mode == 'gc':
                 subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
-                                'copy /y "src\\patch\\fiddler\\CustomRules-GC.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
-                                shell=True)
+                               'copy /y "src\\patch\\fiddler\\CustomRules-GC.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
+                               shell=True)
             elif mode == 'ht':
                 subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
-                                'copy /y "src\\patch\\fiddler\\CustomRules-HT.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
-                                shell=True)
+                               'copy /y "src\\patch\\fiddler\\CustomRules-HT.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
+                               shell=True)
             elif mode == 'lc':
                 subprocess.run('del /f "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" && '
-                                'copy /y "src\\patch\\fiddler\\CustomRules-LC.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
-                                shell=True)
+                               'copy /y "src\\patch\\fiddler\\CustomRules-LC.js" "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js"',
+                               shell=True)
 
 
 class Proxy(ScrollArea):
@@ -98,7 +105,7 @@ class Proxy(ScrollArea):
         )
         self.ProxyToolInterface = SettingCardGroup(self.scrollWidget)
         self.FiddlerCard = PrimaryPushSettingCard_Fiddler(
-            self.tr('Fiddler'),
+            'Fiddler',
             self.tr('使用Fiddler Scripts代理')
         )
         self.noproxyCard = PrimaryPushSettingCard(
@@ -150,6 +157,7 @@ class Proxy(ScrollArea):
         self.DownloadFiddlerCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('fiddler'))
         self.FiddlerCard.clicked_script.connect(self.handleFiddlerTip)
         self.FiddlerCard.clicked_old.connect(self.handleFiddlerOpen)
+        self.FiddlerCard.clicked_backup.connect(self.handleFiddlerBackup)
         self.noproxyCard.clicked.connect(self.handleProxyDisabled)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
@@ -197,6 +205,13 @@ class Proxy(ScrollArea):
             duration=-1,
             parent=self
         )
+
+    def handleFiddlerBackup(self):
+        now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+        subprocess.run(
+            f'copy /y "%userprofile%\\Documents\\Fiddler2\\Scripts\\CustomRules.js" "CustomRules-{now_time}.js"',
+            shell=True)
+        Info(self, "S", 1000, self.tr("备份成功!"))
 
     def handleProxyDisabled(self):
         try:

@@ -3,8 +3,8 @@ from PySide6.QtGui import QIcon, QPainter, QColor, QIntValidator
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QLabel, QWidget
 from qfluentwidgets import (FluentIconBase, IconWidget, FluentStyleSheet, isDarkTheme, drawIcon, ComboBox,
-                            HyperlinkButton,MessageBoxBase, TitleLabel, SubtitleLabel, FlyoutViewBase,
-                             BodyLabel, LineEdit, PrimaryPushButton, ExpandLayout, PasswordLineEdit, FluentIcon)
+                            HyperlinkButton, MessageBoxBase, TitleLabel, SubtitleLabel, FlyoutViewBase,
+                            BodyLabel, LineEdit, PrimaryPushButton, ExpandLayout, PasswordLineEdit, FluentIcon)
 
 
 class SettingCardGroup(QWidget):

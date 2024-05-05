@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import glob
 import random
 import winreg
@@ -36,7 +37,7 @@ class Main(MSFluentWindow):
 
         checkUpdate(self)
         if cfg.useLogin.value:
-            self.incorrect_count = 1
+            self.count_pwd = 1
             self.login_card = MessageLogin(self)
             self.login_card.show()
             self.login_card.passwordEntered.connect(self.handleLogin)
@@ -121,16 +122,18 @@ class Main(MSFluentWindow):
             subprocess.run('cd src/patch/font && start zh-cn.ttf', shell=True)
             sys.exit()
 
-    def handleLogin(self, password):
-        md5_hash = hashlib.md5(password.encode()).hexdigest()[8:24].upper()
-        if md5_hash == 'EE1FC4FB7AD2BE1C':
+    def handleLogin(self, pwd):
+        with open('config/config.json', 'r', encoding='utf-8') as file:
+            config = json.load(file)
+        local_pwd = config['PASSWORD']
+        if local_pwd == pwd:
             Info(self, 'S', 1000, self.tr('登录成功!'))
             if cfg.useAudio.value:
                 self.handleMideaPlay('success')
-            self.w.close()
+            self.login_card.close()
         else:
-            Info(self, 'E', 3000, self.tr('密码错误!'), self.tr('次数: ') + self.incorrect_count)
-            self.incorrect_count += 1
+            Info(self, 'E', 3000, self.tr('密码错误!'), self.tr('次数: ') + str(self.count_pwd))
+            self.count_pwd += 1
             if cfg.useAudio.value:
                 self.handleMideaPlay('error')
 

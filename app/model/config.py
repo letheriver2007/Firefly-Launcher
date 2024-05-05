@@ -40,10 +40,10 @@ def Info(self, types, time, title, content=''):
 
 def open_file(self, file_path):
     if os.path.exists(file_path):
-        subprocess.run(['start', file_path], shell=True)
+        os.startfile(file_path)
         Info(self, "S", 1000, self.tr("文件已打开!"))
     else:
-        Info(self, "E", 3000, self.tr("找不到文件, 请重新下载!"))
+        Info(self, "E", 3000, self.tr("找不到文件!"))
 
 def get_json(file_path, key):
     with open(f'{file_path}', 'r') as file:
@@ -108,7 +108,8 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_AUDIO = 'https://github.com/letheriver2007/Firefly-Launcher-Res.git src/audio'
     DOWNLOAD_COMMANDS_GIT = 'https://github.com/git-for-windows/git/releases/download/v2.44.0.windows.1/Git-2.44.0-64-bit.exe'
     DOWNLOAD_COMMANDS_JAVA = 'https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.msi'
-    DOWNLOAD_COMMANDS_MONGODB = 'https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi'
+    DOWNLOAD_COMMANDS_MONGODB_INSTALLER = 'https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi'
+    DOWNLOAD_COMMANDS_MONGODB_PORTABLE = 'https://github.com/Letheriver2007/Firefly-Launcher-Res.git tool/mongodb'
     DOWNLOAD_COMMANDS_LUNARCORE = 'https://github.com/Melledy/LunarCore.git server/LunarCore'
     DOWNLOAD_COMMANDS_LUNARCORE_RES_1 = 'https://github.com/Dimbreath/StarRailData.git server/LunarCore/resources'
     DOWNLOAD_COMMANDS_LUNARCORE_RES_2 = (
@@ -122,15 +123,16 @@ class Config(QConfig):
     DOWNLOAD_COMMANDS_GIT_MIRROR = (
         'https://cdn.npmmirror.com/binaries/git-for-windows/v2.44.0.windows.1/Git-2.44.0-64-bit.exe')
     DOWNLOAD_COMMANDS_JAVA_MIRROR = 'https://d6.injdk.cn/oraclejdk/17/jdk-17_windows-x64_bin.msi'
-    DOWNLOAD_COMMANDS_MONGODB_MIRROR = 'https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi'
+    DOWNLOAD_COMMANDS_MONGODB_INSTALLER_MIRROR = 'https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.6-signed.msi'
+    DOWNLOAD_COMMANDS_MONGODB_PORTABLE_MIRROR = (
+        'https://gitee.com/letheriver2007/Firefly-Launcher-Res.git tool/mongodb')
     DOWNLOAD_COMMANDS_LUNARCORE_MIRROR = 'https://gitee.com/kenny-pk/LunarCore.git server/LunarCore'
     DOWNLOAD_COMMANDS_LUNARCORE_RES_MIRROR = (
         'https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git server/LunarCore/resources')
     DOWNLOAD_COMMANDS_FIDDLER_MIRROR = 'https://gitee.com/Letheriver2007/Firefly-Launcher-Res.git tool/fiddler'
 
     ############### SERVER CONFIG ###############
-    SERVER_NAMES = get_json('./config/config.json', 'SERVER_NAMES')
-    SERVER_COMMANDS = get_json('./config/config.json', 'SERVER_COMMANDS')
+    SERVER = get_json('./config/config.json', 'SERVER')
 
 
 cfg = Config()

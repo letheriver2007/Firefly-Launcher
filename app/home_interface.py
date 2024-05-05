@@ -41,13 +41,18 @@ class Home(QWidget):
         self.flipView.setItemDelegate(CustomFlipItemDelegate(self.flipView))
 
         self.button_group = QButtonGroup()
-        for name in cfg.SERVER_NAMES:
-            button_server = TogglePushButton(FluentIcon.TAG, '   ' + name, self)
+        for name, details in cfg.SERVER.items():
+            icon = FluentIcon.TAG
+            if 'ICON' in details and details['ICON']:
+                icon = getattr(FluentIcon, details['ICON'], FluentIcon.TAG)
+
+            button_server = TogglePushButton(icon, '   ' + name, self)
             button_server.setObjectName(name)
             button_server.setFixedSize(270, 70)
             button_server.setIconSize(QSize(18, 18))
             button_server.setFont(QFont(f'{cfg.APP_FONT}', 12))
             setCustomStyleSheet(button_server, 'PushButton{border-radius: 12px}', 'PushButton{border-radius: 12px}')
+
             self.button_group.addButton(button_server)
 
         self.button_launch = PrimaryPushButton(FluentIcon.PLAY_SOLID, self.tr(' 一键启动'))
@@ -85,9 +90,9 @@ class Home(QWidget):
         self.main_layout.addLayout(self.image_layout)
         self.main_layout.addSpacing(25)
         self.main_layout.addLayout(self.play_layout)
-        self.main_layout.addSpacing(30)
-        self.main_layout.addLayout(self.button_launch_layout)
         self.main_layout.addStretch(1)
+        self.main_layout.addLayout(self.button_launch_layout)
+        self.main_layout.addSpacing(25)
 
     def __connectSignalToSlot(self):
         self.scrollTimer = QTimer(self)
@@ -96,10 +101,11 @@ class Home(QWidget):
         self.button_launch.clicked.connect(self.handleServerLaunch)
 
     def handleServerLaunch(self):
-        if self.button_group.checkedButton():
-            name = self.button_group.checkedButton().objectName()
+        server = self.button_group.checkedButton()
+        if server:
+            name = server.objectName()
             if os.path.exists(f'./server/{name}'):
-                command = cfg.SERVER_COMMANDS.get(name, '')
+                command = cfg.SERVER[name]['COMMAND']
                 subprocess.run(command, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
                 Info(self, 'S', 1000, self.tr('服务端已启动!'))
             else:
@@ -113,7 +119,13 @@ class Home(QWidget):
                     duration=3000,
                     parent=self
                 )
-                server_error_button = PrimaryPushButton(self.tr('前往下载'))
-                server_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(3))
-                server_error.addWidget(server_error_button)
-                server_error.show()
+
+                server_page = {'LunarCore': 3}
+                if name in server_page:
+                    page_index = server_page[name]
+                    server_error_button = PrimaryPushButton(self.tr('前往下载'))
+                    server_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(page_index))
+                    server_error.addWidget(server_error_button)
+                    server_error.show()
+                else:
+                    server_error.show()

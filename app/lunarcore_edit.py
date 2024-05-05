@@ -192,7 +192,7 @@ class Warp(QWidget):
             file_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(0))
             file_error.addWidget(file_error_button)
             file_error.show()
-    
+
     def handleBannerSearch(self):
         keyword = self.banner_search_line.text()
         for row in range(self.banner_table.rowCount()):
@@ -328,7 +328,7 @@ class Warp(QWidget):
         self.config_data.clear()
         with open(f'src/data/{cfg.get(cfg.language).value.name()}/avatar.txt', 'r', encoding='utf-8') as file:
             avatar = [line for line in file.readlines() if
-                     not (line.strip().startswith("//") or line.strip().startswith("#"))]
+                      not (line.strip().startswith("//") or line.strip().startswith("#"))]
         for i, line in enumerate(avatar):
             line = line.strip()
             parts = line.split(' : ')

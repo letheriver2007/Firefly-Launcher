@@ -1,11 +1,14 @@
+import os
+import subprocess
 from PySide6.QtWidgets import QWidget, QLabel, QStackedWidget, QVBoxLayout
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, FluentIcon,
                             HyperlinkButton, InfoBarPosition, PrimaryPushButton, InfoBarIcon)
 from app.model.style_sheet import StyleSheet
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD
 from app.setting_interface import Setting
+from app.model.config import Info
 
 
 class HyperlinkCard_Environment(SettingCard):
@@ -19,6 +22,22 @@ class HyperlinkCard_Environment(SettingCard):
         self.hBoxLayout.addWidget(self.linkButton_jar, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.linkButton_mongodb, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
+
+
+class PrimaryPushSettingCard_MongoDB(SettingCard):
+    mongodb_installer = Signal()
+    mongodb_portable = Signal()
+
+    def __init__(self, title, content, icon=FluentIcon.DOWNLOAD):
+        super().__init__(icon, title, content)
+        self.button_installer = PrimaryPushButton(self.tr('安装包'), self)
+        self.button_portable = PrimaryPushButton(self.tr('便携版'), self)
+        self.hBoxLayout.addWidget(self.button_installer, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(10)
+        self.hBoxLayout.addWidget(self.button_portable, 0, Qt.AlignRight)
+        self.hBoxLayout.addSpacing(16)
+        self.button_installer.clicked.connect(self.mongodb_installer)
+        self.button_portable.clicked.connect(self.mongodb_portable)
 
 
 class Environment(ScrollArea):
@@ -36,6 +55,13 @@ class Environment(ScrollArea):
         self.stackedWidget = QStackedWidget(self)
 
         # 添加项
+        self.EnvironmentInterface = SettingCardGroup(self.scrollWidget)
+        self.MongoDBCard = PrimaryPushSettingCard(
+            self.tr('打开'),
+            FluentIcon.FIT_PAGE,
+            'MongoDB',
+            self.tr('打开便携版MongoDB数据库')
+        )
         self.EnvironmentDownloadInterface = SettingCardGroup(self.scrollWidget)
         self.EnvironmentRepoCard = HyperlinkCard_Environment(
             self.tr('项目仓库'),
@@ -53,11 +79,9 @@ class Environment(ScrollArea):
             'Java',
             self.tr('下载Java安装包')
         )
-        self.MongoDBDownloadCard = PrimaryPushSettingCard(
-            self.tr('下载'),
-            FluentIcon.DOWNLOAD,
+        self.MongoDBDownloadCard = PrimaryPushSettingCard_MongoDB(
             'MongoDB',
-            self.tr('下载MongoDB安装包')
+            self.tr('下载MongoDB数据库')
         )
 
         self.__initWidget()
@@ -77,12 +101,14 @@ class Environment(ScrollArea):
 
     def __initLayout(self):
         # 项绑定到栏目
+        self.EnvironmentInterface.addSettingCard(self.MongoDBCard)
         self.EnvironmentDownloadInterface.addSettingCard(self.EnvironmentRepoCard)
         self.EnvironmentDownloadInterface.addSettingCard(self.GitDownloadCard)
         self.EnvironmentDownloadInterface.addSettingCard(self.JavaDownloadCard)
         self.EnvironmentDownloadInterface.addSettingCard(self.MongoDBDownloadCard)
 
         # 栏绑定界面
+        self.addSubInterface(self.EnvironmentInterface, 'EnvironmentInterface', self.tr('环境'), icon=FluentIcon.PLAY)
         self.addSubInterface(self.EnvironmentDownloadInterface, 'EnvironmentDownloadInterface', self.tr('下载'),
                              icon=FluentIcon.DOWNLOAD)
 
@@ -92,16 +118,18 @@ class Environment(ScrollArea):
         self.vBoxLayout.setSpacing(15)
         self.vBoxLayout.setContentsMargins(0, 10, 10, 0)
         self.stackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
-        self.stackedWidget.setCurrentWidget(self.EnvironmentDownloadInterface)
-        self.pivot.setCurrentItem(self.EnvironmentDownloadInterface.objectName())
-        qrouter.setDefaultRouteKey(self.stackedWidget, self.EnvironmentDownloadInterface.objectName())
+        self.stackedWidget.setCurrentWidget(self.EnvironmentInterface)
+        self.pivot.setCurrentItem(self.EnvironmentInterface.objectName())
+        qrouter.setDefaultRouteKey(self.stackedWidget, self.EnvironmentInterface.objectName())
 
     def __connectSignalToSlot(self):
+        self.MongoDBCard.clicked.connect(self.handleMongoDBOpen)
         SubDownloadCMDSelf = SubDownloadCMD(self)
         self.GitDownloadCard.clicked.connect(self.handleRestartInfo)
         self.GitDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('git'))
         self.JavaDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('java'))
-        self.MongoDBDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mongodb'))
+        self.MongoDBDownloadCard.mongodb_installer.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mongodb_installer'))
+        self.MongoDBDownloadCard.mongodb_portable.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('mongodb_portable'))
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
@@ -118,6 +146,26 @@ class Environment(ScrollArea):
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
 
+    def handleMongoDBOpen(self):
+        if os.path.exists('tool/mongodb/mongod.exe'):
+            subprocess.run('start cmd /c "cd tool/mongodb && mongod --dbpath data --port 27017"', shell=True)
+            Info(self, "S", 1000, self.tr("数据库已开始运行!"))
+        else:
+            file_error = InfoBar(
+                icon=InfoBarIcon.ERROR,
+                title=self.tr('找不到数据库!'),
+                content='',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+            file_error_button = PrimaryPushButton(self.tr('前往下载'))
+            file_error_button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+            file_error.addWidget(file_error_button)
+            file_error.show()
+    
     def handleRestartInfo(self):
         restart_info = InfoBar(
             icon=InfoBarIcon.WARNING,

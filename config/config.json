@@ -1,4 +1,5 @@
 {
+  "PASSWORD": "lethe loves firefly",
   "UID": "10001",
   "KEY": "lethe",
   "SERVER_URL": "127.0.0.1:443",
@@ -6,16 +7,18 @@
   "ROUTE_VERIFY": "/api/fireflylauncherlethe/verify",
   "ROUTE_REMOTE": "/api/fireflylauncherlethe/remote",
   "PROXY_PORT": "7890",
-  "SERVER_NAMES": [
-    "LunarCore",
-    "Grasscutter",
-    "Hutao-GS",
-    "NahidaImpact"
-  ],
-  "SERVER_COMMANDS": {
-    "LunarCore": "cd ./server/LunarCore/ && start java.exe -jar LunarCore.jar",
-    "Grasscutter": "cd ./server/Grasscutter/ && start java.exe -jar grasscutter.jar",
-    "Hutao-GS": "cd ./server/HuTao-GS/ && start START-DEV.bat",
-    "NahidaImpact": "start ./server/NahidaImpact/NahidaImpact.Proxy/bin/Release/net8.0/NahidaImpact.Proxy.exe && start ./server/NahidaImpact/NahidaImpact.SDK/bin/Release/net8.0/NahidaImpact.SDK.exe && cd ./server/NahidaImpact/NahidaImpact.GameServer/bin/Release/net8.0/ && start NahidaImpact.GameServer.exe"
+  "SERVER": {
+    "LunarCore": {
+      "ICON": "",
+      "COMMAND": "cd ./server/LunarCore/ && start java.exe -jar LunarCore.jar"
+    },
+    "Grasscutter": {
+      "ICON": "",
+      "COMMAND": "cd ./server/Grasscutter/ && start java.exe -jar grasscutter.jar"
+    },
+    "Hutao-GS": {
+      "ICON": "",
+      "COMMAND": "cd ./server/HuTao-GS/ && start START-DEV.bat"
+    }
   }
 }

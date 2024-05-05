@@ -6,8 +6,8 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBo
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, HyperlinkButton,
                             InfoBarPosition, SwitchSettingCard, LineEdit, PrimaryPushButton, FluentIcon, InfoBarIcon)
 from app.model.style_sheet import StyleSheet
-from app.lunarcore_command import Account, Kick, Unstuck, Custom, Giveall, Clear, WorldLevel, Avatar, Gender, Scene, \
-    Spawn, Give, Relic
+from app.lunarcore_command import (Account, Kick, Unstuck, Custom, Giveall, Clear, WorldLevel,
+                                   Avatar, Gender, Scene, Spawn, Give, Relic)
 from app.lunarcore_edit import Warp
 from app.model.setting_card import SettingCard, SettingCardGroup
 from app.model.download_process import SubDownloadCMD

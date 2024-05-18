@@ -753,6 +753,7 @@ class Relic(QWidget):
         self.setObjectName(text)
 
         self.__initWidget()
+        self.parent=parent
 
     def __initWidget(self):
         # 遗器
@@ -908,6 +909,7 @@ class Relic(QWidget):
 
     def __initInfo(self):
         self.now_list = {}
+        self.now_list_index = []
         self.handleRelicTypeChanged()
         self.handleEntryLoad()
         self.handleNowLoad()
@@ -1031,10 +1033,20 @@ class Relic(QWidget):
             selected_entry = self.entry_table.selectedItems()
             selected_entry_type = self.entry_table.item(self.entry_table.currentRow(), 1).text()
             entry_id = selected_entry[0].text()
+            entry_index = int(selected_entry[2].text())
             if selected_entry and selected_entry_type == self.tr('通用') and len(
                     self.now_list) < 4 and entry_id not in self.now_list:
+                self.now_list_index.append([entry_id, entry_index, 1])
                 self.now_list[entry_id] = 1
+                self.now_list_index = sorted(self.now_list_index, key=lambda x: x[1])
+                self.now_list = {sub_list[0]: int(sub_list[2]) for sub_list in self.now_list_index}
+                # print(self.now_list_index)
+                # print(self.now_list)
                 self.handleNowLoad()
+            elif len(self.now_list) == 4:
+                Info(self.parent, "W", 3000, self.tr("词条数已达上限！"))
+            elif entry_id in self.now_list:
+                Info(self.parent, "W", 3000, self.tr("该词条已添加！"))
             self.handleRelicSignal()
 
     def handleEntryNumChanged(self, types):
@@ -1043,15 +1055,33 @@ class Relic(QWidget):
             entry_name = selected_now[0].text()
             if types == 'add':
                 self.now_list[entry_name] += 1
+                found_sub_list = next((sub_list for sub_list in self.now_list_index if sub_list[0] == entry_name), None)
+                if found_sub_list:
+                    found_sub_list[2] += 1
             elif types == 'remove':
                 if self.now_list[entry_name] > 0:
                     self.now_list[entry_name] -= 1
+                    found_sub_list = next((sub_list for sub_list in self.now_list_index if sub_list[0] == entry_name),
+                                          None)
+                    if found_sub_list:
+                        found_sub_list[2] -= 1
             elif types == 'set':
                 if self.set_num_edit.text() != '' and int(self.set_num_edit.text()) > 0:
                     self.now_list[entry_name] = int(self.set_num_edit.text())
+                    found_sub_list = next((sub_list for sub_list in self.now_list_index if sub_list[0] == entry_name),
+                                          None)
+                    if found_sub_list:
+                        found_sub_list[2] = int(self.set_num_edit.text())
                 else:
                     self.now_list[entry_name] = 0
+                    found_sub_list = next((sub_list for sub_list in self.now_list_index if sub_list[0] == entry_name),
+                                          None)
+                    if found_sub_list:
+                        found_sub_list[2] = 0
             elif types == 'delete':
+                items_to_remove = [sub_list for sub_list in self.now_list_index if sub_list[0] == entry_name]
+                for sub_list in items_to_remove:
+                    self.now_list_index.remove(sub_list)
                 del self.now_list[entry_name]
 
             selected_row = self.now_table.currentRow()
@@ -1103,11 +1133,15 @@ class Relic(QWidget):
 
     def handleNowLoad(self):
         self.now_table.clearContents()
-        self.now_table.setRowCount(len(self.now_list))
-        for row, (key, value) in enumerate(self.now_list.items()):
+        self.now_table.setRowCount(len(self.now_list_index))
+        # for row, (key, value) in enumerate(self.now_list.items()):
+        #     self.now_table.setRowHeight(row, 30)
+        #     self.now_table.setItem(row, 0, QTableWidgetItem(key))
+        #     self.now_table.setItem(row, 1, QTableWidgetItem(str(value)))
+        for row, sub_list in enumerate(self.now_list_index):
             self.now_table.setRowHeight(row, 30)
-            self.now_table.setItem(row, 0, QTableWidgetItem(key))
-            self.now_table.setItem(row, 1, QTableWidgetItem(str(value)))
+            self.now_table.setItem(row, 0, QTableWidgetItem(sub_list[0]))
+            self.now_table.setItem(row, 1, QTableWidgetItem(str(sub_list[2])))
         self.now_table.setHorizontalHeaderLabels([self.tr('词条名称'), self.tr('数量')])
 
     # 遗器条件更新时，更新对应词条

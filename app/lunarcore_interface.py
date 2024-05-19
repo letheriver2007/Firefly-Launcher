@@ -155,7 +155,7 @@ class LunarCore(ScrollArea):
             self.tr('打开文件'),
             FluentIcon.LABEL,
             self.tr('卡池设置'),
-            self.tr('手动LC卡池数据配置')
+            self.tr('更改LunarCore卡池配置')
         )
         self.RemoteInterface = SettingCardGroup(self.scrollWidget)
         self.patchCard = PrimaryPushSettingCard(
@@ -307,7 +307,7 @@ class LunarCore(ScrollArea):
             file_error_button.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
             file_error.addWidget(file_error_button)
             file_error.show()
-    
+
     def handleLunarCoreBuild(self, patch=False):
         if not patch and not os.path.exists('server\\LunarCore'):
             Info(self, 'E', 3000, self.tr('找不到服务端LunarCore!'))
@@ -579,8 +579,7 @@ class LunarCoreCommand(ScrollArea):
         self.healCard.clicked.connect(lambda: self.command_update.emit('/heal'))
 
         self.avatarCard.avatar_set.connect(lambda index: self.handleAvatarClicked(index))
-        self.genderCard.gender_male.connect(lambda: self.command_update.emit('/gender male'))
-        self.genderCard.gender_female.connect(lambda: self.command_update.emit('/gender female'))
+        self.genderCard.gender_set.connect(lambda index: self.handleGenderClicked(index))
 
         self.SceneInterface.scene_id_signal.connect(lambda scene_id: self.command_update.emit('/scene ' + scene_id))
         self.SpawnInterface.monster_id_signal.connect(
@@ -726,6 +725,11 @@ class LunarCoreCommand(ScrollArea):
             self.command_update.emit(command)
         else:
             self.command_update.emit('')
+
+    def handleGenderClicked(self, index):
+        gender_types = ['female', 'male']
+        command = '/gender ' + gender_types[index]
+        self.command_update.emit(command)
 
     def handleSpawnClicked(self, monster_id, stage_id):
         monster_num_edit = self.SpawnInterface.monster_num_edit.text()

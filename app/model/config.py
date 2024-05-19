@@ -3,8 +3,8 @@ import json
 import subprocess
 from enum import Enum
 from PySide6.QtCore import Qt, QLocale
-from qfluentwidgets import (qconfig, QConfig, Theme, ConfigItem, BoolValidator, OptionsValidator,
-                            InfoBar, InfoBarPosition, OptionsConfigItem, ConfigSerializer)
+from qfluentwidgets import (qconfig, QConfig, Theme, ConfigItem, ComboBox, OptionsValidator,
+                            InfoBar, InfoBarPosition, OptionsConfigItem, ConfigSerializer, BoolValidator)
 
 
 def Info(self, types, time, title, content=''):
@@ -67,6 +67,16 @@ def get_version_type(version):
         return f'{version} REL'
     else:
         return f'{version} DEV'
+
+
+def comboBox(self, holderText, items, index=-1):
+    combobox = ComboBox(self)
+    combobox.setFixedSize(100, 40)
+    if holderText != "":
+        combobox.setPlaceholderText(holderText)
+    combobox.addItems(items)
+    combobox.setCurrentIndex(index)
+    return combobox
 
 
 class Language(Enum):

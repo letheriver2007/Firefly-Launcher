@@ -312,7 +312,7 @@ class Devkit(ScrollArea):
                 '.\\app\\model\\setting_card.py '
                 '.\\app\\model\\login_card.py '
                 '.\\app\\model\\download_process.py '
-                '-ts .\\devkit\\translate\\zh_CN.ts && '
+                '-ts .\\devkit\\translate\\en_US.ts && '
                 'pause"'
             )
             subprocess.run(command, shell=True)

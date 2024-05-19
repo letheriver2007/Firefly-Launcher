@@ -3,8 +3,8 @@ import json
 import subprocess
 from enum import Enum
 from PySide6.QtCore import Qt, QLocale
-from qfluentwidgets import (qconfig, QConfig, Theme, ConfigItem, BoolValidator, OptionsValidator,
-                            InfoBar, InfoBarPosition, OptionsConfigItem, ConfigSerializer)
+from qfluentwidgets import (qconfig, QConfig, Theme, ConfigItem, ComboBox, OptionsValidator,
+                            InfoBar, InfoBarPosition, OptionsConfigItem, ConfigSerializer, BoolValidator)
 
 
 def Info(self, types, time, title, content=''):

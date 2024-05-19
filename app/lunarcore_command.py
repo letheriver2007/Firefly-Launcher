@@ -298,19 +298,21 @@ class Avatar(SettingCard):
 
 
 class Gender(SettingCard):
-    gender_male = Signal()
-    gender_female = Signal()
+    gender_set = Signal(int)
 
     def __init__(self, title, icon=FluentIcon.TAG, content='/gender {male | female}'):
         super().__init__(icon, title, content)
-        self.button_male = PrimaryPushButton(self.tr('星'), self)
-        self.button_female = PrimaryPushButton(self.tr('穹'), self)
-        self.hBoxLayout.addWidget(self.button_male, 0, Qt.AlignRight)
-        self.hBoxLayout.addSpacing(10)
-        self.hBoxLayout.addWidget(self.button_female, 0, Qt.AlignRight)
+        self.texts = [self.tr("星(女)"), self.tr("穹(男)")]
+        self.gender_combobox = ComboBox(self)
+        self.gender_combobox.setPlaceholderText(self.tr("性别"))
+        self.gender_combobox.addItems(self.texts)
+        self.hBoxLayout.addWidget(self.gender_combobox, 1, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
-        self.button_male.clicked.connect(self.gender_male)
-        self.button_female.clicked.connect(self.gender_female)
+        self.gender_combobox.setCurrentIndex(-1)
+        self.gender_combobox.currentIndexChanged.connect(lambda index: self.onSignalEmit(index))
+
+    def onSignalEmit(self, index: int):
+        self.gender_set.emit(index)
 
 
 class Scene(QWidget):

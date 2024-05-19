@@ -69,16 +69,6 @@ def get_version_type(version):
         return f'{version} DEV'
 
 
-def comboBox(self, holderText, items, index=-1):
-    combobox = ComboBox(self)
-    combobox.setFixedSize(100, 40)
-    if holderText != "":
-        combobox.setPlaceholderText(holderText)
-    combobox.addItems(items)
-    combobox.setCurrentIndex(index)
-    return combobox
-
-
 class Language(Enum):
     CHINESE_SIMPLIFIED = QLocale(QLocale.Chinese, QLocale.China)
     CHINESE_TRADITIONAL = QLocale(QLocale.Chinese, QLocale.Taiwan)

@@ -2,12 +2,12 @@ import os
 import shutil
 from PySide6.QtWidgets import (QWidget, QTableWidgetItem, QHeaderView, QAbstractItemView,
                                QVBoxLayout, QHBoxLayout, QButtonGroup)
-from PySide6.QtGui import QIntValidator, QFontMetrics
+from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Signal, Qt
 from qfluentwidgets import (LineEdit, TogglePushButton, PrimaryPushButton, ComboBox, FluentIcon,
                             TableWidget, SearchLineEdit, SubtitleLabel, PrimaryToolButton)
 from app.model.setting_card import SettingCard
-from app.model.config import cfg, Info, comboBox
+from app.model.config import cfg, Info
 
 
 class Account(SettingCard):
@@ -198,10 +198,13 @@ class Giveall(SettingCard):
     def __init__(self, title, icon=FluentIcon.TAG,
                  content='/giveall {materials | avatars | lightcones | relics | icons}'):
         super().__init__(icon, title, content)
-        self.texts = [self.tr('材料'), self.tr('角色'), self.tr('光锥'), self.tr('遗器'), self.tr('头像')]
-        self.comboBox = comboBox(self, self.tr('物品类型'), self.texts)
+        self.texts = [self.tr('材料'), self.tr('角色'), self.tr('光锥'), self.tr('遗器'), self.tr('图标')]
+        self.comboBox = ComboBox(self)
+        self.comboBox.setPlaceholderText(self.tr('选择物品'))
+        self.comboBox.addItems(self.texts)
         self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
+        self.comboBox.setCurrentIndex(-1)
         self.comboBox.currentIndexChanged.connect(self.onSignalEmit)
 
     def onSignalEmit(self, index: int):
@@ -214,7 +217,9 @@ class Clear(SettingCard):
     def __init__(self, title, icon=FluentIcon.TAG, content='/clear {relics | lightcones | materials | all}'):
         super().__init__(icon, title, content)
         self.texts = [self.tr('遗器'), self.tr('光锥'), self.tr('材料'), self.tr('全部')]
-        self.comboBox = comboBox(self, self.tr('物品类型'), self.texts)
+        self.comboBox = ComboBox(self)
+        self.comboBox.setPlaceholderText(self.tr('选择物品'))
+        self.comboBox.addItems(self.texts)
         self.hBoxLayout.addWidget(self.comboBox, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
         self.comboBox.setCurrentIndex(-1)
@@ -229,8 +234,12 @@ class WorldLevel(SettingCard):
 
     def __init__(self, title, icon=FluentIcon.TAG, content='/level [trailblaze level] || /worldlevel [world level]'):
         super().__init__(icon, title, content)
-        self.texts = [self.tr('开拓等级'), self.tr('均衡等级')]
-        self.world_types = comboBox(self, self.tr('类型'), self.texts)
+        self.texts = [self.tr('开拓'), self.tr('均衡')]
+        self.world_types = ComboBox(self)
+        self.world_types.setPlaceholderText(self.tr('类型'))
+        self.world_types.addItems(self.texts)
+        self.world_types.setCurrentIndex(-1)
+
         self.world_level = LineEdit(self)
         self.world_level.setPlaceholderText(self.tr("世界等级"))
         validator = QIntValidator(1, 99, self)
@@ -265,8 +274,11 @@ class Avatar(SettingCard):
         self.avatar_eidolon.setValidator(validator)
         self.avatar_skill.setValidator(validator)
 
-        self.texts = [self.tr('当前角色'), self.tr('队伍角色'), self.tr('全部角色')]
-        self.avatar_types = comboBox(self, self.tr('应用范围'), self.texts)
+        self.texts = [self.tr('当前'), self.tr('队伍'), self.tr('全部')]
+        self.avatar_types = ComboBox(self)
+        self.avatar_types.setPlaceholderText(self.tr('应用范围'))
+        self.avatar_types.addItems(self.texts)
+        self.avatar_types.setCurrentIndex(-1)
 
         self.hBoxLayout.addWidget(self.avatar_level, 0, Qt.AlignRight)
         self.hBoxLayout.addSpacing(10)
@@ -291,7 +303,9 @@ class Gender(SettingCard):
     def __init__(self, title, icon=FluentIcon.TAG, content='/gender {male | female}'):
         super().__init__(icon, title, content)
         self.texts = [self.tr("星(女)"), self.tr("穹(男)")]
-        self.gender_combobox = comboBox(self, self.tr("性别"), self.texts)
+        self.gender_combobox = ComboBox(self)
+        self.gender_combobox.setPlaceholderText(self.tr("性别"))
+        self.gender_combobox.addItems(self.texts)
         self.hBoxLayout.addWidget(self.gender_combobox, 1, Qt.AlignRight)
         self.hBoxLayout.addSpacing(16)
         self.gender_combobox.currentIndexChanged.connect(lambda index: self.onSignalEmit(index))
@@ -554,9 +568,11 @@ class Give(QWidget):
     def __initWidget(self):
         self.give_search_line = SearchLineEdit(self)
         self.give_search_line.setPlaceholderText(self.tr("搜索物品"))
-        self.texts = [self.tr("角色"), self.tr("光锥"), self.tr("物品"), self.tr("食物"), self.tr("头像")]
         self.give_search_line.setFixedSize(804, 35)
-        self.give_combobox = comboBox(self, self.tr("物品类型"), self.texts, -1)
+        self.give_combobox = ComboBox(self)
+        self.give_combobox.setFixedSize(100, 35)
+        self.give_combobox.addItems(
+            [self.tr("角色"), self.tr("光锥"), self.tr("物品"), self.tr("食物"), self.tr("头像")])
 
         self.give_table = TableWidget(self)
         self.give_table.setFixedSize(915, 420)
@@ -738,7 +754,7 @@ class Relic(QWidget):
         self.setObjectName(text)
 
         self.__initWidget()
-        self.parent = parent
+        self.parent=parent
 
     def __initWidget(self):
         # 遗器
@@ -837,7 +853,7 @@ class Relic(QWidget):
         self.__connectSignalToSlot()
 
     def __initLayout(self):
-        # 遗器
+        # 遗物
         self.relic_button_layout = QHBoxLayout()
         self.relic_button_layout.addWidget(self.relic_search_line)
         self.relic_button_layout.addWidget(self.base_relic_button)
@@ -1029,9 +1045,9 @@ class Relic(QWidget):
                 # print(self.now_list)
                 self.handleNowLoad()
             elif len(self.now_list) == 4:
-                Info(self.parent, "W", 3000, self.tr("词条数已达上限!"))
+                Info(self.parent, "W", 3000, self.tr("词条数已达上限！"))
             elif entry_id in self.now_list:
-                Info(self.parent, "W", 3000, self.tr("该词条已添加!"))
+                Info(self.parent, "W", 3000, self.tr("该词条已添加！"))
             self.handleRelicSignal()
 
     def handleEntryNumChanged(self, types):

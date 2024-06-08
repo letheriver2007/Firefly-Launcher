@@ -152,7 +152,6 @@ class Warp(QWidget):
         self.handleAvatarLoad()
         self.handleNowLoad()
         self.handleFourLoad()
-        self.handleEditDisabled()
 
     def __connectSignalToSlot(self):
         self.banner_search_line.textChanged.connect(self.handleBannerSearch)
@@ -169,9 +168,17 @@ class Warp(QWidget):
         self.save_button.clicked.connect(self.handleSaveClicked)
         self.cancel_button.clicked.connect(self.handleCancelClicked)
 
+    # 从父对象信号处运行
     def handleEditDisabled(self):
+        if self.parent.parent.stackedWidget.currentIndex() != 4:
+            return
+
+        for child in self.parent.children():
+            if isinstance(child, InfoBar):
+                child.close()
+
+        layouts = [self.banner_layout, self.avatar_layout, self.now_layout, self.tool_layout]
         if not os.path.exists(f'.\\server\\LunarCore\\data\\Banners.json'):
-            layouts = [self.banner_layout, self.avatar_layout, self.now_layout, self.tool_layout]
             for layout in layouts:
                 for i in range(layout.count()):
                     widget = layout.itemAt(i).widget()
@@ -183,15 +190,21 @@ class Warp(QWidget):
                 title=self.tr('找不到文件!'),
                 content='',
                 orient=Qt.Horizontal,
-                isClosable=True,
+                isClosable=False,
                 position=InfoBarPosition.TOP,
-                duration=3000,
+                duration=-1,
                 parent=self.parent
             )
             file_error_button = PrimaryPushButton(self.tr('前往下载'))
-            file_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(0))
+            file_error_button.clicked.connect(lambda: self.parent.parent.stackedWidget.setCurrentIndex(0))
             file_error.addWidget(file_error_button)
             file_error.show()
+        else:
+            for layout in layouts:
+                for i in range(layout.count()):
+                    widget = layout.itemAt(i).widget()
+                    if widget is not None:
+                        widget.setDisabled(False)
 
     def handleBannerSearch(self):
         keyword = self.banner_search_line.text()

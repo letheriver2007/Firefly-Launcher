@@ -67,6 +67,7 @@
 403008 : Automatic Wooden Dummy
 403009 : The Moment Before Death
 403010 : Bustling Ambience
+403011 : Scare Box
 404004 : Recipe: Comfort Food
 404005 : Recipe: Punitive Food
 404006 : Recipe: Trick Snack
@@ -136,6 +137,7 @@
 407008 : Recipe: Automatic Wooden Dummy
 407009 : Recipe: The Moment Before Death
 407010 : Recipe: Bustling Ambience
+407011 : Recipe: Scare Box
 408001 : Trash
 408002 : Pleasant-Looking Trash
 408003 : Sanctity of the Trashcan
@@ -167,6 +169,10 @@
 408416 : Thundering Appetites
 408417 : Bright Future
 408418 : Dream Syrup
+408419 : Halovian Winged Burger
+408420 : Delusion Blocks
+408421 : "Hollow Bird" Toy
+408422 : Authentic Sousa Juice
 408601 : Belobog Sausage
 408602 : Stone-Grilled Olm
 408603 : Immortal's Delight
@@ -190,5 +196,9 @@
 408621 : Sweet Dreams Holographic Ticket
 408622 : Odd Gummy Candy
 408623 : Origami Family Bucket
+408624 : Polychromatic Sourness
+408625 : Unsolvable Cube
+408626 : Broken String's Roar
+408627 : Soundless Satisfaction
 408801 : Dreamy Cone (Three Flavors)
 408802 : All or Nothing

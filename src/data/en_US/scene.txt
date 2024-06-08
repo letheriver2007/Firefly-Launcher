@@ -5,6 +5,7 @@
 10201 : [Town] Central Starskiff Haven
 10202 : [Town] Exalting Sanctum
 10301 : [Town] Golden Hour
+10304 : [Town] Dreamflux Reef
 10305 : [Town] The Reverie (Reality)
 20001 : [Maze] Base Zone
 20002 : [Maze] Storage Zone
@@ -38,6 +39,8 @@
 20321 : [Maze] Clock Studios Theme Park
 20322 : [Maze] Dewlight Pavilion
 20323 : [Maze] Horizon of Existence
+20331 : [Maze] SoulGlad™ Scorchsand Audition Venue
+20332 : [Maze] Penacony Grand Theater
 30101 : [Challenge] null
 30102 : [Challenge] null
 30103 : [Challenge] null
@@ -46,6 +49,7 @@
 30120 : [Raid] null
 30121 : [Challenge] null
 30122 : [Challenge] null
+30123 : [Challenge] null
 30201 : [Raid] Cavern of Corrosion
 30301 : [Raid] null
 30401 : [Raid] null
@@ -112,15 +116,19 @@
 43305 : [Raid] null
 43306 : [Raid] null
 43307 : [Raid] null
+43308 : [Raid] null
 43310 : [Raid] null
 43312 : [Raid] null
 43313 : [Raid] null
+43321 : [Raid] null
+43322 : [Raid] null
 44001 : [Raid] null
 44201 : [Raid] null
 44202 : [Raid] null
 44301 : [Raid] null
 44302 : [Raid] null
 44303 : [Raid] null
+44305 : [Raid] null
 80000 : [Rogue] ???
 80001 : [Rogue] Simulated Universe
 80112 : [Town] Herta's Office

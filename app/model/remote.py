@@ -4,7 +4,7 @@ from app.model.config import get_json
 
 
 def handleApply(uid):
-    base_url = 'https://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
+    base_url = 'http://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
                                                                                       'ROUTE_APPLY')
     params = {
         'uid': uid
@@ -35,12 +35,12 @@ def handleApply(uid):
 
 
 def handleVerify(uid, code, key):
-    base_url = 'https://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
+    base_url = 'http://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
                                                                                       'ROUTE_VERIFY')
     params = {
         'uid': uid,
         'code': code,
-        'password': key
+        'key': key
     }
     url = base_url + '?' + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, method='GET')
@@ -68,12 +68,12 @@ def handleVerify(uid, code, key):
 
 
 def handleCommandSend(uid, key, command):
-    base_url = 'https://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
+    base_url = 'http://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
                                                                                       'ROUTE_REMOTE')
     params = {
         'uid': uid,
         'key': key,
-        'command': command
+        'cmd': command
     }
     url = base_url + '?' + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, method='GET')

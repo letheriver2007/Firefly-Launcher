@@ -87,11 +87,15 @@
 11306 : Sparkle's Eidolon
 11307 : Black Swan's Eidolon
 11308 : Acheron's Eidolon
+11309 : Robin's Eidolon
 11312 : Misha's Eidolon
+11315 : Boothill's Eidolon
 18001 : Shadow of Destruction
 18002 : Shadow of Destruction
 18003 : Shadow of Preservation
 18004 : Shadow of Preservation
+18005 : Shadow of Harmony
+18006 : Shadow of Harmony
 100000 : Star of Honor
 100001 : Pixel Warhead
 110101 : Tears of Dreams
@@ -119,6 +123,9 @@
 110181 : Borisin Teeth
 110182 : Lupitoxin Sawteeth
 110183 : Moon Madness Fang
+110191 : Meteoric Bullet
+110192 : Destined Expiration
+110193 : Countertemporal Shot
 110211 : Scattered Stardust
 110212 : Crystal Meteorites
 110213 : Divine Amber
@@ -146,6 +153,7 @@
 110415 : Ascendant Debris
 110416 : Nail of the Ape
 110417 : Suppressing Edict
+110421 : IPC Work Permit
 110422 : Raging Heart
 110423 : Dream Fridge
 110426 : Dream Flamer
@@ -153,6 +161,7 @@
 110502 : Guardian's Lament
 110503 : Regret of Infinite Ochema
 110504 : Past Evils of the Borehole Planet Disaster
+110505 : Lost Echo of the Shared Wish
 111001 : Extinguished Core
 111002 : Glimmering Core
 111003 : Squirming Core
@@ -183,6 +192,7 @@
 120003 : Clock Credits
 121000 : Lil' Twisty Bubble Gum
 121001 : Exorcismal Fulu
+121002 : Clockwork Inspiration Notebook
 122000 : Aideen Tokens
 140000 : Praise of High Morals
 140004 : Ancient Coin
@@ -329,7 +339,7 @@
 140207 : Frostweave Salmon Bread
 140208 : Stone-Roasted Meat Skewer
 140209 : Snow Plains Combo Stew
-140210 : Flash drive with a picture of Pela and her mother
+140210 : Floppy disk with a picture of Pela and her mother
 140211 : Meteor Fragment
 140212 : Microfilm
 140213 : Dismantled Art Pieces
@@ -583,6 +593,19 @@
 140474 : Starlet's Jigsaw Fragment
 140475 : Lady's Jigsaw Fragment
 140476 : Tin Man's Jigsaw Fragment
+140477 : "The Dreamweaver Archives"
+140478 : Photo From the Archives
+140479 : Dreamweavers' Group Photo
+140483 : <i>Mr. Soda's Extras</i> Film Reel
+140484 : <i>Brother Hanu's Extras</i> Film Reel
+140485 : <i>Boss Stone's Extras</i> Film Reel
+140486 : <i>Origami Bird's Extras</i> Film Reel
+140487 : <i>Old Man Wood's Extras</i> Film Reel
+140488 : <i>Hamster Ball Knight's Extras</i> Film Reel
+140492 : Lost Property
+140493 : Big Ticker's Broken Heart (I)
+140494 : Big Ticker's Broken Heart (II)
+140495 : Big Ticker's Broken Heart (III)
 149957 : Photo With March 7th
 149958 : Photo With March 7th
 149959 : Thermic Core
@@ -645,7 +668,17 @@
 150033 : Special Drink "Time to Murder and Create"
 150034 : Cork Coaster
 150035 : Nightingale Statue Clue
+150036 : Big Ticker's Broken Heart (I)
+150037 : Big Ticker's Broken Heart (II)
+150038 : Big Ticker's Broken Heart (III)
 150039 : Dreamjolt Hostelry Group Photo
+150040 : Dreamy Cone (Three Flavors)
+150041 : Floatdisc Burger
+150042 : Clockie Pizza (Whole)
+150043 : Potato Fries Sundae
+150044 : Oak Cake Rolls
+150045 : Pika White Grape Soda
+150046 : Classic SoulGlad
 180001 : Solid Water
 180002 : Basic Ingredients
 180004 : Phlogiston
@@ -846,7 +879,7 @@
 190255 : Review on the Ninefold Peace set menu from the Garden of Gourmet
 190256 : Starskiff Safety Inspection Guide
 190257 : Management Strategy for Reporting Starskiff Traffic
-190258 : The startaro bubble tea tastes horrible.
+190258 : The Startaro Bubble Tea Tastes Horrible
 190259 : Back to the Future
 190260 : A Drizzle Douses Dust
 190261 : On Travel: Arriving at the Xianzhou
@@ -919,7 +952,7 @@
 190332 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Prologue
 190333 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Storytelling
 190334 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Xianzhou Chordophone
-190335 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Foxian Drum Chanting
+190335 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Foxian Drum Chant
 190336 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Vidyadhara Elegies
 190337 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Crosstalk
 190338 : Echoes of Antiquity: A Grand Overview of Traditional Xianzhou Folk Culture — Acrobatics
@@ -965,7 +998,7 @@
 190379 : <i>Butterfly Shadow</i>'s Special Issue: The Ten Best Butterfly Immersias of the Millennium — No. 6: <i>Life on a Plate</i>
 190380 : <i>Butterfly Shadow</i>'s Special Issue: The Ten Best Butterfly Immersias of the Millennium — No. 5: <i>Deep Water</i>
 190381 : <i>Butterfly Shadow</i>'s Special Issue: The Ten Best Butterfly Immersias of the Millennium — No. 4: <i>Starskiff Pilot</i>
-190382 : <i>Butterfly Shadow</i>'s Special Issue: The Ten Best Butterfly Immersias of the Millennium — No. 3: <i>Last Night on the Luofu</i>
+190382 : <i>Butterfly Shadow</i>'s Special Issue: The Ten Best Butterfly Immersias of the Millennium — No. 3: <i>Last Evenings on Luofu</i>
 190383 : <i>Butterfly Shadow</i>'s Special Issue: The Ten Best Butterfly Immersias of the Millennium — No. 2: <i>Reignbow Arbiter</i>
 190384 : <i>Butterfly Shadow</i>'s Special Issue: The Ten Best Butterfly Immersias of the Millennium — No. 1: <i>The Bridge to Grandma's Home</i>
 190385 : The Title Page of a Detective Novel Torn Off by Luocha
@@ -1099,7 +1132,7 @@
 190516 : Nighttales of Fyxestroll Garden: Scene One (Part 3)
 190517 : Message From a Stone Block
 190518 : Summary of the Luofu's Ambrosial Arbor Crisis
-190519 : Foxian Drum Chanting <i>Lament of the Six Follies</i>
+190519 : Foxian Drum Chant <i>Lament of the Six Follies</i>
 190520 : Otherworldly Delights: Prologue
 190521 : Borisin Folk Song Collection (Volume 1)
 190522 : Exalting Sanctum Chancery Report to the General Affairs Office
@@ -1154,9 +1187,12 @@
 190571 : <i>Dreamscape Tourist Compendium — Shopping</i>
 190572 : <i>Dreamscape Tourist Compendium — Entertainment</i>
 190573 : Planet of Festivities Collectible Card — Planet of Festivities: Robin
+190574 : Planet of Festivities Collectible Card — Planet of Festivities: Hanunue
+190575 : Planet of Festivities Collectible Card - Planet of Festivities: Glaux
 190576 : Planet of Festivities Collectible Card — Planet of Festivities: Oti Alfalfa
 190577 : Planet of Festivities Collectible Card — The Planet of Festivities: Hamz
 190578 : Planet of Festivities Collectible Card — Planet of Festivities: Mr. Aideen
+190579 : Planet of Festivities Collectible Card - Planet of Festivities: Nameless Hero
 190580 : Planet of Festivities Collectible Card — Planet of Festivities: Lesley Dean
 190581 : Cocona's Note
 190582 : Attendant Hamilton's Notes (I)
@@ -1177,6 +1213,9 @@
 190597 : Watchmaker Investigation Record
 190598 : <i>A Hymn of Charmonic Strings</i>
 190599 : <i>Odes of Harmony</i>, First Movement
+190600 : Stowaway Investigative Report Part 1
+190601 : Stowaway Investigative Report Part 2
+190602 : Penacony Flight Guide
 190603 : Comments on <i>Scorchsand Adventure</i>
 190604 : A Letter of Complaint
 190605 : My Romantic Encounters
@@ -1196,6 +1235,35 @@
 190620 : <i>Hanu's Adventure</i> Part 2, Chapter 2
 190621 : <i>Hanu's Adventure</i> Part 2, Chapter 3
 190622 : <i>Hanu's Adventure</i> Part 2, Chapter 4
+190624 : Planet of Festivities Collectible Card - Planet of Festivities: Origami Dreamweaver
+190625 : Lost Property
+190626 : Someone's Treasure
+190627 : Dreamflux Reef Travel Guide <unbreak>19.0</unbreak>
+190628 : <i>Clockie and Captain Revolver</i> Part 1
+190629 : <i>Clockie and Captain Revolver</i> Part 2
+190630 : <i>Clockie and Captain Revolver</i> Part 3
+190631 : <i>Hanu's Adventure</i> Part 3, Chapter 1
+190632 : <i>Hanu's Adventure</i> Part 3, Chapter 2
+190634 : <i>Mr. Soda's Extras</i>
+190635 : <i>Boss Stone's Extras</i>
+190636 : <i>Brother Hanu's Extras</i>
+190637 : <i>Origami Bird's Extras</i>
+190638 : <i>Old Man Wood's Extras</i>
+190639 : <i>Hamster Ball Knight's Extras</i>
+190640 : <i>The Dreamweaver Archives</i>
+190641 : Claudia's Gathered Clues (II)
+190642 : Death of the Crow
+190643 : The Story of SoulGlad: Dreams in a Bottle
+190644 : <i>Night of Burning Dreams</i> Script
+190645 : Collection of Audition Violation Cases
+190646 : A Hundred Truths about the Pepeshi
+190647 : <i>Evening Tavern Stories: SoulGlad Special Issue</i>
+190648 : The Unchosen Path (Part 1)
+190649 : The Unchosen Path (Part 2)
+190650 : The Unchosen Path (Part 3)
+190651 : The Unchosen Path (Part 4)
+190652 : The Unchosen Path (Part 5)
+190653 : The Unchosen Path (Part 6)
 190901 : <i>The Adventurous Moles: Hidden Treasure</i> — Table of Contents
 190902 : <i>The Adventurous Moles: Hidden Treasure</i> — Preface
 190903 : <i>The Adventurous Moles: Hidden Treasure</i> — "The Unexpected Parchment"
@@ -1305,19 +1373,49 @@
 210313 : "If I Can Stop One Heart From Breaking"
 210314 : "Chaîne Signifiante"
 210315 : "Stade du Miroir"
-210316 : City Upon a Hill
-210317 : Spellbound
-210318 : Hi, Dolly!
-210319 : The Midnight Special
-210320 : If One Wakes at Midnight
-210321 : Stranger Than Paradise
-210322 : On The Disintegration of Evermemoria
-210323 : Citizen Hanunue
+210316 : "City Upon a Hill"
+210317 : "Spellbound"
+210318 : "Hi, Dolly!"
+210319 : "The Midnight Special"
+210320 : "If One Wakes at Midnight"
+210321 : "Stranger Than Paradise"
+210322 : "On The Disintegration of Evermemoria"
+210323 : "Citizen Hanunue"
+210324 : "Into the Yawning Chasm"
+210325 : "Dream First!"
+210326 : "Speedy Hamz"
+210327 : "Omertà"
+210328 : "Polaris"
+210329 : "Oed' und leer das Meer"
+210330 : "Fast & Furynuts"
+210331 : "Way of the Wolf"
+210332 : "Infirma Nostri Corporis"
+210333 : "Symphony No. 8 'A Thousand Suns'"
+210334 : <i>Hope Is the Thing With Feathers</i>
+210335 : "Some Like It Hot"
+210336 : "No Business Like Show Business"
+210337 : "The Strength of Sin Is the Law"
+210338 : "The Sting of Death Is Sin"
+210339 : "The City in the Sea"
+210340 : "A Star Is Born"
+210341 : "An Actor Prepares"
+210342 : "Little Little Caesar"
+210343 : "Nobility of Time"
+210344 : "Walk of Fame"
+210345 : "Lux Aeterna"
+210346 : "Hosanna in Excelsis"
+210347 : "Confutatis"
+210348 : "Agnus Aeon"
+210349 : "Requiem Aeternam"
+210350 : "Sway to My Beat in Cosmos"
+210351 : "Hope Is the Thing With Feathers (Overture)"
+210352 : "Morns Like These"
 220000 : The Art of Language
 220001 : Where's the Rabbit?
 220002 : {TEXTJOIN#54}
 220003 : Celestial Incubator
 220004 : Monster Tavern
+220005 : Cinematic Dreamchase
 221000 : Nameless Journey
 221001 : Ingenium Dreams
 221002 : Conductor's Treat
@@ -1336,6 +1434,8 @@
 223008 : Sunday
 223009 : Gallagher
 223010 : Dr. Ratio
+223011 : Boothill
+223012 : Argenti
 223020 : About Money
 223021 : About Happiness
 223022 : About Love
@@ -1351,6 +1451,7 @@
 223057 : Host
 223058 : The Reverie VIP Lounge
 223059 : Daughter
+223060 : Jazz
 223080 : Who is this?
 223081 : Distance
 223082 : Great People
@@ -1451,6 +1552,7 @@
 223409 : Faulty Screen
 223410 : Mirrored Who
 223411 : null
+223412 : Insatiable Vanity
 223430 : Lost (I)
 223431 : Lost (II)
 223432 : Lost (III)
@@ -1497,16 +1599,58 @@
 223704 : Iris
 223705 : Mr. Aideen
 223706 : Oti Alfalfa
+223707 : Glaux
 223708 : Hamz
+223709 : Hanunue
 223710 : Lesley Dean
+223711 : Nameless Hero
 223712 : Robin
 223713 : Maeven Ellis
 223714 : Gopher Wood
+223715 : Famous Five Origamists
 223731 : Oak Family Teachings
 223732 : Alfalfa Family Teachings
 223733 : Nightingale Family Teachings
 223734 : Bloodhound Family Teachings
 223735 : Iris Family Teachings
+223800 : Graffiti 1
+223801 : Graffiti 2
+223802 : Graffiti 3
+223803 : Streetside Repose
+223804 : Watchmaker's Hat
+223805 : Mikhail's Slumber
+223806 : The Existence of God
+223807 : Old Friend
+223808 : Slumbertown
+223809 : The Essense of Dreams
+223811 : Lost Diary: Soldier
+223812 : Lost Diary: Dancer
+223813 : Lost Diary: Vagrant
+223814 : Lost Diary: Affluent Man
+223901 : On Set
+223902 : Brand Ambassador
+223903 : Action!
+223904 : Sponsor
+223905 : Base Camp
+223906 : Lonely Giant
+223907 : Festival's Starting Point
+223908 : The Birth of a Superstar
+223911 : Foxian Contestant's Note
+223912 : Masked Fool Contestant's Note
+223913 : Knight of Beauty Contestant's Note
+224001 : All-Seeing Eye
+224002 : Intermission
+224003 : Where Starlight Congregate
+224004 : Program List
+224005 : Dancer 1
+224006 : Dancer 2
+224007 : Dancer 3
+224008 : Tomorrow in Harmonious Chords
+224009 : Present Inebriated in Revelry
+224010 : Past Confined and Caged
+224011 : Dress Rehearsal (I)
+224012 : Dress Rehearsal (II)
+224013 : Dress Rehearsal (III)
 250001 : Meteor Fragment
 250005 : Oil Painting with a Distant View of Belobog
 250006 : Cannon
@@ -1731,6 +1875,9 @@
 281015 : Trailblaze Funds
 281016 : Remote Dice
 281017 : Reroll Coin
+281019 : Raccoon Tokens
+281020 : Directorial Experience
+281021 : <i>Dreamjoy Memoir</i> Film Reel
 300002 : Gift of the Pathstriders
 300003 : Grand Gift of the Pathstriders
 300011 : Treasure of the Starry Seas

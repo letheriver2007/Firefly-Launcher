@@ -89,7 +89,7 @@ def handleResDivide():
     config_3 = {'CHS': '躯干', 'EN': 'Body', 'CHT': '躯干'}
     config_4 = {'CHS': '脚部', 'EN': 'Foot', 'CHT': '腳部'}
     config_5 = {'CHS': '位面球', 'EN': 'Sphere', 'CHT': '位面球'}
-    config_6 = {'CHS': '连结绳', 'EN': 'Rope', 'CHT': '連結繩'}
+    config_6 = {'CHS': '连接绳', 'EN': 'Rope', 'CHT': '連接繩'}
     configs = [config_1, config_2, config_3, config_4, config_5, config_6]
     new_relic_lines = []
 
@@ -213,6 +213,9 @@ def handleMyRelicTranslate():
 
                 if parts[1] in config_part:
                     parts[1] = config_part[parts[1]]
+
+                if parts[2] == '同谐主':
+                    parts[2] = 'Harmony'
 
                 if '(' in parts[2]:
                     avatar, describe = parts[2].split('(', 1)

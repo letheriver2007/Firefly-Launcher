@@ -691,7 +691,7 @@ class LunarCoreCommand(ScrollArea):
             Info(self.parent, 'E', 3000, self.tr('请输入正确的UID!'))
 
     def handleGiveallClicked(self, itemid):
-        types = ['materials', 'avatars', 'materials', 'relics', 'icons']
+        types = ['materials', 'avatars', 'lightcones', 'relics', 'icons']
         self.command_update.emit('/giveall ' + types[itemid])
 
     def handleClearClicked(self, itemid):
@@ -844,7 +844,7 @@ class LunarCoreEdit(ScrollArea):
         qrouter.setDefaultRouteKey(self.stackedWidget, self.WarpInterface.objectName())
 
     def __connectSignalToSlot(self):
-        pass
+        self.parent.stackedWidget.currentChanged.connect(self.WarpInterface.handleEditDisabled)
 
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)

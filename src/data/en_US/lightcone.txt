@@ -63,8 +63,10 @@
 21041 : It's Showtime
 21042 : Indelible Promise
 21043 : Concert for Two
+21044 : Boundless Choreo
 22000 : Before the Tutorial Mission Starts
 22001 : Hey, Over Here
+22002 : For Tomorrow's Journey
 23000 : Night on the Milky Way
 23001 : In the Night
 23002 : Something Irreplaceable
@@ -90,6 +92,8 @@
 23022 : Reforged Remembrance
 23023 : Inherently Unjust Destiny
 23024 : Along the Passing Shore
+23026 : Flowing Nightglow
+23027 : Sailing Towards a Second Life
 24000 : On the Fall of an Aeon
 24001 : Cruising in the Stellar Sea
 24002 : Texture of Memories

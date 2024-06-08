@@ -78,175 +78,185 @@
 188 : [Level 40] Silvermane Lieutenant
 189 : [Level 40] Automaton Grizzly
 190 : [Level 40] Voidranger: Trampler
-1001 : [Level 20] Silvermane Soldier
-1002 : [Level 20] Silvermane Gunner
-1003 : [Level 20] Automaton Hound
-1004 : [Level 20] Automaton Spider
-1005 : [Level 20] Silvermane Lieutenant
-1006 : [Level 20] Automaton Grizzly
-1007 : [Level 20] Automaton Direwolf
-1008 : [Level 20] Gepard
-1009 : [Level 20] Svarog
-1010 : [Level 20] Auxiliary Robot Arm Unit
-1011 : [Level 20] Bronya
-1012 : [Level 20] Cocolia
-1013 : [Level 20] Ice Edge
-1014 : [Level 20] Ice Edge
-1015 : [Level 20] Frostspawn
-1016 : [Level 20] Flamespawn
-1017 : [Level 20] Ice Out of Space
-1018 : [Level 20] Blaze Out of Space
-1019 : [Level 20] Everwinter Shadewalker
-1020 : [Level 20] Incineration Shadewalker
-1021 : [Level 20] Searing Prowler
-1022 : [Level 20] Automaton Beetle
-1023 : [Level 20] Vagrant
-1024 : [Level 20] Frigid Prowler
-1025 : [Level 20] Baryon
-1026 : [Level 20] Antibaryon
-1027 : [Level 20] Voidranger: Reaver
-1028 : [Level 20] Voidranger: Distorter
-1029 : [Level 20] Voidranger: Trampler
-1030 : [Level 20] Cocolia, Mother of Deception
-1031 : [Level 20] Lance of the Eternal Freeze
-1032 : [Level 20] Lance of the Eternal Freeze
-1033 : [Level 20] Doomsday Beast
-1034 : [Level 20] Antimatter Engine
-1035 : [Level 20] Disaster's Right Hand
-1036 : [Level 20] Dawn's Left Hand
-1037 : [Level 20] Voidranger: Eliminator
-1038 : [Level 20] Imaginary Weaver
-1039 : [Level 20] Silvermane Cannoneer
-1040 : [Level 20] Guardian Shadow
-1041 : [Level 20] Warp Trotter
-1042 : [Level 20] Mask of No Thought
-1043 : [Level 20] Stormbringer
-1044 : [Level 20] Cocolia (Complete)
-1045 : [Level 20] Svarog (Complete)
-1046 : [Level 20] Decaying Shadow
-1047 : [Level 20] Windspawn
-1048 : [Level 20] Thunderspawn
-1049 : [Level 20] Stellaron Hunter: Kafka
-1050 : [Level 20] Mara-Struck Soldier
-1051 : [Level 20] Cloud Knights Patroller
-1052 : [Level 20] Disciples of Sanctus Medicus: Shape Shifter
-1053 : [Level 20] Aurumaton Gatekeeper
-1054 : [Level 20] Sequence Trotter
-1055 : [Level 20] Trotter of Destruction
-1056 : [Level 20] Trotter of Preservation
-1057 : [Level 20] Trotter of Abundance
-1058 : [Level 20] Gepard (Complete)
-1059 : [Level 20] Stellaron Hunter: Kafka (Complete)
-1060 : [Level 20] Entranced Ingenium: Illumination Dragonfish
-1061 : [Level 20] Entranced Ingenium: Obedient Dracolion
-1062 : [Level 20] Entranced Ingenium: Golden Cloud Toad
-1063 : [Level 20] Automaton Grizzly (Complete)
-1064 : [Level 20] Sequence Trotter
-1065 : [Level 20] Trotter of Destruction
-1066 : [Level 20] Trotter of Abundance
-1067 : [Level 20] Trotter of Preservation
-1068 : [Level 20] Silvermane Lieutenant (Bug)
-1069 : [Level 20] Automaton Grizzly (Bug)
-1070 : [Level 20] Automaton Direwolf (Bug)
-1071 : [Level 20] Searing Prowler (Bug)
-1072 : [Level 20] Frigid Prowler (Bug)
-1073 : [Level 20] Ice Out of Space (Bug)
-1074 : [Level 20] Blaze Out of Space (Bug)
-1075 : [Level 20] Guardian Shadow (Bug)
-1076 : [Level 20] Decaying Shadow (Bug)
-1077 : [Level 20] Voidranger: Trampler (Bug)
-1078 : [Level 20] Stormbringer (Bug)
-1079 : [Level 20] Disciples of Sanctus Medicus: Internal Alchemist
-1080 : [Level 20] Abundant Ebon Deer
-1081 : [Level 20] Twig of Wintry Wind
-1082 : [Level 20] Twig of Marple Leaf
-1083 : [Level 20] Twig of Glorious Blooms
-1084 : [Level 20] Twig of Lavish Fruits
-1085 : [Level 20] Abundant Ebon Deer (Complete)
-1086 : [Level 20] Twig of Wintry Wind
-1087 : [Level 20] Twig of Marple Leaf
-1088 : [Level 20] Twig of Glorious Blooms
-1089 : [Level 20] Twig of Lavish Fruits
-1090 : [Level 20] Cloud Knight Lieutenant: Yanqing
-1091 : [Level 20] Flying Sword
-1092 : [Level 20] Flying Sword
-1093 : [Level 20] Phantylia the Undying
-1094 : [Level 20] Abundance Lotus
-1095 : [Level 20] Abundance Lotus
-1096 : [Level 20] Destruction Lotus
-1097 : [Level 20] Destruction Lotus
-1098 : [Level 20] Phantylia the Undying
-1099 : [Level 20] Abundance Sprite: Golden Hound
-1100 : [Level 20] Abundance Sprite: Wooden Lupus
-1101 : [Level 20] Abundance Sprite: Malefic Ape
-1102 : [Level 20] The Ascended
-1103 : [Level 20] Disciples of Sanctus Medicus: Ballistarius
-1104 : [Level 20] Cocolia (Complete)
-1105 : [Level 20] Svarog (Complete)
-1106 : [Level 20] Gepard (Complete)
-1107 : [Level 20] Stellaron Hunter: Kafka (Complete)
-1108 : [Level 20] Automaton Grizzly (Complete)
-1109 : [Level 20] Swarm: True Sting (Complete)
-1110 : [Level 20] Juvenile Sting
-1111 : [Level 20] Lesser Sting
-1112 : [Level 20] Grunt: Field Personnel
-1113 : [Level 20] Grunt: Security Personnel
-1114 : [Level 20] Senior Staff: Team Leader
-1115 : [Level 20] Wraith Warden
-1116 : [Level 20] Mara-Struck Warden
-1117 : [Level 20] Cloud Knight Lieutenant: Yanqing (Complete)
-1118 : [Level 20] null
-1119 : [Level 20] null
-1120 : [Level 20] Disciples of Sanctus Medicus: Shape Shifter (Bug)
-1121 : [Level 20] Aurumaton Gatekeeper (Bug)
-1122 : [Level 20] Aurumaton Spectral Envoy
-1123 : [Level 20] Argenti
-1124 : [Level 20] "The Honored"
-1125 : [Level 20] "Speartip"
-1126 : [Level 20] "The Shield"
-1127 : [Level 20] Abundance Sprite: Malefic Ape (Bug)
-1128 : [Level 20] The Ascended (Bug)
-1129 : [Level 20] Swarm: True Sting
-1130 : [Level 20] Dreamjolt Troupe's Bubble Hound
-1131 : [Level 20] Aurumaton Spectral Envoy (Bug)
-1132 : [Level 20] Wraith Warden
-1133 : [Level 20] Senior Staff: Team Leader (Bug)
-1134 : [Level 20] Dreamjolt Troupe's Mr. Domescreen
-1135 : [Level 20] Memory Zone Meme "Something Unto Death"
-1136 : [Level 20] Sombrous Sepulcher
-1137 : [Level 20] Sombrous Sepulcher
-1138 : [Level 20] Abundant Ebon Deer (Complete)
-1139 : [Level 20] Starcrusher Swarm King: Skaracabaz (Synthetic)
-1140 : [Level 20] Gepard (Illusion)
-1141 : [Level 20] Cocolia (Illusion)
-1142 : [Level 20] Cocolia, Mother of Deception (Illusion)
-1143 : [Level 20] Gepard (Illusion)
-1144 : [Level 20] Cloud Knight Lieutenant: Yanqing (Illusion)
-1145 : [Level 20] Abundant Ebon Deer (Illusion)
-1146 : [Level 20] Stellaron Hunter: Kafka (Illusion)
-1147 : [Level 20] Cloud Knight Lieutenant: Yanqing (Complete)
-1148 : [Level 20] Argenti (Complete)
-1149 : [Level 20] Gnaw Sting
-1150 : [Level 20] Ten Stonehearts: Aventurine of Stratagems
-1151 : [Level 20] "All or Nothing"
-1152 : [Level 20] Dreamjolt Troupe's Birdskull
-1153 : [Level 20] Memory Zone Meme "Heartbreaker"
-1154 : [Level 20] Dreamjolt Troupe's Spring Loader
-1155 : [Level 20] Lordly Trashcan
-1156 : [Level 20] Dreamjolt Troupe's Mr. Domescreen
-1157 : [Level 20] Memory Zone Meme "Allseer"
-1158 : [Level 20] Dreamjolt Troupe's Sweet Gorilla
-1159 : [Level 20] Dreamjolt Troupe's Beyond Overcooked
-1160 : [Level 20] Stellaron Hunter: Sam
-1161 : [Level 20] Dreamjolt Troupe's Winder Goon
-1162 : [Level 20] Memory Zone Meme "Something In The Mirror"
-1163 : [Level 20] Memory Zone Meme "Shell of Faded Rage"
-1164 : [Level 20] Memory Zone Meme "Something Unto Death" (Complete)
-1165 : [Level 20] Dreamjolt Troupe's Beyond Overcooked (Bug)
-1166 : [Level 20] Dreamjolt Troupe's Sweet Gorilla (Bug)
-1997 : [Level 20] Memory Zone Meme "Something In The Mirror"
-1998 : [Level 20] Silvermane Soldier
-1999 : [Level 20] Swarm: True Sting (Complete)
+1001 : [Level 95] Silvermane Soldier
+1002 : [Level 95] Silvermane Gunner
+1003 : [Level 95] Automaton Hound
+1004 : [Level 95] Automaton Spider
+1005 : [Level 95] Silvermane Lieutenant
+1006 : [Level 95] Automaton Grizzly
+1007 : [Level 95] Automaton Direwolf
+1008 : [Level 95] Gepard
+1009 : [Level 95] Svarog
+1010 : [Level 95] Auxiliary Robot Arm Unit
+1011 : [Level 95] Bronya
+1012 : [Level 95] Cocolia
+1013 : [Level 95] Ice Edge
+1014 : [Level 95] Ice Edge
+1015 : [Level 95] Frostspawn
+1016 : [Level 95] Flamespawn
+1017 : [Level 95] Ice Out of Space
+1018 : [Level 95] Blaze Out of Space
+1019 : [Level 95] Everwinter Shadewalker
+1020 : [Level 95] Incineration Shadewalker
+1021 : [Level 95] Searing Prowler
+1022 : [Level 95] Automaton Beetle
+1023 : [Level 95] Vagrant
+1024 : [Level 95] Frigid Prowler
+1025 : [Level 95] Baryon
+1026 : [Level 95] Antibaryon
+1027 : [Level 95] Voidranger: Reaver
+1028 : [Level 95] Voidranger: Distorter
+1029 : [Level 95] Voidranger: Trampler
+1030 : [Level 95] Cocolia, Mother of Deception
+1031 : [Level 95] Lance of the Eternal Freeze
+1032 : [Level 95] Lance of the Eternal Freeze
+1033 : [Level 95] Doomsday Beast
+1034 : [Level 95] Antimatter Engine
+1035 : [Level 95] Disaster's Right Hand
+1036 : [Level 95] Dawn's Left Hand
+1037 : [Level 95] Voidranger: Eliminator
+1038 : [Level 95] Imaginary Weaver
+1039 : [Level 95] Silvermane Cannoneer
+1040 : [Level 95] Guardian Shadow
+1041 : [Level 95] Warp Trotter
+1042 : [Level 95] Mask of No Thought
+1043 : [Level 95] Stormbringer
+1044 : [Level 95] Cocolia (Complete)
+1045 : [Level 95] Svarog (Complete)
+1046 : [Level 95] Decaying Shadow
+1047 : [Level 95] Windspawn
+1048 : [Level 95] Thunderspawn
+1049 : [Level 95] Stellaron Hunter: Kafka
+1050 : [Level 95] Mara-Struck Soldier
+1051 : [Level 95] Cloud Knights Patroller
+1052 : [Level 95] Disciples of Sanctus Medicus: Shape Shifter
+1053 : [Level 95] Aurumaton Gatekeeper
+1054 : [Level 95] Sequence Trotter
+1055 : [Level 95] Trotter of Destruction
+1056 : [Level 95] Trotter of Preservation
+1057 : [Level 95] Trotter of Abundance
+1058 : [Level 95] Gepard (Complete)
+1059 : [Level 95] Stellaron Hunter: Kafka (Complete)
+1060 : [Level 95] Entranced Ingenium: Illumination Dragonfish
+1061 : [Level 95] Entranced Ingenium: Obedient Dracolion
+1062 : [Level 95] Entranced Ingenium: Golden Cloud Toad
+1063 : [Level 95] Automaton Grizzly (Complete)
+1064 : [Level 95] Sequence Trotter
+1065 : [Level 95] Trotter of Destruction
+1066 : [Level 95] Trotter of Abundance
+1067 : [Level 95] Trotter of Preservation
+1068 : [Level 95] Silvermane Lieutenant (Bug)
+1069 : [Level 95] Automaton Grizzly (Bug)
+1070 : [Level 95] Automaton Direwolf (Bug)
+1071 : [Level 95] Searing Prowler (Bug)
+1072 : [Level 95] Frigid Prowler (Bug)
+1073 : [Level 95] Ice Out of Space (Bug)
+1074 : [Level 95] Blaze Out of Space (Bug)
+1075 : [Level 95] Guardian Shadow (Bug)
+1076 : [Level 95] Decaying Shadow (Bug)
+1077 : [Level 95] Voidranger: Trampler (Bug)
+1078 : [Level 95] Stormbringer (Bug)
+1079 : [Level 95] Disciples of Sanctus Medicus: Internal Alchemist
+1080 : [Level 95] Abundant Ebon Deer
+1081 : [Level 95] Twig of Wintry Wind
+1082 : [Level 95] Twig of Marple Leaf
+1083 : [Level 95] Twig of Glorious Blooms
+1084 : [Level 95] Twig of Lavish Fruits
+1085 : [Level 95] Abundant Ebon Deer (Complete)
+1086 : [Level 95] Twig of Wintry Wind
+1087 : [Level 95] Twig of Marple Leaf
+1088 : [Level 95] Twig of Glorious Blooms
+1089 : [Level 95] Twig of Lavish Fruits
+1090 : [Level 95] Cloud Knight Lieutenant: Yanqing
+1091 : [Level 95] Flying Sword
+1092 : [Level 95] Flying Sword
+1093 : [Level 95] Phantylia the Undying
+1094 : [Level 95] Abundance Lotus
+1095 : [Level 95] Abundance Lotus
+1096 : [Level 95] Destruction Lotus
+1097 : [Level 95] Destruction Lotus
+1098 : [Level 95] Phantylia the Undying
+1099 : [Level 95] Abundance Sprite: Golden Hound
+1100 : [Level 95] Abundance Sprite: Wooden Lupus
+1101 : [Level 95] Abundance Sprite: Malefic Ape
+1102 : [Level 95] The Ascended
+1103 : [Level 95] Disciples of Sanctus Medicus: Ballistarius
+1104 : [Level 95] Cocolia (Complete)
+1105 : [Level 95] Svarog (Complete)
+1106 : [Level 95] Gepard (Complete)
+1107 : [Level 95] Stellaron Hunter: Kafka (Complete)
+1108 : [Level 95] Automaton Grizzly (Complete)
+1109 : [Level 95] Swarm: True Sting (Complete)
+1110 : [Level 95] Juvenile Sting
+1111 : [Level 95] Lesser Sting
+1112 : [Level 95] Grunt: Field Personnel
+1113 : [Level 95] Grunt: Security Personnel
+1114 : [Level 95] Senior Staff: Team Leader
+1115 : [Level 95] Wraith Warden
+1116 : [Level 95] Mara-Struck Warden
+1117 : [Level 95] Cloud Knight Lieutenant: Yanqing (Complete)
+1118 : [Level 95] null
+1119 : [Level 95] null
+1120 : [Level 95] Disciples of Sanctus Medicus: Shape Shifter (Bug)
+1121 : [Level 95] Aurumaton Gatekeeper (Bug)
+1122 : [Level 95] Aurumaton Spectral Envoy
+1123 : [Level 95] Argenti
+1124 : [Level 95] "The Honored"
+1125 : [Level 95] "Speartip"
+1126 : [Level 95] "The Shield"
+1127 : [Level 95] Abundance Sprite: Malefic Ape (Bug)
+1128 : [Level 95] The Ascended (Bug)
+1129 : [Level 95] Swarm: True Sting
+1130 : [Level 95] Dreamjolt Troupe's Bubble Hound
+1131 : [Level 95] Aurumaton Spectral Envoy (Bug)
+1132 : [Level 95] Wraith Warden
+1133 : [Level 95] Senior Staff: Team Leader (Bug)
+1134 : [Level 95] Dreamjolt Troupe's Mr. Domescreen
+1135 : [Level 95] Memory Zone Meme "Something Unto Death"
+1136 : [Level 95] Sombrous Sepulcher
+1137 : [Level 95] Sombrous Sepulcher
+1138 : [Level 95] Abundant Ebon Deer (Complete)
+1139 : [Level 95] Starcrusher Swarm King: Skaracabaz (Synthetic)
+1140 : [Level 95] Gepard (Illusion)
+1141 : [Level 95] Cocolia (Illusion)
+1142 : [Level 95] Cocolia, Mother of Deception (Illusion)
+1143 : [Level 95] Gepard (Illusion)
+1144 : [Level 95] Cloud Knight Lieutenant: Yanqing (Illusion)
+1145 : [Level 95] Abundant Ebon Deer (Illusion)
+1146 : [Level 95] Stellaron Hunter: Kafka (Illusion)
+1147 : [Level 95] Cloud Knight Lieutenant: Yanqing (Complete)
+1148 : [Level 95] Argenti (Complete)
+1149 : [Level 95] Gnaw Sting
+1150 : [Level 95] Ten Stonehearts: Aventurine of Stratagems
+1151 : [Level 95] "All or Nothing"
+1152 : [Level 95] Dreamjolt Troupe's Birdskull
+1153 : [Level 95] Memory Zone Meme "Heartbreaker"
+1154 : [Level 95] Dreamjolt Troupe's Spring Loader
+1155 : [Level 95] Lordly Trashcan
+1156 : [Level 95] Dreamjolt Troupe's Mr. Domescreen
+1157 : [Level 95] Memory Zone Meme "Allseer"
+1158 : [Level 95] Dreamjolt Troupe's Sweet Gorilla
+1159 : [Level 95] Dreamjolt Troupe's Beyond Overcooked
+1160 : [Level 95] Stellaron Hunter: Sam
+1161 : [Level 95] Dreamjolt Troupe's Winder Goon
+1162 : [Level 95] Memory Zone Meme "Something In The Mirror"
+1163 : [Level 95] Memory Zone Meme "Shell of Faded Rage"
+1164 : [Level 95] Memory Zone Meme "Something Unto Death" (Complete)
+1165 : [Level 95] Dreamjolt Troupe's Beyond Overcooked (Bug)
+1166 : [Level 95] Dreamjolt Troupe's Sweet Gorilla (Bug)
+1167 : [Level 95] Dreamjolt Troupe's Fortune Seller
+1168 : [Level 95] "Past Confined and Caged"
+1169 : [Level 95] "Tomorrow in Harmonious Chords"
+1170 : [Level 95] "Present Inebriated in Revelry"
+1171 : [Level 95] Memory Zone Meme "Insatiable Vanity"
+1172 : [Level 95] "Harmonious Choir" The Great Septimus
+1173 : [Level 95] Echo of Faded Dreams
+1174 : [Level 95] The Past, Present, and Eternal Show
+1995 : [Level 95] Memory Zone Meme "Insatiable Vanity"
+1996 : [Level 95] Dreamjolt Troupe's Mr. Domescreen
+1997 : [Level 95] Memory Zone Meme "Something In The Mirror"
+1998 : [Level 95] Silvermane Soldier
+1999 : [Level 95] Swarm: True Sting (Complete)
 2098 : [Level 85] null
 2112 : [Level 85] Lordly Trashcan
 2125 : [Level 82] null
@@ -419,8 +429,11 @@
 313082 : [Level 80] Dreamjolt Troupe
 313083 : [Level 80] Dreamjolt Troupe
 313084 : [Level 80] Dreamjolt Troupe
+313090 : [Level 80] Silvermane Lieutenant
 313120 : [Level 80] Automaton Direwolf
 313140 : [Level 80] The Ascended
+313150 : [Level 80] Silvermane Lieutenant
+380050 : [Level 80] Memory Zone Meme "Shell of Faded Rage"
 400000 : [Level 30] Antimatter Legion
 400001 : [Level 30] Antimatter Legion
 400002 : [Level 30] Antimatter Legion
@@ -446,6 +459,8 @@
 400104 : [Level 30] Antimatter Legion
 400105 : [Level 30] Antimatter Legion
 400106 : [Level 30] Antimatter Legion
+400108 : [Level 30] Antimatter Legion
+400109 : [Level 30] Antimatter Legion
 400111 : [Level 30] Antimatter Legion
 400112 : [Level 60] Antimatter Legion
 400113 : [Level 30] Antimatter Legion
@@ -610,6 +625,13 @@
 1012174 : [Level 60] Memory Zone Meme "Shell of Faded Rage"
 1012175 : [Level 70] Memory Zone Meme "Shell of Faded Rage"
 1012176 : [Level 80] Memory Zone Meme "Shell of Faded Rage"
+1012180 : [Level 30] Senior Staff: Team Leader
+1012181 : [Level 38] Senior Staff: Team Leader
+1012182 : [Level 40] Senior Staff: Team Leader
+1012183 : [Level 50] Senior Staff: Team Leader
+1012184 : [Level 60] Senior Staff: Team Leader
+1012185 : [Level 70] Senior Staff: Team Leader
+1012186 : [Level 80] Senior Staff: Team Leader
 1022010 : [Level 16] null
 1022011 : [Level 32] null
 1022012 : [Level 42] null
@@ -1051,6 +1073,27 @@
 1024034 : [Level 62] null
 1024035 : [Level 72] null
 1024036 : [Level 80] null
+1024110 : [Level 16] null
+1024111 : [Level 32] null
+1024112 : [Level 42] null
+1024113 : [Level 52] null
+1024114 : [Level 62] null
+1024115 : [Level 72] null
+1024116 : [Level 80] null
+1024120 : [Level 16] null
+1024121 : [Level 32] null
+1024122 : [Level 42] null
+1024123 : [Level 52] null
+1024124 : [Level 62] null
+1024125 : [Level 72] null
+1024126 : [Level 80] null
+1024130 : [Level 16] null
+1024131 : [Level 32] null
+1024132 : [Level 42] null
+1024133 : [Level 52] null
+1024134 : [Level 62] null
+1024135 : [Level 72] null
+1024136 : [Level 80] null
 1042010 : [Level 21] Automaton Grizzly
 1042011 : [Level 33] Automaton Grizzly
 1042012 : [Level 45] Automaton Grizzly
@@ -1184,6 +1227,13 @@
 1052044 : [Level 66] null
 1052045 : [Level 75] null
 1052046 : [Level 82] null
+1052050 : [Level 35] null
+1052051 : [Level 35] null
+1052052 : [Level 46] null
+1052053 : [Level 56] null
+1052054 : [Level 66] null
+1052055 : [Level 75] null
+1052056 : [Level 82] null
 2000110 : [Level 18] Antimatter Legion
 2000111 : [Level 32] Antimatter Legion
 2000112 : [Level 42] Antimatter Legion
@@ -3326,6 +3376,398 @@
 4130054 : [Level 68] The Ascended
 4130055 : [Level 80] The Ascended
 4130056 : [Level 86] The Ascended
+4140010 : [Level 20] null
+4140011 : [Level 30] null
+4140012 : [Level 42] null
+4140013 : [Level 52] null
+4140014 : [Level 62] null
+4140015 : [Level 72] null
+4140016 : [Level 85] null
+4140020 : [Level 20] null
+4140021 : [Level 30] null
+4140022 : [Level 42] null
+4140023 : [Level 52] null
+4140024 : [Level 62] null
+4140025 : [Level 72] null
+4140026 : [Level 85] null
+4140110 : [Level 20] null
+4140111 : [Level 30] null
+4140112 : [Level 42] null
+4140113 : [Level 52] null
+4140114 : [Level 62] null
+4140115 : [Level 72] null
+4140116 : [Level 85] null
+4140120 : [Level 20] null
+4140121 : [Level 30] null
+4140122 : [Level 42] null
+4140123 : [Level 52] null
+4140124 : [Level 62] null
+4140125 : [Level 72] null
+4140126 : [Level 85] null
+4140130 : [Level 20] null
+4140131 : [Level 30] null
+4140132 : [Level 42] null
+4140133 : [Level 52] null
+4140134 : [Level 62] null
+4140135 : [Level 72] null
+4140136 : [Level 85] null
+4140190 : [Level 20] null
+4140191 : [Level 30] null
+4140192 : [Level 42] null
+4140193 : [Level 52] null
+4140194 : [Level 62] null
+4140195 : [Level 72] null
+4140196 : [Level 85] null
+4140210 : [Level 20] null
+4140211 : [Level 30] null
+4140212 : [Level 42] null
+4140213 : [Level 52] null
+4140214 : [Level 62] null
+4140215 : [Level 72] null
+4140216 : [Level 85] null
+4140220 : [Level 20] null
+4140221 : [Level 30] null
+4140222 : [Level 42] null
+4140223 : [Level 52] null
+4140224 : [Level 62] null
+4140225 : [Level 72] null
+4140226 : [Level 85] null
+4140230 : [Level 20] null
+4140231 : [Level 30] null
+4140232 : [Level 42] null
+4140233 : [Level 52] null
+4140234 : [Level 62] null
+4140235 : [Level 72] null
+4140236 : [Level 85] null
+4140290 : [Level 20] null
+4140291 : [Level 30] null
+4140292 : [Level 42] null
+4140293 : [Level 52] null
+4140294 : [Level 62] null
+4140295 : [Level 72] null
+4140296 : [Level 85] null
+4140310 : [Level 20] null
+4140311 : [Level 30] null
+4140312 : [Level 42] null
+4140313 : [Level 52] null
+4140314 : [Level 62] null
+4140315 : [Level 72] null
+4140316 : [Level 85] null
+4140320 : [Level 20] null
+4140321 : [Level 30] null
+4140322 : [Level 42] null
+4140323 : [Level 52] null
+4140324 : [Level 62] null
+4140325 : [Level 72] null
+4140326 : [Level 85] null
+4140330 : [Level 20] null
+4140331 : [Level 30] null
+4140332 : [Level 42] null
+4140333 : [Level 52] null
+4140334 : [Level 62] null
+4140335 : [Level 72] null
+4140336 : [Level 85] null
+4140410 : [Level 20] null
+4140411 : [Level 30] null
+4140412 : [Level 42] null
+4140413 : [Level 52] null
+4140414 : [Level 62] null
+4140415 : [Level 72] null
+4140416 : [Level 85] null
+4140420 : [Level 20] null
+4140421 : [Level 30] null
+4140422 : [Level 42] null
+4140423 : [Level 52] null
+4140424 : [Level 62] null
+4140425 : [Level 72] null
+4140426 : [Level 85] null
+4140430 : [Level 20] null
+4140431 : [Level 30] null
+4140432 : [Level 42] null
+4140433 : [Level 52] null
+4140434 : [Level 62] null
+4140435 : [Level 72] null
+4140436 : [Level 85] null
+4140510 : [Level 20] null
+4140511 : [Level 30] null
+4140512 : [Level 42] null
+4140513 : [Level 52] null
+4140514 : [Level 62] null
+4140515 : [Level 72] null
+4140516 : [Level 85] null
+4140520 : [Level 20] null
+4140521 : [Level 30] null
+4140522 : [Level 42] null
+4140523 : [Level 52] null
+4140524 : [Level 62] null
+4140525 : [Level 72] null
+4140526 : [Level 85] null
+4140530 : [Level 20] null
+4140531 : [Level 30] null
+4140532 : [Level 42] null
+4140533 : [Level 52] null
+4140534 : [Level 62] null
+4140535 : [Level 72] null
+4140536 : [Level 85] null
+4140610 : [Level 20] null
+4140611 : [Level 30] null
+4140612 : [Level 42] null
+4140613 : [Level 52] null
+4140614 : [Level 62] null
+4140615 : [Level 72] null
+4140616 : [Level 85] null
+4140620 : [Level 20] null
+4140621 : [Level 30] null
+4140622 : [Level 42] null
+4140623 : [Level 52] null
+4140624 : [Level 62] null
+4140625 : [Level 72] null
+4140626 : [Level 85] null
+4140630 : [Level 20] null
+4140631 : [Level 30] null
+4140632 : [Level 42] null
+4140633 : [Level 52] null
+4140634 : [Level 62] null
+4140635 : [Level 72] null
+4140636 : [Level 85] null
+4141010 : [Level 20] null
+4141011 : [Level 30] null
+4141012 : [Level 42] null
+4141013 : [Level 52] null
+4141014 : [Level 62] null
+4141015 : [Level 72] null
+4141016 : [Level 85] null
+4141020 : [Level 20] null
+4141021 : [Level 30] null
+4141022 : [Level 42] null
+4141023 : [Level 52] null
+4141024 : [Level 62] null
+4141025 : [Level 72] null
+4141026 : [Level 85] null
+4141030 : [Level 20] null
+4141031 : [Level 30] null
+4141032 : [Level 42] null
+4141033 : [Level 52] null
+4141034 : [Level 62] null
+4141035 : [Level 72] null
+4141036 : [Level 85] null
+4141040 : [Level 20] null
+4141041 : [Level 30] null
+4141042 : [Level 42] null
+4141043 : [Level 52] null
+4141044 : [Level 62] null
+4141045 : [Level 72] null
+4141046 : [Level 85] null
+4141050 : [Level 20] null
+4141051 : [Level 30] null
+4141052 : [Level 42] null
+4141053 : [Level 52] null
+4141054 : [Level 62] null
+4141055 : [Level 72] null
+4141056 : [Level 85] null
+4141060 : [Level 20] null
+4141061 : [Level 30] null
+4141062 : [Level 42] null
+4141063 : [Level 52] null
+4141064 : [Level 62] null
+4141065 : [Level 72] null
+4141066 : [Level 85] null
+4141070 : [Level 20] null
+4141071 : [Level 30] null
+4141072 : [Level 42] null
+4141073 : [Level 52] null
+4141074 : [Level 62] null
+4141075 : [Level 72] null
+4141076 : [Level 85] null
+4141080 : [Level 20] null
+4141081 : [Level 30] null
+4141082 : [Level 42] null
+4141083 : [Level 52] null
+4141084 : [Level 62] null
+4141085 : [Level 72] null
+4141086 : [Level 85] null
+4141090 : [Level 20] null
+4141091 : [Level 30] null
+4141092 : [Level 42] null
+4141093 : [Level 52] null
+4141094 : [Level 62] null
+4141095 : [Level 72] null
+4141096 : [Level 85] null
+4141100 : [Level 20] null
+4141101 : [Level 30] null
+4141102 : [Level 42] null
+4141103 : [Level 52] null
+4141104 : [Level 62] null
+4141105 : [Level 72] null
+4141106 : [Level 85] null
+4141110 : [Level 20] null
+4141111 : [Level 30] null
+4141112 : [Level 42] null
+4141113 : [Level 52] null
+4141114 : [Level 62] null
+4141115 : [Level 72] null
+4141116 : [Level 85] null
+4141120 : [Level 20] null
+4141121 : [Level 30] null
+4141122 : [Level 42] null
+4141123 : [Level 52] null
+4141124 : [Level 62] null
+4141125 : [Level 72] null
+4141126 : [Level 85] null
+4142010 : [Level 20] null
+4142011 : [Level 30] null
+4142012 : [Level 42] null
+4142013 : [Level 52] null
+4142014 : [Level 62] null
+4142015 : [Level 72] null
+4142016 : [Level 85] null
+4142020 : [Level 20] null
+4142021 : [Level 30] null
+4142022 : [Level 42] null
+4142023 : [Level 52] null
+4142024 : [Level 62] null
+4142025 : [Level 72] null
+4142026 : [Level 85] null
+4142030 : [Level 20] null
+4142031 : [Level 30] null
+4142032 : [Level 42] null
+4142033 : [Level 52] null
+4142034 : [Level 62] null
+4142035 : [Level 72] null
+4142036 : [Level 85] null
+4142040 : [Level 20] null
+4142041 : [Level 30] null
+4142042 : [Level 42] null
+4142043 : [Level 52] null
+4142044 : [Level 62] null
+4142045 : [Level 72] null
+4142046 : [Level 85] null
+4142050 : [Level 20] null
+4142051 : [Level 30] null
+4142052 : [Level 42] null
+4142053 : [Level 52] null
+4142054 : [Level 62] null
+4142055 : [Level 72] null
+4142056 : [Level 85] null
+4142060 : [Level 20] null
+4142061 : [Level 30] null
+4142062 : [Level 42] null
+4142063 : [Level 52] null
+4142064 : [Level 62] null
+4142065 : [Level 72] null
+4142066 : [Level 85] null
+4142070 : [Level 20] null
+4142071 : [Level 30] null
+4142072 : [Level 42] null
+4142073 : [Level 52] null
+4142074 : [Level 62] null
+4142075 : [Level 72] null
+4142076 : [Level 85] null
+4142080 : [Level 20] null
+4142081 : [Level 30] null
+4142082 : [Level 42] null
+4142083 : [Level 52] null
+4142084 : [Level 62] null
+4142085 : [Level 72] null
+4142086 : [Level 85] null
+4142090 : [Level 20] null
+4142091 : [Level 30] null
+4142092 : [Level 42] null
+4142093 : [Level 52] null
+4142094 : [Level 62] null
+4142095 : [Level 72] null
+4142096 : [Level 85] null
+4142100 : [Level 20] null
+4142101 : [Level 30] null
+4142102 : [Level 42] null
+4142103 : [Level 52] null
+4142104 : [Level 62] null
+4142105 : [Level 72] null
+4142106 : [Level 85] null
+4142110 : [Level 20] null
+4142111 : [Level 30] null
+4142112 : [Level 42] null
+4142113 : [Level 52] null
+4142114 : [Level 62] null
+4142115 : [Level 72] null
+4142116 : [Level 85] null
+4142120 : [Level 20] null
+4142121 : [Level 30] null
+4142122 : [Level 42] null
+4142123 : [Level 52] null
+4142124 : [Level 62] null
+4142125 : [Level 72] null
+4142126 : [Level 85] null
+4143010 : [Level 20] null
+4143011 : [Level 30] null
+4143012 : [Level 42] null
+4143013 : [Level 52] null
+4143014 : [Level 62] null
+4143015 : [Level 72] null
+4143016 : [Level 85] null
+4143020 : [Level 20] null
+4143021 : [Level 30] null
+4143022 : [Level 42] null
+4143023 : [Level 52] null
+4143024 : [Level 62] null
+4143025 : [Level 72] null
+4143026 : [Level 85] null
+4143030 : [Level 20] null
+4143031 : [Level 30] null
+4143032 : [Level 42] null
+4143033 : [Level 52] null
+4143034 : [Level 62] null
+4143035 : [Level 72] null
+4143036 : [Level 85] null
+4143040 : [Level 20] null
+4143041 : [Level 30] null
+4143042 : [Level 42] null
+4143043 : [Level 52] null
+4143044 : [Level 62] null
+4143045 : [Level 72] null
+4143046 : [Level 85] null
+4143050 : [Level 20] null
+4143051 : [Level 30] null
+4143052 : [Level 42] null
+4143053 : [Level 52] null
+4143054 : [Level 62] null
+4143055 : [Level 72] null
+4143056 : [Level 85] null
+4143060 : [Level 20] null
+4143061 : [Level 30] null
+4143062 : [Level 42] null
+4143063 : [Level 52] null
+4143064 : [Level 62] null
+4143065 : [Level 72] null
+4143066 : [Level 85] null
+4149010 : [Level 20] null
+4149011 : [Level 30] null
+4149012 : [Level 42] null
+4149013 : [Level 52] null
+4149014 : [Level 62] null
+4149015 : [Level 72] null
+4149016 : [Level 85] null
+4149020 : [Level 20] null
+4149021 : [Level 30] null
+4149022 : [Level 42] null
+4149023 : [Level 52] null
+4149024 : [Level 62] null
+4149025 : [Level 72] null
+4149026 : [Level 85] null
+4149030 : [Level 20] null
+4149031 : [Level 30] null
+4149032 : [Level 42] null
+4149033 : [Level 52] null
+4149034 : [Level 62] null
+4149035 : [Level 72] null
+4149036 : [Level 85] null
+4149990 : [Level 20] null
+4149991 : [Level 30] null
+4149992 : [Level 42] null
+4149993 : [Level 52] null
+4149994 : [Level 62] null
+4149995 : [Level 72] null
+4149996 : [Level 85] null
 4150010 : [Level 25] null
 4150011 : [Level 35] null
 4150012 : [Level 46] null
@@ -3368,13 +3810,20 @@
 4150064 : [Level 65] null
 4150065 : [Level 78] null
 4150066 : [Level 85] null
-4160010 : [Level 24] null
-4160011 : [Level 34] null
-4160012 : [Level 45] null
-4160013 : [Level 55] null
-4160014 : [Level 66] null
-4160015 : [Level 77] null
+4160010 : [Level 20] null
+4160011 : [Level 30] null
+4160012 : [Level 42] null
+4160013 : [Level 52] null
+4160014 : [Level 62] null
+4160015 : [Level 72] null
 4160016 : [Level 85] null
+4160020 : [Level 20] null
+4160021 : [Level 30] null
+4160022 : [Level 42] null
+4160023 : [Level 52] null
+4160024 : [Level 62] null
+4160025 : [Level 72] null
+4160026 : [Level 85] null
 4200110 : [Level 30] Abundant Ebon Deer (Illusion)
 4200111 : [Level 38] Abundant Ebon Deer (Illusion)
 4200112 : [Level 48] Abundant Ebon Deer (Illusion)
@@ -4745,6 +5194,54 @@
 30103112 : [Level 92] Bronya
 30103121 : [Level 95] Cocolia
 30103122 : [Level 95] Ten Stonehearts: Aventurine of Stratagems
+30104011 : [Level 68] Disciples of Sanctus Medicus: Shape Shifter
+30104012 : [Level 68] "Present Inebriated in Revelry"
+30104021 : [Level 70] "Past Confined and Caged"
+30104022 : [Level 70] Dreamjolt Troupe's Sweet Gorilla
+30104031 : [Level 73] Automaton Grizzly
+30104032 : [Level 73] Memory Zone Meme "Something Unto Death"
+30104041 : [Level 75] Memory Zone Meme "Shell of Faded Rage"
+30104042 : [Level 75] Dreamjolt Troupe's Beyond Overcooked
+30104051 : [Level 78] Dreamjolt Troupe's Sweet Gorilla
+30104052 : [Level 78] Swarm: True Sting
+30104061 : [Level 80] Disciples of Sanctus Medicus: Shape Shifter
+30104062 : [Level 80] "Present Inebriated in Revelry"
+30104071 : [Level 82] "Past Confined and Caged"
+30104072 : [Level 82] Dreamjolt Troupe's Sweet Gorilla
+30104081 : [Level 85] Automaton Grizzly
+30104082 : [Level 85] Memory Zone Meme "Something Unto Death"
+30104091 : [Level 88] Memory Zone Meme "Shell of Faded Rage"
+30104092 : [Level 88] Dreamjolt Troupe's Beyond Overcooked
+30104101 : [Level 90] Dreamjolt Troupe's Sweet Gorilla
+30104102 : [Level 90] Swarm: True Sting
+30104111 : [Level 92] Svarog
+30104112 : [Level 92] Abundant Ebon Deer
+30104121 : [Level 95] Gepard
+30104122 : [Level 95] Stellaron Hunter: Kafka
+30105011 : [Level 68] Voidranger: Trampler
+30105012 : [Level 68] Disciples of Sanctus Medicus: Shape Shifter
+30105021 : [Level 70] Guardian Shadow
+30105022 : [Level 70] Memory Zone Meme "Shell of Faded Rage"
+30105031 : [Level 73] Dreamjolt Troupe's Sweet Gorilla
+30105032 : [Level 73] Cloud Knight Lieutenant: Yanqing
+30105041 : [Level 75] Abundance Sprite: Malefic Ape
+30105042 : [Level 75] "Present Inebriated in Revelry"
+30105051 : [Level 78] Senior Staff: Team Leader
+30105052 : [Level 78] Stellaron Hunter: Sam
+30105061 : [Level 80] Voidranger: Trampler
+30105062 : [Level 80] Disciples of Sanctus Medicus: Shape Shifter
+30105071 : [Level 82] Guardian Shadow
+30105072 : [Level 82] Memory Zone Meme "Shell of Faded Rage"
+30105081 : [Level 85] Dreamjolt Troupe's Sweet Gorilla
+30105082 : [Level 85] Cloud Knight Lieutenant: Yanqing
+30105091 : [Level 88] Abundance Sprite: Malefic Ape
+30105092 : [Level 88] "Present Inebriated in Revelry"
+30105101 : [Level 90] Senior Staff: Team Leader
+30105102 : [Level 90] Stellaron Hunter: Sam
+30105111 : [Level 92] Svarog
+30105112 : [Level 92] Gepard
+30105121 : [Level 95] Argenti
+30105122 : [Level 95] "Tomorrow in Harmonious Chords"
 30301011 : [Level 55] Silvermane Lieutenant
 30301012 : [Level 55] Decaying Shadow
 30301021 : [Level 65] Ice Out of Space
@@ -4769,6 +5266,14 @@
 30303032 : [Level 75] Decaying Shadow
 30303041 : [Level 85] Bronya
 30303042 : [Level 85] Stellaron Hunter: Sam
+30304011 : [Level 55] Automaton Grizzly
+30304012 : [Level 55] Abundance Sprite: Malefic Ape
+30304021 : [Level 65] Stormbringer
+30304022 : [Level 65] Decaying Shadow
+30304031 : [Level 75] Automaton Grizzly
+30304032 : [Level 75] Abundance Sprite: Malefic Ape
+30304041 : [Level 85] Stellaron Hunter: Kafka
+30304042 : [Level 85] Svarog
 43103001 : [Level 2] Aether Spirit
 43103002 : [Level 3] Aether Spirit
 43103003 : [Level 4] Aether Spirit
@@ -12627,6 +13132,13 @@
 203211834 : [Level 67] Memory Zone Meme
 203211835 : [Level 76] Memory Zone Meme
 203211836 : [Level 82] Memory Zone Meme
+203212010 : [Level 40] null
+203212011 : [Level 40] null
+203212012 : [Level 50] null
+203212013 : [Level 58] null
+203212014 : [Level 67] null
+203212015 : [Level 76] null
+203212016 : [Level 82] null
 203212030 : [Level 40] null
 203212031 : [Level 40] null
 203212032 : [Level 50] null
@@ -13152,6 +13664,902 @@
 203222394 : [Level 67] Lordly Trashcan
 203222395 : [Level 76] Lordly Trashcan
 203222396 : [Level 82] Lordly Trashcan
+203310050 : [Level 40] Dreamjolt Troupe
+203310051 : [Level 40] Dreamjolt Troupe
+203310052 : [Level 50] Dreamjolt Troupe
+203310053 : [Level 58] Dreamjolt Troupe
+203310054 : [Level 67] Dreamjolt Troupe
+203310055 : [Level 76] Dreamjolt Troupe
+203310056 : [Level 82] Dreamjolt Troupe
+203310060 : [Level 40] Dreamjolt Troupe
+203310061 : [Level 40] Dreamjolt Troupe
+203310062 : [Level 50] Dreamjolt Troupe
+203310063 : [Level 58] Dreamjolt Troupe
+203310064 : [Level 67] Dreamjolt Troupe
+203310065 : [Level 76] Dreamjolt Troupe
+203310066 : [Level 82] Dreamjolt Troupe
+203310110 : [Level 40] Dreamjolt Troupe
+203310111 : [Level 40] Dreamjolt Troupe
+203310112 : [Level 50] Dreamjolt Troupe
+203310113 : [Level 58] Dreamjolt Troupe
+203310114 : [Level 67] Dreamjolt Troupe
+203310115 : [Level 76] Dreamjolt Troupe
+203310116 : [Level 82] Dreamjolt Troupe
+203310120 : [Level 40] Dreamjolt Troupe
+203310121 : [Level 40] Dreamjolt Troupe
+203310122 : [Level 50] Dreamjolt Troupe
+203310123 : [Level 58] Dreamjolt Troupe
+203310124 : [Level 67] Dreamjolt Troupe
+203310125 : [Level 76] Dreamjolt Troupe
+203310126 : [Level 82] Dreamjolt Troupe
+203310160 : [Level 40] Dreamjolt Troupe
+203310161 : [Level 40] Dreamjolt Troupe
+203310162 : [Level 50] Dreamjolt Troupe
+203310163 : [Level 58] Dreamjolt Troupe
+203310164 : [Level 67] Dreamjolt Troupe
+203310165 : [Level 76] Dreamjolt Troupe
+203310166 : [Level 82] Dreamjolt Troupe
+203310170 : [Level 40] Dreamjolt Troupe
+203310171 : [Level 40] Dreamjolt Troupe
+203310172 : [Level 50] Dreamjolt Troupe
+203310173 : [Level 58] Dreamjolt Troupe
+203310174 : [Level 67] Dreamjolt Troupe
+203310175 : [Level 76] Dreamjolt Troupe
+203310176 : [Level 82] Dreamjolt Troupe
+203310180 : [Level 40] Dreamjolt Troupe
+203310181 : [Level 40] Dreamjolt Troupe
+203310182 : [Level 50] Dreamjolt Troupe
+203310183 : [Level 58] Dreamjolt Troupe
+203310184 : [Level 67] Dreamjolt Troupe
+203310185 : [Level 76] Dreamjolt Troupe
+203310186 : [Level 82] Dreamjolt Troupe
+203310190 : [Level 40] Dreamjolt Troupe
+203310191 : [Level 40] Dreamjolt Troupe
+203310192 : [Level 50] Dreamjolt Troupe
+203310193 : [Level 58] Dreamjolt Troupe
+203310194 : [Level 67] Dreamjolt Troupe
+203310195 : [Level 76] Dreamjolt Troupe
+203310196 : [Level 82] Dreamjolt Troupe
+203310200 : [Level 40] Dreamjolt Troupe
+203310201 : [Level 40] Dreamjolt Troupe
+203310202 : [Level 50] Dreamjolt Troupe
+203310203 : [Level 58] Dreamjolt Troupe
+203310204 : [Level 67] Dreamjolt Troupe
+203310205 : [Level 76] Dreamjolt Troupe
+203310206 : [Level 82] Dreamjolt Troupe
+203310490 : [Level 40] null
+203310491 : [Level 40] null
+203310492 : [Level 50] null
+203310493 : [Level 58] null
+203310494 : [Level 67] null
+203310495 : [Level 76] null
+203310496 : [Level 82] null
+203310500 : [Level 40] null
+203310501 : [Level 40] null
+203310502 : [Level 50] null
+203310503 : [Level 58] null
+203310504 : [Level 67] null
+203310505 : [Level 76] null
+203310506 : [Level 82] null
+203310510 : [Level 40] null
+203310511 : [Level 40] null
+203310512 : [Level 50] null
+203310513 : [Level 58] null
+203310514 : [Level 67] null
+203310515 : [Level 76] null
+203310516 : [Level 82] null
+203310520 : [Level 40] null
+203310521 : [Level 40] null
+203310522 : [Level 50] null
+203310523 : [Level 58] null
+203310524 : [Level 67] null
+203310525 : [Level 76] null
+203310526 : [Level 82] null
+203310530 : [Level 40] null
+203310531 : [Level 40] null
+203310532 : [Level 50] null
+203310533 : [Level 58] null
+203310534 : [Level 67] null
+203310535 : [Level 76] null
+203310536 : [Level 82] null
+203310540 : [Level 40] null
+203310541 : [Level 40] null
+203310542 : [Level 50] null
+203310543 : [Level 58] null
+203310544 : [Level 67] null
+203310545 : [Level 76] null
+203310546 : [Level 82] null
+203311050 : [Level 40] Dreamjolt Troupe
+203311051 : [Level 40] Dreamjolt Troupe
+203311052 : [Level 50] Dreamjolt Troupe
+203311053 : [Level 58] Dreamjolt Troupe
+203311054 : [Level 67] Dreamjolt Troupe
+203311055 : [Level 76] Dreamjolt Troupe
+203311056 : [Level 82] Dreamjolt Troupe
+203311060 : [Level 40] Dreamjolt Troupe
+203311061 : [Level 40] Dreamjolt Troupe
+203311062 : [Level 50] Dreamjolt Troupe
+203311063 : [Level 58] Dreamjolt Troupe
+203311064 : [Level 67] Dreamjolt Troupe
+203311065 : [Level 76] Dreamjolt Troupe
+203311066 : [Level 82] Dreamjolt Troupe
+203311110 : [Level 40] Dreamjolt Troupe
+203311111 : [Level 40] Dreamjolt Troupe
+203311112 : [Level 50] Dreamjolt Troupe
+203311113 : [Level 58] Dreamjolt Troupe
+203311114 : [Level 67] Dreamjolt Troupe
+203311115 : [Level 76] Dreamjolt Troupe
+203311116 : [Level 82] Dreamjolt Troupe
+203311120 : [Level 40] Dreamjolt Troupe
+203311121 : [Level 40] Dreamjolt Troupe
+203311122 : [Level 50] Dreamjolt Troupe
+203311123 : [Level 58] Dreamjolt Troupe
+203311124 : [Level 67] Dreamjolt Troupe
+203311125 : [Level 76] Dreamjolt Troupe
+203311126 : [Level 82] Dreamjolt Troupe
+203311160 : [Level 40] Dreamjolt Troupe
+203311161 : [Level 40] Dreamjolt Troupe
+203311162 : [Level 50] Dreamjolt Troupe
+203311163 : [Level 58] Dreamjolt Troupe
+203311164 : [Level 67] Dreamjolt Troupe
+203311165 : [Level 76] Dreamjolt Troupe
+203311166 : [Level 82] Dreamjolt Troupe
+203311170 : [Level 40] Dreamjolt Troupe
+203311171 : [Level 40] Dreamjolt Troupe
+203311172 : [Level 50] Dreamjolt Troupe
+203311173 : [Level 58] Dreamjolt Troupe
+203311174 : [Level 67] Dreamjolt Troupe
+203311175 : [Level 76] Dreamjolt Troupe
+203311176 : [Level 82] Dreamjolt Troupe
+203311180 : [Level 40] Dreamjolt Troupe
+203311181 : [Level 40] Dreamjolt Troupe
+203311182 : [Level 50] Dreamjolt Troupe
+203311183 : [Level 58] Dreamjolt Troupe
+203311184 : [Level 67] Dreamjolt Troupe
+203311185 : [Level 76] Dreamjolt Troupe
+203311186 : [Level 82] Dreamjolt Troupe
+203311190 : [Level 40] Dreamjolt Troupe
+203311191 : [Level 40] Dreamjolt Troupe
+203311192 : [Level 50] Dreamjolt Troupe
+203311193 : [Level 58] Dreamjolt Troupe
+203311194 : [Level 67] Dreamjolt Troupe
+203311195 : [Level 76] Dreamjolt Troupe
+203311196 : [Level 82] Dreamjolt Troupe
+203311200 : [Level 40] Dreamjolt Troupe
+203311201 : [Level 40] Dreamjolt Troupe
+203311202 : [Level 50] Dreamjolt Troupe
+203311203 : [Level 58] Dreamjolt Troupe
+203311204 : [Level 67] Dreamjolt Troupe
+203311205 : [Level 76] Dreamjolt Troupe
+203311206 : [Level 82] Dreamjolt Troupe
+203311250 : [Level 40] Dreamjolt Troupe
+203311251 : [Level 40] Dreamjolt Troupe
+203311252 : [Level 50] Dreamjolt Troupe
+203311253 : [Level 58] Dreamjolt Troupe
+203311254 : [Level 67] Dreamjolt Troupe
+203311255 : [Level 76] Dreamjolt Troupe
+203311256 : [Level 82] Dreamjolt Troupe
+203311260 : [Level 40] Dreamjolt Troupe
+203311261 : [Level 40] Dreamjolt Troupe
+203311262 : [Level 50] Dreamjolt Troupe
+203311263 : [Level 58] Dreamjolt Troupe
+203311264 : [Level 67] Dreamjolt Troupe
+203311265 : [Level 76] Dreamjolt Troupe
+203311266 : [Level 82] Dreamjolt Troupe
+203311270 : [Level 40] Dreamjolt Troupe
+203311271 : [Level 40] Dreamjolt Troupe
+203311272 : [Level 50] Dreamjolt Troupe
+203311273 : [Level 58] Dreamjolt Troupe
+203311274 : [Level 67] Dreamjolt Troupe
+203311275 : [Level 76] Dreamjolt Troupe
+203311276 : [Level 82] Dreamjolt Troupe
+203311280 : [Level 40] Dreamjolt Troupe
+203311281 : [Level 40] Dreamjolt Troupe
+203311282 : [Level 50] Dreamjolt Troupe
+203311283 : [Level 58] Dreamjolt Troupe
+203311284 : [Level 67] Dreamjolt Troupe
+203311285 : [Level 76] Dreamjolt Troupe
+203311286 : [Level 82] Dreamjolt Troupe
+203311290 : [Level 40] Dreamjolt Troupe
+203311291 : [Level 40] Dreamjolt Troupe
+203311292 : [Level 50] Dreamjolt Troupe
+203311293 : [Level 58] Dreamjolt Troupe
+203311294 : [Level 67] Dreamjolt Troupe
+203311295 : [Level 76] Dreamjolt Troupe
+203311296 : [Level 82] Dreamjolt Troupe
+203311300 : [Level 40] Dreamjolt Troupe
+203311301 : [Level 40] Dreamjolt Troupe
+203311302 : [Level 50] Dreamjolt Troupe
+203311303 : [Level 58] Dreamjolt Troupe
+203311304 : [Level 67] Dreamjolt Troupe
+203311305 : [Level 76] Dreamjolt Troupe
+203311306 : [Level 82] Dreamjolt Troupe
+203311310 : [Level 40] Dreamjolt Troupe
+203311311 : [Level 40] Dreamjolt Troupe
+203311312 : [Level 50] Dreamjolt Troupe
+203311313 : [Level 58] Dreamjolt Troupe
+203311314 : [Level 67] Dreamjolt Troupe
+203311315 : [Level 76] Dreamjolt Troupe
+203311316 : [Level 82] Dreamjolt Troupe
+203311700 : [Level 40] Warp Trotter
+203311701 : [Level 40] Warp Trotter
+203311702 : [Level 50] Warp Trotter
+203311703 : [Level 58] Warp Trotter
+203311704 : [Level 67] Warp Trotter
+203311705 : [Level 76] Warp Trotter
+203311706 : [Level 82] Warp Trotter
+203312010 : [Level 40] null
+203312011 : [Level 40] null
+203312012 : [Level 50] null
+203312013 : [Level 58] null
+203312014 : [Level 67] null
+203312015 : [Level 76] null
+203312016 : [Level 82] null
+203312030 : [Level 40] null
+203312031 : [Level 40] null
+203312032 : [Level 50] null
+203312033 : [Level 58] null
+203312034 : [Level 67] null
+203312035 : [Level 76] null
+203312036 : [Level 82] null
+203312050 : [Level 40] null
+203312051 : [Level 40] null
+203312052 : [Level 50] null
+203312053 : [Level 58] null
+203312054 : [Level 67] null
+203312055 : [Level 76] null
+203312056 : [Level 82] null
+203312310 : [Level 40] Dreamjolt Troupe
+203312311 : [Level 40] Dreamjolt Troupe
+203312312 : [Level 50] Dreamjolt Troupe
+203312313 : [Level 58] Dreamjolt Troupe
+203312314 : [Level 67] Dreamjolt Troupe
+203312315 : [Level 76] Dreamjolt Troupe
+203312316 : [Level 82] Dreamjolt Troupe
+203312320 : [Level 40] Dreamjolt Troupe
+203312321 : [Level 40] Dreamjolt Troupe
+203312322 : [Level 50] Dreamjolt Troupe
+203312323 : [Level 58] Dreamjolt Troupe
+203312324 : [Level 67] Dreamjolt Troupe
+203312325 : [Level 76] Dreamjolt Troupe
+203312326 : [Level 82] Dreamjolt Troupe
+203312380 : [Level 40] Lordly Trashcan
+203312381 : [Level 40] Lordly Trashcan
+203312382 : [Level 50] Lordly Trashcan
+203312383 : [Level 58] Lordly Trashcan
+203312384 : [Level 67] Lordly Trashcan
+203312385 : [Level 76] Lordly Trashcan
+203312386 : [Level 82] Lordly Trashcan
+203312390 : [Level 40] Lordly Trashcan
+203312391 : [Level 40] Lordly Trashcan
+203312392 : [Level 50] Lordly Trashcan
+203312393 : [Level 58] Lordly Trashcan
+203312394 : [Level 67] Lordly Trashcan
+203312395 : [Level 76] Lordly Trashcan
+203312396 : [Level 82] Lordly Trashcan
+203312400 : [Level 40] Lordly Trashcan
+203312401 : [Level 40] Lordly Trashcan
+203312402 : [Level 50] Lordly Trashcan
+203312403 : [Level 58] Lordly Trashcan
+203312404 : [Level 67] Lordly Trashcan
+203312405 : [Level 76] Lordly Trashcan
+203312406 : [Level 82] Lordly Trashcan
+203312410 : [Level 40] Lordly Trashcan
+203312411 : [Level 40] Lordly Trashcan
+203312412 : [Level 50] Lordly Trashcan
+203312413 : [Level 58] Lordly Trashcan
+203312414 : [Level 67] Lordly Trashcan
+203312415 : [Level 76] Lordly Trashcan
+203312416 : [Level 82] Lordly Trashcan
+203312420 : [Level 40] Lordly Trashcan
+203312421 : [Level 40] Lordly Trashcan
+203312422 : [Level 50] Lordly Trashcan
+203312423 : [Level 58] Lordly Trashcan
+203312424 : [Level 67] Lordly Trashcan
+203312425 : [Level 76] Lordly Trashcan
+203312426 : [Level 82] Lordly Trashcan
+203320010 : [Level 40] Memory Zone Meme
+203320011 : [Level 40] Memory Zone Meme
+203320012 : [Level 50] Memory Zone Meme
+203320013 : [Level 58] Memory Zone Meme
+203320014 : [Level 67] Memory Zone Meme
+203320015 : [Level 76] Memory Zone Meme
+203320016 : [Level 82] Memory Zone Meme
+203320100 : [Level 40] Dreamjolt Troupe
+203320101 : [Level 40] Dreamjolt Troupe
+203320102 : [Level 50] Dreamjolt Troupe
+203320103 : [Level 58] Dreamjolt Troupe
+203320104 : [Level 67] Dreamjolt Troupe
+203320105 : [Level 76] Dreamjolt Troupe
+203320106 : [Level 82] Dreamjolt Troupe
+203320110 : [Level 40] Dreamjolt Troupe
+203320111 : [Level 40] Dreamjolt Troupe
+203320112 : [Level 50] Dreamjolt Troupe
+203320113 : [Level 58] Dreamjolt Troupe
+203320114 : [Level 67] Dreamjolt Troupe
+203320115 : [Level 76] Dreamjolt Troupe
+203320116 : [Level 82] Dreamjolt Troupe
+203320120 : [Level 40] Dreamjolt Troupe
+203320121 : [Level 40] Dreamjolt Troupe
+203320122 : [Level 50] Dreamjolt Troupe
+203320123 : [Level 58] Dreamjolt Troupe
+203320124 : [Level 67] Dreamjolt Troupe
+203320125 : [Level 76] Dreamjolt Troupe
+203320126 : [Level 82] Dreamjolt Troupe
+203320130 : [Level 40] Dreamjolt Troupe
+203320131 : [Level 40] Dreamjolt Troupe
+203320132 : [Level 50] Dreamjolt Troupe
+203320133 : [Level 58] Dreamjolt Troupe
+203320134 : [Level 67] Dreamjolt Troupe
+203320135 : [Level 76] Dreamjolt Troupe
+203320136 : [Level 82] Dreamjolt Troupe
+203320140 : [Level 40] Dreamjolt Troupe
+203320141 : [Level 40] Dreamjolt Troupe
+203320142 : [Level 50] Dreamjolt Troupe
+203320143 : [Level 58] Dreamjolt Troupe
+203320144 : [Level 67] Dreamjolt Troupe
+203320145 : [Level 76] Dreamjolt Troupe
+203320146 : [Level 82] Dreamjolt Troupe
+203320150 : [Level 40] Dreamjolt Troupe
+203320151 : [Level 40] Dreamjolt Troupe
+203320152 : [Level 50] Dreamjolt Troupe
+203320153 : [Level 58] Dreamjolt Troupe
+203320154 : [Level 67] Dreamjolt Troupe
+203320155 : [Level 76] Dreamjolt Troupe
+203320156 : [Level 82] Dreamjolt Troupe
+203320160 : [Level 40] Dreamjolt Troupe
+203320161 : [Level 40] Dreamjolt Troupe
+203320162 : [Level 50] Dreamjolt Troupe
+203320163 : [Level 58] Dreamjolt Troupe
+203320164 : [Level 67] Dreamjolt Troupe
+203320165 : [Level 76] Dreamjolt Troupe
+203320166 : [Level 82] Dreamjolt Troupe
+203320170 : [Level 40] Dreamjolt Troupe
+203320171 : [Level 40] Dreamjolt Troupe
+203320172 : [Level 50] Dreamjolt Troupe
+203320173 : [Level 58] Dreamjolt Troupe
+203320174 : [Level 67] Dreamjolt Troupe
+203320175 : [Level 76] Dreamjolt Troupe
+203320176 : [Level 82] Dreamjolt Troupe
+203320180 : [Level 40] Dreamjolt Troupe
+203320181 : [Level 40] Dreamjolt Troupe
+203320182 : [Level 50] Dreamjolt Troupe
+203320183 : [Level 58] Dreamjolt Troupe
+203320184 : [Level 67] Dreamjolt Troupe
+203320185 : [Level 76] Dreamjolt Troupe
+203320186 : [Level 82] Dreamjolt Troupe
+203320190 : [Level 40] Dreamjolt Troupe
+203320191 : [Level 40] Dreamjolt Troupe
+203320192 : [Level 50] Dreamjolt Troupe
+203320193 : [Level 58] Dreamjolt Troupe
+203320194 : [Level 67] Dreamjolt Troupe
+203320195 : [Level 76] Dreamjolt Troupe
+203320196 : [Level 82] Dreamjolt Troupe
+203320210 : [Level 40] Memory Zone Meme
+203320211 : [Level 40] Memory Zone Meme
+203320212 : [Level 50] Memory Zone Meme
+203320213 : [Level 58] Memory Zone Meme
+203320214 : [Level 67] Memory Zone Meme
+203320215 : [Level 76] Memory Zone Meme
+203320216 : [Level 82] Memory Zone Meme
+203320220 : [Level 40] Memory Zone Meme
+203320221 : [Level 40] Memory Zone Meme
+203320222 : [Level 50] Memory Zone Meme
+203320223 : [Level 58] Memory Zone Meme
+203320224 : [Level 67] Memory Zone Meme
+203320225 : [Level 76] Memory Zone Meme
+203320226 : [Level 82] Memory Zone Meme
+203320230 : [Level 40] Memory Zone Meme
+203320231 : [Level 40] Memory Zone Meme
+203320232 : [Level 50] Memory Zone Meme
+203320233 : [Level 58] Memory Zone Meme
+203320234 : [Level 67] Memory Zone Meme
+203320235 : [Level 76] Memory Zone Meme
+203320236 : [Level 82] Memory Zone Meme
+203320240 : [Level 40] Memory Zone Meme
+203320241 : [Level 40] Memory Zone Meme
+203320242 : [Level 50] Memory Zone Meme
+203320243 : [Level 58] Memory Zone Meme
+203320244 : [Level 67] Memory Zone Meme
+203320245 : [Level 76] Memory Zone Meme
+203320246 : [Level 82] Memory Zone Meme
+203320270 : [Level 40] Dreamjolt Troupe
+203320271 : [Level 40] Dreamjolt Troupe
+203320272 : [Level 50] Dreamjolt Troupe
+203320273 : [Level 58] Dreamjolt Troupe
+203320274 : [Level 67] Dreamjolt Troupe
+203320275 : [Level 76] Dreamjolt Troupe
+203320276 : [Level 82] Dreamjolt Troupe
+203320280 : [Level 40] Dreamjolt Troupe
+203320281 : [Level 40] Dreamjolt Troupe
+203320282 : [Level 50] Dreamjolt Troupe
+203320283 : [Level 58] Dreamjolt Troupe
+203320284 : [Level 67] Dreamjolt Troupe
+203320285 : [Level 76] Dreamjolt Troupe
+203320286 : [Level 82] Dreamjolt Troupe
+203320290 : [Level 40] Dreamjolt Troupe
+203320291 : [Level 40] Dreamjolt Troupe
+203320292 : [Level 50] Dreamjolt Troupe
+203320293 : [Level 58] Dreamjolt Troupe
+203320294 : [Level 67] Dreamjolt Troupe
+203320295 : [Level 76] Dreamjolt Troupe
+203320296 : [Level 82] Dreamjolt Troupe
+203320300 : [Level 40] Dreamjolt Troupe
+203320301 : [Level 40] Dreamjolt Troupe
+203320302 : [Level 50] Dreamjolt Troupe
+203320303 : [Level 58] Dreamjolt Troupe
+203320304 : [Level 67] Dreamjolt Troupe
+203320305 : [Level 76] Dreamjolt Troupe
+203320306 : [Level 82] Dreamjolt Troupe
+203320350 : [Level 40] Memory Zone Meme
+203320351 : [Level 40] Memory Zone Meme
+203320352 : [Level 50] Memory Zone Meme
+203320353 : [Level 58] Memory Zone Meme
+203320354 : [Level 67] Memory Zone Meme
+203320355 : [Level 76] Memory Zone Meme
+203320356 : [Level 82] Memory Zone Meme
+203320360 : [Level 40] Memory Zone Meme
+203320361 : [Level 40] Memory Zone Meme
+203320362 : [Level 50] Memory Zone Meme
+203320363 : [Level 58] Memory Zone Meme
+203320364 : [Level 67] Memory Zone Meme
+203320365 : [Level 76] Memory Zone Meme
+203320366 : [Level 82] Memory Zone Meme
+203320370 : [Level 40] Memory Zone Meme
+203320371 : [Level 40] Memory Zone Meme
+203320372 : [Level 50] Memory Zone Meme
+203320373 : [Level 58] Memory Zone Meme
+203320374 : [Level 67] Memory Zone Meme
+203320375 : [Level 76] Memory Zone Meme
+203320376 : [Level 82] Memory Zone Meme
+203320380 : [Level 40] Memory Zone Meme
+203320381 : [Level 40] Memory Zone Meme
+203320382 : [Level 50] Memory Zone Meme
+203320383 : [Level 58] Memory Zone Meme
+203320384 : [Level 67] Memory Zone Meme
+203320385 : [Level 76] Memory Zone Meme
+203320386 : [Level 82] Memory Zone Meme
+203320390 : [Level 40] Memory Zone Meme
+203320391 : [Level 40] Memory Zone Meme
+203320392 : [Level 50] Memory Zone Meme
+203320393 : [Level 58] Memory Zone Meme
+203320394 : [Level 67] Memory Zone Meme
+203320395 : [Level 76] Memory Zone Meme
+203320396 : [Level 82] Memory Zone Meme
+203320470 : [Level 40] null
+203320471 : [Level 40] null
+203320472 : [Level 50] null
+203320473 : [Level 58] null
+203320474 : [Level 67] null
+203320475 : [Level 76] null
+203320476 : [Level 82] null
+203320480 : [Level 40] null
+203320481 : [Level 40] null
+203320482 : [Level 50] null
+203320483 : [Level 58] null
+203320484 : [Level 67] null
+203320485 : [Level 76] null
+203320486 : [Level 82] null
+203320490 : [Level 40] null
+203320491 : [Level 40] null
+203320492 : [Level 50] null
+203320493 : [Level 58] null
+203320494 : [Level 67] null
+203320495 : [Level 76] null
+203320496 : [Level 82] null
+203320500 : [Level 40] null
+203320501 : [Level 40] null
+203320502 : [Level 50] null
+203320503 : [Level 58] null
+203320504 : [Level 67] null
+203320505 : [Level 76] null
+203320506 : [Level 82] null
+203320510 : [Level 40] null
+203320511 : [Level 40] null
+203320512 : [Level 50] null
+203320513 : [Level 58] null
+203320514 : [Level 67] null
+203320515 : [Level 76] null
+203320516 : [Level 82] null
+203320520 : [Level 40] null
+203320521 : [Level 40] null
+203320522 : [Level 50] null
+203320523 : [Level 58] null
+203320524 : [Level 67] null
+203320525 : [Level 76] null
+203320526 : [Level 82] null
+203321010 : [Level 40] Memory Zone Meme
+203321011 : [Level 40] Memory Zone Meme
+203321012 : [Level 50] Memory Zone Meme
+203321013 : [Level 58] Memory Zone Meme
+203321014 : [Level 67] Memory Zone Meme
+203321015 : [Level 76] Memory Zone Meme
+203321016 : [Level 82] Memory Zone Meme
+203321080 : [Level 40] Dreamjolt Troupe
+203321081 : [Level 40] Dreamjolt Troupe
+203321082 : [Level 50] Dreamjolt Troupe
+203321083 : [Level 58] Dreamjolt Troupe
+203321084 : [Level 67] Dreamjolt Troupe
+203321085 : [Level 76] Dreamjolt Troupe
+203321086 : [Level 82] Dreamjolt Troupe
+203321090 : [Level 40] Dreamjolt Troupe
+203321091 : [Level 40] Dreamjolt Troupe
+203321092 : [Level 50] Dreamjolt Troupe
+203321093 : [Level 58] Dreamjolt Troupe
+203321094 : [Level 67] Dreamjolt Troupe
+203321095 : [Level 76] Dreamjolt Troupe
+203321096 : [Level 82] Dreamjolt Troupe
+203321100 : [Level 40] Dreamjolt Troupe
+203321101 : [Level 40] Dreamjolt Troupe
+203321102 : [Level 50] Dreamjolt Troupe
+203321103 : [Level 58] Dreamjolt Troupe
+203321104 : [Level 67] Dreamjolt Troupe
+203321105 : [Level 76] Dreamjolt Troupe
+203321106 : [Level 82] Dreamjolt Troupe
+203321110 : [Level 40] Dreamjolt Troupe
+203321111 : [Level 40] Dreamjolt Troupe
+203321112 : [Level 50] Dreamjolt Troupe
+203321113 : [Level 58] Dreamjolt Troupe
+203321114 : [Level 67] Dreamjolt Troupe
+203321115 : [Level 76] Dreamjolt Troupe
+203321116 : [Level 82] Dreamjolt Troupe
+203321120 : [Level 40] Dreamjolt Troupe
+203321121 : [Level 40] Dreamjolt Troupe
+203321122 : [Level 50] Dreamjolt Troupe
+203321123 : [Level 58] Dreamjolt Troupe
+203321124 : [Level 67] Dreamjolt Troupe
+203321125 : [Level 76] Dreamjolt Troupe
+203321126 : [Level 82] Dreamjolt Troupe
+203321130 : [Level 40] Dreamjolt Troupe
+203321131 : [Level 40] Dreamjolt Troupe
+203321132 : [Level 50] Dreamjolt Troupe
+203321133 : [Level 58] Dreamjolt Troupe
+203321134 : [Level 67] Dreamjolt Troupe
+203321135 : [Level 76] Dreamjolt Troupe
+203321136 : [Level 82] Dreamjolt Troupe
+203321140 : [Level 40] Dreamjolt Troupe
+203321141 : [Level 40] Dreamjolt Troupe
+203321142 : [Level 50] Dreamjolt Troupe
+203321143 : [Level 58] Dreamjolt Troupe
+203321144 : [Level 67] Dreamjolt Troupe
+203321145 : [Level 76] Dreamjolt Troupe
+203321146 : [Level 82] Dreamjolt Troupe
+203321150 : [Level 40] Dreamjolt Troupe
+203321151 : [Level 40] Dreamjolt Troupe
+203321152 : [Level 50] Dreamjolt Troupe
+203321153 : [Level 58] Dreamjolt Troupe
+203321154 : [Level 67] Dreamjolt Troupe
+203321155 : [Level 76] Dreamjolt Troupe
+203321156 : [Level 82] Dreamjolt Troupe
+203321160 : [Level 40] Dreamjolt Troupe
+203321161 : [Level 40] Dreamjolt Troupe
+203321162 : [Level 50] Dreamjolt Troupe
+203321163 : [Level 58] Dreamjolt Troupe
+203321164 : [Level 67] Dreamjolt Troupe
+203321165 : [Level 76] Dreamjolt Troupe
+203321166 : [Level 82] Dreamjolt Troupe
+203321170 : [Level 40] Dreamjolt Troupe
+203321171 : [Level 40] Dreamjolt Troupe
+203321172 : [Level 50] Dreamjolt Troupe
+203321173 : [Level 58] Dreamjolt Troupe
+203321174 : [Level 67] Dreamjolt Troupe
+203321175 : [Level 76] Dreamjolt Troupe
+203321176 : [Level 82] Dreamjolt Troupe
+203321180 : [Level 40] Dreamjolt Troupe
+203321181 : [Level 40] Dreamjolt Troupe
+203321182 : [Level 50] Dreamjolt Troupe
+203321183 : [Level 58] Dreamjolt Troupe
+203321184 : [Level 67] Dreamjolt Troupe
+203321185 : [Level 76] Dreamjolt Troupe
+203321186 : [Level 82] Dreamjolt Troupe
+203321190 : [Level 40] Dreamjolt Troupe
+203321191 : [Level 40] Dreamjolt Troupe
+203321192 : [Level 50] Dreamjolt Troupe
+203321193 : [Level 58] Dreamjolt Troupe
+203321194 : [Level 67] Dreamjolt Troupe
+203321195 : [Level 76] Dreamjolt Troupe
+203321196 : [Level 82] Dreamjolt Troupe
+203321210 : [Level 40] Memory Zone Meme
+203321211 : [Level 40] Memory Zone Meme
+203321212 : [Level 50] Memory Zone Meme
+203321213 : [Level 58] Memory Zone Meme
+203321214 : [Level 67] Memory Zone Meme
+203321215 : [Level 76] Memory Zone Meme
+203321216 : [Level 82] Memory Zone Meme
+203321220 : [Level 40] Memory Zone Meme
+203321221 : [Level 40] Memory Zone Meme
+203321222 : [Level 50] Memory Zone Meme
+203321223 : [Level 58] Memory Zone Meme
+203321224 : [Level 67] Memory Zone Meme
+203321225 : [Level 76] Memory Zone Meme
+203321226 : [Level 82] Memory Zone Meme
+203321230 : [Level 40] Memory Zone Meme
+203321231 : [Level 40] Memory Zone Meme
+203321232 : [Level 50] Memory Zone Meme
+203321233 : [Level 58] Memory Zone Meme
+203321234 : [Level 67] Memory Zone Meme
+203321235 : [Level 76] Memory Zone Meme
+203321236 : [Level 82] Memory Zone Meme
+203321240 : [Level 40] Memory Zone Meme
+203321241 : [Level 40] Memory Zone Meme
+203321242 : [Level 50] Memory Zone Meme
+203321243 : [Level 58] Memory Zone Meme
+203321244 : [Level 67] Memory Zone Meme
+203321245 : [Level 76] Memory Zone Meme
+203321246 : [Level 82] Memory Zone Meme
+203321270 : [Level 40] Dreamjolt Troupe
+203321271 : [Level 40] Dreamjolt Troupe
+203321272 : [Level 50] Dreamjolt Troupe
+203321273 : [Level 58] Dreamjolt Troupe
+203321274 : [Level 67] Dreamjolt Troupe
+203321275 : [Level 76] Dreamjolt Troupe
+203321276 : [Level 82] Dreamjolt Troupe
+203321280 : [Level 40] Dreamjolt Troupe
+203321281 : [Level 40] Dreamjolt Troupe
+203321282 : [Level 50] Dreamjolt Troupe
+203321283 : [Level 58] Dreamjolt Troupe
+203321284 : [Level 67] Dreamjolt Troupe
+203321285 : [Level 76] Dreamjolt Troupe
+203321286 : [Level 82] Dreamjolt Troupe
+203321290 : [Level 40] Dreamjolt Troupe
+203321291 : [Level 40] Dreamjolt Troupe
+203321292 : [Level 50] Dreamjolt Troupe
+203321293 : [Level 58] Dreamjolt Troupe
+203321294 : [Level 67] Dreamjolt Troupe
+203321295 : [Level 76] Dreamjolt Troupe
+203321296 : [Level 82] Dreamjolt Troupe
+203321300 : [Level 40] Dreamjolt Troupe
+203321301 : [Level 40] Dreamjolt Troupe
+203321302 : [Level 50] Dreamjolt Troupe
+203321303 : [Level 58] Dreamjolt Troupe
+203321304 : [Level 67] Dreamjolt Troupe
+203321305 : [Level 76] Dreamjolt Troupe
+203321306 : [Level 82] Dreamjolt Troupe
+203321350 : [Level 40] Memory Zone Meme
+203321351 : [Level 40] Memory Zone Meme
+203321352 : [Level 50] Memory Zone Meme
+203321353 : [Level 58] Memory Zone Meme
+203321354 : [Level 67] Memory Zone Meme
+203321355 : [Level 76] Memory Zone Meme
+203321356 : [Level 82] Memory Zone Meme
+203321360 : [Level 40] Memory Zone Meme
+203321361 : [Level 40] Memory Zone Meme
+203321362 : [Level 50] Memory Zone Meme
+203321363 : [Level 58] Memory Zone Meme
+203321364 : [Level 67] Memory Zone Meme
+203321365 : [Level 76] Memory Zone Meme
+203321366 : [Level 82] Memory Zone Meme
+203321370 : [Level 40] Memory Zone Meme
+203321371 : [Level 40] Memory Zone Meme
+203321372 : [Level 50] Memory Zone Meme
+203321373 : [Level 58] Memory Zone Meme
+203321374 : [Level 67] Memory Zone Meme
+203321375 : [Level 76] Memory Zone Meme
+203321376 : [Level 82] Memory Zone Meme
+203321380 : [Level 40] Memory Zone Meme
+203321381 : [Level 40] Memory Zone Meme
+203321382 : [Level 50] Memory Zone Meme
+203321383 : [Level 58] Memory Zone Meme
+203321384 : [Level 67] Memory Zone Meme
+203321385 : [Level 76] Memory Zone Meme
+203321386 : [Level 82] Memory Zone Meme
+203321390 : [Level 40] Memory Zone Meme
+203321391 : [Level 40] Memory Zone Meme
+203321392 : [Level 50] Memory Zone Meme
+203321393 : [Level 58] Memory Zone Meme
+203321394 : [Level 67] Memory Zone Meme
+203321395 : [Level 76] Memory Zone Meme
+203321396 : [Level 82] Memory Zone Meme
+203321420 : [Level 40] Memory Zone Meme
+203321421 : [Level 40] Memory Zone Meme
+203321422 : [Level 50] Memory Zone Meme
+203321423 : [Level 58] Memory Zone Meme
+203321424 : [Level 67] Memory Zone Meme
+203321425 : [Level 76] Memory Zone Meme
+203321426 : [Level 82] Memory Zone Meme
+203321430 : [Level 40] Memory Zone Meme
+203321431 : [Level 40] Memory Zone Meme
+203321432 : [Level 50] Memory Zone Meme
+203321433 : [Level 58] Memory Zone Meme
+203321434 : [Level 67] Memory Zone Meme
+203321435 : [Level 76] Memory Zone Meme
+203321436 : [Level 82] Memory Zone Meme
+203321460 : [Level 40] Dreamjolt Troupe
+203321461 : [Level 40] Dreamjolt Troupe
+203321462 : [Level 50] Dreamjolt Troupe
+203321463 : [Level 58] Dreamjolt Troupe
+203321464 : [Level 67] Dreamjolt Troupe
+203321465 : [Level 76] Dreamjolt Troupe
+203321466 : [Level 82] Dreamjolt Troupe
+203321470 : [Level 40] Dreamjolt Troupe
+203321471 : [Level 40] Dreamjolt Troupe
+203321472 : [Level 50] Dreamjolt Troupe
+203321473 : [Level 58] Dreamjolt Troupe
+203321474 : [Level 67] Dreamjolt Troupe
+203321475 : [Level 76] Dreamjolt Troupe
+203321476 : [Level 82] Dreamjolt Troupe
+203321700 : [Level 40] Warp Trotter
+203321701 : [Level 40] Warp Trotter
+203321702 : [Level 50] Warp Trotter
+203321703 : [Level 58] Warp Trotter
+203321704 : [Level 67] Warp Trotter
+203321705 : [Level 76] Warp Trotter
+203321706 : [Level 82] Warp Trotter
+203321710 : [Level 40] Memory Zone Meme
+203321711 : [Level 40] Memory Zone Meme
+203321712 : [Level 50] Memory Zone Meme
+203321713 : [Level 58] Memory Zone Meme
+203321714 : [Level 67] Memory Zone Meme
+203321715 : [Level 76] Memory Zone Meme
+203321716 : [Level 82] Memory Zone Meme
+203321720 : [Level 40] Memory Zone Meme
+203321721 : [Level 40] Memory Zone Meme
+203321722 : [Level 50] Memory Zone Meme
+203321723 : [Level 58] Memory Zone Meme
+203321724 : [Level 67] Memory Zone Meme
+203321725 : [Level 76] Memory Zone Meme
+203321726 : [Level 82] Memory Zone Meme
+203321730 : [Level 40] Memory Zone Meme
+203321731 : [Level 40] Memory Zone Meme
+203321732 : [Level 50] Memory Zone Meme
+203321733 : [Level 58] Memory Zone Meme
+203321734 : [Level 67] Memory Zone Meme
+203321735 : [Level 76] Memory Zone Meme
+203321736 : [Level 82] Memory Zone Meme
+203321740 : [Level 40] Memory Zone Meme
+203321741 : [Level 40] Memory Zone Meme
+203321742 : [Level 50] Memory Zone Meme
+203321743 : [Level 58] Memory Zone Meme
+203321744 : [Level 67] Memory Zone Meme
+203321745 : [Level 76] Memory Zone Meme
+203321746 : [Level 82] Memory Zone Meme
+203321750 : [Level 40] Memory Zone Meme
+203321751 : [Level 40] Memory Zone Meme
+203321752 : [Level 50] Memory Zone Meme
+203321753 : [Level 58] Memory Zone Meme
+203321754 : [Level 67] Memory Zone Meme
+203321755 : [Level 76] Memory Zone Meme
+203321756 : [Level 82] Memory Zone Meme
+203321810 : [Level 40] Memory Zone Meme
+203321811 : [Level 40] Memory Zone Meme
+203321812 : [Level 50] Memory Zone Meme
+203321813 : [Level 58] Memory Zone Meme
+203321814 : [Level 67] Memory Zone Meme
+203321815 : [Level 76] Memory Zone Meme
+203321816 : [Level 82] Memory Zone Meme
+203321820 : [Level 40] Memory Zone Meme
+203321821 : [Level 40] Memory Zone Meme
+203321822 : [Level 50] Memory Zone Meme
+203321823 : [Level 58] Memory Zone Meme
+203321824 : [Level 67] Memory Zone Meme
+203321825 : [Level 76] Memory Zone Meme
+203321826 : [Level 82] Memory Zone Meme
+203321830 : [Level 40] Memory Zone Meme
+203321831 : [Level 40] Memory Zone Meme
+203321832 : [Level 50] Memory Zone Meme
+203321833 : [Level 58] Memory Zone Meme
+203321834 : [Level 67] Memory Zone Meme
+203321835 : [Level 76] Memory Zone Meme
+203321836 : [Level 82] Memory Zone Meme
+203321840 : [Level 40] Memory Zone Meme
+203321841 : [Level 40] Memory Zone Meme
+203321842 : [Level 50] Memory Zone Meme
+203321843 : [Level 58] Memory Zone Meme
+203321844 : [Level 67] Memory Zone Meme
+203321845 : [Level 76] Memory Zone Meme
+203321846 : [Level 82] Memory Zone Meme
+203321850 : [Level 40] Memory Zone Meme
+203321851 : [Level 40] Memory Zone Meme
+203321852 : [Level 50] Memory Zone Meme
+203321853 : [Level 58] Memory Zone Meme
+203321854 : [Level 67] Memory Zone Meme
+203321855 : [Level 76] Memory Zone Meme
+203321856 : [Level 82] Memory Zone Meme
+203321910 : [Level 40] Memory Zone Meme
+203321911 : [Level 40] Memory Zone Meme
+203321912 : [Level 50] Memory Zone Meme
+203321913 : [Level 58] Memory Zone Meme
+203321914 : [Level 67] Memory Zone Meme
+203321915 : [Level 76] Memory Zone Meme
+203321916 : [Level 82] Memory Zone Meme
+203321920 : [Level 40] Memory Zone Meme
+203321921 : [Level 40] Memory Zone Meme
+203321922 : [Level 50] Memory Zone Meme
+203321923 : [Level 58] Memory Zone Meme
+203321924 : [Level 67] Memory Zone Meme
+203321925 : [Level 76] Memory Zone Meme
+203321926 : [Level 82] Memory Zone Meme
+203321930 : [Level 40] Memory Zone Meme
+203321931 : [Level 40] Memory Zone Meme
+203321932 : [Level 50] Memory Zone Meme
+203321933 : [Level 58] Memory Zone Meme
+203321934 : [Level 67] Memory Zone Meme
+203321935 : [Level 76] Memory Zone Meme
+203321936 : [Level 82] Memory Zone Meme
+203321940 : [Level 40] Memory Zone Meme
+203321941 : [Level 40] Memory Zone Meme
+203321942 : [Level 50] Memory Zone Meme
+203321943 : [Level 58] Memory Zone Meme
+203321944 : [Level 67] Memory Zone Meme
+203321945 : [Level 76] Memory Zone Meme
+203321946 : [Level 82] Memory Zone Meme
+203321950 : [Level 40] Memory Zone Meme
+203321951 : [Level 40] Memory Zone Meme
+203321952 : [Level 50] Memory Zone Meme
+203321953 : [Level 58] Memory Zone Meme
+203321954 : [Level 67] Memory Zone Meme
+203321955 : [Level 76] Memory Zone Meme
+203321956 : [Level 82] Memory Zone Meme
+203321960 : [Level 40] Memory Zone Meme
+203321961 : [Level 40] Memory Zone Meme
+203321962 : [Level 50] Memory Zone Meme
+203321963 : [Level 58] Memory Zone Meme
+203321964 : [Level 67] Memory Zone Meme
+203321965 : [Level 76] Memory Zone Meme
+203321966 : [Level 82] Memory Zone Meme
+203321970 : [Level 40] Memory Zone Meme
+203321971 : [Level 40] Memory Zone Meme
+203321972 : [Level 50] Memory Zone Meme
+203321973 : [Level 58] Memory Zone Meme
+203321974 : [Level 67] Memory Zone Meme
+203321975 : [Level 76] Memory Zone Meme
+203321976 : [Level 82] Memory Zone Meme
+203321980 : [Level 40] Memory Zone Meme
+203321981 : [Level 40] Memory Zone Meme
+203321982 : [Level 50] Memory Zone Meme
+203321983 : [Level 58] Memory Zone Meme
+203321984 : [Level 67] Memory Zone Meme
+203321985 : [Level 76] Memory Zone Meme
+203321986 : [Level 82] Memory Zone Meme
+203322310 : [Level 40] Memory Zone Meme
+203322311 : [Level 40] Memory Zone Meme
+203322312 : [Level 50] Memory Zone Meme
+203322313 : [Level 58] Memory Zone Meme
+203322314 : [Level 67] Memory Zone Meme
+203322315 : [Level 76] Memory Zone Meme
+203322316 : [Level 82] Memory Zone Meme
+203322320 : [Level 40] Memory Zone Meme
+203322321 : [Level 40] Memory Zone Meme
+203322322 : [Level 50] Memory Zone Meme
+203322323 : [Level 58] Memory Zone Meme
+203322324 : [Level 67] Memory Zone Meme
+203322325 : [Level 76] Memory Zone Meme
+203322326 : [Level 82] Memory Zone Meme
+203322350 : [Level 40] "Tomorrow in Harmonious Chords"
+203322351 : [Level 40] "Tomorrow in Harmonious Chords"
+203322352 : [Level 50] "Tomorrow in Harmonious Chords"
+203322353 : [Level 58] "Tomorrow in Harmonious Chords"
+203322354 : [Level 67] "Tomorrow in Harmonious Chords"
+203322355 : [Level 76] "Tomorrow in Harmonious Chords"
+203322356 : [Level 82] "Tomorrow in Harmonious Chords"
+203322360 : [Level 40] "Present Inebriated in Revelry"
+203322361 : [Level 40] "Present Inebriated in Revelry"
+203322362 : [Level 50] "Present Inebriated in Revelry"
+203322363 : [Level 58] "Present Inebriated in Revelry"
+203322364 : [Level 67] "Present Inebriated in Revelry"
+203322365 : [Level 76] "Present Inebriated in Revelry"
+203322366 : [Level 82] "Present Inebriated in Revelry"
+203322370 : [Level 40] "Past Confined and Caged"
+203322371 : [Level 40] "Past Confined and Caged"
+203322372 : [Level 50] "Past Confined and Caged"
+203322373 : [Level 58] "Past Confined and Caged"
+203322374 : [Level 67] "Past Confined and Caged"
+203322375 : [Level 76] "Past Confined and Caged"
+203322376 : [Level 82] "Past Confined and Caged"
+203322410 : [Level 40] Lordly Trashcan
+203322411 : [Level 40] Lordly Trashcan
+203322412 : [Level 50] Lordly Trashcan
+203322413 : [Level 58] Lordly Trashcan
+203322414 : [Level 67] Lordly Trashcan
+203322415 : [Level 76] Lordly Trashcan
+203322416 : [Level 82] Lordly Trashcan
+203322420 : [Level 40] Lordly Trashcan
+203322421 : [Level 40] Lordly Trashcan
+203322422 : [Level 50] Lordly Trashcan
+203322423 : [Level 58] Lordly Trashcan
+203322424 : [Level 67] Lordly Trashcan
+203322425 : [Level 76] Lordly Trashcan
+203322426 : [Level 82] Lordly Trashcan
 400020010 : [Level 28] Antimatter Legion
 400020011 : [Level 34] Antimatter Legion
 400020012 : [Level 41] Antimatter Legion
@@ -16014,6 +17422,34 @@
 433132074 : [Level 67] null
 433132075 : [Level 76] null
 433132076 : [Level 82] null
+433222010 : [Level 40] null
+433222011 : [Level 40] null
+433222012 : [Level 50] null
+433222013 : [Level 58] null
+433222014 : [Level 67] null
+433222015 : [Level 76] null
+433222016 : [Level 82] null
+433222020 : [Level 40] null
+433222021 : [Level 40] null
+433222022 : [Level 50] null
+433222023 : [Level 58] null
+433222024 : [Level 67] null
+433222025 : [Level 76] null
+433222026 : [Level 82] null
+433222040 : [Level 40] Memory Zone Meme
+433222041 : [Level 40] Memory Zone Meme
+433222042 : [Level 50] Memory Zone Meme
+433222043 : [Level 58] Memory Zone Meme
+433222044 : [Level 67] Memory Zone Meme
+433222045 : [Level 76] Memory Zone Meme
+433222046 : [Level 82] Memory Zone Meme
+433222050 : [Level 40] Memory Zone Meme
+433222051 : [Level 40] Memory Zone Meme
+433222052 : [Level 50] Memory Zone Meme
+433222053 : [Level 58] Memory Zone Meme
+433222054 : [Level 67] Memory Zone Meme
+433222055 : [Level 76] Memory Zone Meme
+433222056 : [Level 82] Memory Zone Meme
 440010010 : [Level 36] null
 440010011 : [Level 36] null
 440010012 : [Level 46] null
@@ -16392,6 +17828,20 @@
 443013034 : [Level 67] Dreamjolt Troupe
 443013035 : [Level 76] Dreamjolt Troupe
 443013036 : [Level 82] Dreamjolt Troupe
+443050020 : [Level 40] Memory Zone Meme
+443050021 : [Level 40] Memory Zone Meme
+443050022 : [Level 50] Memory Zone Meme
+443050023 : [Level 58] Memory Zone Meme
+443050024 : [Level 67] Memory Zone Meme
+443050025 : [Level 76] Memory Zone Meme
+443050026 : [Level 82] Memory Zone Meme
+443050030 : [Level 40] Memory Zone Meme
+443050031 : [Level 40] Memory Zone Meme
+443050032 : [Level 50] Memory Zone Meme
+443050033 : [Level 58] Memory Zone Meme
+443050034 : [Level 67] Memory Zone Meme
+443050035 : [Level 76] Memory Zone Meme
+443050036 : [Level 82] Memory Zone Meme
 899990010 : [Level 20] Silvermane Lieutenant (Bug)
 899990011 : [Level 36] Silvermane Lieutenant (Bug)
 899990012 : [Level 46] Silvermane Lieutenant (Bug)

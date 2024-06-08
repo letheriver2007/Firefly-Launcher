@@ -19,6 +19,8 @@
 200118 : Sampo: Illusion
 200119 : Topaz: Bullseye
 200120 : Aventurine: Bullseye
+200121 : Acheron: Ambush
+200122 : Boothill: Ambush
 201001 : March 7th
 201002 : Dan Heng
 201003 : Himeko
@@ -64,7 +66,9 @@
 201306 : Sparkle
 201307 : Black Swan
 201308 : Acheron
+201309 : Robin
 201312 : Misha
+201315 : Boothill
 202001 : Wubbaboo
 202002 : Trashcan
 202003 : Junjun
@@ -85,3 +89,5 @@
 208002 : {NICKNAME}: Destruction
 208003 : {NICKNAME}: Preservation
 208004 : {NICKNAME}: Preservation
+208005 : {NICKNAME}: Harmony
+208006 : {NICKNAME}: Harmony

@@ -68,21 +68,34 @@
 3001010 : Dreamjolt Troupe's Spring Loader
 3001020 : Dreamjolt Troupe's Birdskull
 3001021 : Dreamjolt Troupe's Birdskull
-3002010 : null
-3002011 : null
+3002010 : Dreamjolt Troupe's Mr. Domescreen
+3002011 : Dreamjolt Troupe's Mr. Domescreen
+3002020 : Dreamjolt Troupe's Fortune Seller
 3002030 : Dreamjolt Troupe's Bubble Hound
-3002040 : null
-3002041 : null
+3002040 : Dreamjolt Troupe's Winder Goon
+3002041 : Dreamjolt Troupe's Winder Goon
 3002050 : Lordly Trashcan
 3003010 : Dreamjolt Troupe's Beyond Overcooked
 3003011 : Dreamjolt Troupe's Beyond Overcooked
 3003012 : Dreamjolt Troupe's Beyond Overcooked (Bug)
+3003013 : Dreamjolt Troupe's Beyond Overcooked
 3003020 : Dreamjolt Troupe's Sweet Gorilla
 3003021 : Dreamjolt Troupe's Sweet Gorilla
 3003022 : Dreamjolt Troupe's Sweet Gorilla (Bug)
+3003030 : "Past Confined and Caged"
+3003031 : "Past Confined and Caged"
+3003032 : "Past Confined and Caged" (Bug)
+3003040 : "Tomorrow in Harmonious Chords"
+3003041 : The Past, Present, and Eternal Show
+3003042 : "Tomorrow in Harmonious Chords" (Bug)
+3003050 : "Present Inebriated in Revelry"
+3003051 : "Present Inebriated in Revelry"
+3003052 : "Present Inebriated in Revelry" (Bug)
+3003053 : "Present Inebriated in Revelry" (Bug)
 3011010 : Memory Zone Meme "Allseer"
 3012010 : Memory Zone Meme "Something In The Mirror"
-3012020 : null
+3012020 : Memory Zone Meme "Heartbreaker"
+3012040 : Memory Zone Meme "Insatiable Vanity"
 3013010 : Memory Zone Meme "Shell of Faded Rage"
 3013011 : Memory Zone Meme "Shell of Faded Rage"
 3013012 : Memory Zone Meme "Shell of Faded Rage"
@@ -141,6 +154,7 @@
 8032020 : Grunt: Security Personnel
 8033010 : Senior Staff: Team Leader
 8033011 : Senior Staff: Team Leader (Bug)
+8033012 : Senior Staff: Team Leader
 8034010 : Ten Stonehearts: Aventurine of Stratagems
 8035010 : null
 9002303 : null

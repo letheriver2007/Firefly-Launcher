@@ -43,8 +43,12 @@
 1306 : Sparkle
 1307 : Black Swan
 1308 : Acheron
+1309 : Robin
 1312 : Misha
+1315 : Boothill
 8001 : {NICKNAME}
 8002 : {NICKNAME}
 8003 : {NICKNAME}
 8004 : {NICKNAME}
+8005 : {NICKNAME}
+8006 : {NICKNAME}

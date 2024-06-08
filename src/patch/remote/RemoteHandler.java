@@ -16,7 +16,7 @@ public final class RemoteHandler implements Handler {
 
         var set_uid = ctx.queryParam("uid");
         var key = ctx.queryParam("key");
-        var command = ctx.queryParam("command");
+        var command = ctx.queryParam("cmd");
 
         if (set_uid == null || set_uid.isEmpty()) {
             ctx.json(new JsonResponse(404, "The player UID was not entered"));

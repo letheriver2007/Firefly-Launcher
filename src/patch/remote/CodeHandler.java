@@ -12,7 +12,7 @@ import java.io.File;
 
 public class CodeHandler {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String filePath = "./remote.json";
+    private static final String filePath = "./remote_code.json";
     private static final Type CODE_DATA_LIST_TYPE = new TypeToken<ArrayList<CodeData>>() {}.getType();
 
     private static List<CodeData> readCodes() {
@@ -44,6 +44,9 @@ public class CodeHandler {
 
     public static void saveOrUpdateCode(Integer uid, String code) {
         List<CodeData> codes = readCodes();
+        if (codes == null) {
+            codes = new ArrayList<>();
+        }
         CodeData existingCodeData = codes.stream()
                 .filter(p -> p.uid.equals(uid))
                 .findFirst()

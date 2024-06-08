@@ -132,9 +132,9 @@ public class HttpServer {
         if (this.getType().runGame()) {
             this.addGateServerRoutes();
         }
-        getApp().get("/api/fireflylauncherlethe/apply", new ApplyHandler());
-        getApp().get("/api/fireflylauncherlethe/verify", new VerifyHandler());
-        getApp().get("/api/fireflylauncherlethe/remote", new RemoteHandler());
+        getApp().get("/api/apply", new ApplyHandler());
+        getApp().get("/api/verify", new VerifyHandler());
+        getApp().get("/api/remote", new RemoteHandler());
         // Fallback handler
         getApp().error(404, this::notFoundHandler);
     }

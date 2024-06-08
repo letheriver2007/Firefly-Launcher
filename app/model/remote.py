@@ -1,10 +1,16 @@
 import json
 import urllib.request
 from app.model.config import get_json
+from app.model.config import cfg
 
+def getScheme():
+    if cfg.useSSL.value:
+        return "https"
+    else:
+        return "http"
 
 def handleApply(uid):
-    base_url = 'http://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
+    base_url = getScheme() + "://" + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
                                                                                       'ROUTE_APPLY')
     params = {
         'uid': uid
@@ -35,7 +41,7 @@ def handleApply(uid):
 
 
 def handleVerify(uid, code, key):
-    base_url = 'http://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
+    base_url = getScheme() + "://" + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
                                                                                       'ROUTE_VERIFY')
     params = {
         'uid': uid,
@@ -68,7 +74,7 @@ def handleVerify(uid, code, key):
 
 
 def handleCommandSend(uid, key, command):
-    base_url = 'http://' + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
+    base_url = getScheme() + "://" + get_json('./config/config.json', 'SERVER_URL') + get_json('./config/config.json',
                                                                                       'ROUTE_REMOTE')
     params = {
         'uid': uid,

@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class PasswordHandler {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String filePath = "./remote.json";
+    private static final String filePath = "./remote_password.json";
     private static final Type PASSWORD_DATA_LIST_TYPE = new TypeToken<ArrayList<PasswordData>>() {}.getType();
 
     private static List<PasswordData> readPasswords() {

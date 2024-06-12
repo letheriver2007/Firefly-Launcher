@@ -95,6 +95,7 @@ class Config(QConfig):
     proxyStatus = ConfigItem("Proxy", "ProxyStatus", True, BoolValidator())
     chinaStatus = ConfigItem("Proxy", "ChinaStatus", False, BoolValidator())
     useRemote = ConfigItem("Command", "useRemote", False, BoolValidator())
+    useSSL = ConfigItem("Command", "useSSL", False, BoolValidator())
 
     APP_NAME = "Firefly Launcher (Lethe)"
     APP_VERSION = get_version_type(get_json('./config/version.json', 'APP_VERSION'))

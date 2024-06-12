@@ -16,7 +16,7 @@ public final class VerifyHandler implements Handler {
 
         var set_uid = ctx.queryParam("uid");
         var tmp_code = ctx.queryParam("code");
-        var set_password = ctx.queryParam("password");
+        var set_key = ctx.queryParam("key");
 
         if (set_uid == null || set_uid.isEmpty()) {
             ctx.json(new JsonResponse(404, "The player UID was not entered"));
@@ -26,7 +26,7 @@ public final class VerifyHandler implements Handler {
             ctx.json(new JsonResponse(404, "The player password was not entered"));
             return;
         }
-        if (set_password == null || set_password.isEmpty()) {
+        if (set_key == null || set_key.isEmpty()) {
             ctx.json(new JsonResponse(404, "The player remote password was not entered"));
             return;
         }
@@ -51,8 +51,8 @@ public final class VerifyHandler implements Handler {
                 if (code != null) {
                     if (code.equals(tmp_code)) {
                         sender.sendMessage(ip_address + " is setting your remote password!");
-                        PasswordHandler.saveOrUpdatePassword(tmp_uid, set_password);
-                        sender.sendMessage("Your remote password is set as : " + set_password);
+                        PasswordHandler.saveOrUpdatePassword(tmp_uid, set_key);
+                        sender.sendMessage("Your remote password is set as : " + set_key);
 
                     } else {
                         ctx.json(new JsonResponse(201, "The code is incorrect"));

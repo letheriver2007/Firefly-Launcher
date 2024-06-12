@@ -1,7 +1,7 @@
 import os
 import json
 import subprocess
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QThread
 from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStackedWidget, QHBoxLayout, QApplication
 from qfluentwidgets import (Pivot, qrouter, ScrollArea, PrimaryPushSettingCard, InfoBar, HyperlinkButton,
@@ -170,6 +170,12 @@ class LunarCore(ScrollArea):
             self.tr('启用远程执行功能, 并接受可能存在的安全风险'),
             configItem=cfg.useRemote
         )
+        self.useSslCard = SwitchSettingCard(
+            FluentIcon.EDIT,
+            self.tr("启用SSL"),
+            self.tr("启用后将使用SSL协议连接服务器"),
+            configItem=cfg.useSSL
+        )
         self.setURLCard = PrimaryPushSettingCard_URL(
             self.tr('配置服务端地址'),
             self.tr('设置远程执行服务端地址')
@@ -214,11 +220,12 @@ class LunarCore(ScrollArea):
         self.ConfigInterface.addSettingCard(self.BannerConfigCard)
         self.RemoteInterface.addSettingCard(self.patchCard)
         self.RemoteInterface.addSettingCard(self.useRemoteCard)
+        self.RemoteInterface.addSettingCard(self.useSslCard)
         self.RemoteInterface.addSettingCard(self.setURLCard)
         self.RemoteInterface.addSettingCard(self.setAPICard)
         self.RemoteInterface.addSettingCard(self.setUIDCard)
         self.RemoteInterface.addSettingCard(self.VerifyCard)
-
+        
         # 栏绑定界面
         self.addSubInterface(self.LunarCoreDownloadInterface, 'LunarCoreDownloadInterface', self.tr('下载'),
                              icon=FluentIcon.DOWNLOAD)
@@ -230,7 +237,7 @@ class LunarCore(ScrollArea):
         self.LunarCoreEditInterface = LunarCoreEdit('EditInterface', self)
         self.addSubInterface(self.LunarCoreEditInterface, 'LunarCoreEditInterface', self.tr('编辑器'),
                              icon=FluentIcon.LAYOUT)
-
+        
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
@@ -240,7 +247,7 @@ class LunarCore(ScrollArea):
         self.stackedWidget.setCurrentWidget(self.LunarCoreDownloadInterface)
         self.pivot.setCurrentItem(self.LunarCoreDownloadInterface.objectName())
         qrouter.setDefaultRouteKey(self.stackedWidget, self.LunarCoreDownloadInterface.objectName())
-
+    
     def __initInfo(self):
         if not cfg.useRemote.value:
             self.setURLCard.setDisabled(True)
@@ -253,18 +260,18 @@ class LunarCore(ScrollArea):
         self.setURLCard.titleLabel.setText(self.tr('配置服务端地址 (当前: ') + url + ')')
         self.setUIDCard.titleLabel.setText(self.tr('配置UID (当前: ') + self.uid + ')')
         self.VerifyCard.titleLabel.setText(self.tr('配置密码 (当前: ') + key + ')')
-
+    
     def __connectSignalToSlot(self):
         SubDownloadCMDSelf = SubDownloadCMD(self)
         self.LunarCoreDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('lunarcore'))
         self.LunarCoreResDownloadCard.clicked.connect(lambda: SubDownloadCMDSelf.handleDownloadStarted('lunarcoreres'))
         self.LunarCoreBuildCard.clicked.connect(self.handleLunarCoreBuild)
-
+        
         self.CommandConfigCard.clicked.connect(lambda: open_file(self, f'.\\src\\data\\mycommand.txt'))
         self.RelicDataConfigCard.clicked.connect(
             lambda: open_file(self, f'.\\src\\data\\{cfg.get(cfg.language).value.name()}\\myrelic.txt'))
         self.BannerConfigCard.clicked.connect(self.handleOpenLCBanner)
-
+        
         self.patchCard.clicked.connect(self.handlePatch)
         self.useRemoteCard.checkedChanged.connect(self.handleRemoteChanged)
         self.setURLCard.clicked_seturl.connect(lambda: self.handleRemoteClicked('seturl'))
@@ -272,7 +279,7 @@ class LunarCore(ScrollArea):
         self.setUIDCard.clicked_setuid.connect(lambda: self.handleRemoteClicked('setuid'))
         self.VerifyCard.clicked_apply.connect(lambda: self.handleRemoteClicked('apply'))
         self.VerifyCard.clicked_verify.connect(lambda: self.handleRemoteClicked('verify'))
-
+    
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
         self.stackedWidget.addWidget(widget)
@@ -282,12 +289,12 @@ class LunarCore(ScrollArea):
             text=text,
             onClick=lambda: self.stackedWidget.setCurrentWidget(widget)
         )
-
+    
     def onCurrentIndexChanged(self, index):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
-
+    
     def handleOpenLCBanner(self):
         if os.path.exists(f'.\\server\\LunarCore\\data\\Banners.json'):
             subprocess.run(['start', f'.\\server\\LunarCore\\data\\Banners.json'], shell=True)
@@ -312,10 +319,10 @@ class LunarCore(ScrollArea):
         if not patch and not os.path.exists('server\\LunarCore'):
             Info(self, 'E', 3000, self.tr('找不到服务端LunarCore!'))
             return
-
+        
         if os.path.exists('server\\LunarCore\\LunarCore.jar'):
             subprocess.run('del /f /q "server\\LunarCore\\LunarCore.jar"', shell=True)
-
+        
         if not patch and cfg.chinaStatus:
             subprocess.run(
                 'copy /y "src\\patch\\gradle\\normal\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
@@ -328,14 +335,14 @@ class LunarCore(ScrollArea):
             subprocess.run(
                 'copy /y "src\\patch\\gradle\\normal\\gradle-wrapper.properties" "server\\LunarCore\\gradle\\wrapper\\gradle-wrapper.properties" && '
                 'copy /y "src\\patch\\gradle\\patch\\build.gradle" "server\\LunarCore\\build.gradle"', shell=True)
-
+        
         subprocess.run('start cmd /c "cd server\\LunarCore && gradlew jar && pause"', shell=True)
-
+    
     def handlePatch(self):
         if not os.path.exists('server\\LunarCore\\src'):
             Info(self, 'E', 3000, self.tr('找不到Patch路径, 请勿使用预编译版本!'))
             return
-
+        
         subprocess.run(
             'copy /y "src\\patch\\remote\\Config.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\Config.java" && '
             'copy /y "src\\patch\\remote\\GameServer.java" "server\\LunarCore\\src\\main\\java\\emu\\lunarcore\\server\\game\\GameServer.java" && '
@@ -351,9 +358,9 @@ class LunarCore(ScrollArea):
             shell=True)
         if os.path.exists('server\\LunarCore\\config.json'):
             subprocess.run('del /f /q "server\\LunarCore\\config.json"', shell=True)
-
+        
         self.handleLunarCoreBuild(True)
-
+    
     def handleRemoteChanged(self):
         if cfg.useRemote.value:
             self.setURLCard.setDisabled(False)
@@ -365,7 +372,7 @@ class LunarCore(ScrollArea):
             self.setAPICard.setDisabled(True)
             self.setUIDCard.setDisabled(True)
             self.VerifyCard.setDisabled(True)
-
+    
     def handleRemoteClicked(self, command):
         if command == 'seturl':
             tmp_url = self.setURLCard.lineedit_seturl.text()
@@ -395,31 +402,32 @@ class LunarCore(ScrollArea):
             if tmp_code == '' or tmp_key == '':
                 Info(self, 'E', 3000, self.tr('验证码或密码为空!'))
                 return
-
+            
             status, message = handleVerify(self.uid, tmp_code, tmp_key)
             if status == "success":
+                save_json(tmp_key, "KEY")
                 Info(self, 'S', 1000, self.tr('密码设置成功!'))
             elif status == "error":
                 Info(self, 'E', 3000, self.tr('验证码或密码错误!'), str(message))
-
+        
         self.__initInfo()
 
 
 class LunarCoreCommand(ScrollArea):
     Nav = Pivot
     command_update = Signal(str)
-
+    
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
         self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
-
+        
         # 栏定义
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
-
+        
         # 添加项
         self.ServerInterface = SettingCardGroup(self.scrollWidget)
         self.helpCard = PrimaryPushSettingCard(
@@ -472,14 +480,14 @@ class LunarCoreCommand(ScrollArea):
         self.genderCard = Gender(
             self.tr('设置开拓者性别')
         )
-
+        
         self.__initWidget()
-
+    
     def __initWidget(self):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # 水平滚动条关闭
         self.setWidget(self.scrollWidget)
         self.setWidgetResizable(True)  # 必须设置！！！
-
+        
         self.updateText = LineEdit()
         self.updateText.setFixedSize(740, 35)
         self.clearButton = PrimaryPushButton(self.tr('清空'))
@@ -491,14 +499,14 @@ class LunarCoreCommand(ScrollArea):
         self.copyButton.setFixedSize(80, 35)
         self.actionButton.setFixedSize(80, 35)
         self.updateContainer = QWidget()
-
+        
         # 使用qss设置样式
         self.scrollWidget.setObjectName('scrollWidget')
         StyleSheet.SETTING_INTERFACE.apply(self)
-
+        
         self.__initLayout()
         self.__connectSignalToSlot()
-
+    
     def __initLayout(self):
         # 项绑定到栏目
         self.ServerInterface.addSettingCard(self.helpCard)
@@ -506,25 +514,25 @@ class LunarCoreCommand(ScrollArea):
         self.ServerInterface.addSettingCard(self.accountCard)
         self.ServerInterface.addSettingCard(self.kickCard)
         self.ServerInterface.addSettingCard(self.unstuckCard)
-
+        
         self.AccountInterface.addSettingCard(self.giveallCard)
         self.AccountInterface.addSettingCard(self.clearCard)
         self.AccountInterface.addSettingCard(self.worldLevelCard)
         self.AccountInterface.addSettingCard(self.refillCard)
         self.AccountInterface.addSettingCard(self.healCard)
-
+        
         self.AvatarInterface.addSettingCard(self.avatarCard)
         self.AvatarInterface.addSettingCard(self.genderCard)
-
+        
         # 栏绑定界面
         self.addSubInterface(self.ServerInterface, 'ServerInterface', self.tr('服务端'), icon=FluentIcon.COMMAND_PROMPT)
-
+        
         self.CustomInterface = Custom('CustomInterface', self)
         self.addSubInterface(self.CustomInterface, 'CustomInterface', self.tr('自定义'), icon=FluentIcon.COMMAND_PROMPT)
-
+        
         self.addSubInterface(self.AccountInterface, 'AccountInterface', self.tr('账号'), icon=FluentIcon.COMMAND_PROMPT)
         self.addSubInterface(self.AvatarInterface, 'AvatarInterface', self.tr('角色'), icon=FluentIcon.COMMAND_PROMPT)
-
+        
         self.SceneInterface = Scene('SceneInterface', self)
         self.addSubInterface(self.SceneInterface, 'SceneInterface', self.tr('场景'), icon=FluentIcon.COMMAND_PROMPT)
         self.SpawnInterface = Spawn('SpawnInterface', self)
@@ -533,7 +541,7 @@ class LunarCoreCommand(ScrollArea):
         self.addSubInterface(self.GiveInterface, 'GiveInterface', self.tr('给予'), icon=FluentIcon.COMMAND_PROMPT)
         self.RelicInterface = Relic('RelicInterface', self)
         self.addSubInterface(self.RelicInterface, 'RelicInterface', self.tr('遗器'), icon=FluentIcon.COMMAND_PROMPT)
-
+        
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
@@ -543,7 +551,7 @@ class LunarCoreCommand(ScrollArea):
         self.stackedWidget.setCurrentWidget(self.ServerInterface)
         self.pivot.setCurrentItem(self.ServerInterface.objectName())
         qrouter.setDefaultRouteKey(self.stackedWidget, self.ServerInterface.objectName())
-
+        
         self.updateLayout = QHBoxLayout(self.updateContainer)
         self.updateLayout.addWidget(self.updateText, alignment=Qt.AlignCenter)
         self.updateLayout.addStretch(1)
@@ -556,39 +564,39 @@ class LunarCoreCommand(ScrollArea):
         self.updateLayout.addWidget(self.actionButton, alignment=Qt.AlignCenter)
         self.updateLayout.addSpacing(15)
         self.vBoxLayout.addWidget(self.updateContainer)
-
+    
     def __connectSignalToSlot(self):
         self.command_update.connect(self.handleCommandUpdate)
         self.clearButton.clicked.connect(lambda: self.updateText.clear())
         self.saveButton.clicked.connect(self.handleSaveClicked)
         self.copyButton.clicked.connect(lambda: self.handleCopyToClipboard('show'))
         self.actionButton.clicked.connect(self.handleActionClicked)
-
+        
         self.helpCard.clicked.connect(lambda: self.command_update.emit('/help'))
         self.reloadCard.clicked.connect(lambda: self.command_update.emit('/reload'))
-
+        
         self.accountCard.create_account.connect(lambda: self.handleAccountClicked('create'))
         self.accountCard.delete_account.connect(lambda: self.handleAccountClicked('delete'))
         self.kickCard.kick_player.connect(self.handleKickClicked)
         self.unstuckCard.unstuck_player.connect(self.handleUnstuckClicked)
-
+        
         self.giveallCard.giveall_clicked.connect(lambda itemid: self.handleGiveallClicked(itemid))
         self.clearCard.clear_clicked.connect(lambda itemid: self.handleClearClicked(itemid))
         self.worldLevelCard.set_world_level.connect(lambda index: self.handleWorldLevelClicked(index))
         self.refillCard.clicked.connect(lambda: self.command_update.emit('/refill'))
         self.healCard.clicked.connect(lambda: self.command_update.emit('/heal'))
-
+        
         self.avatarCard.avatar_set.connect(lambda index: self.handleAvatarClicked(index))
         self.genderCard.gender_male.connect(lambda: self.command_update.emit('/gender male'))
         self.genderCard.gender_female.connect(lambda: self.command_update.emit('/gender female'))
-
+        
         self.SceneInterface.scene_id_signal.connect(lambda scene_id: self.command_update.emit('/scene ' + scene_id))
         self.SpawnInterface.monster_id_signal.connect(
             lambda monster_id, stage_id: self.handleSpawnClicked(monster_id, stage_id))
         self.GiveInterface.item_id_signal.connect(lambda item_id, index: self.handleGiveClicked(item_id, index))
         self.RelicInterface.relic_id_signal.connect(lambda relic_id: self.handleRelicClicked(relic_id))
         self.RelicInterface.custom_relic_signal.connect(lambda command: self.command_update.emit(command))
-
+    
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
         self.stackedWidget.addWidget(widget)
@@ -598,19 +606,19 @@ class LunarCoreCommand(ScrollArea):
             text=text,
             onClick=lambda: self.stackedWidget.setCurrentWidget(widget)
         )
-
+    
     def onCurrentIndexChanged(self, index):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())
         qrouter.push(self.stackedWidget, widget.objectName())
         self.updateText.clear()
-
+    
     def handleCommandUpdate(self, text):
         self.updateText.clear()
         self.updateText.setText(text)
         if cfg.autoCopy.value:
             self.handleCopyToClipboard('hide')
-
+    
     def handleSaveClicked(self):
         text = self.updateText.text()
         current_widget = self.stackedWidget.currentWidget()
@@ -620,9 +628,9 @@ class LunarCoreCommand(ScrollArea):
                 file.write(formatted_text)
             
             Info(self.parent, 'S', 1000, self.tr('保存成功!'))
-
+            
             self.CustomInterface.handleMycommandLoad()
-
+    
     def handleActionClicked(self):
         if not cfg.useRemote.value:
             remote_error = InfoBar(
@@ -636,26 +644,18 @@ class LunarCoreCommand(ScrollArea):
                 parent=self.parent
             )
             remote_error_button = PrimaryPushButton(self.tr('前往开启'))
-            remote_error_button.clicked.connect(lambda: self.parent.stackedWidget.setCurrentIndex(2))
+            remote_error_button.clicked.connect(lambda: self.parent.parent.stackedWidget.setCurrentIndex(2))
             remote_error.addWidget(remote_error_button)
             remote_error.show()
             return
-
-        uid = get_json('./config/config.json', 'UID')
-        key = get_json('./config/config.json', 'KEY')
-
-        if uid != '' and key != '' and self.updateText.text() != '':
-            try:
-                status, response = handleCommandSend(uid, key, self.updateText.text())
-                if status == 'success':
-                    Info(self.parent, 'S', 1000, self.tr('执行成功!'), self.tr('请自行查看执行结果!'))
-                else:
-                    Info(self.parent, 'E', 3000, self.tr('执行失败!'), str(response))
-            except Exception as e:
-                Info(self.parent, 'E', 3000, self.tr('执行失败!'), str(e))
-        else:
-            Info(self.parent, 'E', 3000, self.tr('执行失败!'))
-
+        
+        self.cmdThread = LunarCoreActionThread(self.updateText.text())
+        self.cmdThread.start()
+        self.cmdThread.signal.connect(self.handleActionReturnMessage)
+        
+    def handleActionReturnMessage(self, status, time, message, rmessage):
+        Info(self.parent, status, time, message, rmessage)
+    
     def handleCopyToClipboard(self, status):
         text = self.updateText.text()
         app = QApplication.instance()
@@ -664,7 +664,7 @@ class LunarCoreCommand(ScrollArea):
             clipboard.setText(text)
             if status == 'show':
                 Info(self.parent, 'S', 1000, self.tr('已复制到剪贴板!'))
-
+    
     def handleAccountClicked(self, types):
         account_name = self.accountCard.account_name.text()
         account_uid = self.accountCard.account_uid.text()
@@ -675,29 +675,29 @@ class LunarCoreCommand(ScrollArea):
             self.command_update.emit(account)
         else:
             Info(self.parent, 'E', 3000, self.tr('请输入正确的用户名!'))
-
+    
     def handleKickClicked(self):
         account_uid = self.kickCard.account_uid.text()
         if account_uid != '':
             self.command_update.emit('/kick @' + account_uid)
         else:
             Info(self.parent, 'E', 3000, self.tr('请输入正确的UID!'))
-
+    
     def handleUnstuckClicked(self):
         stuck_uid = self.unstuckCard.stuck_uid.text()
         if stuck_uid != '':
             self.command_update.emit('/unstuck @' + stuck_uid)
         else:
             Info(self.parent, 'E', 3000, self.tr('请输入正确的UID!'))
-
+    
     def handleGiveallClicked(self, itemid):
         types = ['materials', 'avatars', 'lightcones', 'relics', 'icons']
         self.command_update.emit('/giveall ' + types[itemid])
-
+    
     def handleClearClicked(self, itemid):
         types = ['relics', 'lightcones', 'lightcones', 'all']
         self.command_update.emit('/clear ' + types[itemid])
-
+    
     def handleWorldLevelClicked(self, index):
         world_level = self.worldLevelCard.world_level.text()
         if world_level != '':
@@ -707,7 +707,7 @@ class LunarCoreCommand(ScrollArea):
                 self.command_update.emit('/worldlevel ' + world_level)
         else:
             self.command_update.emit('')
-
+    
     def handleAvatarClicked(self, index):
         avatar_level = self.avatarCard.avatar_level.text()
         avatar_eidolon = self.avatarCard.avatar_eidolon.text()
@@ -726,7 +726,7 @@ class LunarCoreCommand(ScrollArea):
             self.command_update.emit(command)
         else:
             self.command_update.emit('')
-
+    
     def handleSpawnClicked(self, monster_id, stage_id):
         monster_num_edit = self.SpawnInterface.monster_num_edit.text()
         monster_level_edit = self.SpawnInterface.monster_level_edit.text()
@@ -739,7 +739,7 @@ class LunarCoreCommand(ScrollArea):
         if monster_round_edit != '':
             command += ' r' + monster_round_edit
         self.command_update.emit(command)
-
+    
     def handleGiveClicked(self, item_id, index):
         give_level_edit = self.GiveInterface.give_level_edit.text()
         give_eidolon_edit = self.GiveInterface.give_eidolon_edit.text()
@@ -761,27 +761,27 @@ class LunarCoreCommand(ScrollArea):
             if give_num_edit != '':
                 command += ' x' + give_num_edit
         self.command_update.emit(command)
-
+    
     def handleRelicClicked(self, relic_id):
         relic_level = self.RelicInterface.level_edit.text()
         main_entry_name = self.RelicInterface.main_now_edit.text()
         now_list_nozero = {k: v for k, v in self.RelicInterface.now_list.items() if v > 0}
         entry_table = self.RelicInterface.entry_table
         command = '/give ' + relic_id
-
+        
         if relic_level != '':
             command += ' lv' + relic_level
-
+        
         if main_entry_name != '':
             entry_index = 0
             for i in range(entry_table.rowCount()):
                 if entry_table.item(i, 0).text() == main_entry_name and entry_table.item(i, 1).text() != self.tr(
-                        '通用'):
+                    '通用'):
                     entry_index = i
                     break
             main_entry = entry_table.item(entry_index, 2).text()
             command += ' s' + main_entry
-
+        
         for entry_name, entry_num in now_list_nozero.items():
             if entry_name != '':
                 entry_index = 0
@@ -791,48 +791,72 @@ class LunarCoreCommand(ScrollArea):
                         break
                 side_entry = entry_table.item(entry_index, 2).text()
                 command += ' ' + side_entry + ':' + str(entry_num)
-
+        
         self.command_update.emit(command)
+
+
+class LunarCoreActionThread(QThread):
+    signal = Signal(str, int, str, str)
+    
+    def __init__(self, string):
+        super(LunarCoreActionThread, self).__init__()
+        self.string = string
+    
+    def run(self):
+        uid = get_json('./config/config.json', 'UID')
+        key = get_json('./config/config.json', 'KEY')
+        
+        if uid != '' and key != '' and self.string != '':
+            try:
+                status, response = handleCommandSend(uid, key, self.string)
+                if status == 'success':
+                    self.signal.emit('S', 1000, self.tr('执行成功!'), self.tr('请自行查看执行结果!'))
+                else:
+                    self.signal.emit('E', 3000, self.tr('执行失败!'), str(response))
+            except Exception as e:
+                self.signal.emit('E', 3000, self.tr('执行失败!'), str(e))
+        else:
+            self.signal.emit('E', 3000, self.tr('执行失败!'), "")
 
 
 class LunarCoreEdit(ScrollArea):
     Nav = Pivot
-
+    
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
         self.parent = parent
         self.setObjectName(text)
         self.scrollWidget = QWidget()
         self.vBoxLayout = QVBoxLayout(self.scrollWidget)
-
+        
         # 栏定义
         self.pivot = self.Nav(self)
         self.stackedWidget = QStackedWidget(self)
-
+        
         # 添加项
         self.WarpInterface = SettingCardGroup(self.scrollWidget)
-
+        
         self.__initWidget()
-
+    
     def __initWidget(self):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # 水平滚动条关闭
         self.setWidget(self.scrollWidget)
         self.setWidgetResizable(True)  # 必须设置！！！
-
+        
         # 使用qss设置样式
         self.scrollWidget.setObjectName('scrollWidget')
         StyleSheet.SETTING_INTERFACE.apply(self)
-
+        
         self.__initLayout()
         self.__connectSignalToSlot()
-
+    
     def __initLayout(self):
         # 项绑定到栏目
-
+        
         # 栏绑定界面
         self.WarpInterface = Warp('WarpInterface', self)
         self.addSubInterface(self.WarpInterface, 'WarpInterface', self.tr('跃迁'), icon=FluentIcon.LABEL)
-
+        
         # 初始化配置界面
         self.vBoxLayout.addWidget(self.pivot, 0, Qt.AlignLeft)
         self.vBoxLayout.addWidget(self.stackedWidget)
@@ -842,10 +866,10 @@ class LunarCoreEdit(ScrollArea):
         self.stackedWidget.setCurrentWidget(self.WarpInterface)
         self.pivot.setCurrentItem(self.WarpInterface.objectName())
         qrouter.setDefaultRouteKey(self.stackedWidget, self.WarpInterface.objectName())
-
+    
     def __connectSignalToSlot(self):
         self.parent.stackedWidget.currentChanged.connect(self.WarpInterface.handleEditDisabled)
-
+    
     def addSubInterface(self, widget: QLabel, objectName, text, icon=None):
         widget.setObjectName(objectName)
         self.stackedWidget.addWidget(widget)
@@ -855,7 +879,7 @@ class LunarCoreEdit(ScrollArea):
             text=text,
             onClick=lambda: self.stackedWidget.setCurrentWidget(widget)
         )
-
+    
     def onCurrentIndexChanged(self, index):
         widget = self.stackedWidget.widget(index)
         self.pivot.setCurrentItem(widget.objectName())

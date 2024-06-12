@@ -25,7 +25,6 @@ public class Config {
     public ServerTime serverTime = new ServerTime();
     public ServerRates serverRates = new ServerRates();
     public LogOptions logOptions = new LogOptions();
-    public DownloadData downloadData = new DownloadData();
 
     public String resourceDir = "./resources";
     public String dataDir = "./data";
@@ -55,33 +54,33 @@ public class Config {
         public String bindAddress = "0.0.0.0";
         @SerializedName(value = "bindPort", alternate = {"port"})
         public int bindPort;
-        
+
         // Will return bindAddress if publicAddress is null
         public String publicAddress = "127.0.0.1";
         // Will return bindPort if publicPort is null
         public Integer publicPort;
-        
+
         public ServerConfig(int port) {
             this.bindPort = port;
         }
-        
+
         public String getPublicAddress() {
             if (this.publicAddress != null && !this.publicAddress.isEmpty()) {
                 return this.publicAddress;
             }
-            
+
             return this.bindAddress;
         }
-        
+
         public int getPublicPort() {
             if (this.publicPort != null && this.publicPort != 0) {
                 return this.publicPort;
             }
-            
+
             return this.bindPort;
         }
     }
-    
+
     @Getter
     public static class HttpServerConfig extends ServerConfig {
         public boolean useSSL = false;
@@ -90,7 +89,7 @@ public class Config {
         public HttpServerConfig(int port) {
             super(port);
         }
-        
+
         public String getDisplayAddress() {
             return (useSSL ? "https" : "http") + "://" + getPublicAddress() + ":" + getPublicPort();
         }
@@ -107,18 +106,18 @@ public class Config {
         public GameServerConfig(int port) {
             super(port);
         }
-        
+
         public int getKcpTimeout() {
             return kcpTimeout.intValue();
         }
     }
-    
-    @Getter 
+
+    @Getter
     public static class ServerTime {
         public boolean spoofTime = false;
         public Date spoofDate = new Date(1705276800000L); // January 15, 2024 12:00:00 AM (GMT)
     }
-    
+
     @Getter
     public static class ServerOptions {
         public boolean autoCreateAccount = true;
@@ -132,19 +131,19 @@ public class Config {
         public boolean autoUpgradeWorldLevel = true; // Automatically upgrades world level when the player reaches a certain TB level
         public String language = "CHS";
         public Set<String> defaultPermissions = Set.of("*");
-        
+
         public ServerProfile serverFriendInfo = new ServerProfile();
         public WelcomeMail welcomeMail = new WelcomeMail();
-        
+
         public int getStaminaRecoveryRate() {
             return staminaRecoveryRate > 0 ? staminaRecoveryRate : 1;
         }
-        
+
         public int getStaminaReserveRecoveryRate() {
             return staminaReserveRecoveryRate > 0 ? staminaReserveRecoveryRate : 1;
         }
     }
-    
+
     @Getter
     public static class ServerRates {
         public double exp = 1.0;
@@ -153,7 +152,7 @@ public class Config {
         public double material = 1.0;
         public double equip = 1.0;
     }
-    
+
     @Getter
     public static class ServerProfile {
         public String name = "Firefly-Launcher-Lethe";
@@ -164,14 +163,14 @@ public class Config {
         public int displayAvatarId = 1001;
         public int displayAvatarLevel = 1;
     }
-    
+
     @Getter
     public static class WelcomeMail {
         public String title;
         public String sender;
         public String content;
         public List<ItemParam> attachments;
-        
+
         public WelcomeMail() {
             this.title = "Welcome to a LunarCore server (With Firefly-Launcher-Lethe)";
             this.sender = "Firefly";
@@ -179,25 +178,19 @@ public class Config {
             this.attachments = List.of(
                 new ItemParam(2, 1000000),
                 new ItemParam(101, 100),
-                new ItemParam(102, 100)
+                new ItemParam(102, 100),
+                new ItemParam(1001, 1),
+                new ItemParam(1002, 1)
             );
         }
     }
-    
+
     @Getter
     public static class LogOptions {
         public boolean commands = true;
         public boolean connections = true;
         public boolean packets = false;
         public boolean filterLoopingPackets = false;
-    }
-    
-    @Getter
-    public static class DownloadData {
-        public String assetBundleUrl = null;
-        public String exResourceUrl = null;
-        public String luaUrl = null;
-        public String ifixUrl = null;
     }
 
     public void validate() {

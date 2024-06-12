@@ -263,7 +263,7 @@ public class Utils {
     public static String getClientIpAddress(Context ctx) {
         for (String header : HEADERS_TO_TRY) {
             String ip = ctx.header(header);
-            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+            if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
                 return ip;
             }
         }

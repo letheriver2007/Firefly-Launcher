@@ -71,12 +71,18 @@ public class GameServer extends KcpServer {
         return this.serverConfig;
     }
 
+    public int getPlayerCount() {
+        synchronized (this.players) {
+            return this.players.size();
+        }
+    }
+
     public void registerPlayer(Player player) {
         synchronized (this.players) {
             this.players.put(player.getUid(), player);
         }
     }
-    
+
     public void deregisterPlayer(Player player) {
         synchronized (this.players) {
             Player check = this.players.get(player.getUid());
@@ -85,9 +91,7 @@ public class GameServer extends KcpServer {
             }
         }
     }
-    public Int2ObjectMap<Player> getPlayer() {        
-        return this.players;
-    }
+
     public Player getPlayerByUid(int uid, boolean allowOffline) {
         Player target = null;
         
